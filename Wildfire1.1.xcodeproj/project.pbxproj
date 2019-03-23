@@ -7,13 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		02B40DBB5BA0E3ABDC608F79 /* Pods_Wildfire1_1.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4483B7785E5EA4F8EEDBA322 /* Pods_Wildfire1_1.framework */; };
+		BA5775FCEF6517559C1353DB /* Pods_Wildfire1_1Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 70977A2D67508CF8EB0AA3E3 /* Pods_Wildfire1_1Tests.framework */; };
 		E21AC96321EA6BEF00D460A9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E21AC96221EA6BEF00D460A9 /* AppDelegate.swift */; };
-		E21AC96521EA6BEF00D460A9 /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E21AC96421EA6BEF00D460A9 /* FirstViewController.swift */; };
-		E21AC96721EA6BEF00D460A9 /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E21AC96621EA6BEF00D460A9 /* SecondViewController.swift */; };
+		E21AC96521EA6BEF00D460A9 /* PayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E21AC96421EA6BEF00D460A9 /* PayViewController.swift */; };
+		E21AC96721EA6BEF00D460A9 /* ReceiveViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E21AC96621EA6BEF00D460A9 /* ReceiveViewController.swift */; };
 		E21AC96A21EA6BEF00D460A9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E21AC96821EA6BEF00D460A9 /* Main.storyboard */; };
-		E21AC96C21EA6BF000D460A9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E21AC96B21EA6BF000D460A9 /* Assets.xcassets */; };
 		E21AC96F21EA6BF000D460A9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E21AC96D21EA6BF000D460A9 /* LaunchScreen.storyboard */; };
 		E21AC97A21EA6BF000D460A9 /* Wildfire1_1Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E21AC97921EA6BF000D460A9 /* Wildfire1_1Tests.swift */; };
+		E21AC98521EA6C9E00D460A9 /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E21AC98421EA6C9E00D460A9 /* AccountViewController.swift */; };
+		E21AC99721EA850C00D460A9 /* ScanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E21AC99621EA850C00D460A9 /* ScanViewController.swift */; };
+		E278AE0621FCEFDF00A65309 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E278AE0521FCEFDF00A65309 /* GoogleService-Info.plist */; };
+		E2AD346821F384430030FA2E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E2AD346721F384430030FA2E /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -27,17 +32,26 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2E74D15B5FC7AC373C8CDDA2 /* Pods-Wildfire1.1.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Wildfire1.1.release.xcconfig"; path = "Pods/Target Support Files/Pods-Wildfire1.1/Pods-Wildfire1.1.release.xcconfig"; sourceTree = "<group>"; };
+		4483B7785E5EA4F8EEDBA322 /* Pods_Wildfire1_1.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Wildfire1_1.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		70977A2D67508CF8EB0AA3E3 /* Pods_Wildfire1_1Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Wildfire1_1Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B1E15A2B9797B338CC0D02CA /* Pods-Wildfire1.1Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Wildfire1.1Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Wildfire1.1Tests/Pods-Wildfire1.1Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		E21AC95F21EA6BEF00D460A9 /* Wildfire1.1.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Wildfire1.1.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E21AC96221EA6BEF00D460A9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		E21AC96421EA6BEF00D460A9 /* FirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
-		E21AC96621EA6BEF00D460A9 /* SecondViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondViewController.swift; sourceTree = "<group>"; };
+		E21AC96421EA6BEF00D460A9 /* PayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayViewController.swift; sourceTree = "<group>"; };
+		E21AC96621EA6BEF00D460A9 /* ReceiveViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiveViewController.swift; sourceTree = "<group>"; };
 		E21AC96921EA6BEF00D460A9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		E21AC96B21EA6BF000D460A9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E21AC96E21EA6BF000D460A9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E21AC97021EA6BF000D460A9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E21AC97521EA6BF000D460A9 /* Wildfire1.1Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Wildfire1.1Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E21AC97921EA6BF000D460A9 /* Wildfire1_1Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Wildfire1_1Tests.swift; sourceTree = "<group>"; };
 		E21AC97B21EA6BF000D460A9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E21AC98421EA6C9E00D460A9 /* AccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
+		E21AC99621EA850C00D460A9 /* ScanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanViewController.swift; sourceTree = "<group>"; };
+		E278AE0521FCEFDF00A65309 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		E2AD346721F384430030FA2E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		E39DF65F0B716BEA2ADC4042 /* Pods-Wildfire1.1Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Wildfire1.1Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Wildfire1.1Tests/Pods-Wildfire1.1Tests.release.xcconfig"; sourceTree = "<group>"; };
+		F9AA015D5574A5F3F757AF97 /* Pods-Wildfire1.1.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Wildfire1.1.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Wildfire1.1/Pods-Wildfire1.1.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -45,6 +59,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				02B40DBB5BA0E3ABDC608F79 /* Pods_Wildfire1_1.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -52,18 +67,41 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BA5775FCEF6517559C1353DB /* Pods_Wildfire1_1Tests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0237F5F24E5C98FFDA47F9E4 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				F9AA015D5574A5F3F757AF97 /* Pods-Wildfire1.1.debug.xcconfig */,
+				2E74D15B5FC7AC373C8CDDA2 /* Pods-Wildfire1.1.release.xcconfig */,
+				B1E15A2B9797B338CC0D02CA /* Pods-Wildfire1.1Tests.debug.xcconfig */,
+				E39DF65F0B716BEA2ADC4042 /* Pods-Wildfire1.1Tests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		1B3DDA1420FF8A65BC0E53E5 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				4483B7785E5EA4F8EEDBA322 /* Pods_Wildfire1_1.framework */,
+				70977A2D67508CF8EB0AA3E3 /* Pods_Wildfire1_1Tests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		E21AC95621EA6BEF00D460A9 = {
 			isa = PBXGroup;
 			children = (
 				E21AC96121EA6BEF00D460A9 /* Wildfire1.1 */,
 				E21AC97821EA6BF000D460A9 /* Wildfire1.1Tests */,
 				E21AC96021EA6BEF00D460A9 /* Products */,
+				0237F5F24E5C98FFDA47F9E4 /* Pods */,
+				1B3DDA1420FF8A65BC0E53E5 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -80,11 +118,14 @@
 			isa = PBXGroup;
 			children = (
 				E21AC96221EA6BEF00D460A9 /* AppDelegate.swift */,
-				E21AC96421EA6BEF00D460A9 /* FirstViewController.swift */,
-				E21AC96621EA6BEF00D460A9 /* SecondViewController.swift */,
+				E21AC96421EA6BEF00D460A9 /* PayViewController.swift */,
+				E21AC99621EA850C00D460A9 /* ScanViewController.swift */,
+				E21AC96621EA6BEF00D460A9 /* ReceiveViewController.swift */,
+				E21AC98421EA6C9E00D460A9 /* AccountViewController.swift */,
 				E21AC96821EA6BEF00D460A9 /* Main.storyboard */,
-				E21AC96B21EA6BF000D460A9 /* Assets.xcassets */,
+				E2AD346721F384430030FA2E /* Assets.xcassets */,
 				E21AC96D21EA6BF000D460A9 /* LaunchScreen.storyboard */,
+				E278AE0521FCEFDF00A65309 /* GoogleService-Info.plist */,
 				E21AC97021EA6BF000D460A9 /* Info.plist */,
 			);
 			path = Wildfire1.1;
@@ -106,9 +147,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E21AC97E21EA6BF000D460A9 /* Build configuration list for PBXNativeTarget "Wildfire1.1" */;
 			buildPhases = (
+				DA009A4BC750AD74C31623CC /* [CP] Check Pods Manifest.lock */,
 				E21AC95B21EA6BEF00D460A9 /* Sources */,
 				E21AC95C21EA6BEF00D460A9 /* Frameworks */,
 				E21AC95D21EA6BEF00D460A9 /* Resources */,
+				7E87FFF8C47FB8FE3D7E7AA0 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -123,6 +166,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E21AC98121EA6BF000D460A9 /* Build configuration list for PBXNativeTarget "Wildfire1.1Tests" */;
 			buildPhases = (
+				2BA11B43C113B5A89DA0D40E /* [CP] Check Pods Manifest.lock */,
 				E21AC97121EA6BF000D460A9 /* Sources */,
 				E21AC97221EA6BF000D460A9 /* Frameworks */,
 				E21AC97321EA6BF000D460A9 /* Resources */,
@@ -181,7 +225,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				E21AC96F21EA6BF000D460A9 /* LaunchScreen.storyboard in Resources */,
-				E21AC96C21EA6BF000D460A9 /* Assets.xcassets in Resources */,
+				E278AE0621FCEFDF00A65309 /* GoogleService-Info.plist in Resources */,
+				E2AD346821F384430030FA2E /* Assets.xcassets in Resources */,
 				E21AC96A21EA6BEF00D460A9 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -195,14 +240,89 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		2BA11B43C113B5A89DA0D40E /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Wildfire1.1Tests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		7E87FFF8C47FB8FE3D7E7AA0 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-Wildfire1.1/Pods-Wildfire1.1-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
+				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Wildfire1.1/Pods-Wildfire1.1-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		DA009A4BC750AD74C31623CC /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Wildfire1.1-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		E21AC95B21EA6BEF00D460A9 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E21AC96721EA6BEF00D460A9 /* SecondViewController.swift in Sources */,
+				E21AC96721EA6BEF00D460A9 /* ReceiveViewController.swift in Sources */,
 				E21AC96321EA6BEF00D460A9 /* AppDelegate.swift in Sources */,
-				E21AC96521EA6BEF00D460A9 /* FirstViewController.swift in Sources */,
+				E21AC99721EA850C00D460A9 /* ScanViewController.swift in Sources */,
+				E21AC98521EA6C9E00D460A9 /* AccountViewController.swift in Sources */,
+				E21AC96521EA6BEF00D460A9 /* PayViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -362,6 +482,7 @@
 		};
 		E21AC97F21EA6BF000D460A9 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F9AA015D5574A5F3F757AF97 /* Pods-Wildfire1.1.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -380,6 +501,7 @@
 		};
 		E21AC98021EA6BF000D460A9 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2E74D15B5FC7AC373C8CDDA2 /* Pods-Wildfire1.1.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -398,6 +520,7 @@
 		};
 		E21AC98221EA6BF000D460A9 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B1E15A2B9797B338CC0D02CA /* Pods-Wildfire1.1Tests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -419,6 +542,7 @@
 		};
 		E21AC98321EA6BF000D460A9 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E39DF65F0B716BEA2ADC4042 /* Pods-Wildfire1.1Tests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";

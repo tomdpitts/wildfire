@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:Wildfire1.1.xcodeproj">
+      location = "group:/Users/Tom/Projects/Wildfire1.1/Wildfire1.1/GoogleService-Info.plist">
+   </FileRef>
+   <FileRef
+      location = "self:">
    </FileRef>
 </Workspace>

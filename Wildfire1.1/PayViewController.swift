@@ -1,5 +1,5 @@
 //
-//  FirstViewController.swift
+//  PayViewController.swift
 //  Wildfire1.1
 //
 //  Created by Thomas Pitts on 12/01/2019.
@@ -8,13 +8,29 @@
 
 import UIKit
 
-class PayViewController: UIViewController {
 
+class PayViewController: UIViewController {
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        
+        
+        
+    }
+    
+    // This next bit is supposed to stop the dang thing rotating in landscape mode, but doesn't seem to work
+    override open var shouldAutorotate: Bool {
+        return false
     }
 
-
+    @IBAction func launchQRReader(_ sender: UIButton) {
+    
+    // the QR code needs to go here?
+    }
+    
+    @IBAction func unwindToPayViewController(segue: UIStoryboardSegue) {
+    }
+    
 }
 
