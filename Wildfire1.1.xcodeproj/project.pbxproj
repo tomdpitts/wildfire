@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		02B40DBB5BA0E3ABDC608F79 /* Pods_Wildfire1_1.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4483B7785E5EA4F8EEDBA322 /* Pods_Wildfire1_1.framework */; };
 		BA5775FCEF6517559C1353DB /* Pods_Wildfire1_1Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 70977A2D67508CF8EB0AA3E3 /* Pods_Wildfire1_1Tests.framework */; };
+		E2026709230ED8CF003C0AF4 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2026708230ED8CF003C0AF4 /* LoginViewController.swift */; };
 		E21AC96321EA6BEF00D460A9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E21AC96221EA6BEF00D460A9 /* AppDelegate.swift */; };
 		E21AC96521EA6BEF00D460A9 /* PayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E21AC96421EA6BEF00D460A9 /* PayViewController.swift */; };
 		E21AC96721EA6BEF00D460A9 /* ReceiveViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E21AC96621EA6BEF00D460A9 /* ReceiveViewController.swift */; };
@@ -36,6 +37,7 @@
 		4483B7785E5EA4F8EEDBA322 /* Pods_Wildfire1_1.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Wildfire1_1.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		70977A2D67508CF8EB0AA3E3 /* Pods_Wildfire1_1Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Wildfire1_1Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B1E15A2B9797B338CC0D02CA /* Pods-Wildfire1.1Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Wildfire1.1Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Wildfire1.1Tests/Pods-Wildfire1.1Tests.debug.xcconfig"; sourceTree = "<group>"; };
+		E2026708230ED8CF003C0AF4 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		E21AC95F21EA6BEF00D460A9 /* Wildfire1.1.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Wildfire1.1.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E21AC96221EA6BEF00D460A9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E21AC96421EA6BEF00D460A9 /* PayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayViewController.swift; sourceTree = "<group>"; };
@@ -118,10 +120,7 @@
 			isa = PBXGroup;
 			children = (
 				E21AC96221EA6BEF00D460A9 /* AppDelegate.swift */,
-				E21AC96421EA6BEF00D460A9 /* PayViewController.swift */,
-				E21AC99621EA850C00D460A9 /* ScanViewController.swift */,
-				E21AC96621EA6BEF00D460A9 /* ReceiveViewController.swift */,
-				E21AC98421EA6C9E00D460A9 /* AccountViewController.swift */,
+				E257EA28230D8A9F003E2A32 /* ViewControllers */,
 				E21AC96821EA6BEF00D460A9 /* Main.storyboard */,
 				E2AD346721F384430030FA2E /* Assets.xcassets */,
 				E21AC96D21EA6BF000D460A9 /* LaunchScreen.storyboard */,
@@ -138,6 +137,18 @@
 				E21AC97B21EA6BF000D460A9 /* Info.plist */,
 			);
 			path = Wildfire1.1Tests;
+			sourceTree = "<group>";
+		};
+		E257EA28230D8A9F003E2A32 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				E21AC96421EA6BEF00D460A9 /* PayViewController.swift */,
+				E21AC99621EA850C00D460A9 /* ScanViewController.swift */,
+				E21AC96621EA6BEF00D460A9 /* ReceiveViewController.swift */,
+				E21AC98421EA6C9E00D460A9 /* AccountViewController.swift */,
+				E2026708230ED8CF003C0AF4 /* LoginViewController.swift */,
+			);
+			path = ViewControllers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -193,9 +204,11 @@
 				TargetAttributes = {
 					E21AC95E21EA6BEF00D460A9 = {
 						CreatedOnToolsVersion = 10.1;
+						LastSwiftMigration = 1030;
 					};
 					E21AC97421EA6BF000D460A9 = {
 						CreatedOnToolsVersion = 10.1;
+						LastSwiftMigration = 1030;
 						TestTargetID = E21AC95E21EA6BEF00D460A9;
 					};
 				};
@@ -318,6 +331,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E2026709230ED8CF003C0AF4 /* LoginViewController.swift in Sources */,
 				E21AC96721EA6BEF00D460A9 /* ReceiveViewController.swift in Sources */,
 				E21AC96321EA6BEF00D460A9 /* AppDelegate.swift in Sources */,
 				E21AC99721EA850C00D460A9 /* ScanViewController.swift in Sources */,
@@ -494,7 +508,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.wildfire.Wildfire1-1";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -513,7 +527,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.wildfire.Wildfire1-1";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -534,7 +548,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.wildfire.Wildfire1-1Tests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Wildfire1.1.app/Wildfire1.1";
 			};
@@ -556,7 +570,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.wildfire.Wildfire1-1Tests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Wildfire1.1.app/Wildfire1.1";
 			};

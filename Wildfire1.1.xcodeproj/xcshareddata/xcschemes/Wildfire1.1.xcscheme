@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1010"
+   LastUpgradeVersion = "1030"
    version = "2.0">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -62,10 +62,11 @@
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES"
       launchAutomaticallySubstyle = "2">
-      <PathRunnable
+      <RemoteRunnable
          runnableDebuggingMode = "0"
-         FilePath = "/&lt;placeholder&gt;">
-      </PathRunnable>
+         BundleIdentifier = "com.wildfire.Wildfire1-1"
+         RemotePath = "/var/containers/Bundle/Application/70A4EFF2-E13B-4D88-8741-6D5737CA1448/Wildfire1.1.app">
+      </RemoteRunnable>
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
