@@ -58,6 +58,7 @@ extension LoginViewController: FUIAuthDelegate {
         }
         
         // authDataResult?.user.uid
+        // I've disconnected the seque so goHome doesn't exist - reconnect!
         performSegue(withIdentifier: "goHome", sender: self)
     }
 }

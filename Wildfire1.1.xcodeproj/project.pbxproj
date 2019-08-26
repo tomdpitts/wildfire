@@ -11,7 +11,7 @@
 		BA5775FCEF6517559C1353DB /* Pods_Wildfire1_1Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 70977A2D67508CF8EB0AA3E3 /* Pods_Wildfire1_1Tests.framework */; };
 		E2026709230ED8CF003C0AF4 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2026708230ED8CF003C0AF4 /* LoginViewController.swift */; };
 		E2149702231406E80048D149 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = E2149701231406E80048D149 /* Podfile */; };
-		E2149704231410240048D149 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2149703231410240048D149 /* WelcomeViewController.swift */; };
+		E2149704231410240048D149 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2149703231410240048D149 /* HomeViewController.swift */; };
 		E21AC96321EA6BEF00D460A9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E21AC96221EA6BEF00D460A9 /* AppDelegate.swift */; };
 		E21AC96521EA6BEF00D460A9 /* PayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E21AC96421EA6BEF00D460A9 /* PayViewController.swift */; };
 		E21AC96721EA6BEF00D460A9 /* ReceiveViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E21AC96621EA6BEF00D460A9 /* ReceiveViewController.swift */; };
@@ -21,6 +21,8 @@
 		E21AC98521EA6C9E00D460A9 /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E21AC98421EA6C9E00D460A9 /* AccountViewController.swift */; };
 		E21AC99721EA850C00D460A9 /* ScanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E21AC99621EA850C00D460A9 /* ScanViewController.swift */; };
 		E278AE0621FCEFDF00A65309 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E278AE0521FCEFDF00A65309 /* GoogleService-Info.plist */; };
+		E279717D231433AF00964F25 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E279717C231433AF00964F25 /* SignUpViewController.swift */; };
+		E279717F231433D500964F25 /* ExistingUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E279717E231433D500964F25 /* ExistingUserViewController.swift */; };
 		E2AD346821F384430030FA2E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E2AD346721F384430030FA2E /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
@@ -41,7 +43,7 @@
 		B1E15A2B9797B338CC0D02CA /* Pods-Wildfire1.1Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Wildfire1.1Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Wildfire1.1Tests/Pods-Wildfire1.1Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		E2026708230ED8CF003C0AF4 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		E2149701231406E80048D149 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; };
-		E2149703231410240048D149 /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
+		E2149703231410240048D149 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		E21AC95F21EA6BEF00D460A9 /* Wildfire1.1.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Wildfire1.1.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E21AC96221EA6BEF00D460A9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E21AC96421EA6BEF00D460A9 /* PayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayViewController.swift; sourceTree = "<group>"; };
@@ -55,6 +57,8 @@
 		E21AC98421EA6C9E00D460A9 /* AccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
 		E21AC99621EA850C00D460A9 /* ScanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanViewController.swift; sourceTree = "<group>"; };
 		E278AE0521FCEFDF00A65309 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		E279717C231433AF00964F25 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
+		E279717E231433D500964F25 /* ExistingUserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExistingUserViewController.swift; sourceTree = "<group>"; };
 		E2AD346721F384430030FA2E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E39DF65F0B716BEA2ADC4042 /* Pods-Wildfire1.1Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Wildfire1.1Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Wildfire1.1Tests/Pods-Wildfire1.1Tests.release.xcconfig"; sourceTree = "<group>"; };
 		F9AA015D5574A5F3F757AF97 /* Pods-Wildfire1.1.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Wildfire1.1.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Wildfire1.1/Pods-Wildfire1.1.debug.xcconfig"; sourceTree = "<group>"; };
@@ -148,11 +152,13 @@
 			isa = PBXGroup;
 			children = (
 				E2026708230ED8CF003C0AF4 /* LoginViewController.swift */,
-				E2149703231410240048D149 /* WelcomeViewController.swift */,
+				E2149703231410240048D149 /* HomeViewController.swift */,
 				E21AC96421EA6BEF00D460A9 /* PayViewController.swift */,
 				E21AC99621EA850C00D460A9 /* ScanViewController.swift */,
 				E21AC96621EA6BEF00D460A9 /* ReceiveViewController.swift */,
 				E21AC98421EA6C9E00D460A9 /* AccountViewController.swift */,
+				E279717C231433AF00964F25 /* SignUpViewController.swift */,
+				E279717E231433D500964F25 /* ExistingUserViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -401,11 +407,13 @@
 			files = (
 				E2026709230ED8CF003C0AF4 /* LoginViewController.swift in Sources */,
 				E21AC96721EA6BEF00D460A9 /* ReceiveViewController.swift in Sources */,
+				E279717D231433AF00964F25 /* SignUpViewController.swift in Sources */,
 				E21AC96321EA6BEF00D460A9 /* AppDelegate.swift in Sources */,
 				E21AC99721EA850C00D460A9 /* ScanViewController.swift in Sources */,
 				E21AC98521EA6C9E00D460A9 /* AccountViewController.swift in Sources */,
 				E21AC96521EA6BEF00D460A9 /* PayViewController.swift in Sources */,
-				E2149704231410240048D149 /* WelcomeViewController.swift in Sources */,
+				E279717F231433D500964F25 /* ExistingUserViewController.swift in Sources */,
+				E2149704231410240048D149 /* HomeViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

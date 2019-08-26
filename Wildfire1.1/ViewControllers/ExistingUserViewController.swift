@@ -1,5 +1,5 @@
 //
-//  WelcomeViewController.swift
+//  ExistingUserViewController.swift
 //  Wildfire1.1
 //
 //  Created by Thomas Pitts on 26/08/2019.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class WelcomeViewController: UIViewController {
+class ExistingUserViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
