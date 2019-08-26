@@ -10,6 +10,7 @@
 		02B40DBB5BA0E3ABDC608F79 /* Pods_Wildfire1_1.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4483B7785E5EA4F8EEDBA322 /* Pods_Wildfire1_1.framework */; };
 		BA5775FCEF6517559C1353DB /* Pods_Wildfire1_1Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 70977A2D67508CF8EB0AA3E3 /* Pods_Wildfire1_1Tests.framework */; };
 		E2026709230ED8CF003C0AF4 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2026708230ED8CF003C0AF4 /* LoginViewController.swift */; };
+		E2149702231406E80048D149 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = E2149701231406E80048D149 /* Podfile */; };
 		E21AC96321EA6BEF00D460A9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E21AC96221EA6BEF00D460A9 /* AppDelegate.swift */; };
 		E21AC96521EA6BEF00D460A9 /* PayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E21AC96421EA6BEF00D460A9 /* PayViewController.swift */; };
 		E21AC96721EA6BEF00D460A9 /* ReceiveViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E21AC96621EA6BEF00D460A9 /* ReceiveViewController.swift */; };
@@ -38,6 +39,7 @@
 		70977A2D67508CF8EB0AA3E3 /* Pods_Wildfire1_1Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Wildfire1_1Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B1E15A2B9797B338CC0D02CA /* Pods-Wildfire1.1Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Wildfire1.1Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Wildfire1.1Tests/Pods-Wildfire1.1Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		E2026708230ED8CF003C0AF4 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		E2149701231406E80048D149 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; };
 		E21AC95F21EA6BEF00D460A9 /* Wildfire1.1.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Wildfire1.1.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E21AC96221EA6BEF00D460A9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E21AC96421EA6BEF00D460A9 /* PayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayViewController.swift; sourceTree = "<group>"; };
@@ -99,6 +101,7 @@
 		E21AC95621EA6BEF00D460A9 = {
 			isa = PBXGroup;
 			children = (
+				E2149701231406E80048D149 /* Podfile */,
 				E21AC96121EA6BEF00D460A9 /* Wildfire1.1 */,
 				E21AC97821EA6BF000D460A9 /* Wildfire1.1Tests */,
 				E21AC96021EA6BEF00D460A9 /* Products */,
@@ -237,6 +240,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E2149702231406E80048D149 /* Podfile in Resources */,
 				E21AC96F21EA6BF000D460A9 /* LaunchScreen.storyboard in Resources */,
 				E278AE0621FCEFDF00A65309 /* GoogleService-Info.plist in Resources */,
 				E2AD346821F384430030FA2E /* Assets.xcassets in Resources */,
