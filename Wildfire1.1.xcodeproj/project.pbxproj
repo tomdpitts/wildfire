@@ -10,7 +10,6 @@
 		02B40DBB5BA0E3ABDC608F79 /* Pods_Wildfire1_1.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4483B7785E5EA4F8EEDBA322 /* Pods_Wildfire1_1.framework */; };
 		BA5775FCEF6517559C1353DB /* Pods_Wildfire1_1Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 70977A2D67508CF8EB0AA3E3 /* Pods_Wildfire1_1Tests.framework */; };
 		E2026709230ED8CF003C0AF4 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2026708230ED8CF003C0AF4 /* LoginViewController.swift */; };
-		E2149702231406E80048D149 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = E2149701231406E80048D149 /* Podfile */; };
 		E2149704231410240048D149 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2149703231410240048D149 /* HomeViewController.swift */; };
 		E21AC96321EA6BEF00D460A9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E21AC96221EA6BEF00D460A9 /* AppDelegate.swift */; };
 		E21AC96521EA6BEF00D460A9 /* PayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E21AC96421EA6BEF00D460A9 /* PayViewController.swift */; };
@@ -20,6 +19,10 @@
 		E21AC97A21EA6BF000D460A9 /* Wildfire1_1Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E21AC97921EA6BF000D460A9 /* Wildfire1_1Tests.swift */; };
 		E21AC98521EA6C9E00D460A9 /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E21AC98421EA6C9E00D460A9 /* AccountViewController.swift */; };
 		E21AC99721EA850C00D460A9 /* ScanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E21AC99621EA850C00D460A9 /* ScanViewController.swift */; };
+		E24388A523154A5200948AD5 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24388A423154A5200948AD5 /* Utilities.swift */; };
+		E24388A82315532200948AD5 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24388A72315532200948AD5 /* Constants.swift */; };
+		E24388AA231575DA00948AD5 /* CustomSegues.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24388A9231575DA00948AD5 /* CustomSegues.swift */; };
+		E24388AD2315A5AC00948AD5 /* WildfireLogin.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = E24388AC2315A5AC00948AD5 /* WildfireLogin.mp4 */; };
 		E278AE0621FCEFDF00A65309 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E278AE0521FCEFDF00A65309 /* GoogleService-Info.plist */; };
 		E279717D231433AF00964F25 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E279717C231433AF00964F25 /* SignUpViewController.swift */; };
 		E279717F231433D500964F25 /* ExistingUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E279717E231433D500964F25 /* ExistingUserViewController.swift */; };
@@ -42,7 +45,6 @@
 		70977A2D67508CF8EB0AA3E3 /* Pods_Wildfire1_1Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Wildfire1_1Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B1E15A2B9797B338CC0D02CA /* Pods-Wildfire1.1Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Wildfire1.1Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Wildfire1.1Tests/Pods-Wildfire1.1Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		E2026708230ED8CF003C0AF4 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
-		E2149701231406E80048D149 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; };
 		E2149703231410240048D149 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		E21AC95F21EA6BEF00D460A9 /* Wildfire1.1.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Wildfire1.1.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E21AC96221EA6BEF00D460A9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -56,6 +58,10 @@
 		E21AC97B21EA6BF000D460A9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E21AC98421EA6C9E00D460A9 /* AccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
 		E21AC99621EA850C00D460A9 /* ScanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanViewController.swift; sourceTree = "<group>"; };
+		E24388A423154A5200948AD5 /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
+		E24388A72315532200948AD5 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		E24388A9231575DA00948AD5 /* CustomSegues.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSegues.swift; sourceTree = "<group>"; };
+		E24388AC2315A5AC00948AD5 /* WildfireLogin.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = WildfireLogin.mp4; sourceTree = "<group>"; };
 		E278AE0521FCEFDF00A65309 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		E279717C231433AF00964F25 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		E279717E231433D500964F25 /* ExistingUserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExistingUserViewController.swift; sourceTree = "<group>"; };
@@ -107,7 +113,6 @@
 		E21AC95621EA6BEF00D460A9 = {
 			isa = PBXGroup;
 			children = (
-				E2149701231406E80048D149 /* Podfile */,
 				E21AC96121EA6BEF00D460A9 /* Wildfire1.1 */,
 				E21AC97821EA6BF000D460A9 /* Wildfire1.1Tests */,
 				E21AC96021EA6BEF00D460A9 /* Products */,
@@ -129,8 +134,10 @@
 			isa = PBXGroup;
 			children = (
 				E21AC96221EA6BEF00D460A9 /* AppDelegate.swift */,
+				E24388A623154A5800948AD5 /* Helpers */,
 				E257EA28230D8A9F003E2A32 /* ViewControllers */,
 				E21AC96821EA6BEF00D460A9 /* Main.storyboard */,
+				E24388AB2315824D00948AD5 /* Media */,
 				E2AD346721F384430030FA2E /* Assets.xcassets */,
 				E21AC96D21EA6BF000D460A9 /* LaunchScreen.storyboard */,
 				E278AE0521FCEFDF00A65309 /* GoogleService-Info.plist */,
@@ -148,17 +155,35 @@
 			path = Wildfire1.1Tests;
 			sourceTree = "<group>";
 		};
+		E24388A623154A5800948AD5 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				E24388A423154A5200948AD5 /* Utilities.swift */,
+				E24388A72315532200948AD5 /* Constants.swift */,
+				E24388A9231575DA00948AD5 /* CustomSegues.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		E24388AB2315824D00948AD5 /* Media */ = {
+			isa = PBXGroup;
+			children = (
+				E24388AC2315A5AC00948AD5 /* WildfireLogin.mp4 */,
+			);
+			path = Media;
+			sourceTree = "<group>";
+		};
 		E257EA28230D8A9F003E2A32 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
 				E2026708230ED8CF003C0AF4 /* LoginViewController.swift */,
+				E279717C231433AF00964F25 /* SignUpViewController.swift */,
+				E279717E231433D500964F25 /* ExistingUserViewController.swift */,
 				E2149703231410240048D149 /* HomeViewController.swift */,
 				E21AC96421EA6BEF00D460A9 /* PayViewController.swift */,
 				E21AC99621EA850C00D460A9 /* ScanViewController.swift */,
 				E21AC96621EA6BEF00D460A9 /* ReceiveViewController.swift */,
 				E21AC98421EA6C9E00D460A9 /* AccountViewController.swift */,
-				E279717C231433AF00964F25 /* SignUpViewController.swift */,
-				E279717E231433D500964F25 /* ExistingUserViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -175,7 +200,7 @@
 				E21AC95C21EA6BEF00D460A9 /* Frameworks */,
 				E21AC95D21EA6BEF00D460A9 /* Resources */,
 				7E87FFF8C47FB8FE3D7E7AA0 /* [CP] Embed Pods Frameworks */,
-				EDA652F9AEB52D31B001571F /* [CP] Copy Pods Resources */,
+				A522467376DA6BB569B3D218 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -250,8 +275,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E2149702231406E80048D149 /* Podfile in Resources */,
 				E21AC96F21EA6BF000D460A9 /* LaunchScreen.storyboard in Resources */,
+				E24388AD2315A5AC00948AD5 /* WildfireLogin.mp4 in Resources */,
 				E278AE0621FCEFDF00A65309 /* GoogleService-Info.plist in Resources */,
 				E2AD346821F384430030FA2E /* Assets.xcassets in Resources */,
 				E21AC96A21EA6BEF00D460A9 /* Main.storyboard in Resources */,
@@ -340,29 +365,7 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Wildfire1.1/Pods-Wildfire1.1-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		DA009A4BC750AD74C31623CC /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Wildfire1.1-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		EDA652F9AEB52D31B001571F /* [CP] Copy Pods Resources */ = {
+		A522467376DA6BB569B3D218 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -398,6 +401,28 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Wildfire1.1/Pods-Wildfire1.1-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		DA009A4BC750AD74C31623CC /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Wildfire1.1-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -406,13 +431,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				E2026709230ED8CF003C0AF4 /* LoginViewController.swift in Sources */,
+				E24388A82315532200948AD5 /* Constants.swift in Sources */,
 				E21AC96721EA6BEF00D460A9 /* ReceiveViewController.swift in Sources */,
 				E279717D231433AF00964F25 /* SignUpViewController.swift in Sources */,
 				E21AC96321EA6BEF00D460A9 /* AppDelegate.swift in Sources */,
+				E24388AA231575DA00948AD5 /* CustomSegues.swift in Sources */,
 				E21AC99721EA850C00D460A9 /* ScanViewController.swift in Sources */,
 				E21AC98521EA6C9E00D460A9 /* AccountViewController.swift in Sources */,
 				E21AC96521EA6BEF00D460A9 /* PayViewController.swift in Sources */,
 				E279717F231433D500964F25 /* ExistingUserViewController.swift in Sources */,
+				E24388A523154A5200948AD5 /* Utilities.swift in Sources */,
 				E2149704231410240048D149 /* HomeViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
