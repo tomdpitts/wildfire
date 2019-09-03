@@ -505,13 +505,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f6e-DW-01X">
-                                <rect key="frame" x="142.66666666666666" y="350" width="128.99999999999997" height="36"/>
+                                <rect key="frame" x="142.66666666666666" y="70" width="128.99999999999997" height="36"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bVF-VK-JDu">
-                                <rect key="frame" x="177.66666666666666" y="466" width="59" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bVF-VK-JDu">
+                                <rect key="frame" x="178" y="256" width="59" height="30"/>
                                 <state key="normal" title="Let's go!"/>
                                 <connections>
                                     <action selector="progressToMainApp:" destination="WJV-KB-iYY" eventType="touchUpInside" id="oRW-wQ-NOX"/>
@@ -520,10 +520,9 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="bVF-VK-JDu" firstAttribute="top" secondItem="f6e-DW-01X" secondAttribute="bottom" constant="80" id="6k7-NM-jLc"/>
-                            <constraint firstItem="bVF-VK-JDu" firstAttribute="centerX" secondItem="1DH-T8-vYc" secondAttribute="centerX" id="AH7-Q2-Ds1"/>
-                            <constraint firstItem="f6e-DW-01X" firstAttribute="centerY" secondItem="1DH-T8-vYc" secondAttribute="centerY" id="d18-bx-03E"/>
-                            <constraint firstItem="f6e-DW-01X" firstAttribute="centerX" secondItem="1DH-T8-vYc" secondAttribute="centerX" id="gtH-pd-h7f"/>
+                            <constraint firstItem="f6e-DW-01X" firstAttribute="top" secondItem="yE7-Zr-t3C" secondAttribute="top" constant="50" id="AFQ-bQ-1Bg"/>
+                            <constraint firstItem="f6e-DW-01X" firstAttribute="centerX" secondItem="1DH-T8-vYc" secondAttribute="centerX" id="Yfy-9o-5zM"/>
+                            <constraint firstItem="bVF-VK-JDu" firstAttribute="top" secondItem="f6e-DW-01X" secondAttribute="bottom" constant="150" id="ttr-0W-EVz"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="yE7-Zr-t3C"/>
                     </view>
@@ -579,6 +578,7 @@
         <image name="icons8-paper-plane-50" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="q30-yN-J8d"/>
         <segue reference="gEc-DY-rvW"/>
     </inferredMetricsTieBreakers>
 </document>
