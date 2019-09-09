@@ -5,6 +5,21 @@
       location = "group:Wildfire1.1.xcodeproj">
    </FileRef>
    <FileRef
+      location = "group:.firebaserc">
+   </FileRef>
+   <FileRef
+      location = "group:firebase.json">
+   </FileRef>
+   <FileRef
+      location = "group:firestore.rules">
+   </FileRef>
+   <FileRef
+      location = "group:functions">
+   </FileRef>
+   <FileRef
+      location = "group:node_modules">
+   </FileRef>
+   <FileRef
       location = "group:Pods/Pods.xcodeproj">
    </FileRef>
 </Workspace>
