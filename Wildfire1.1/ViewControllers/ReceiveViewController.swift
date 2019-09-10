@@ -79,7 +79,34 @@ class ReceiveViewController: UIViewController {
         
     }
     
+    func encryptor() {
     
-    
+        if let heimdall = Heimdall(tagPrefix: "com.example") {
+            let testString = "This is a test string"
+            
+            // Encryption/Decryption
+            if let encryptedString = heimdall.encrypt(testString) {
+                println(encryptedString) // "cQzaQCQLhAWqkDyPoHnPrpsVh..."
+                
+                if let decryptedString = heimdall.decrypt(encryptedString) {
+                    println(decryptedString) // "This is a test string"
+                }
+            }
+            
+            // Signatures/Verification
+            if let signature = heimdall.sign(testString) {
+                println(signature) // "fMVOFj6SQ7h+cZTEXZxkpgaDsMrki..."
+                var verified = heimdall.verify(testString, signatureBase64: signature)
+                println(verified) // True
+                
+                // If someone meddles with the message and the signature becomes invalid
+                verified = heimdall.verify(testString + "injected false message",
+                                           signatureBase64: signature)
+                println(verified) // False
+            }
+        }
+        
+    }
+        
 }
 

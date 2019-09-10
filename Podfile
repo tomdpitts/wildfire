@@ -12,6 +12,7 @@ pod 'FirebaseUI'
 pod 'Firebase/Auth'
 pod 'Firebase/Database'
 pod 'Firebase/Firestore'
+pod 'Heimdall', '~> 1.1.0'
   target 'Wildfire1.1Tests' do
     inherit! :search_paths
     # Pods for testing
