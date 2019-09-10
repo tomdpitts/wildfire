@@ -25,6 +25,7 @@ exports.createUserAccount = functions.auth.user().onCreate((userRecord, context)
 
     // define the path and define what should be added to the database
     const doc = admin.firestore().doc('/users/' + uid)
+    // question for future - should we be using .set() with a return to guarantee completion of async task? Seems to work ok for now
     return doc.set({
      photoUrl: photoUrl,
      email: email,
