@@ -7,7 +7,8 @@
 //
 
 import UIKit
-import FirebaseDatabase
+import Firebase
+
 
 class ReceiveViewController: UIViewController {
     
@@ -19,7 +20,21 @@ class ReceiveViewController: UIViewController {
     
     @IBOutlet weak var btnAction: UIButton!
     
-    var ref:DatabaseReference?
+    override func viewWillAppear(_ animated: Bool) {
+        Auth.auth().addStateDidChangeListener { (auth, user) in
+            if let user = user {
+                // The user's ID, unique to the Firebase project.
+                // Do NOT use this value to authenticate with your backend server,
+                // if you have one. Use getTokenWithCompletion:completion: instead.
+                let uid = user.uid
+                let email = user.email
+                let photoURL = user.photoURL
+                // ...
+            }
+        }
+    }
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,22 +46,26 @@ class ReceiveViewController: UIViewController {
         // N.B. You need to make sure users can't copy and paste non numeric characters into field
         // which hasn't been added yet, only the textField type. If there's no actual field and
         // the numbers are all back end, I don't think there's any point adding it now.
-        
+        let uid = Auth.auth().currentUser!.uid
+        print("uid =" + uid)
     }
+    
+    
     
     var qrcodeImage: CIImage!;
     
     @IBAction func pressedButton(_ sender: Any) {
         if qrcodeImage == nil {
+            
             if textField.text == "" {
                 return
             }
             
-            let data = textField.text!.data(using: String.Encoding.isoLatin1, allowLossyConversion: false)
+            let qrdata = generateQRString().data(using: String.Encoding.isoLatin1, allowLossyConversion: false)
             
             let filter = CIFilter(name: "CIQRCodeGenerator")
             
-            filter!.setValue(data, forKey: "inputMessage")
+            filter!.setValue(qrdata, forKey: "inputMessage")
             filter!.setValue("Q", forKey: "inputCorrectionLevel")
             
             qrcodeImage = filter!.outputImage
@@ -79,34 +98,22 @@ class ReceiveViewController: UIViewController {
         
     }
     
-    func encryptor() {
-    
-        if let heimdall = Heimdall(tagPrefix: "com.example") {
-            let testString = "This is a test string"
-            
-            // Encryption/Decryption
-            if let encryptedString = heimdall.encrypt(testString) {
-                println(encryptedString) // "cQzaQCQLhAWqkDyPoHnPrpsVh..."
-                
-                if let decryptedString = heimdall.decrypt(encryptedString) {
-                    println(decryptedString) // "This is a test string"
-                }
-            }
-            
-            // Signatures/Verification
-            if let signature = heimdall.sign(testString) {
-                println(signature) // "fMVOFj6SQ7h+cZTEXZxkpgaDsMrki..."
-                var verified = heimdall.verify(testString, signatureBase64: signature)
-                println(verified) // True
-                
-                // If someone meddles with the message and the signature becomes invalid
-                verified = heimdall.verify(testString + "injected false message",
-                                           signatureBase64: signature)
-                println(verified) // False
-            }
-        }
+    func generateQRString() -> String {
         
+        
+        guard let receiveAmount = textField.text else {
+            return "Oops! No receive amount found"
+        }
+        print("receiveAmount =" + receiveAmount)
+        
+        let uid = Auth.auth().currentUser!.uid
+        
+        print("uid =" + uid)
+        let qrdata = receiveAmount + uid
+        
+        return qrdata
     }
+    
         
 }
 
