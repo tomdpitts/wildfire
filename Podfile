@@ -12,6 +12,7 @@ pod 'FirebaseUI'
 pod 'Firebase/Auth'
 pod 'Firebase/Database'
 pod 'Firebase/Firestore'
+pod 'CryptoSwift'
   target 'Wildfire1.1Tests' do
     inherit! :search_paths
     # Pods for testing

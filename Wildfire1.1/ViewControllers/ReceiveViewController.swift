@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import CryptoSwift
 
 
 class ReceiveViewController: UIViewController {
@@ -46,8 +47,6 @@ class ReceiveViewController: UIViewController {
         // N.B. You need to make sure users can't copy and paste non numeric characters into field
         // which hasn't been added yet, only the textField type. If there's no actual field and
         // the numbers are all back end, I don't think there's any point adding it now.
-        let uid = Auth.auth().currentUser!.uid
-        print("uid =" + uid)
     }
     
     
@@ -100,18 +99,23 @@ class ReceiveViewController: UIViewController {
     
     func generateQRString() -> String {
         
-        
-        guard let receiveAmount = textField.text else {
-            return "Oops! No receive amount found"
-        }
-        print("receiveAmount =" + receiveAmount)
+        let receiveAmount = textField.text
         
         let uid = Auth.auth().currentUser!.uid
         
-        print("uid =" + uid)
-        let qrdata = receiveAmount + uid
+        let qrdata = receiveAmount! + uid
         
-        return qrdata
+        let aes = try? AES(key: "afiretobekindled", iv: "hdjajshdhxdgeehf")
+        
+        let encryptedString = try? aes!.encrypt(Array(qrdata.utf8))
+        
+        let stringQR = encryptedString?.toHexString()
+//        let aesD = try? aes?.decrypt(aesE!)
+//
+//        let decrypted = String(bytes: aesD!, encoding: .utf8)
+//        print("AES decrypted: \(String(describing: decrypted))")
+        
+        return stringQR!
     }
     
         
