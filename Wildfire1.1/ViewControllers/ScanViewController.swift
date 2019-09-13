@@ -6,6 +6,8 @@
 //  Copyright © 2019 Wildfire. All rights reserved.
 //
 
+// Add an unwind/back button!
+
 import UIKit
 import AVFoundation
 import CryptoSwift
@@ -30,6 +32,9 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
     var receivable: Int = 0
     var balance: Int = 0
     var finalString = ""
+    
+    
+    var runScan = true
 
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -39,8 +44,11 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+    
         // Get the back-facing camera for capturing videos
         let deviceDiscoverySession = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInWideAngleCamera], mediaType: AVMediaType.video, position: .back)
         
@@ -101,6 +109,8 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
     func metadataOutput(_ output: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection) {
             // Check if the metadataObjects array is not nil and it contains at least one object.
         
+        if runScan {
+        
         var validatedString = ""
         
         if metadataObjects.count == 0 {
@@ -129,10 +139,14 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
                     return
                 } else {
                     self.finalString = validatedString
-                    performSegue(withIdentifier: "showConfirmationScreen", sender: self)
+//                    self.runScan == false
+                    performSegue(withIdentifier: "showConfirmScreen", sender: self)
+                    self.captureSession!.stopRunning()
                 }
-                    
             }
+        }
+        
+            
         }
     }
     

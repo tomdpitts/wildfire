@@ -19,18 +19,18 @@ class PayViewController: UIViewController {
         
     }
     
-    // This next bit is supposed to stop the dang thing rotating in landscape mode, but doesn't seem to work
-    override open var shouldAutorotate: Bool {
-        return false
-    }
-
+//    // This next bit is supposed to stop the dang thing rotating in landscape mode, but doesn't seem to work
+//    override open var shouldAutorotate: Bool {
+//        return false
+//    }
+//
     @IBAction func launchQRReader(_ sender: UIButton) {
-    
+
     // the QR code needs to go here?
     }
-    
-    @IBAction func unwindToPayViewController(segue: UIStoryboardSegue) {
-    }
-    
+
+//    @IBAction func unwindToPayViewController(segue: UIStoryboardSegue) {
+//    }
+//    
 }
 

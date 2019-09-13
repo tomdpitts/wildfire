@@ -31,8 +31,9 @@
                                 <size key="titleShadowOffset" width="30" height="30"/>
                                 <state key="normal" title="Scan"/>
                                 <connections>
-                                    <action selector="launchQRReader:" destination="9pv-A4-QxB" eventType="touchUpInside" id="wHl-TN-GWw"/>
-                                    <segue destination="tRh-0n-OZd" kind="presentation" id="0Hu-Fa-2Pi"/>
+                                    <segue destination="tRh-0n-OZd" kind="popoverPresentation" popoverAnchorView="HgW-XE-C0H" id="0Hu-Fa-2Pi">
+                                        <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                                    </segue>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oEZ-Et-K1S">
@@ -74,16 +75,11 @@
                                 <rect key="frame" x="0.0" y="20" width="414" height="44"/>
                                 <items>
                                     <navigationItem title="Scanning" id="13f-lD-OWQ">
-                                        <barButtonItem key="leftBarButtonItem" id="3IN-Ak-FEZ">
-                                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="xkY-sx-v0p">
-                                                <rect key="frame" x="20" y="5" width="40" height="34"/>
+                                        <barButtonItem key="leftBarButtonItem" style="plain" id="CBF-N9-4aZ">
+                                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="ufz-Xl-RYy">
+                                                <rect key="frame" x="20" y="7" width="92" height="30"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                <state key="normal" title="Back">
-                                                    <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                </state>
-                                                <connections>
-                                                    <segue destination="Erl-88-3VD" kind="unwind" unwindAction="unwindToPayViewControllerWithSegue:" id="JMu-Ya-mcZ"/>
-                                                </connections>
+                                                <state key="normal" title="Button"/>
                                             </button>
                                         </barButtonItem>
                                     </navigationItem>
@@ -100,11 +96,10 @@
                     </view>
                     <connections>
                         <outlet property="topbar" destination="SaU-p0-OL3" id="JWX-Ac-HX3"/>
-                        <segue destination="pFC-XD-G7v" kind="custom" identifier="showConfirmationScreen" customClass="SegueFromRight" customModule="Wildfire1_1" customModuleProvider="target" id="0QK-Zp-Uf0"/>
+                        <segue destination="pFC-XD-G7v" kind="custom" identifier="showConfirmScreen" customClass="SegueFromRight" customModule="Wildfire1_1" customModuleProvider="target" id="KC7-yY-zWV"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Etv-01-QIu" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <exit id="Erl-88-3VD" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="2463.768115942029" y="-322.01086956521743"/>
         </scene>
@@ -126,8 +121,7 @@
                                 <rect key="frame" x="20" y="40" width="34" height="30"/>
                                 <state key="normal" title="Back"/>
                                 <connections>
-                                    <action selector="backButton:" destination="pFC-XD-G7v" eventType="touchUpInside" id="WYd-Vz-GDj"/>
-                                    <segue destination="tRh-0n-OZd" kind="show" id="Ohw-Hs-lcd"/>
+                                    <segue destination="49e-Tb-3d3" kind="custom" customClass="SegueFromLeft" customModule="Wildfire1_1" customModuleProvider="target" id="1Yg-5S-YFf"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Amount" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eWw-V4-7Xy">
@@ -348,7 +342,6 @@
                                 </state>
                                 <connections>
                                     <action selector="skipToPay:" destination="yQS-kr-M4m" eventType="touchUpInside" id="8eZ-Ko-9V7"/>
-                                    <segue destination="49e-Tb-3d3" kind="show" identifier="skipToPay" id="e2y-R3-r7K"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -369,6 +362,7 @@
                     <connections>
                         <outlet property="logInButton" destination="H2I-AD-2Rx" id="UH9-fL-9Pk"/>
                         <outlet property="signUpButton" destination="TwO-Ty-sor" id="pSQ-wp-YVj"/>
+                        <segue destination="WJV-KB-iYY" kind="show" identifier="skipToPay" id="jUv-FN-3J2"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Btc-ql-F5t" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -639,8 +633,8 @@
         <image name="icons8-paper-plane-50" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="e2y-R3-r7K"/>
-        <segue reference="gEc-DY-rvW"/>
-        <segue reference="Ohw-Hs-lcd"/>
+        <segue reference="0Hu-Fa-2Pi"/>
+        <segue reference="1Yg-5S-YFf"/>
+        <segue reference="nPz-A0-7y4"/>
     </inferredMetricsTieBreakers>
 </document>
