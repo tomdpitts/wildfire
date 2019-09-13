@@ -73,6 +73,11 @@ class LoginViewController: UIViewController {
         videoPlayer?.playImmediately(atRate: 1)
     }
 
+    @IBAction func skipToPay(_ sender: Any) {
+        performSegue(withIdentifier: "skipToPay", sender: self)
+    }
+    
+    
 //  DEPRECATED
     
 //  @IBAction func loginButtonTapped(_ sender: UIButton) {

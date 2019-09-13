@@ -99,21 +99,27 @@ class ReceiveViewController: UIViewController {
     
     func generateQRString() -> String {
         
-        let receiveAmount = textField.text
+        var receiveAmountString = ""
+        var receiveAmount7 = 0
+        
+        if let receiveAmount = Int(textField.text!) {
+            receiveAmount7 = receiveAmount*7
+            receiveAmountString = String(receiveAmount7)
+        } else {
+            receiveAmountString = ""
+        }
+        
         
         let uid = Auth.auth().currentUser!.uid
         
-        let qrdata = receiveAmount! + uid
+        let qrdata = receiveAmountString + uid
         
         let aes = try? AES(key: "afiretobekindled", iv: "hdjajshdhxdgeehf")
         
         let encryptedString = try? aes!.encrypt(Array(qrdata.utf8))
         
         let stringQR = encryptedString?.toHexString()
-//        let aesD = try? aes?.decrypt(aesE!)
-//
-//        let decrypted = String(bytes: aesD!, encoding: .utf8)
-//        print("AES decrypted: \(String(describing: decrypted))")
+
         
         return stringQR!
     }
