@@ -8,6 +8,7 @@
 
 import UIKit
 import AVFoundation
+import CryptoSwift
 //import FirebaseDatabase
 
 class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
@@ -28,20 +29,17 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
     //setup variable to retrieve and display account balance at all times
     var receivable: Int = 0
     var balance: Int = 0
-    
-    var readString = ""
+    var finalString = ""
 
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let vc = segue.destination as! ConfirmViewController
+        vc.finalString2 = finalString
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
-        // Do any additional setup after loading the view.
-//        ref = Database.database().reference()
-        
-//        ref?.child("accounts/1001").observeSingleEvent(of: .childAdded, with: { (snapshot) in
-//            self.balance = snapshot.value! as! Int
-//            print(self.balance)
-//        })
         
         // Get the back-facing camera for capturing videos
         let deviceDiscoverySession = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInWideAngleCamera], mediaType: AVMediaType.video, position: .back)
@@ -92,12 +90,6 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
             }
             
             
-            
-            
-            
-            
-            
-            
         } catch {
             // If any error occurs, simply print it out and don't continue any more.
             print(error)
@@ -105,64 +97,80 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
         }
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let vc = segue.destination as! ConfirmViewController
-        vc.readStringConfirm = readString
-    }
-    
     
     func metadataOutput(_ output: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection) {
             // Check if the metadataObjects array is not nil and it contains at least one object.
         
-            if metadataObjects.count == 0 {
-                qrCodeFrameView?.frame = CGRect.zero
-//                print("nope")
-//                messageLabel.text = "No QR code is detected"
-                return
-            }
+        var validatedString = ""
+        
+        if metadataObjects.count == 0 {
+            qrCodeFrameView?.frame = CGRect.zero
+
+            return
+        }
+        
+        // Get the metadata object.
+        let metadataObj = metadataObjects[0] as! AVMetadataMachineReadableCodeObject
+        
+        
+        if metadataObj.type == AVMetadataObject.ObjectType.qr {
+            // If the found metadata is equal to the QR code metadata then set the coloured square - we haven't yet established it's a Wildfire code but we know it's a QR code
+            let barCodeObject = videoPreviewLayer?.transformedMetadataObject(for: metadataObj)
+            qrCodeFrameView?.frame = barCodeObject!.bounds
             
-            // Get the metadata object.
-            let metadataObj = metadataObjects[0] as! AVMetadataMachineReadableCodeObject
-            
-            
-            
-            if metadataObj.type == AVMetadataObject.ObjectType.qr {
-                // If the found metadata is equal to the QR code metadata then update the status label's text and set the bounds
-                let barCodeObject = videoPreviewLayer?.transformedMetadataObject(for: metadataObj)
-                qrCodeFrameView?.frame = barCodeObject!.bounds
-//                print("ok, we're getting somewhere")
-                if metadataObj.stringValue != nil {
-//                    print("yeah")
-                    self.readString = metadataObj.stringValue!
-//                    print(theAnswer)
-//                    view.bringSubviewToFront(scannedNumber)
-//                    scannedNumber.text = metadataObj.stringValue!
-                    
-//                    self.receivable = metadataObj.stringValue!
-                    
-                    print("receivable is \(readString)")
-                    
-//                    updateBalance(transaction: receivable)
+            // check there's something in the QR code
+            if metadataObj.stringValue != nil {
+
+                // decrypt the QR data - this will either return valid data or "decryption failed" if it's not a Wildfire code
+                validatedString = decryptQRString(QRstring: metadataObj.stringValue!)
+                
+                // now we know what the situation is, we can respond accordingly. If it's valid, segue to ConfirmViewController (check the prepareForSegue method in this VC for more context), otherwise do nothing and let the user continue scanning
+                if validatedString == "decryption failed" {
+                    return
+                } else {
+                    self.finalString = validatedString
                     performSegue(withIdentifier: "showConfirmationScreen", sender: self)
-                    
                 }
+                    
             }
         }
-//
-//    // Below is all for testing the firebase write functions
-//    var accountID: Int = 1001
-//    var payValue: Int = 0
-//
-//    // To do: recplace the observeSingleEvent with a childChanged listener which will allow the balance variable to be up to date during scanning
-//    // this function currently just sums the existing balance and the transaction amount and replaces the account balance with this new integer, but in future it needs to be able to reduce the payer's balance by the appropriate amount and increase the recipient's account by the same. Account ID needs to be contained in the AR, so some kind of parsing function will be required to interpret the string read from the QR. The receive view controller will need to be updated too, and some thought should be given to the format of the string. Consider integrating cryptography to both, as will be required at some point. You'll also need to figure out how the account numbers are going to be structured.
-////    func updateBalance(transaction: Int) -> Int {
-////
-////        let newBalance = balance + transaction
-////
-////        ref?.child("accounts/1001/").updateChildValues(["Balance": newBalance])
-////        //ref?.child("Transactions").childByAutoId().setValue("datetime")
-////        return 1
-////    }
+    }
+    
+    func decryptQRString(QRstring: String) -> String {
+        
+        // this function could really do with some more nuanced error logging so we can find out what is causing decryption failure
+
+        let encryptedArray = Array<UInt8>(hex: QRstring)
+        
+        // set up CryptoSwift object aes with the right key and initialization vector
+        let aes = try? AES(key: "afiretobekindled", iv: "av3s5e12b3fil1ed")
+        
+        // try to decrypt the encryptedArray - if it's not a wildfire code and not formatted right this will probably break
+        guard let decryptedArray = try? aes?.decrypt(encryptedArray) else {
+            return "decryption failed"
+        }
+        
+        // turn this into a string
+        guard let decryptedString = String(bytes: decryptedArray, encoding: .utf8) else {
+            return "decryption failed"
+        }
+        
+        // now let's check it's legit - if it is, it will begin with the validator text. Theoretically, a QR code could contain something that can be decoded and handled by the above logic but the output would be gibberish e.g. a string encrypted with a different key - this validation checks that the result has come through as expected.
+        let validator = """
+        Einstein, James Dean, Brooklyn's got a winning team, Bardot, Budapest, Alabama, Krushchev
+        """
+        let validatorLength = validator.count
+        
+        // check the first 89 characters match the validator text, and if so, carry on and return the decrypted string. Otherwise abort and flag the issue to the user
+        let billyJoel = String(decryptedString.prefix(validatorLength))
+        if billyJoel == validator {
+            let validatedString = String(decryptedString.dropFirst(validatorLength))
+            return validatedString
+        } else {
+            return "decryption failed"
+        }
+    }
+
     
 }
 

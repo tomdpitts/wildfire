@@ -11,33 +11,36 @@ import CryptoSwift
 
 class ConfirmViewController: UIViewController {
     
-    var readStringConfirm = ""
+    var finalString2 = ""
     var decryptedString = ""
     var receiveAmount = ""
     var transactionAmountFinal = 0
     let UIDLength = 28
     let multiplicationFactor = 7
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // first decrypt the QR data
-        decryptedString = decryptQRString(QRstring: readStringConfirm)
+//        // first decrypt the QR data
+//        decryptedString = decryptQRString(QRstring: finalString2)
         
         // then extract the UID (at time of writing, last 28 characters
-        let uidParsed = String(decryptedString.suffix(UIDLength))
+        let uidParsed = String(finalString2.suffix(UIDLength))
+    
+            // then extract the transaction amount i.e. how much the transaction is for. Be careful to allow for any number of digits - strip out the UID
+            let transactionAmount = Int(finalString2.dropLast(UIDLength))
+//            print(transactionAmount ?? "not sure what the number is")
         
-        // then extract the transaction amount i.e. how much the transaction is for. Be careful to allow for any number of digits - strip out the UID
-        let transactionAmount = Int(decryptedString.dropLast(UIDLength))
-        print(transactionAmount ?? "not sure what the number is")
-        // safely unwrap the number which has been converted to Int from a string, and divide the number by 7 (in the ReceiveViewController, we multiplied the amount requested by 7 before adding it to the string. Simply another level of security that makes it harder to reverse engineer the QR generation - then someone couldn't even guess that the transaction amount is encoded somewhere in the QR string
-        if let transactionAmountReal = transactionAmount {
-            transactionAmountFinal = transactionAmountReal/multiplicationFactor
-        } else {
-            transactionAmountFinal = 0
-        }
-        // now we have, in transactionAmountFinal... the final amount
-        receiveAmount = String(transactionAmountFinal)
+            // safely unwrap the number which has been converted to Int from a string, and divide the number by 7 (in the ReceiveViewController, we multiplied the amount requested by 7 before adding it to the string. Simply another level of security that makes it harder to reverse engineer the QR generation - then someone couldn't even guess that the transaction amount is encoded somewhere in the QR string
+            if let transactionAmountReal = transactionAmount {
+                transactionAmountFinal = transactionAmountReal/multiplicationFactor
+            } else {
+                transactionAmountFinal = 0
+            }
+            // now we have, in transactionAmountFinal... the final amount
+            receiveAmount = String(transactionAmountFinal)
+        
         
         QROutput.text = uidParsed
         amountLabel.text = receiveAmount

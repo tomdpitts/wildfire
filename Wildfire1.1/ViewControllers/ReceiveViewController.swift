@@ -101,10 +101,16 @@ class ReceiveViewController: UIViewController {
         
         var receiveAmountString = ""
         var receiveAmount7 = 0
+        // validator is text that will be appended to the beginning of the string - this is a failsafe to essentially ensure that the decrypted string is from Wildfire (lyrics are not all in the right order)
+        let validator = """
+            Einstein, James Dean, Brooklyn's got a winning team, Bardot, Budapest, Alabama, Krushchev
+            """
         
         if let receiveAmount = Int(textField.text!) {
+            print("entered amount is \(receiveAmount)")
             receiveAmount7 = receiveAmount*7
             receiveAmountString = String(receiveAmount7)
+            print("the string that is being added is \(receiveAmountString)")
         } else {
             receiveAmountString = ""
         }
@@ -112,9 +118,10 @@ class ReceiveViewController: UIViewController {
         
         let uid = Auth.auth().currentUser!.uid
         
-        let qrdata = receiveAmountString + uid
+        let qrdata = validator + receiveAmountString + uid
+        // print(qrdata)
         
-        let aes = try? AES(key: "afiretobekindled", iv: "hdjajshdhxdgeehf")
+        let aes = try? AES(key: "afiretobekindled", iv: "av3s5e12b3fil1ed")
         
         let encryptedString = try? aes!.encrypt(Array(qrdata.utf8))
         
