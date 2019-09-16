@@ -19,7 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         FirebaseApp.configure()
         // one for later
-        // let db = Firestore.firestore()
+//        let db = Firestore.firestore()
         return true
     }
 
