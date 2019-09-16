@@ -56,9 +56,7 @@ class ConfirmViewController: UIViewController {
     @IBOutlet weak var amountLabel: UILabel!
 //    @IBAction func backButton(_ sender: Any) {
 //    }
-//    
-//    @IBAction func unwindToScanViewController(segue: UIStoryboardSegue) {
-//    }
+//
     
     // the encryption first concatenates the amount and the recipient's UID, then encrypts it with AES 128, then encodes the resulting data array into a Hex string which can easily be passed to the QR generator function
     // consequently, the decryption needs to unwind all of that in reverse order

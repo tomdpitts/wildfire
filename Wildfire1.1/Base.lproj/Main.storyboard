@@ -80,7 +80,13 @@
                                                 <rect key="frame" x="20" y="7" width="92" height="30"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <state key="normal" title="Button"/>
+                                                <connections>
+                                                    <segue destination="Erl-88-3VD" kind="unwind" unwindAction="unwindToPay:" id="no0-ST-xbB"/>
+                                                </connections>
                                             </button>
+                                            <connections>
+                                                <action selector="dismissScan:" destination="tRh-0n-OZd" id="eon-gv-ujx"/>
+                                            </connections>
                                         </barButtonItem>
                                     </navigationItem>
                                 </items>
@@ -100,6 +106,7 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Etv-01-QIu" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="Erl-88-3VD" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="2463.768115942029" y="-322.01086956521743"/>
         </scene>
@@ -121,7 +128,7 @@
                                 <rect key="frame" x="20" y="40" width="34" height="30"/>
                                 <state key="normal" title="Back"/>
                                 <connections>
-                                    <segue destination="49e-Tb-3d3" kind="custom" customClass="SegueFromLeft" customModule="Wildfire1_1" customModuleProvider="target" id="1Yg-5S-YFf"/>
+                                    <segue destination="80f-JR-riP" kind="unwind" unwindAction="unwindToPay:" id="OjF-4t-d2W"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Amount" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eWw-V4-7Xy">
@@ -148,6 +155,7 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="q7J-kP-T3J" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="80f-JR-riP" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="3300.0000000000005" y="-321.19565217391306"/>
         </scene>
@@ -633,8 +641,6 @@
         <image name="icons8-paper-plane-50" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="0Hu-Fa-2Pi"/>
-        <segue reference="1Yg-5S-YFf"/>
         <segue reference="nPz-A0-7y4"/>
     </inferredMetricsTieBreakers>
 </document>

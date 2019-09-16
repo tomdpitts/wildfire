@@ -36,10 +36,15 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
     
     var runScan = true
 
+    @IBAction func dismissScan(_ sender: Any) {
+        dismiss(animated: true, completion: nil)
+    }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let vc = segue.destination as! ConfirmViewController
-        vc.finalString2 = finalString
+        if segue.destination is ConfirmViewController {
+            let vc = segue.destination as! ConfirmViewController
+            vc.finalString2 = finalString
+        }
     }
     
     override func viewDidLoad() {

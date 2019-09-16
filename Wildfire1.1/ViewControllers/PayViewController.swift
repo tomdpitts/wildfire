@@ -19,6 +19,10 @@ class PayViewController: UIViewController {
         
     }
     
+    @IBAction func unwindToPay(_ unwindSegue: UIStoryboardSegue) {
+        let sourceViewController = unwindSegue.source
+        // Use data from the view controller which initiated the unwind segue
+    }
 //    // This next bit is supposed to stop the dang thing rotating in landscape mode, but doesn't seem to work
 //    override open var shouldAutorotate: Bool {
 //        return false
