@@ -107,10 +107,8 @@ class ReceiveViewController: UIViewController {
             """
         
         if let receiveAmount = Int(textField.text!) {
-            print("entered amount is \(receiveAmount)")
             receiveAmount7 = receiveAmount*7
             receiveAmountString = String(receiveAmount7)
-            print("the string that is being added is \(receiveAmountString)")
         } else {
             receiveAmountString = ""
         }
@@ -119,7 +117,6 @@ class ReceiveViewController: UIViewController {
         let uid = Auth.auth().currentUser!.uid
         
         let qrdata = validator + receiveAmountString + uid
-        // print(qrdata)
         
         let aes = try? AES(key: "afiretobekindled", iv: "av3s5e12b3fil1ed")
         
