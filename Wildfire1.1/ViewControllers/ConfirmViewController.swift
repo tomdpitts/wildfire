@@ -261,17 +261,14 @@ class ConfirmViewController: UIViewController {
                 }
                 
                 // here's the magic
-                if self.sendAmount <= oldUserBalance {
+                if self.sendAmount <= oldUserBalance && self.sendAmount > 0 {
+                    
                     let newUserBalance = oldUserBalance - self.sendAmount
                     let newRecipientBalance = oldRecipientBalance + self.sendAmount
                     
-                    // this is just a final extra check against any funny business - there should be checks built in elsewhere to ensure no negative transactions are attempted etc
-                    if newUserBalance < oldUserBalance && newRecipientBalance > oldRecipientBalance {
-                        transaction.updateData(["balance": newUserBalance], forDocument: userRef)
-                        transaction.updateData(["balance": newRecipientBalance], forDocument: recipientRef)
-                    } else {
-                        return nil
-                    }
+                    transaction.updateData(["balance": newUserBalance], forDocument: userRef)
+                    transaction.updateData(["balance": newRecipientBalance], forDocument: recipientRef)
+
                 } else {
                     return nil
                 }
