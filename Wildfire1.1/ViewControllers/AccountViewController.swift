@@ -43,36 +43,42 @@ class AccountViewController: UIViewController {
         })
         
         // set up the listener to listen out for changes to user's account node
-        databaseHandle = userRef?.observe(.childChanged, with: {(snapshot) -> Void in
-            
-            // self.accountBalance.text = "edited"
-            
-            let balance = snapshot.value!
-            
-            if balance != nil {
-                self.accountBalance.text = "\(String(describing: balance))"
-                self.liveBalance = String(describing: balance)
-                
-                print(self.liveBalance)
-                
-                
-            }
-            
-            // print(balance!)
-            //self.accountBalance.text = "\(balance ?? default error)"
+    databaseHandle = userRef?.observe(.childChanged, with: {(snapshot) -> Void in
         
+        // self.accountBalance.text = "edited"
+        
+        let balance = snapshot.value!
+        
+        if balance != nil {
+            self.accountBalance.text = "\(String(describing: balance))"
+            self.liveBalance = String(describing: balance)
             
-            /*if balance != nil {
+            print(self.liveBalance)
             
-                self.accountBalance.text = "\(balance)"
-                
-                
-            }*/
             
-        })
+        }
+        
+        // print(balance!)
+        //self.accountBalance.text = "\(balance ?? default error)"
+    
+        
+        /*if balance != nil {
+        
+            self.accountBalance.text = "\(balance)"
+         
+         
+        }*/
+        
+    })
         
         
     }
+    
+    @IBAction func goToLogin(_ sender: UIButton) {
+        performSegue(withIdentifier: "goToLogin", sender: self)
+    }
+    
+    
 }
 
 

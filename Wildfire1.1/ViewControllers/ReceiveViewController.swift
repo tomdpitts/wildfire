@@ -7,7 +7,9 @@
 //
 
 import UIKit
-import FirebaseDatabase
+import Firebase
+import CryptoSwift
+
 
 class ReceiveViewController: UIViewController {
     
@@ -19,7 +21,21 @@ class ReceiveViewController: UIViewController {
     
     @IBOutlet weak var btnAction: UIButton!
     
-    var ref:DatabaseReference?
+    override func viewWillAppear(_ animated: Bool) {
+        Auth.auth().addStateDidChangeListener { (auth, user) in
+            if let user = user {
+                // The user's ID, unique to the Firebase project.
+                // Do NOT use this value to authenticate with your backend server,
+                // if you have one. Use getTokenWithCompletion:completion: instead.
+                let uid = user.uid
+                let email = user.email
+                let photoURL = user.photoURL
+                // ...
+            }
+        }
+    }
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,22 +47,24 @@ class ReceiveViewController: UIViewController {
         // N.B. You need to make sure users can't copy and paste non numeric characters into field
         // which hasn't been added yet, only the textField type. If there's no actual field and
         // the numbers are all back end, I don't think there's any point adding it now.
-        
     }
+    
+    
     
     var qrcodeImage: CIImage!;
     
     @IBAction func pressedButton(_ sender: Any) {
         if qrcodeImage == nil {
+            
             if textField.text == "" {
                 return
             }
             
-            let data = textField.text!.data(using: String.Encoding.isoLatin1, allowLossyConversion: false)
+            let qrdata = generateQRString().data(using: String.Encoding.isoLatin1, allowLossyConversion: false)
             
             let filter = CIFilter(name: "CIQRCodeGenerator")
             
-            filter!.setValue(data, forKey: "inputMessage")
+            filter!.setValue(qrdata, forKey: "inputMessage")
             filter!.setValue("Q", forKey: "inputCorrectionLevel")
             
             qrcodeImage = filter!.outputImage
@@ -79,7 +97,37 @@ class ReceiveViewController: UIViewController {
         
     }
     
+    func generateQRString() -> String {
+        
+        var receiveAmountString = ""
+        var receiveAmount7 = 0
+        // validator is text that will be appended to the beginning of the string - this is a failsafe to essentially ensure that the decrypted string is from Wildfire (lyrics are not all in the right order)
+        let validator = """
+            Einstein, James Dean, Brooklyn's got a winning team, Bardot, Budapest, Alabama, Krushchev
+            """
+        
+        if let receiveAmount = Int(textField.text!) {
+            receiveAmount7 = receiveAmount*7
+            receiveAmountString = String(receiveAmount7)
+        } else {
+            receiveAmountString = ""
+        }
+        
+        
+        let uid = Auth.auth().currentUser!.uid
+        
+        let qrdata = validator + receiveAmountString + uid
+        
+        let aes = try? AES(key: "afiretobekindled", iv: "av3s5e12b3fil1ed")
+        
+        let encryptedString = try? aes!.encrypt(Array(qrdata.utf8))
+        
+        let stringQR = encryptedString?.toHexString()
+
+        
+        return stringQR!
+    }
     
-    
+        
 }
 

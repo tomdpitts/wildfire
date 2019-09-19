@@ -99,7 +99,7 @@ class SignUpViewController: UIViewController {
                     let db = Firestore.firestore()
                     
                     
-                    db.collection("users").document(result!.user.uid).setData(["firstname":firstNameClean, "lastname":lastNameClean, "balance": 0, "photoURL": "https://cdn.pixabay.com/photo/2014/05/21/20/17/icon-350228_1280.png" ]) { (error) in
+                    db.collection("users").document(result!.user.uid).setData(["firstname":firstNameClean, "lastname":lastNameClean, "email": emailClean, "balance": 0, "photoURL": "https://cdn.pixabay.com/photo/2014/05/21/20/17/icon-350228_1280.png" ]) { (error) in
                         
 //                        print(result!.user.uid)
                         if error != nil {
