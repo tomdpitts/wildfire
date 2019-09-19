@@ -17,6 +17,7 @@ class ConfirmViewController: UIViewController {
     
     let db = Firestore.firestore()
     let userUID = Auth.auth().currentUser?.uid
+
     
     var finalString2 = ""
     var decryptedString = ""
@@ -204,8 +205,10 @@ class ConfirmViewController: UIViewController {
         } else {
             if existingPaymentMethod == true {
                 // initiate topup (ideally with ApplePay & touchID)
+                
             } else {
                 // bring up Modal to add card details (but don't take user out of the flow or force them to scan again!
+                
             }
         }
     }
@@ -219,6 +222,7 @@ class ConfirmViewController: UIViewController {
         
             db.runTransaction({ (transaction, errorPointer) -> Any? in
                 
+                // set up user (="payer") Firestore document/database info
                 let userDoc: DocumentSnapshot
                 do {
                     try userDoc = transaction.getDocument(userRef)
@@ -227,8 +231,8 @@ class ConfirmViewController: UIViewController {
                     return nil
                 }
                 
+                // do the same for the recipient doc
                 let recipientDoc: DocumentSnapshot
-                
                 do {
                     try recipientDoc = transaction.getDocument(recipientRef)
                 } catch let fetchError as NSError {
@@ -236,6 +240,7 @@ class ConfirmViewController: UIViewController {
                     return nil
                 }
                 
+                // create reference to current ('old') balance of user
                 guard let oldUserBalance = userDoc.data()?["balance"] as? Int else {
                     let error = NSError(
                         domain: "AppErrorDomain",
@@ -248,6 +253,7 @@ class ConfirmViewController: UIViewController {
                     return nil
                 }
                 
+                // ditto for recipient
                 guard let oldRecipientBalance = recipientDoc.data()?["balance"] as? Int else {
                     let error = NSError(
                         domain: "AppErrorDomain",
@@ -262,6 +268,8 @@ class ConfirmViewController: UIViewController {
                 
                 // here's the magic
                 if self.sendAmount <= oldUserBalance && self.sendAmount > 0 {
+                    
+                    // P.S. the sendAmount > 0 should always pass since there will be validation elsewhere. However, suggest leaving it in as it doesn't hurt and if the FE validation ever breaks for whatever reason, allowing sendAmount < 0 would be a catastrophic security issue i.e. a useful failsafe
                     
                     let newUserBalance = oldUserBalance - self.sendAmount
                     let newRecipientBalance = oldRecipientBalance + self.sendAmount
