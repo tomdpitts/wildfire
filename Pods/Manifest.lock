@@ -1,4 +1,16 @@
 PODS:
+  - Adyen (2.5.0):
+    - Adyen/Card (= 2.5.0)
+    - Adyen/Core (= 2.5.0)
+    - Adyen/SEPA (= 2.5.0)
+  - Adyen/Card (2.5.0):
+    - Adyen/Core
+  - Adyen/Core (2.5.0):
+    - AdyenInternal (= 2.5.0)
+  - Adyen/SEPA (2.5.0):
+    - Adyen/Core
+  - AdyenInternal (2.5.0)
+  - Alamofire (4.8.1)
   - Bolts (1.9.0):
     - Bolts/AppLinks (= 1.9.0)
     - Bolts/Tasks (= 1.9.0)
@@ -174,11 +186,14 @@ PODS:
   - SDWebImage (4.4.4):
     - SDWebImage/Core (= 4.4.4)
   - SDWebImage/Core (4.4.4)
+  - SwiftyJSON (4.2.0)
   - TwitterCore (3.2.0)
   - TwitterKit (3.4.2):
     - TwitterCore (>= 3.2.0)
 
 DEPENDENCIES:
+  - Adyen
+  - Alamofire
   - CryptoSwift
   - Firebase/Analytics
   - Firebase/Auth
@@ -186,9 +201,13 @@ DEPENDENCIES:
   - Firebase/Database
   - Firebase/Firestore
   - FirebaseUI
+  - SwiftyJSON
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
+    - Adyen
+    - AdyenInternal
+    - Alamofire
     - Bolts
     - BoringSSL-GRPC
     - CryptoSwift
@@ -215,10 +234,14 @@ SPEC REPOS:
     - nanopb
     - Protobuf
     - SDWebImage
+    - SwiftyJSON
     - TwitterCore
     - TwitterKit
 
 SPEC CHECKSUMS:
+  Adyen: 39006598ca0cb4daf3a00ac196de84ce61da846f
+  AdyenInternal: 503d83c9f2ccc5403b960877a1dade881415c5a3
+  Alamofire: 16ce2c353fb72865124ddae8a57c5942388f4f11
   Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
   BoringSSL-GRPC: 2a230d9cd93e7ce39916044f645cebb31f37dde6
   CryptoSwift: ff68c35a53e03177d31aaa2c1e8b3e010aeed6cb
@@ -245,9 +268,10 @@ SPEC CHECKSUMS:
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
   Protobuf: 1eb9700044745f00181c136ef21b8ff3ad5a0fd5
   SDWebImage: c00ec18ab25d10e5ffac109b0f78d1b4341c9691
+  SwiftyJSON: c4bcba26dd9ec7a027fc8eade48e2c911f229e96
   TwitterCore: 8cbc9ad34d91c63a0035ea05bfbfc0d7ca72a28c
   TwitterKit: 5e4f41d70b9abdb41df5467f52d7aa2c0fd26ebb
 
-PODFILE CHECKSUM: 62b4a8b01704d93908720978141ea61ab9ed0e42
+PODFILE CHECKSUM: cfc6d22f249cfbef999519ffd84dd4f16d5b6abd
 
 COCOAPODS: 1.5.3

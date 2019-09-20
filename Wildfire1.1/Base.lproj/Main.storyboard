@@ -265,6 +265,34 @@
             </objects>
             <point key="canvasLocation" x="4103" y="-322"/>
         </scene>
+        <!--Payment Setup View Controller-->
+        <scene sceneID="wPf-FA-8fR">
+            <objects>
+                <viewController id="el8-WD-CPR" customClass="PaymentSetupViewController" customModule="Wildfire1_1" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="OwD-Q3-WWs">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="b7w-Tu-qzu">
+                                <rect key="frame" x="180.66666666666666" y="353" width="53" height="30"/>
+                                <state key="normal" title="Refresh"/>
+                                <connections>
+                                    <action selector="refresh:" destination="el8-WD-CPR" eventType="touchUpInside" id="Ahy-xQ-L25"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="b7w-Tu-qzu" firstAttribute="centerX" secondItem="OwD-Q3-WWs" secondAttribute="centerX" id="UMN-d6-b0Q"/>
+                            <constraint firstItem="b7w-Tu-qzu" firstAttribute="centerY" secondItem="OwD-Q3-WWs" secondAttribute="centerY" id="swp-xT-teC"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="9ii-VS-xwx"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="iwB-p0-SLX" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4102.898550724638" y="490.76086956521743"/>
+        </scene>
         <!--Receive-->
         <scene sceneID="wg7-f3-ORb">
             <objects>
@@ -373,6 +401,14 @@
                                 <state key="normal" title="Go to Login"/>
                                 <connections>
                                     <action selector="goToLogin:" destination="a8f-Xp-OGW" eventType="touchUpInside" id="XEZ-iE-dR5"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NrU-I3-Jiv">
+                                <rect key="frame" x="184" y="495" width="46" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <connections>
+                                    <segue destination="el8-WD-CPR" kind="show" id="ruc-aj-d7j"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -747,7 +783,6 @@
         <image name="icons8-paper-plane-50" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="meC-ae-eDF"/>
         <segue reference="uFv-8x-UrP"/>
         <segue reference="gEc-DY-rvW"/>
     </inferredMetricsTieBreakers>
