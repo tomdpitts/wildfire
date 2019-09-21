@@ -9,6 +9,7 @@
 import UIKit
 import Alamofire
 import SwiftyJSON
+import Adyen
 
 class PaymentSetupViewController: UIViewController {
 
@@ -53,23 +54,27 @@ class PaymentSetupViewController: UIViewController {
         networkingClient.executePost(url: urlToExecute) { (json, error) in
             if let error = error {
                 print(error.localizedDescription)
-                print("vc side error")
             } else if let json = json {
                 print(json.description)
-                print("vc side json came back")
+        
+//                let paymentMethods = try JSONDecoder().decode(PaymentMethods.self, from: paymentMethodsResponse)
+//
+//                let configuration = DropInComponent.PaymentMethodsConfiguration()
+//                configuration.card.publicKey = "..." // Your public key, retrieved from the Customer Area.
+//                // Check specific payment method pages to confirm if you need to configure additional required parameters.
+//                // For example, to enable the Card form, you need to provide your Client Encryption Public Key.
+//
+//
+//                let dropInComponent = DropInComponent(paymentMethods: paymentMethods,
+//                                                      paymentMethodsConfiguration: configuration)
+//                dropInComponent.delegate = self
+//                dropInComponent.environment = .test
+//                // When you're ready to go live, change this to .live
+//                // or to other environment values described in https://adyen.github.io/adyen-ios/Docs/Structs/Environment.html
+//                present(dropInComponent.viewController, animated: true)
+
             }
         }
-        
-        
-//        Alamofire.request("https://checkout-test.adyen.com/v49/paymentMethods", method: .post).responseJSON { (response) -> Void in
-//            // Check if the result has a value
-//            if let JSON = response.result.value {
-//                print(JSON)
-//            }
-//        }
-        
-        
-        
         
         
     }
