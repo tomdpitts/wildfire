@@ -1,0 +1,66 @@
+{
+  "_from": "mangopay2-nodejs-sdk",
+  "_id": "mangopay2-nodejs-sdk@1.10.0",
+  "_inBundle": false,
+  "_integrity": "sha512-7mkvfr0qyub0enky0Sqql1WFSz4ea7wTkOHufxs4u6Kf1xfKJmxv5qXC+28Ei+WTxjWdmrHhF64lvO/lyACIMQ==",
+  "_location": "/mangopay2-nodejs-sdk",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "mangopay2-nodejs-sdk",
+    "name": "mangopay2-nodejs-sdk",
+    "escapedName": "mangopay2-nodejs-sdk",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/mangopay2-nodejs-sdk/-/mangopay2-nodejs-sdk-1.10.0.tgz",
+  "_shasum": "663a83baff8d1d88c25057bb3c9cf3b78c07cfa4",
+  "_spec": "mangopay2-nodejs-sdk",
+  "_where": "/Users/Tom/Projects/Wildfire1.1",
+  "bugs": {
+    "url": "https://github.com/Mangopay/mangopay2-nodejs-sdk/issues"
+  },
+  "bundleDependencies": false,
+  "dependencies": {
+    "node-rest-client": "1.8.x",
+    "promise": "7.1.x",
+    "underscore": "1.8.x"
+  },
+  "deprecated": false,
+  "description": "Mangopay Node.js SDK",
+  "devDependencies": {
+    "chai": "3.5.x",
+    "mocha": "^6.2.0",
+    "sinon": "^1.17.3"
+  },
+  "engines": {
+    "node": ">= v0.10.0"
+  },
+  "homepage": "https://github.com/Mangopay/mangopay2-nodejs-sdk#readme",
+  "keywords": [
+    "mangopay",
+    "nodejs",
+    "sdk",
+    "credit cards",
+    "api"
+  ],
+  "license": "MIT",
+  "main": "./index.js",
+  "name": "mangopay2-nodejs-sdk",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mangopay/mangopay2-nodejs-sdk.git"
+  },
+  "scripts": {
+    "documentation": "jsdox -t docs/templates/ -i README -o docs lib/services",
+    "start": "npm install -g mocha && npm install -g jsdox && npm install",
+    "test": "mocha"
+  },
+  "version": "1.10.0"
+}
