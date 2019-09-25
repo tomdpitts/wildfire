@@ -339,7 +339,7 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-Wildfire1.1/Pods-Wildfire1.1-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Adyen/Adyen.framework",
-				"${BUILT_PRODUCTS_DIR}/AdyenInternal/AdyenInternal.framework",
+				"${PODS_ROOT}/Adyen3DS2/Dynamic/Adyen3DS2.framework",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
 				"${BUILT_PRODUCTS_DIR}/BoringSSL-GRPC/openssl_grpc.framework",
@@ -364,7 +364,7 @@
 			);
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Adyen.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AdyenInternal.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Adyen3DS2.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Bolts.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/openssl_grpc.framework",

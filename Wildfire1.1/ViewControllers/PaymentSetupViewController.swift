@@ -11,13 +11,17 @@ import Alamofire
 import SwiftyJSON
 import Adyen
 
+
+
 class PaymentSetupViewController: UIViewController {
 
     private let networkingClient = NetworkingClient()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
     }
+
 //        Alamofire.request("https://codewithchris.com/code/afsample.json",
 //                          method: .post
 //            ).responseJSON { (response) -> Void in
@@ -52,26 +56,48 @@ class PaymentSetupViewController: UIViewController {
         }
         
         networkingClient.executePost(url: urlToExecute) { (json, error) in
+            var jsonData: Data!
+            
             if let error = error {
                 print(error.localizedDescription)
             } else if let json = json {
                 print(json.description)
         
-//                let paymentMethods = try JSONDecoder().decode(PaymentMethods.self, from: paymentMethodsResponse)
-//
-//                let configuration = DropInComponent.PaymentMethodsConfiguration()
-//                configuration.card.publicKey = "..." // Your public key, retrieved from the Customer Area.
-//                // Check specific payment method pages to confirm if you need to configure additional required parameters.
-//                // For example, to enable the Card form, you need to provide your Client Encryption Public Key.
-//
-//
-//                let dropInComponent = DropInComponent(paymentMethods: paymentMethods,
-//                                                      paymentMethodsConfiguration: configuration)
-//                dropInComponent.delegate = self
-//                dropInComponent.environment = .test
-//                // When you're ready to go live, change this to .live
-//                // or to other environment values described in https://adyen.github.io/adyen-ios/Docs/Structs/Environment.html
-//                present(dropInComponent.viewController, animated: true)
+                do {
+                    
+                    if let jsonDataObject = try? JSONSerialization.data(withJSONObject: json, options: []) {
+                        jsonData = jsonDataObject
+                    } else {
+                        return
+                    }
+                    
+                    
+                    let paymentMethods = try JSONDecoder().decode(PaymentMethods.self, from: jsonData)
+
+                    let configuration = DropInComponent.PaymentMethodsConfiguration()
+                    configuration.card.publicKey = "..." // Your public key, retrieved from the Customer Area.
+                    // Check specific payment method pages to confirm if you need to configure additional required parameters.
+                    // For example, to enable the Card form, you need to provide your Client Encryption Public Key.
+
+
+                    let dropInComponent = DropInComponent(paymentMethods: paymentMethods,
+                                                          paymentMethodsConfiguration: configuration)
+                    dropInComponent.delegate = self as? DropInComponentDelegate
+                    dropInComponent.environment = .test
+                    // When you're ready to go live, change this to .live
+                    // or to other environment values described in https://adyen.github.io/adyen-ios/Docs/Structs/Environment.html
+                    self.present(dropInComponent.viewController, animated: true)
+                } catch {
+                    print("error", error)
+                }
+                
+                func didSubmit(_ data: PaymentComponentData, from component: DropInComponent) {
+                    print("didSubmit")
+                }
+                
+                func didFail(with error: Error, from component: DropInComponent) {
+                    print("didFail")
+                }
 
             }
         }
@@ -80,5 +106,19 @@ class PaymentSetupViewController: UIViewController {
     }
     
     
+    
+    
+    
+    
 
+}
+
+extension Array {
+    public func toDictionary<Key: Hashable>(with selectKey: (Element) -> Key) -> [Key:Element] {
+        var dict = [Key:Element]()
+        for element in self {
+            dict[selectKey(element)] = element
+        }
+        return dict
+    }
 }

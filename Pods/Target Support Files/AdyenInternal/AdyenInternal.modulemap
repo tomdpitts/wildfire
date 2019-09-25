@@ -1,6 +1,0 @@
-framework module AdyenInternal {
-  umbrella header "AdyenInternal-umbrella.h"
-
-  export *
-  module * { export * }
-}

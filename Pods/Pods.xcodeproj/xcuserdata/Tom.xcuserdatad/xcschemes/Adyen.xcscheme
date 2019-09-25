@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "BA6B0F7F0FD2AD35369D9B3A6E27B8F7"
+               BlueprintIdentifier = "1B89AE662BBF64E24B7B90B713F6F802"
                BlueprintName = "Adyen"
                ReferencedContainer = "container:Pods.xcodeproj"
                BuildableName = "Adyen.framework">

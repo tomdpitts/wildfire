@@ -155,7 +155,7 @@ class ConfirmViewController: UIViewController {
     }
     
     func getUserBalance() {
-        
+        // check this func doesn't crash if the user hasn't made an account yet!
         let uid = Auth.auth().currentUser!.uid
         let docRef = self.db.collection("users").document(uid)
         

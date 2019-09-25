@@ -10,6 +10,7 @@
 #endif
 #endif
 
+#import "ObjC_CardEncryptor.h"
 
 FOUNDATION_EXPORT double AdyenVersionNumber;
 FOUNDATION_EXPORT const unsigned char AdyenVersionString[];

@@ -13,7 +13,7 @@ pod 'Firebase/Auth'
 pod 'Firebase/Database'
 pod 'Firebase/Firestore'
 pod 'CryptoSwift'
-pod 'Adyen'
+pod 'Adyen', '>3.0'
 pod 'Alamofire'
 pod 'SwiftyJSON'
   target 'Wildfire1.1Tests' do

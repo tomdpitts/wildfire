@@ -12,7 +12,7 @@ import SwiftyJSON
 
 class NetworkingClient {
     
-    typealias WebServiceResponse = ([[String: Any]]?, Error?) -> Void
+    typealias WebServiceResponse = ([String: Any]?, Error?) -> Void
     
     func executePost(url: URL, completion: @escaping WebServiceResponse) {
         
@@ -37,10 +37,10 @@ class NetworkingClient {
         Alamofire.request(url, method: .post, parameters: body, encoding: JSONEncoding.default, headers: headers).validate().responseJSON { response in
             if let error = response.error {
                 completion(nil, error)
-            } else if let jsonArray = response.result.value as? [[String:Any]] {
-                completion(jsonArray, nil)
+//            } else if let jsonArray = response.result.value as? [[String:Any]] {
+//                completion(jsonArray, nil)
             } else if let jsonDict = response.result.value as? [String: Any] {
-                completion([jsonDict], nil)
+                completion(jsonDict, nil)
 
             }
         }
