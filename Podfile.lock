@@ -33,6 +33,9 @@ PODS:
   - Firebase/Firestore (5.16.0):
     - Firebase/CoreOnly
     - FirebaseFirestore (= 1.0.0)
+  - Firebase/Functions (5.16.0):
+    - Firebase/CoreOnly
+    - FirebaseFunctions (= 2.2.0)
   - Firebase/Storage (5.16.0):
     - Firebase/CoreOnly
     - FirebaseStorage (= 3.1.0)
@@ -72,6 +75,10 @@ PODS:
     - leveldb-library (~> 1.20)
     - nanopb (~> 0.3.901)
     - Protobuf (~> 3.1)
+  - FirebaseFunctions (2.2.0):
+    - FirebaseAuthInterop (~> 1.0)
+    - FirebaseCore (~> 5.2)
+    - GTMSessionFetcher/Core (~> 1.1)
   - FirebaseInstanceID (3.4.0):
     - FirebaseCore (~> 5.2)
     - GoogleUtilities/Environment (~> 5.3)
@@ -166,6 +173,7 @@ PODS:
   - gRPC-Core/Interface (1.17.0)
   - GTMSessionFetcher/Core (1.2.1)
   - leveldb-library (1.20)
+  - mangopay (1.0.2)
   - nanopb (0.3.901):
     - nanopb/decode (= 0.3.901)
     - nanopb/encode (= 0.3.901)
@@ -188,7 +196,9 @@ DEPENDENCIES:
   - Firebase/Core
   - Firebase/Database
   - Firebase/Firestore
+  - Firebase/Functions
   - FirebaseUI
+  - mangopay
   - SwiftyJSON
 
 SPEC REPOS:
@@ -206,6 +216,7 @@ SPEC REPOS:
     - FirebaseCore
     - FirebaseDatabase
     - FirebaseFirestore
+    - FirebaseFunctions
     - FirebaseInstanceID
     - FirebaseStorage
     - FirebaseUI
@@ -217,6 +228,7 @@ SPEC REPOS:
     - gRPC-Core
     - GTMSessionFetcher
     - leveldb-library
+    - mangopay
     - nanopb
     - Protobuf
     - SDWebImage
@@ -238,6 +250,7 @@ SPEC CHECKSUMS:
   FirebaseCore: ea2d1816723ef21492b8e9113303e1350db5e08c
   FirebaseDatabase: 23acb0c53cd4d4070a427b60100b2e4aaa97c45d
   FirebaseFirestore: 6f2b93b4f7bb8416628142763c91ccc00fa04c86
+  FirebaseFunctions: f35dd01ba4cfd036c1c521b3ed99851d7ec08c70
   FirebaseInstanceID: 97ea7a5dca9afd72c79bfcdddb7a44aa1cbb42a1
   FirebaseStorage: 29075f874c2b3cf61e5221a62c4ceefc809e5412
   FirebaseUI: 09519bf436a055cd696bf68687d624423150e4c0
@@ -249,6 +262,7 @@ SPEC CHECKSUMS:
   gRPC-Core: 4028031ed2c5267cca0d846c876d8046b1ecb9b6
   GTMSessionFetcher: 32aeca0aa144acea523e1c8e053089dec2cb98ca
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
+  mangopay: c8005077cfd2b6813b99d52a4cd78238eb1082e7
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
   Protobuf: 1eb9700044745f00181c136ef21b8ff3ad5a0fd5
   SDWebImage: c00ec18ab25d10e5ffac109b0f78d1b4341c9691
@@ -256,6 +270,6 @@ SPEC CHECKSUMS:
   TwitterCore: 8cbc9ad34d91c63a0035ea05bfbfc0d7ca72a28c
   TwitterKit: 5e4f41d70b9abdb41df5467f52d7aa2c0fd26ebb
 
-PODFILE CHECKSUM: 059f90a8d88ce0ca9c616392ca1a944725f24dea
+PODFILE CHECKSUM: e1e4db12d515fb223998e5c871210db63571a0b3
 
 COCOAPODS: 1.5.3

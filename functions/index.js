@@ -15,7 +15,6 @@ const api = new mangopay({
                        // baseUrl: 'https://api.mangopay.com'
                        });
 
-
 admin.initializeApp(functions.config().firebase);
 
 // // Cloud Functions Reference
@@ -24,12 +23,60 @@ admin.initializeApp(functions.config().firebase);
 // Each function requires its own exports.customFunction
 
 
-// When a user is created, register them with Stripe
+  // When a user is created, register them with MangoPay and add an empty PaymentMethods collection
 exports.createMangopayCustomer = functions.region('europe-west1').auth.user().onCreate(async (user) => {
-                                                                const customer = await api.Users.create({PersonType: "NATURAL", FirstName: "Sam", LastName: "Tan", Birthday: 1463496101, Nationality: "GB", CountryOfResidence: "FR", Email: "sam@tan.com"});
+
+  var firstname = ""
+  var lastname = ""
+  var email = ""
+  var birthday = 1463496101
+  var nationality = "GB"
+  var residence = "FR"
+
+  await admin.firestore().collection('users').doc(user.uid).get().then(doc => {
+    userData = doc.data();
+    firstname = userData.firstname;
+    lastname = userData.lastname;
+    email = userData.email;
+    return
+  })
+  .catch(err => {
+    console.log('Error getting document', err);
+  });
+
+  const customer = await api.Users.create({PersonType: "NATURAL", FirstName: firstname, LastName: lastname, Birthday: birthday, Nationality: nationality, CountryOfResidence: residence, Email: email});
+
   return admin.firestore().collection('users').doc(user.uid).update({mangopay_id: customer.Id});
   });
 
+  // When user adds a new payment method, a) create a MangoPay wallet, b) create a Card Registration Object, and c) save the card token
+  exports.createPaymentMethodHTTPS = functions.region('europe-west1').https.onCall( async (data, context) => {
+    var mangopay_id = []
+    const walletName = data.text
+
+    await admin.firestore().collection('users').doc(user.uid).get().then(doc => {
+      userData = doc.data();
+      mangopay_id.push(userData.mangopay_id);
+      return
+    })
+    .catch(err => {
+      console.log('Error getting userID', err);
+    });
+
+    const wallet = await api.Wallets.create({Owners: mangopay_id, Description: walletName, Currency: "EUR"});
+
+    return admin.firestore().collection('users').doc(user.uid).collection('wallets').doc({wallet_id: wallet.Id}).set({
+      created: wallet.CreationDate,
+      balance: wallet.Balance["Amount"],
+      description: wallet.Description,
+      currency: wallet.Currency
+    })
+    .catch(err => {
+      console.log('Error saving to database', err);
+    });
+
+    // transaction history should be dealt with later and the .set() method should handle the collection creation without any need to build it in now
+  });
 //
 
 //// Add a payment source (card) for a user by writing a stripe payment source token to Realtime database
@@ -122,5 +169,3 @@ exports.createMangopayCustomer = functions.region('europe-west1').auth.user().on
 // })
 
 // Since all users exist in the database as a kind of duplicate of the User list, when a user deletes their account, rather than delete the record we're just adding an isDeleted flag - if the user ever wants to return their data is still available
-
-

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="5ui-FC-2iH">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="49e-Tb-3d3">
     <device id="retina5_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -222,6 +222,8 @@
                         <outlet property="recipientImage" destination="ivw-h8-kIN" id="USc-Jg-pwB"/>
                         <outlet property="recipientLabel" destination="kXE-NH-Vf1" id="vK4-xm-L5P"/>
                         <segue destination="8l2-Jz-j6e" kind="presentation" identifier="showSuccessScreen" id="meC-ae-eDF"/>
+                        <segue destination="5ui-FC-2iH" kind="show" identifier="goToLogin" id="SZ6-Gz-xE1"/>
+                        <segue destination="el8-WD-CPR" kind="show" identifier="goToPaymentSetup" id="7l4-N5-uFd"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="q7J-kP-T3J" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -273,23 +275,54 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="b7w-Tu-qzu">
-                                <rect key="frame" x="180.66666666666666" y="353" width="53" height="30"/>
-                                <state key="normal" title="Refresh"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bIV-Xa-Sgp">
+                                <rect key="frame" x="69" y="115.66666666666669" width="34" height="30"/>
+                                <state key="normal" title="Back"/>
                                 <connections>
-                                    <action selector="refresh:" destination="el8-WD-CPR" eventType="touchUpInside" id="Ahy-xQ-L25"/>
+                                    <segue destination="dsM-hR-u4K" kind="unwind" unwindAction="unwindToSignUp:" id="02Y-BG-Xzi"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="61w-np-SVY">
+                                <rect key="frame" x="37" y="37" width="98" height="46.666666666666657"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="40"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" axis="vertical" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="MG4-qs-hnE">
+                                <rect key="frame" x="20" y="220" width="374" height="115"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="u23-DQ-eRY">
+                                        <rect key="frame" x="0.0" y="0.0" width="374" height="50"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="Yox-Dp-Vwe"/>
+                                        </constraints>
+                                        <state key="normal" title="Credit or Debit card"/>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Drb-I7-dCN">
+                                        <rect key="frame" x="0.0" y="65" width="374" height="50"/>
+                                        <state key="normal" title="PayPal"/>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="Drb-I7-dCN" firstAttribute="height" secondItem="u23-DQ-eRY" secondAttribute="height" id="OgV-Yt-MG5"/>
+                                </constraints>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="b7w-Tu-qzu" firstAttribute="centerX" secondItem="OwD-Q3-WWs" secondAttribute="centerX" id="UMN-d6-b0Q"/>
-                            <constraint firstItem="b7w-Tu-qzu" firstAttribute="centerY" secondItem="OwD-Q3-WWs" secondAttribute="centerY" id="swp-xT-teC"/>
+                            <constraint firstItem="61w-np-SVY" firstAttribute="top" secondItem="9ii-VS-xwx" secondAttribute="top" constant="17" id="8aS-NP-gwW"/>
+                            <constraint firstItem="MG4-qs-hnE" firstAttribute="leading" secondItem="9ii-VS-xwx" secondAttribute="leading" constant="20" id="Lgb-t8-nJt"/>
+                            <constraint firstItem="bIV-Xa-Sgp" firstAttribute="top" secondItem="61w-np-SVY" secondAttribute="bottom" constant="32" id="OQr-gY-iRo"/>
+                            <constraint firstItem="MG4-qs-hnE" firstAttribute="centerX" secondItem="OwD-Q3-WWs" secondAttribute="centerX" id="UkR-2o-2yc"/>
+                            <constraint firstItem="9ii-VS-xwx" firstAttribute="trailing" secondItem="MG4-qs-hnE" secondAttribute="trailing" constant="20" id="e3w-Bo-vsK"/>
+                            <constraint firstItem="bIV-Xa-Sgp" firstAttribute="centerX" secondItem="61w-np-SVY" secondAttribute="centerX" id="pub-Dx-G4T"/>
+                            <constraint firstItem="61w-np-SVY" firstAttribute="leading" secondItem="9ii-VS-xwx" secondAttribute="leading" constant="37" id="yc3-yv-gQy"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="9ii-VS-xwx"/>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iwB-p0-SLX" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="dsM-hR-u4K" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="4102.898550724638" y="490.76086956521743"/>
         </scene>
@@ -429,7 +462,7 @@
                     <tabBarItem key="tabBarItem" title="Account" image="icons8-encrypt-50" id="4H4-bh-m9b"/>
                     <connections>
                         <outlet property="accountBalance" destination="aNa-nh-Xuv" id="LKX-kf-ZmI"/>
-                        <segue destination="5ui-FC-2iH" kind="custom" identifier="goToLogin" customClass="SegueFromLeft" customModule="Wildfire1_1" customModuleProvider="target" id="zvn-fx-uIz"/>
+                        <segue destination="5ui-FC-2iH" kind="show" identifier="goToLogin" id="zvn-fx-uIz"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vQQ-7h-bU5" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -444,7 +477,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleAspectFill" axis="vertical" alignment="center" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="2SQ-Hf-R0W">
+                            <stackView opaque="NO" contentMode="scaleAspectFill" axis="vertical" alignment="center" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="2SQ-Hf-R0W" userLabel="Headline Stack view">
                                 <rect key="frame" x="44.666666666666657" y="345.33333333333331" width="324.66666666666674" height="45.666666666666686"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome to Wildfire" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bvw-Ks-USe">
@@ -465,14 +498,14 @@
                                         </constraints>
                                         <state key="normal" title="Log in"/>
                                         <connections>
-                                            <segue destination="qDH-ht-Uez" kind="custom" identifier="startToExistingUser" customClass="SegueFromRight" customModule="Wildfire1_1" customModuleProvider="target" id="q30-yN-J8d"/>
+                                            <segue destination="qDH-ht-Uez" kind="show" identifier="startToExistingUser" id="q30-yN-J8d"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TwO-Ty-sor">
                                         <rect key="frame" x="0.0" y="70" width="334" height="50"/>
                                         <state key="normal" title="Sign up"/>
                                         <connections>
-                                            <segue destination="ng8-iT-cq6" kind="custom" identifier="startToSignUp" customClass="SegueFromRight" customModule="Wildfire1_1" customModuleProvider="target" id="uGv-JX-EDr"/>
+                                            <segue destination="ng8-iT-cq6" kind="show" identifier="startToSignUp" id="uGv-JX-EDr"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -480,29 +513,12 @@
                                     <constraint firstItem="H2I-AD-2Rx" firstAttribute="height" secondItem="TwO-Ty-sor" secondAttribute="height" id="A6B-BC-ZXw"/>
                                 </constraints>
                             </stackView>
-                            <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xPd-7X-fnj">
-                                <rect key="frame" x="150" y="70" width="114" height="64"/>
-                                <color key="backgroundColor" red="0.39595284279999998" green="0.82167177199999997" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <rect key="contentStretch" x="0.0" y="0.0" width="0.45000000000000001" height="1"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="64" id="MzS-hR-wmv"/>
-                                </constraints>
-                                <state key="normal" title="Skip to Pay">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </state>
-                                <connections>
-                                    <action selector="skipToPay:" destination="yQS-kr-M4m" eventType="touchUpInside" id="8eZ-Ko-9V7"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="BrI-wM-DKr" firstAttribute="trailing" secondItem="7S3-OJ-d2S" secondAttribute="trailing" constant="40" id="1ty-tN-9h0"/>
-                            <constraint firstItem="xPd-7X-fnj" firstAttribute="top" secondItem="BrI-wM-DKr" secondAttribute="top" constant="50" id="2pe-f1-bHj"/>
                             <constraint firstItem="7S3-OJ-d2S" firstAttribute="leading" secondItem="BrI-wM-DKr" secondAttribute="leading" constant="40" id="8ln-C7-Xpb"/>
-                            <constraint firstItem="xPd-7X-fnj" firstAttribute="centerX" secondItem="2SQ-Hf-R0W" secondAttribute="centerX" id="OCN-Ql-xff"/>
                             <constraint firstItem="2SQ-Hf-R0W" firstAttribute="centerY" secondItem="nB8-In-hDd" secondAttribute="centerY" id="VKx-Yj-IRm"/>
-                            <constraint firstItem="xPd-7X-fnj" firstAttribute="leading" secondItem="BrI-wM-DKr" secondAttribute="leading" constant="150" id="ieq-e7-DIT"/>
                             <constraint firstItem="2SQ-Hf-R0W" firstAttribute="centerX" secondItem="nB8-In-hDd" secondAttribute="centerX" id="s4K-ib-we1"/>
                             <constraint firstItem="BrI-wM-DKr" firstAttribute="bottom" secondItem="7S3-OJ-d2S" secondAttribute="bottom" constant="40" id="sqk-sT-Ug0"/>
                         </constraints>
@@ -512,12 +528,11 @@
                     <connections>
                         <outlet property="logInButton" destination="H2I-AD-2Rx" id="UH9-fL-9Pk"/>
                         <outlet property="signUpButton" destination="TwO-Ty-sor" id="pSQ-wp-YVj"/>
-                        <segue destination="WJV-KB-iYY" kind="show" identifier="skipToPay" id="jUv-FN-3J2"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Btc-ql-F5t" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1378.2608695652175" y="0.0"/>
+            <point key="canvasLocation" x="3484" y="1693"/>
         </scene>
         <!--Existing User View Controller-->
         <scene sceneID="EnF-7e-Yar">
@@ -549,7 +564,7 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="162" height="50"/>
                                                 <state key="normal" title="Back"/>
                                                 <connections>
-                                                    <segue destination="yQS-kr-M4m" kind="custom" identifier="existingBackToStart" customClass="SegueFromLeft" customModule="Wildfire1_1" customModuleProvider="target" id="gEc-DY-rvW"/>
+                                                    <segue destination="dPl-kN-K2A" kind="unwind" unwindAction="unwindToLogin:" id="zV7-IM-oUs"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SZw-kQ-XnY">
@@ -597,8 +612,9 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dZy-PL-zJi" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="dPl-kN-K2A" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="-668" y="-240"/>
+            <point key="canvasLocation" x="4194" y="1453"/>
         </scene>
         <!--Sign Up View Controller-->
         <scene sceneID="Cm3-f6-zwv">
@@ -642,7 +658,7 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="182" height="50"/>
                                                 <state key="normal" title="Back"/>
                                                 <connections>
-                                                    <segue destination="yQS-kr-M4m" kind="custom" identifier="signUpBackToStart" customClass="SegueFromLeft" customModule="Wildfire1_1" customModuleProvider="target" id="nPz-A0-7y4"/>
+                                                    <segue destination="X8S-4y-iHL" kind="unwind" unwindAction="unwindToLogin:" id="kiC-xC-pOf"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6cx-Ht-aQQ">
@@ -650,7 +666,7 @@
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="50" id="xGy-e6-f9C"/>
                                                 </constraints>
-                                                <state key="normal" title="Sign up"/>
+                                                <state key="normal" title="Next (1/2)"/>
                                                 <connections>
                                                     <action selector="signUpTapped:" destination="ng8-iT-cq6" eventType="touchUpInside" id="Fv5-TS-gdf"/>
                                                 </connections>
@@ -694,11 +710,13 @@
                         <outlet property="lastName" destination="lRS-13-gBD" id="hCp-UD-iH7"/>
                         <outlet property="password" destination="GGf-Th-IJP" id="sCh-sE-njf"/>
                         <outlet property="signUpButton" destination="6cx-Ht-aQQ" id="Sw6-tP-skX"/>
+                        <segue destination="el8-WD-CPR" kind="show" identifier="goToStep2" id="glY-7p-FZI"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iR5-UQ-hR3" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="X8S-4y-iHL" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="-668" y="431"/>
+            <point key="canvasLocation" x="4194" y="2124"/>
         </scene>
         <!--Home View Controller-->
         <scene sceneID="5xd-Dx-yS6">
@@ -773,7 +791,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PBa-lY-zi7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2136" y="0.0"/>
+            <point key="canvasLocation" x="2725" y="1693"/>
         </scene>
     </scenes>
     <resources>
@@ -783,7 +801,8 @@
         <image name="icons8-paper-plane-50" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="SZ6-Gz-xE1"/>
         <segue reference="uFv-8x-UrP"/>
-        <segue reference="gEc-DY-rvW"/>
+        <segue reference="glY-7p-FZI"/>
     </inferredMetricsTieBreakers>
 </document>

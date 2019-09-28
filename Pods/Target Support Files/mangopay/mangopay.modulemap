@@ -1,0 +1,6 @@
+framework module mangopay {
+  umbrella header "mangopay-umbrella.h"
+
+  export *
+  module * { export * }
+}
