@@ -276,20 +276,20 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bIV-Xa-Sgp">
-                                <rect key="frame" x="69" y="115.66666666666669" width="34" height="30"/>
+                                <rect key="frame" x="141.33333333333334" y="115.66666666666669" width="34" height="30"/>
                                 <state key="normal" title="Back"/>
                                 <connections>
                                     <segue destination="dsM-hR-u4K" kind="unwind" unwindAction="unwindToSignUp:" id="02Y-BG-Xzi"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="61w-np-SVY">
-                                <rect key="frame" x="37" y="37" width="98" height="46.666666666666657"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add Payment" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="61w-np-SVY">
+                                <rect key="frame" x="37.000000000000014" y="37" width="242.33333333333337" height="46.666666666666657"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="40"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" axis="vertical" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="MG4-qs-hnE">
-                                <rect key="frame" x="20" y="220" width="374" height="115"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="MG4-qs-hnE">
+                                <rect key="frame" x="20" y="220.66666666666663" width="374" height="115"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="u23-DQ-eRY">
                                         <rect key="frame" x="0.0" y="0.0" width="374" height="50"/>
@@ -297,9 +297,12 @@
                                             <constraint firstAttribute="height" constant="50" id="Yox-Dp-Vwe"/>
                                         </constraints>
                                         <state key="normal" title="Credit or Debit card"/>
+                                        <connections>
+                                            <segue destination="lOX-0Y-FSB" kind="show" id="saH-4r-3Gv"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Drb-I7-dCN">
-                                        <rect key="frame" x="0.0" y="65" width="374" height="50"/>
+                                        <rect key="frame" x="0.0" y="65.000000000000028" width="374" height="50"/>
                                         <state key="normal" title="PayPal"/>
                                     </button>
                                 </subviews>
@@ -311,6 +314,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="61w-np-SVY" firstAttribute="top" secondItem="9ii-VS-xwx" secondAttribute="top" constant="17" id="8aS-NP-gwW"/>
+                            <constraint firstItem="MG4-qs-hnE" firstAttribute="top" secondItem="bIV-Xa-Sgp" secondAttribute="bottom" constant="75" id="Ffw-ck-fkG"/>
                             <constraint firstItem="MG4-qs-hnE" firstAttribute="leading" secondItem="9ii-VS-xwx" secondAttribute="leading" constant="20" id="Lgb-t8-nJt"/>
                             <constraint firstItem="bIV-Xa-Sgp" firstAttribute="top" secondItem="61w-np-SVY" secondAttribute="bottom" constant="32" id="OQr-gY-iRo"/>
                             <constraint firstItem="MG4-qs-hnE" firstAttribute="centerX" secondItem="OwD-Q3-WWs" secondAttribute="centerX" id="UkR-2o-2yc"/>
@@ -325,6 +329,54 @@
                 <exit id="dsM-hR-u4K" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="4102.898550724638" y="490.76086956521743"/>
+        </scene>
+        <!--Add Card View Controller-->
+        <scene sceneID="VCM-by-oi1">
+            <objects>
+                <viewController id="lOX-0Y-FSB" customClass="AddCardViewController" customModule="Wildfire1_1" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="OAg-sQ-0Sz">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add Card" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lch-in-v8C">
+                                <rect key="frame" x="37" y="37" width="171.33333333333334" height="47"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="40"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pYK-My-h17">
+                                <rect key="frame" x="37" y="144" width="62" height="30"/>
+                                <state key="normal" title="Add card"/>
+                                <connections>
+                                    <action selector="addCard:" destination="lOX-0Y-FSB" eventType="touchUpInside" id="6nu-hS-8q4"/>
+                                </connections>
+                            </button>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Waiting for results from MangoPay" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="wPz-vK-2Zs">
+                                <rect key="frame" x="37" y="214" width="340" height="30"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="Lch-in-v8C" firstAttribute="leading" secondItem="xwW-7g-PKd" secondAttribute="leading" constant="37" id="BMf-Yp-e1g"/>
+                            <constraint firstItem="wPz-vK-2Zs" firstAttribute="leading" secondItem="xwW-7g-PKd" secondAttribute="leading" constant="37" id="E5S-nK-0Dz"/>
+                            <constraint firstItem="pYK-My-h17" firstAttribute="leading" secondItem="xwW-7g-PKd" secondAttribute="leading" constant="37" id="GDr-UG-PVy"/>
+                            <constraint firstItem="wPz-vK-2Zs" firstAttribute="top" secondItem="pYK-My-h17" secondAttribute="bottom" constant="40" id="IB6-6E-39m"/>
+                            <constraint firstItem="xwW-7g-PKd" firstAttribute="trailing" secondItem="wPz-vK-2Zs" secondAttribute="trailing" constant="37" id="WFE-tc-j92"/>
+                            <constraint firstItem="pYK-My-h17" firstAttribute="top" secondItem="Lch-in-v8C" secondAttribute="bottom" constant="60" id="gBI-ZL-08D"/>
+                            <constraint firstItem="Lch-in-v8C" firstAttribute="top" secondItem="xwW-7g-PKd" secondAttribute="top" constant="17" id="wU9-dq-FFv"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="xwW-7g-PKd"/>
+                    </view>
+                    <connections>
+                        <outlet property="resultField" destination="wPz-vK-2Zs" id="vfG-QE-V72"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="5Kl-Tx-muu" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="5002.898550724638" y="490.76086956521743"/>
         </scene>
         <!--Receive-->
         <scene sceneID="wg7-f3-ORb">
@@ -436,25 +488,44 @@
                                     <action selector="goToLogin:" destination="a8f-Xp-OGW" eventType="touchUpInside" id="XEZ-iE-dR5"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NrU-I3-Jiv">
-                                <rect key="frame" x="184" y="495" width="46" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NrU-I3-Jiv">
+                                <rect key="frame" x="133" y="495" width="148" height="30"/>
+                                <state key="normal" title="Add Payment Method"/>
                                 <connections>
                                     <segue destination="el8-WD-CPR" kind="show" id="ruc-aj-d7j"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Loading Firebase UID..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vfa-fT-ZvN">
+                                <rect key="frame" x="119.00000000000001" y="132.66666666666666" width="176.33333333333337" height="20.333333333333343"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="m1i-FI-BSL">
+                                <rect key="frame" x="181" y="161" width="53" height="30"/>
+                                <state key="normal" title="Refresh"/>
+                                <connections>
+                                    <action selector="refreshUID:" destination="a8f-Xp-OGW" eventType="touchUpInside" id="bp3-MO-7Lh"/>
                                 </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="Ltx-sB-Zog" firstAttribute="centerX" secondItem="SSu-YB-Ieg" secondAttribute="centerX" id="1Lp-T1-yrJ"/>
+                            <constraint firstItem="vfa-fT-ZvN" firstAttribute="centerX" secondItem="NrU-I3-Jiv" secondAttribute="centerX" id="5cl-vC-1m2"/>
+                            <constraint firstItem="m1i-FI-BSL" firstAttribute="centerX" secondItem="vfa-fT-ZvN" secondAttribute="centerX" id="7AZ-Qm-Xek"/>
                             <constraint firstItem="ySe-Vp-N53" firstAttribute="bottom" secondItem="pK9-QK-thn" secondAttribute="bottom" constant="330" id="AXB-lh-PwN"/>
+                            <constraint firstItem="NrU-I3-Jiv" firstAttribute="top" secondItem="Ltx-sB-Zog" secondAttribute="bottom" constant="58" id="OIb-mV-JYB"/>
                             <constraint firstItem="8fs-eO-7Aw" firstAttribute="top" secondItem="ySe-Vp-N53" secondAttribute="top" constant="15" id="PMk-Vc-eWk"/>
                             <constraint firstItem="ySe-Vp-N53" firstAttribute="trailing" secondItem="8fs-eO-7Aw" secondAttribute="trailing" constant="30" id="Pwp-ne-U9R"/>
                             <constraint firstItem="8fs-eO-7Aw" firstAttribute="leading" secondItem="ySe-Vp-N53" secondAttribute="leading" constant="30" id="R02-wL-MkS"/>
                             <constraint firstItem="pK9-QK-thn" firstAttribute="top" secondItem="SSu-YB-Ieg" secondAttribute="top" constant="205" id="UeH-86-UPl"/>
+                            <constraint firstItem="vfa-fT-ZvN" firstAttribute="centerX" secondItem="8fs-eO-7Aw" secondAttribute="centerX" id="X17-vC-Bjh"/>
                             <constraint firstItem="pK9-QK-thn" firstAttribute="centerX" secondItem="SSu-YB-Ieg" secondAttribute="centerX" id="bWl-YR-z1P"/>
                             <constraint firstItem="pK9-QK-thn" firstAttribute="leading" secondItem="ySe-Vp-N53" secondAttribute="leading" constant="124" id="brX-h4-wvr"/>
+                            <constraint firstItem="m1i-FI-BSL" firstAttribute="top" secondItem="vfa-fT-ZvN" secondAttribute="bottom" constant="8" symbolic="YES" id="eMh-8a-tPV"/>
+                            <constraint firstItem="m1i-FI-BSL" firstAttribute="leading" secondItem="ySe-Vp-N53" secondAttribute="leading" constant="181" id="gGD-PG-Zdh"/>
+                            <constraint firstItem="vfa-fT-ZvN" firstAttribute="top" secondItem="8fs-eO-7Aw" secondAttribute="bottom" constant="51" id="hMl-Ve-zLN"/>
                             <constraint firstItem="Ltx-sB-Zog" firstAttribute="top" secondItem="pK9-QK-thn" secondAttribute="bottom" constant="50" id="tMs-8e-Cib"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="ySe-Vp-N53"/>
@@ -462,12 +533,13 @@
                     <tabBarItem key="tabBarItem" title="Account" image="icons8-encrypt-50" id="4H4-bh-m9b"/>
                     <connections>
                         <outlet property="accountBalance" destination="aNa-nh-Xuv" id="LKX-kf-ZmI"/>
+                        <outlet property="uidLabel" destination="vfa-fT-ZvN" id="jLS-uo-ZkV"/>
                         <segue destination="5ui-FC-2iH" kind="show" identifier="goToLogin" id="zvn-fx-uIz"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vQQ-7h-bU5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1657" y="1127"/>
+            <point key="canvasLocation" x="1656.521739130435" y="1126.6304347826087"/>
         </scene>
         <!--Login View Controller-->
         <scene sceneID="ru6-M3-Iim">
@@ -801,8 +873,8 @@
         <image name="icons8-paper-plane-50" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="SZ6-Gz-xE1"/>
+        <segue reference="zvn-fx-uIz"/>
         <segue reference="uFv-8x-UrP"/>
-        <segue reference="glY-7p-FZI"/>
+        <segue reference="ruc-aj-d7j"/>
     </inferredMetricsTieBreakers>
 </document>

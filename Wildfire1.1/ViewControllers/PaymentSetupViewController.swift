@@ -9,7 +9,7 @@
 import UIKit
 import Alamofire
 import SwiftyJSON
-import FirebaseFunctions
+
 import mangopay
 
 
@@ -23,7 +23,7 @@ class PaymentSetupViewController: UIViewController {
         super.viewDidLoad()
     }
 
-    lazy var functions = Functions.functions()
+
     
     
     
@@ -51,7 +51,10 @@ class PaymentSetupViewController: UIViewController {
     
     
     
-    
+    @IBAction func unwindToPaymentSetup(_ unwindSegue: UIStoryboardSegue) {
+        let sourceViewController = unwindSegue.source
+        // Use data from the view controller which initiated the unwind segue
+    }
 
 }
 

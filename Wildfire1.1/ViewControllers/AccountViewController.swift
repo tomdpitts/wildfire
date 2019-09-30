@@ -8,10 +8,13 @@
 
 import UIKit
 import FirebaseDatabase
+import FirebaseAuth
 
 class AccountViewController: UIViewController {
     
     @IBOutlet var accountBalance: UILabel!
+    
+    @IBOutlet weak var uidLabel: UILabel!
     
     // This 'ref' property will hold a firebase database reference
     var ref:DatabaseReference?
@@ -73,6 +76,14 @@ class AccountViewController: UIViewController {
         
         
     }
+    
+    @IBAction func refreshUID(_ sender: Any) {
+        
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        
+        self.uidLabel.text = uid
+    }
+    
     
     @IBAction func goToLogin(_ sender: UIButton) {
         performSegue(withIdentifier: "goToLogin", sender: self)

@@ -26,54 +26,83 @@ admin.initializeApp(functions.config().firebase);
   // When a user is created, register them with MangoPay and add an empty PaymentMethods collection
 exports.createMangopayCustomer = functions.region('europe-west1').auth.user().onCreate(async (user) => {
 
-  var firstname = ""
-  var lastname = ""
-  var email = ""
+  var firstname = ''
+  var lastname = ''
+  var email = ''
   var birthday = 1463496101
-  var nationality = "GB"
-  var residence = "FR"
+  var nationality = 'GB'
+  var residence = 'FR'
 
   await admin.firestore().collection('users').doc(user.uid).get().then(doc => {
     userData = doc.data();
     firstname = userData.firstname;
     lastname = userData.lastname;
     email = userData.email;
+    console.log('firestore returned firstname as:' + userData.firstname)
     return
   })
   .catch(err => {
     console.log('Error getting document', err);
   });
 
-  const customer = await api.Users.create({PersonType: "NATURAL", FirstName: firstname, LastName: lastname, Birthday: birthday, Nationality: nationality, CountryOfResidence: residence, Email: email});
+  console.log('the variable firstname is:' + firstname)
 
-  return admin.firestore().collection('users').doc(user.uid).update({mangopay_id: customer.Id});
+  const customer = await api.Users.create({PersonType: 'NATURAL', FirstName: firstname, LastName: lastname, Birthday: birthday, Nationality: nationality, CountryOfResidence: residence, Email: email});
+
+  return admin.firestore().collection('users').doc(user.uid).update({mangopay_uid: customer.Id});
   });
+
+
+
+
+
+
 
   // When user adds a new payment method, a) create a MangoPay wallet, b) create a Card Registration Object, and c) save the card token
   exports.createPaymentMethodHTTPS = functions.region('europe-west1').https.onCall( async (data, context) => {
+
+    const userid = context.auth.uid
+
     var mangopay_id = []
+    var mangopay_idString = ''
     const walletName = data.text
 
-    await admin.firestore().collection('users').doc(user.uid).get().then(doc => {
+    await admin.firestore().collection('users').doc(userid).get().then(doc => {
       userData = doc.data();
       mangopay_id.push(userData.mangopay_id);
+      mangopay_idString = userData.mangopay_id
       return
     })
     .catch(err => {
       console.log('Error getting userID', err);
     });
 
-    const wallet = await api.Wallets.create({Owners: mangopay_id, Description: walletName, Currency: "EUR"});
+    // create Wallet and CardRegistration objects
 
-    return admin.firestore().collection('users').doc(user.uid).collection('wallets').doc({wallet_id: wallet.Id}).set({
+    const wallet = await api.Wallets.create({Owners: mangopay_id, Description: walletName, Currency: 'EUR'});
+
+    const cardReg = await api.CardRegistrations.create({UserId: mangopay_idString, Currency: 'EUR'})
+
+    // we need to add a Wallet to the user's Firestore record - this will store the card token(s) for repeat payments
+
+    return admin.firestore().collection('users').doc(userid).collection('wallets').doc(wallet.Id).set({
       created: wallet.CreationDate,
-      balance: wallet.Balance["Amount"],
+      balance: wallet.Balance['Amount'],
       description: wallet.Description,
       currency: wallet.Currency
     })
     .catch(err => {
       console.log('Error saving to database', err);
-    });
+    })
+    // this function deals with steps 1-4 outlined here: https://docs.mangopay.com/endpoints/v2.01/cards#e177_the-card-registration-object
+    // we 1) created a wallet using the mangopay_id stored in Firestore, then 2) created a CardRegistration object, and now need to return the CardRegistration object to the client as per the docs
+    .then(() => {
+      console.log('returning: ' + cardReg);
+      // 
+      return cardReg;
+    })
+
+    
 
     // transaction history should be dealt with later and the .set() method should handle the collection creation without any need to build it in now
   });
@@ -91,7 +120,7 @@ exports.createMangopayCustomer = functions.region('europe-west1').auth.user().on
 //   const snapshot = await admin.firestore().collection('stripe_customers').doc(context.params.userId).get();
 //   const customer =  snapshot.data().customer_id;
 //   const response = await stripe.customers.createSource(customer, {source: token});
-//   return admin.firestore().collection('stripe_customers').doc(context.params.userId).collection("sources").doc(response.fingerprint).set(response, {merge: true});
+//   return admin.firestore().collection('stripe_customers').doc(context.params.userId).collection('sources').doc(response.fingerprint).set(response, {merge: true});
 //   } catch (error) {
 //   await snap.ref.set({'error':userFacingMessage(error)},{merge:true});
 //   return reportError(error, {user: context.params.userId});
