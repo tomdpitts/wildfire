@@ -7,8 +7,9 @@ const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 const gcs = require('@google-cloud/storage');
 const mangopay = require('mangopay2-nodejs-sdk');
+const request = require('request');
 
-const api = new mangopay({
+const mpAPI = new mangopay({
                        clientId: 'wildfirewallet',
                        clientApiKey: 'cwSQuWi9RCbnr5Fh5HktxevT9ch0pK3wWUn4t5rHJkCP1KSCiu',
                        // Set the right production API url. If testing, omit the property since it defaults to sandbox URL
@@ -47,9 +48,9 @@ exports.createMangopayCustomer = functions.region('europe-west1').auth.user().on
 
   console.log('the variable firstname is:' + firstname)
 
-  const customer = await api.Users.create({PersonType: 'NATURAL', FirstName: firstname, LastName: lastname, Birthday: birthday, Nationality: nationality, CountryOfResidence: residence, Email: email});
+  const customer = await mpAPI.Users.create({PersonType: 'NATURAL', FirstName: firstname, LastName: lastname, Birthday: birthday, Nationality: nationality, CountryOfResidence: residence, Email: email});
 
-  return admin.firestore().collection('users').doc(user.uid).update({mangopay_uid: customer.Id});
+  return admin.firestore().collection('users').doc(user.uid).update({mangopay_id: customer.Id});
   });
 
 
@@ -67,10 +68,18 @@ exports.createMangopayCustomer = functions.region('europe-west1').auth.user().on
     var mangopay_idString = ''
     const walletName = data.text
 
+    console.log('User ID: ' + userid);
+    console.log('walletName is: ' + walletName);
+
+
     await admin.firestore().collection('users').doc(userid).get().then(doc => {
       userData = doc.data();
       mangopay_id.push(userData.mangopay_id);
-      mangopay_idString = userData.mangopay_id
+      mangopay_idString = userData.mangopay_id;
+
+      console.log(doc.data());
+
+      console.log('MP ID String is: ' + mangopay_idString);
       return
     })
     .catch(err => {
@@ -79,9 +88,13 @@ exports.createMangopayCustomer = functions.region('europe-west1').auth.user().on
 
     // create Wallet and CardRegistration objects
 
-    const wallet = await api.Wallets.create({Owners: mangopay_id, Description: walletName, Currency: 'EUR'});
+    const wallet = await mpAPI.Wallets.create({Owners: mangopay_id, Description: walletName, Currency: 'EUR'});
 
-    const cardReg = await api.CardRegistrations.create({UserId: mangopay_idString, Currency: 'EUR'})
+    console.log('wallet object: ' + wallet);
+
+    const cardReg = await mpAPI.CardRegistrations.create({UserId: mangopay_idString, Currency: 'EUR'});
+
+    console.log('cardReg object is: ' + cardReg);
 
     // we need to add a Wallet to the user's Firestore record - this will store the card token(s) for repeat payments
 
@@ -89,7 +102,9 @@ exports.createMangopayCustomer = functions.region('europe-west1').auth.user().on
       created: wallet.CreationDate,
       balance: wallet.Balance['Amount'],
       description: wallet.Description,
-      currency: wallet.Currency
+      currency: wallet.Currency,
+      // this last line is new
+      card_registration_id: cardReg.Id
     })
     .catch(err => {
       console.log('Error saving to database', err);
@@ -106,6 +121,46 @@ exports.createMangopayCustomer = functions.region('europe-west1').auth.user().on
 
     // transaction history should be dealt with later and the .set() method should handle the collection creation without any need to build it in now
   });
+
+
+
+  exports.addCardRegistration = functions.region('europe-west1').https.onCall( async (data, context) => {
+
+    const userid = context.auth.uid
+
+    var mangopay_id = ''
+    const rd = data.regData
+    const cardRegID = data.cardRegID
+    const crDest = ""
+
+
+    await admin.firestore().collection('users').doc(userid).get().then(doc => {
+      userData = doc.data();
+      mangopay_id = userData.mangopay_id
+      crDest = 'https://api.sandbox.mangopay.com/v2.01/wildfirewallet/CardRegistrations/' + cardRegID
+      return
+    })
+    .catch(err => {
+      console.log('Error getting userID', err);
+    });
+
+    console.log(rd);
+
+
+    // TODO somehow you need to update the CardRegistration object with the Registration data and cardRegID sent as the argument for this function.
+
+    // see https://docs.mangopay.com/endpoints/v2.01/cards#e1042_post-card-info 
+    // step 5: Update a Card Registration
+
+    return admin.firestore().collection('users').doc(userid).collection('wallets').doc(wallet.Id).update({
+      card_id: cardObject.CardId
+    })
+    .catch(err => {
+      console.log('Error saving to database', err);
+    })
+
+  })
+
 //
 
 //// Add a payment source (card) for a user by writing a stripe payment source token to Realtime database

@@ -56,7 +56,59 @@ class Utilities {
 //        let passwordTest = NSPredicate(format: "SELF MATCHES %@", "^(?=.*[a-z])(?=.*[$@$#!%*?&])[A-Za-z\\d$@$#!%*?&]{8,}")
 //        return passwordTest.evaluate(with: password)
 //    }
+
+    static func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+
+    let inverseSet = NSCharacterSet(charactersIn:"0123456789").inverted
+
+    let components = string.components(separatedBy: inverseSet)
+
+    let filtered = components.joined(separator: "")
+
+    if filtered == string {
+        return true
+    } else {
+        if string == "." {
+            let countdots = textField.text!.components(separatedBy:".").count - 1
+            if countdots == 0 {
+                return true
+            }else{
+                if countdots > 0 && string == "." {
+                    return false
+                } else {
+                    return true
+                }
+            }
+        }else{
+            return false
+        }
+    }
+}
     
+}
+
+private var __maxLengths = [UITextField: Int]()
+
+extension UITextField {
+    @IBInspectable var maxLength: Int {
+        get {
+            guard let l = __maxLengths[self] else {
+               return 150 // (global default-limit. or just, Int.max)
+            }
+            return l
+        }
+        set {
+            __maxLengths[self] = newValue
+            addTarget(self, action: #selector(fix), for: .editingChanged)
+        }
+    }
+    @objc func fix(textField: UITextField) {
+        let t = textField.text
+        if let temp = t?.prefix(maxLength) {
+            let temp2 = String(temp)
+            textField.text = temp2
+        }
+    }
 }
 
 extension UIImageView {

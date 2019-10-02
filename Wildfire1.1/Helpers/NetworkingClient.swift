@@ -12,39 +12,25 @@ import SwiftyJSON
 
 class NetworkingClient {
     
-    typealias WebServiceResponse = ([String: Any]?, Error?) -> Void
+    typealias WebServiceResponse = (String, Error?) -> Void
     
-    func executePost(url: URL, completion: @escaping WebServiceResponse) {
+    func postCardInfo(url: URL, parameters: [String: String], completion: @escaping WebServiceResponse) {
         
 
-        let headers: HTTPHeaders = [
-            "x-API-key": "AQErhmfuXNWTK0Qc+iSHm2g8oe2JTaZCA5ZTdHFSZ1WRrQy8iM0VodfLIVnUxhDBXVsNvuR83LVYjEgiTGAH-gPu+FjFNLazaK3XppEhZY2AQ5R9dXvCtSSaVgr6sxLw=-WTkh6PxX2yKaqQZe",
-            "content-type": "application/json"
-        ]
-        
-        
-        let body: [String: Any] = [
-            "merchantAccount": "WildfireMoneyLtdECOM",
-            "countryCode": "NL",
-            "amount": [
-                    "currency" : "EUR",
-                    "value": 1000
-            ],
-            "channel": "iOS"
-        ]
-        
-//        Alamofire.request(url, method: .post, parameters: body, encoding: JSONEncoding.default, headers: headers)
-        Alamofire.request(url, method: .post, parameters: body, encoding: JSONEncoding.default, headers: headers).validate().responseJSON { response in
+//        let headers: HTTPHeaders = [
+//            "API-key": "exampleAPIkey",
+//            "content-type": "application/json"
+//        ]
+        Alamofire.request(url, method: .post, parameters: parameters).validate().responseString(completionHandler: { response in
             if let error = response.error {
-                completion(nil, error)
-//            } else if let jsonArray = response.result.value as? [[String:Any]] {
-//                completion(jsonArray, nil)
-            } else if let jsonDict = response.result.value as? [String: Any] {
-                completion(jsonDict, nil)
-
+                completion("nil", error)
+            } else if let dataString = response.result.value {
+                completion(dataString, nil)
             }
-        }
+        })
+        return
     }
+    
 
     // vanilla template
 //    func execute(_ url: URL, completion: @escaping WebServiceResponse) {

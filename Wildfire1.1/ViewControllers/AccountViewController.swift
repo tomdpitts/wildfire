@@ -89,6 +89,11 @@ class AccountViewController: UIViewController {
         performSegue(withIdentifier: "goToLogin", sender: self)
     }
     
+    @IBAction func unwindToSignUp(_ unwindSegue: UIStoryboardSegue) {
+        let sourceViewController = unwindSegue.source
+        // Use data from the view controller which initiated the unwind segue
+    }
+    
     
 }
 
