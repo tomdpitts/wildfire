@@ -16,11 +16,7 @@ import SwiftyJSON
 class AddCardViewController: UIViewController, UITextFieldDelegate {
     
     private let networkingClient = NetworkingClient()
-    
-    var accessKey = ""
-    var preregistrationData = ""
-    var cardRegURL: URL!
-    var cardRegID = ""
+    lazy var functions = Functions.functions(region:"europe-west1")
 
     @IBOutlet weak var cardNumberField: UITextField!
     
@@ -52,7 +48,7 @@ class AddCardViewController: UIViewController, UITextFieldDelegate {
         submitButton.isEnabled = false
     }
     
-    lazy var functions = Functions.functions(region:"europe-west1")
+    
     
     
     @IBAction func addCard(_ sender: Any) {
@@ -67,38 +63,9 @@ class AddCardViewController: UIViewController, UITextFieldDelegate {
         csvField.isEnabled = true
         submitButton.isEnabled = true
         
-        functions.httpsCallable("createPaymentMethodHTTPS").call(["text": "Euros"]) { (result, error) in
-            if let error = error as NSError? {
-                if error.domain == FunctionsErrorDomain {
-                    let code = FunctionsErrorCode(rawValue: error.code)
-                    let message = error.localizedDescription
-                    let details = error.userInfo[FunctionsErrorDetailsKey]
-                }
-                // ...
-            }
-    
-            let json = JSON(result?.data ?? "no data returned")
-            
-            print(json)
-            
-            if let ak = json["AccessKey"].string {
-                self.accessKey = ak
-            }
-            
-            if let prd = json["PreregistrationData"].string {
-                self.preregistrationData = prd
-            }
-            
-            if let crurl = json["CardRegistrationURL"].string {
-                self.cardRegURL = URL(string: crurl)
-            }
-            
-            if let crd = json["Id"].string {
-                self.cardRegID = crd
-            }
             // watch out: theoretically the user can submit card details before this async function returns its values, which are required for the submitPressed func below. Leaving for time being as testing suggests it's practically impossible for user to fill in their card info that fast, but good to be aware
         }
-    }
+    
     
     @IBAction func submitPressed(_ sender: Any) {
         
@@ -110,43 +77,92 @@ class AddCardViewController: UIViewController, UITextFieldDelegate {
             // This means there's something wrong with the fields, so show error message
             showError(error!)
         } else {
+            
+            var accessKey = ""
+            var preregistrationData = ""
+            var cardRegURL: URL!
+            var cardRegID = ""
+            var regData = ""
+            
+            let semaphore = DispatchSemaphore(value: 1)
+            
             // fields pass validation - continue
-            
-            let body = [
-                "accessKeyRef": self.accessKey,
-                "data": self.preregistrationData,
-                "cardNumber": self.cardNumberField.text!,
-                "cardExpirationDate": self.expiryDateField.text!,
-                "cardCvx": self.csvField.text!
-                ]
-            
-            // send card details to Mangopay's tokenization server, and get a RegistrationData object back as response
-            networkingClient.postCardInfo(url: self.cardRegURL, parameters: body) { (response, error) in
-                print("response is: " + response)
-                
-                let regData = String(response)
-                print("regData is: " + regData)
-                
-                // now pass the RegistrationData object to callable Cloud Function which will complete the Card Registration and store the Card Object details (a secure way to store the user's card without having their sensitive info touch our server)
-                
-                self.functions.httpsCallable("addCardRegistration").call(["regData": regData, "cardRegID": self.cardRegID]) { (result, error) in
+            functions.httpsCallable("createPaymentMethodHTTPS").call(["text": "Euros"]) { (result, error) in
 //                if let error = error as NSError? {
 //                    if error.domain == FunctionsErrorDomain {
 //                        let code = FunctionsErrorCode(rawValue: error.code)
 //                        let message = error.localizedDescription
 //                        let details = error.userInfo[FunctionsErrorDetailsKey]
 //                    }
-                    // ...
+//                    // ...
 //                }
-                print("done?")
+                semaphore.wait()
+                
+                let json = JSON(result?.data ?? "no data returned")
+                
+                print(json)
+                
+                if let ak = json["AccessKey"].string {
+                    accessKey = ak
+                }
+                
+                if let prd = json["PreregistrationData"].string {
+                    preregistrationData = prd
+                }
+                
+                if let crurl = json["CardRegistrationURL"].string {
+                    cardRegURL = URL(string: crurl)
+                }
+                
+                if let crd = json["Id"].string {
+                    cardRegID = crd
+                }
+                
+                semaphore.signal()
+            
+                let body = [
+                    "accessKeyRef": accessKey,
+                    "data": preregistrationData,
+                    "cardNumber": self.cardNumberField.text!,
+                    "cardExpirationDate": self.expiryDateField.text!,
+                    "cardCvx": self.csvField.text!
+                    ]
+                
+                // send card details to Mangopay's tokenization server, and get a RegistrationData object back as response
+                self.networkingClient.postCardInfo(url: cardRegURL, parameters: body) { (response, error) in
                     
+                    semaphore.wait()
+                    print("response is: " + response)
+                    
+                    regData = String(response)
+                    print("regData is: " + regData)
+                    
+                    semaphore.signal()
+                    
+                    // now pass the RegistrationData object to callable Cloud Function which will complete the Card Registration and store the Card Object details (a secure way to store the user's card without having their sensitive info touch our server)
+                    
+                    
+                    self.functions.httpsCallable("addCardRegistration").call(["regData": regData, "cardRegID": cardRegID]) { (result, error) in
+                        
+                        semaphore.wait()
+                        //                if let error = error as NSError? {
+                        //                    if error.domain == FunctionsErrorDomain {
+                        //                        let code = FunctionsErrorCode(rawValue: error.code)
+                        //                        let message = error.localizedDescription
+                        //                        let details = error.userInfo[FunctionsErrorDetailsKey]
+                        //                    }
+                        // ...
+                        //                }
+                        print("done?")
+                        semaphore.signal()
+                        
+                    }
+                    
+                    // TODO add loading spinner to wait for responseURL
+                    
+                    // TODO send the response to Firestore to update the Client's CardRegistrations with the new ID
                 }
             }
-            
-            // TODO add loading spinner to wait for responseURL
-            
-            // TODO send the response to Firestore to update the Client's CardRegistrations with the new ID
-            
         }
     }
     

@@ -7,14 +7,18 @@ const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 const gcs = require('@google-cloud/storage');
 const mangopay = require('mangopay2-nodejs-sdk');
-const request = require('request');
+const axios = require('axios');
 
 const mpAPI = new mangopay({
                        clientId: 'wildfirewallet',
-                       clientApiKey: 'cwSQuWi9RCbnr5Fh5HktxevT9ch0pK3wWUn4t5rHJkCP1KSCiu',
+                       clientApiKey: 'cwSQuWi9RCbnr5Fh5HktxevT9ch0pK3wWUn4t5rHJkCP1KSCiu'
                        // Set the right production API url. If testing, omit the property since it defaults to sandbox URL
                        // baseUrl: 'https://api.mangopay.com'
                        });
+const creds = {
+  clientId: 'wildfirewallet',
+  clientApiKey: 'cwSQuWi9RCbnr5Fh5HktxevT9ch0pK3wWUn4t5rHJkCP1KSCiu'
+}
 
 admin.initializeApp(functions.config().firebase);
 
@@ -116,13 +120,8 @@ exports.createMangopayCustomer = functions.region('europe-west1').auth.user().on
       // 
       return cardReg;
     })
-
-    
-
     // transaction history should be dealt with later and the .set() method should handle the collection creation without any need to build it in now
   });
-
-
 
   exports.addCardRegistration = functions.region('europe-west1').https.onCall( async (data, context) => {
 
@@ -131,35 +130,57 @@ exports.createMangopayCustomer = functions.region('europe-west1').auth.user().on
     var mangopay_id = ''
     const rd = data.regData
     const cardRegID = data.cardRegID
-    const crDest = ""
+    var crDest = ""
+    var crDest_lowercase = ""
 
 
     await admin.firestore().collection('users').doc(userid).get().then(doc => {
       userData = doc.data();
       mangopay_id = userData.mangopay_id
       crDest = 'https://api.sandbox.mangopay.com/v2.01/wildfirewallet/CardRegistrations/' + cardRegID
+      crDest_lowercase = 'https://api.sandbox.mangopay.com/v2.01/wildfirewallet/cardregistrations/' + cardRegID
       return
     })
     .catch(err => {
       console.log('Error getting userID', err);
     });
 
-    console.log(rd);
+    console.log('Reg Data is: ' + rd);
+
+    console.log('cardRegID is: ' + cardRegID)
+
+    console.log('crDest is: ' + crDest)
+
+
 
 
     // TODO somehow you need to update the CardRegistration object with the Registration data and cardRegID sent as the argument for this function.
 
+    // const cardObject = await mpAPI.CardRegistrations.update(cardRegID, {RegistrationData: rd});
+
+    await axios.put(crDest, {RegistrationData: rd})
+
+    // this is currently returning a 401 due to authorization - waiting for MangoPay tech team to respond with info on how to use the SDK .update() method instead, before spending more time on this
+
+    const cardObject = await axios({method: 'get', url: crDest_lowercase, auth: creds})
+
+    console.log('CardID is: ' + cardObject.CardId)
     // see https://docs.mangopay.com/endpoints/v2.01/cards#e1042_post-card-info 
     // step 5: Update a Card Registration
 
-    return admin.firestore().collection('users').doc(userid).collection('wallets').doc(wallet.Id).update({
-      card_id: cardObject.CardId
+    return admin.firestore().collection('users').doc(userid).update({
+      card1_id: cardObject.CardId
     })
     .catch(err => {
       console.log('Error saving to database', err);
     })
-
   })
+
+  exports.addCredit = functions.region('europe-west1').https.onCall( async (data, context) => {
+    
+
+  }
+
 
 //
 
