@@ -84,9 +84,10 @@ class AddCardViewController: UIViewController, UITextFieldDelegate {
             var cardRegID = ""
             var regData = ""
             
+            // Semaphore is used to ensure async API calls aren't triggered before all the relevant data is ready - they have to be sequential
             let semaphore = DispatchSemaphore(value: 1)
             
-            // fields pass validation - continue
+            // fields have passed validation - so continue
             functions.httpsCallable("createPaymentMethodHTTPS").call(["text": "Euros"]) { (result, error) in
 //                if let error = error as NSError? {
 //                    if error.domain == FunctionsErrorDomain {
@@ -98,10 +99,11 @@ class AddCardViewController: UIViewController, UITextFieldDelegate {
 //                }
                 semaphore.wait()
                 
-                let json = JSON(result?.data ?? "no data returned")
+                var json = JSON(result?.data ?? "no data returned")
                 
                 print(json)
                 
+                // extract the following values from the returned CardRegistration object
                 if let ak = json["AccessKey"].string {
                     accessKey = ak
                 }
@@ -118,6 +120,7 @@ class AddCardViewController: UIViewController, UITextFieldDelegate {
                     cardRegID = crd
                 }
                 
+
                 semaphore.signal()
             
                 let body = [
@@ -132,35 +135,30 @@ class AddCardViewController: UIViewController, UITextFieldDelegate {
                 self.networkingClient.postCardInfo(url: cardRegURL, parameters: body) { (response, error) in
                     
                     semaphore.wait()
-                    print("response is: " + response)
                     
                     regData = String(response)
-                    print("regData is: " + regData)
                     
                     semaphore.signal()
-                    
-                    // now pass the RegistrationData object to callable Cloud Function which will complete the Card Registration and store the Card Object details (a secure way to store the user's card without having their sensitive info touch our server)
-                    
-                    
+
+                    // now pass the RegistrationData object to callable Cloud Function which will complete the Card Registration and store the CardId in Firestore (a secure way to store the user's card without having their sensitive info touch our server)
                     self.functions.httpsCallable("addCardRegistration").call(["regData": regData, "cardRegID": cardRegID]) { (result, error) in
-                        
-                        semaphore.wait()
-                        //                if let error = error as NSError? {
-                        //                    if error.domain == FunctionsErrorDomain {
-                        //                        let code = FunctionsErrorCode(rawValue: error.code)
-                        //                        let message = error.localizedDescription
-                        //                        let details = error.userInfo[FunctionsErrorDetailsKey]
-                        //                    }
-                        // ...
-                        //                }
-                        print("done?")
-                        semaphore.signal()
-                        
-                    }
+
+                            semaphore.wait()
+                            //                if let error = error as NSError? {
+                            //                    if error.domain == FunctionsErrorDomain {
+                            //                        let code = FunctionsErrorCode(rawValue: error.code)
+                            //                        let message = error.localizedDescription
+                            //                        let details = error.userInfo[FunctionsErrorDetailsKey]
+                            //                    }
+                            // ...
+                            //                }
+                            print("done?")
+                            semaphore.signal()
+
+                        }
                     
                     // TODO add loading spinner to wait for responseURL
-                    
-                    // TODO send the response to Firestore to update the Client's CardRegistrations with the new ID
+
                 }
             }
         }

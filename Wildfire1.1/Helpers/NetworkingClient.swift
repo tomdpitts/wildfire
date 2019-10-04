@@ -31,6 +31,23 @@ class NetworkingClient {
         return
     }
     
+    func getCardReg(url: URL, completion: @escaping (Data, Error?) -> Void) {
+        
+        
+        //        let headers: HTTPHeaders = [
+        //            "API-key": "exampleAPIkey",
+        //            "content-type": "application/json"
+        //        ]
+        Alamofire.request(url, method: .get).validate().responseJSON(completionHandler: { response in
+            if let error = response.error {
+                completion(Data(), error)
+            } else if let data = response.data {
+                completion(data, nil)
+            }
+        })
+        return
+    }
+    
 
     // vanilla template
 //    func execute(_ url: URL, completion: @escaping WebServiceResponse) {
