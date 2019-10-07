@@ -1,0 +1,23 @@
+{
+  "name": "wildfire1.1",
+  "version": "1.0.0",
+  "description": "WildfireV1",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {
+    "mocha": "^6.2.0"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://tomdanielgb@github.com/tomdanielgb/wildfire.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tomdanielgb/wildfire/issues"
+  },
+  "homepage": "https://github.com/tomdanielgb/wildfire#readme"
+}

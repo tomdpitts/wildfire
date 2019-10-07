@@ -16,6 +16,7 @@ import Firebase
 class ConfirmViewController: UIViewController {
     
     let db = Firestore.firestore()
+    var handle: AuthStateDidChangeListenerHandle?
     let userUID = Auth.auth().currentUser?.uid
 
     
@@ -29,6 +30,7 @@ class ConfirmViewController: UIViewController {
     var recipientName = ""
     
     // these two variables are flags to determine logic triggered by the confirm button on the page
+    var loggedInUser = false
     var enoughCredit = false
     var existingPaymentMethod = false
 
@@ -53,11 +55,35 @@ class ConfirmViewController: UIViewController {
         recipientLabel.alpha = 0
         currentBalance.alpha = 0
         dynamicLabel.alpha = 0
+        
+        if (Auth.auth().currentUser?.uid) != nil {
+            self.loggedInUser = true
+        } else {
+            self.loggedInUser = false
+        }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        handle = Auth.auth().addStateDidChangeListener { (auth, user) in
+            
+            if (Auth.auth().currentUser?.uid) != nil {
+                self.loggedInUser = true
+            } else {
+                self.loggedInUser = false
+            }
+
+            
+        }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        Auth.auth().removeStateDidChangeListener(handle!)
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
+        // TODO this existing payment strategy doesn't quite add up - needs to be replaced with a flag (and have checkForExistingPaymentMethod() run in ViewDidAppear
         checkForExistingPaymentMethod()
         //        // first decrypt the QR data
         //        decryptedString = decryptQRString(QRstring: finalString2)
@@ -155,7 +181,7 @@ class ConfirmViewController: UIViewController {
     }
     
     func getUserBalance() {
-        
+        // check this func doesn't crash if the user hasn't made an account yet!
         let uid = Auth.auth().currentUser!.uid
         let docRef = self.db.collection("users").document(uid)
         
@@ -197,19 +223,25 @@ class ConfirmViewController: UIViewController {
     
     // TODO: complete this func
     @IBAction func confirmButtonPressed(_ sender: UIButton) {
-        if enoughCredit == true {
-            // initiate transaction
-            // Update one field, creating the document if it does not exist.
-            transact()
-            performSegue(withIdentifier: "showSuccessScreen", sender: self)
-        } else {
-            if existingPaymentMethod == true {
-                // initiate topup (ideally with ApplePay & touchID)
-                
+        if loggedInUser == true {
+            if enoughCredit == true {
+                // initiate transaction
+                // Update one field, creating the document if it does not exist.
+                transact()
+                performSegue(withIdentifier: "showSuccessScreen", sender: self)
             } else {
-                // bring up Modal to add card details (but don't take user out of the flow or force them to scan again!
-                
+                if existingPaymentMethod == true {
+                    // initiate topup (ideally with ApplePay & touchID)
+                    
+                } else {
+                    // bring up Modal to add card details (but return the user to the flow - don't force them to scan again!
+                    // this will probably come up in testing, but might be nice to present as popover instead
+                    performSegue(withIdentifier: "goToPaymentSetup", sender: self)
+                }
             }
+        } else {
+            // TODO show alert to ask the user to log in (they may or may not have thought they were already logged in), provide some context and/or rationale
+            performSegue(withIdentifier: "goToLogin", sender: self)
         }
     }
     
