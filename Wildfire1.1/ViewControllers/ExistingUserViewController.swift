@@ -67,7 +67,15 @@ class ExistingUserViewController: UIViewController {
         errorLabel.alpha = 1
     }
     
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
     @IBAction func loginTapped(_ sender: Any) {
+        
+        emailTextField.resignFirstResponder()
+        passwordTextField.resignFirstResponder()
         
         // Validate the fields
         let error = validateFields()
@@ -93,11 +101,7 @@ class ExistingUserViewController: UIViewController {
                     self.errorLabel.alpha = 1
                 }
                 else {
-                    
-                    let homeViewController = self.storyboard?.instantiateViewController(withIdentifier: Constants.Storyboard.homeViewController) as? HomeViewController
-                    
-                    self.view.window?.rootViewController = homeViewController
-                    self.view.window?.makeKeyAndVisible()
+                    self.performSegue(withIdentifier: "unwindToAccountViewID", sender: self)
                 }
             }
             

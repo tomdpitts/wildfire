@@ -7,12 +7,14 @@
 //
 
 import UIKit
-import Firebase
+import FirebaseAuth
+import FirebaseFirestore
 
 class SignUpViewController: UIViewController {
     
     var loggedInUser = false
-    var handle: AuthStateDidChangeListenerHandle?
+//    var handle: AuthStateDidChangeListenerHandle?
+    var userIsInPaymentFlow = false
 
     @IBOutlet weak var firstName: UITextField!
     
@@ -145,8 +147,12 @@ class SignUpViewController: UIViewController {
                     
             }
             
-            // Transition to step 2 aka PaymentSetUp VC
-            self.performSegue(withIdentifier: "goToStep2", sender: Any?.self)
+            if userIsInPaymentFlow == true {
+                // Transition to step 2 aka PaymentSetUp VC
+                self.performSegue(withIdentifier: "goToStep2", sender: self)
+            } else {
+                self.performSegue(withIdentifier: "unwindToAccountViewID", sender: self)
+            }
             
         }
     }
@@ -157,10 +163,12 @@ class SignUpViewController: UIViewController {
         errorLabel.alpha = 1
     }
     
-    @IBAction func unwindToSignUp(_ unwindSegue: UIStoryboardSegue) {
+    // this unwind is deliberately generic - provides an anchor for the 'back' button in Add Payment
+    @IBAction func unwindToPrevious(_ unwindSegue: UIStoryboardSegue) {
         let sourceViewController = unwindSegue.source
         // Use data from the view controller which initiated the unwind segue
     }
+    
     
 // Not sure the following function was ever a good idea - one to delete later
 //    func transitionToHome() {

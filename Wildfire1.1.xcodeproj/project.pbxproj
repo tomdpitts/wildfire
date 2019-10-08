@@ -189,10 +189,10 @@
 		E257EA28230D8A9F003E2A32 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				E2149703231410240048D149 /* HomeViewController.swift */,
 				E2026708230ED8CF003C0AF4 /* LoginViewController.swift */,
 				E279717C231433AF00964F25 /* SignUpViewController.swift */,
 				E279717E231433D500964F25 /* ExistingUserViewController.swift */,
-				E2149703231410240048D149 /* HomeViewController.swift */,
 				E21AC96421EA6BEF00D460A9 /* PayViewController.swift */,
 				E21AC99621EA850C00D460A9 /* ScanViewController.swift */,
 				E2B979DE23295DB000194E75 /* ConfirmViewController.swift */,

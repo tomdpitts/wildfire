@@ -13,8 +13,14 @@ import FirebaseAuth
 class AccountViewController: UIViewController {
     
     @IBOutlet var accountBalance: UILabel!
-    
     @IBOutlet weak var uidLabel: UILabel!
+    
+    @IBOutlet weak var goToLoginButton: UIButton!
+    @IBOutlet weak var addPaymentMethodButton: UIButton!
+    @IBOutlet weak var signOutButton: UIButton!
+    
+    
+    
     
     // This 'ref' property will hold a firebase database reference
     var ref:DatabaseReference?
@@ -25,6 +31,10 @@ class AccountViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        Utilities.styleFilledButton(goToLoginButton)
+        Utilities.styleFilledButton(addPaymentMethodButton)
+        Utilities.styleFilledButton(signOutButton)
         
         // set the firebase reference
         ref = Database.database().reference()
@@ -56,9 +66,6 @@ class AccountViewController: UIViewController {
             self.accountBalance.text = "\(String(describing: balance))"
             self.liveBalance = String(describing: balance)
             
-            print(self.liveBalance)
-            
-            
         }
         
         // print(balance!)
@@ -79,8 +86,10 @@ class AccountViewController: UIViewController {
     
     @IBAction func refreshUID(_ sender: Any) {
         
-        guard let uid = Auth.auth().currentUser?.uid else { return }
-        
+        guard let uid = Auth.auth().currentUser?.uid else {
+            self.uidLabel.text = "Not logged in"
+            return
+        }
         self.uidLabel.text = uid
     }
     
@@ -89,12 +98,53 @@ class AccountViewController: UIViewController {
         performSegue(withIdentifier: "goToLogin", sender: self)
     }
     
-    @IBAction func unwindToSignUp(_ unwindSegue: UIStoryboardSegue) {
+    
+    // this unwind segue is deliberately generic! Allows the Back button on PaymentSetupVC to unwind to the appropriate VC depending on where it came from
+    @IBAction func unwindToPrevious(_ unwindSegue: UIStoryboardSegue) {
         let sourceViewController = unwindSegue.source
         // Use data from the view controller which initiated the unwind segue
     }
     
+    // This unwind segue exists independently to the above to allow a specific unwind call e.g. in LoginVC
+    @IBAction func unwindToAccountView(_ unwindSegue: UIStoryboardSegue) {
+        let sourceViewController = unwindSegue.source
+        // Use data from the view controller which initiated the unwind segue
+    }
     
+    @IBAction func signOutButtonTapped(_ sender: Any) {
+        
+        // Declare Alert message
+        let dialogMessage = UIAlertController(title: "Confirm", message: "Are you sure you want to Sign Out?", preferredStyle: .alert)
+        
+        // Create OK button with action handler
+        let ok = UIAlertAction(title: "OK", style: .default, handler: { (action) -> Void in
+            print("Ok button tapped")
+            self.signOut()
+        })
+        
+        // Create Cancel button with action handlder
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel) { (action) -> Void in
+            print("Cancel button tapped")
+        }
+        
+        //Add OK and Cancel button to dialog message
+        dialogMessage.addAction(ok)
+        dialogMessage.addAction(cancel)
+        
+        // Present dialog message to user
+        self.present(dialogMessage, animated: true, completion: nil)
+
+        
+        
+    }
+    
+    func signOut() {
+        do {
+            try Auth.auth().signOut()
+        } catch let err {
+            print(err)
+        }
+    }
 }
 
 
