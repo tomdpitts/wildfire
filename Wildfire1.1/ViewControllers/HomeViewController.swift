@@ -37,7 +37,9 @@ class HomeViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         if loggedInUser == true {
             authenticateUser()
-        } else { return }
+        } else {
+            self.performSegue(withIdentifier: "goToPay", sender: self)
+        }
     }
     
     func authenticateUser() {

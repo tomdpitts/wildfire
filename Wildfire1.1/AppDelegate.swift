@@ -52,6 +52,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             } else {
                 return
             }
+        } else {
+            let mainStoryboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+            let initialViewControlleripad : UIViewController = mainStoryboard.instantiateViewController(withIdentifier: "mainMenu") as UIViewController
+            self.window = UIWindow(frame: UIScreen.main.bounds)
+            self.window?.rootViewController = initialViewControlleripad
+            self.window?.makeKeyAndVisible()
         }
     }
 
