@@ -10,6 +10,8 @@ import UIKit
 import FirebaseCore
 import LocalAuthentication
 import FirebaseAuth
+import FBSDKCoreKit
+import FacebookCore
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -23,7 +25,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FirebaseApp.configure()
         // one for later
 //        let db = Firestore.firestore()
+        FBSDKApplicationDelegate.sharedInstance()?.application(application, didFinishLaunchingWithOptions: launchOptions)
         return true
+    }
+    
+    // this is a facebook-specific function required for compatibility with older iOS versions (<9.0 afaik)
+    func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
+        
+        return FBSDKApplicationDelegate.sharedInstance().application(application, open: url, sourceApplication: sourceApplication, annotation: annotation)
     }
 
     func applicationWillResignActive(_ application: UIApplication) {

@@ -8,8 +8,9 @@
 
 import UIKit
 import AVKit
-import FirebaseUI
-
+import FirebaseAuth
+import FacebookCore
+import FacebookLogin
 
 class LoginViewController: UIViewController {
 
@@ -21,11 +22,16 @@ class LoginViewController: UIViewController {
     
     @IBOutlet weak var signUpButton: UIButton!
     
+    @IBOutlet weak var facebookButton: UIButton!
+    
+    private let readPermissions: [ReadPermission] = [ .publicProfile, .email, .userFriends, .custom("user_posts") ]
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
         setUpElements()
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -33,12 +39,47 @@ class LoginViewController: UIViewController {
         // Set up video in the background
         setUpVideo()
     }
+    
+    @IBAction func didTapFacebookButton(_ sender: Any) {
+        let loginManager = LoginManager()
+        loginManager.logIn(readPermissions: readPermissions, viewController: self, completion: didReceiveFacebookLoginResult)
+    }
+    
+    private func didReceiveFacebookLoginResult(loginResult: LoginResult) {
+        switch loginResult {
+        case .success:
+            didLoginWithFacebook()
+        case .failed(_): break
+        default: break
+        }
+    }
+    
+    fileprivate func didLoginWithFacebook() {
+        // Successful log in with Facebook
+        if let accessToken = AccessToken.current {
+            // If Firebase enabled, we log the user into Firebase
+            FirebaseAuthManager().login(credential: FacebookAuthProvider.credential(withAccessToken: accessToken.authenticationToken)) {[weak self] (success) in
+                guard let `self` = self else { return }
+                var message: String = ""
+                if (success) {
+                    message = "User was sucessfully logged in."
+                } else {
+                    message = "There was an error."
+                }
+                let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+                self.present(alert, animated: true)
+            }
+        }
+    }
+
 
     func setUpElements() {
         
         // Style the elements
         Utilities.styleFilledButton(logInButton)
         Utilities.styleFilledButton(signUpButton)
+        Utilities.styleFilledButton(facebookButton)
         
     }
     

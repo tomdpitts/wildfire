@@ -2,6 +2,33 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+    
+<!-- core Facebook app integration   -->
+    <key>CFBundleURLTypes</key>
+    <array>
+        <dict>
+            <key>CFBundleURLSchemes</key>
+            <array>
+                <string>fb389010488701223</string>
+            </array>
+        </dict>
+    </array>
+    <key>FacebookAppID</key>
+    <string>389010488701223</string>
+    <key>FacebookDisplayName</key>
+    <string>Wildfire</string>
+    
+<!--  additional Facebook authentication stuff  -->
+    <key>LSApplicationQueriesSchemes</key>
+    <array>
+        <string>fbapi</string>
+        <string>fb-messenger-share-api</string>
+        <string>fbauth2</string>
+        <string>fbshareextension</string>
+    </array>
+    
+<!--  end of Facebook related modules  -->
+
 	<key>NSCameraUsageDescription</key>
 	<string>Wildfire needs to use the camera to scan QR codes</string>
 	<key>CFBundleDevelopmentRegion</key>

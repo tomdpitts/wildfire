@@ -17,6 +17,9 @@ pod 'mangopay'
 pod 'CryptoSwift'
 pod 'Alamofire'
 pod 'SwiftyJSON'
+pod 'FacebookCore'
+pod 'FacebookLogin'
+
   target 'Wildfire1.1Tests' do
     inherit! :search_paths
     # Pods for testing

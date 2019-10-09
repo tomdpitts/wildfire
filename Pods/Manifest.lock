@@ -13,9 +13,17 @@ PODS:
     - BoringSSL-GRPC/Interface (= 0.0.2)
   - BoringSSL-GRPC/Interface (0.0.2)
   - CryptoSwift (0.13.1)
-  - FBSDKCoreKit (4.40.0):
+  - FacebookCore (0.6.0):
     - Bolts (~> 1.9)
-  - FBSDKLoginKit (4.40.0):
+    - FBSDKCoreKit (~> 4.43)
+  - FacebookLogin (0.6.0):
+    - Bolts (~> 1.9)
+    - FacebookCore (~> 0.5)
+    - FBSDKCoreKit (~> 4.43)
+    - FBSDKLoginKit (~> 4.43)
+  - FBSDKCoreKit (4.44.1):
+    - Bolts (~> 1.9)
+  - FBSDKLoginKit (4.44.1):
     - FBSDKCoreKit
   - Firebase/Analytics (5.16.0):
     - Firebase/Core
@@ -191,6 +199,8 @@ PODS:
 DEPENDENCIES:
   - Alamofire
   - CryptoSwift
+  - FacebookCore
+  - FacebookLogin
   - Firebase/Analytics
   - Firebase/Auth
   - Firebase/Core
@@ -207,6 +217,8 @@ SPEC REPOS:
     - Bolts
     - BoringSSL-GRPC
     - CryptoSwift
+    - FacebookCore
+    - FacebookLogin
     - FBSDKCoreKit
     - FBSDKLoginKit
     - Firebase
@@ -241,8 +253,10 @@ SPEC CHECKSUMS:
   Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
   BoringSSL-GRPC: 2a230d9cd93e7ce39916044f645cebb31f37dde6
   CryptoSwift: ff68c35a53e03177d31aaa2c1e8b3e010aeed6cb
-  FBSDKCoreKit: ae214474b25033399c131dc81d258e412582a2ba
-  FBSDKLoginKit: 7a1e411d46acc8834588eca437daf34de42e1d52
+  FacebookCore: 38cd3a4078738d6f648eb9b6b9d35b02d693e9a1
+  FacebookLogin: 658b0569961a081a0890f5f4dbf69ced00657d9e
+  FBSDKCoreKit: a823ae35bdb60ebb8d7a7e51abe7c5d87d2bfced
+  FBSDKLoginKit: 54ae59987f2a8703021557c90a9aebb9e5c2bef6
   Firebase: 749a8ff4962f9d8c79dda1966de20f6f77583d67
   FirebaseAnalytics: d35d47c03c50c73c14a7fd31463c5775843e78a9
   FirebaseAuth: c9b3ff063c223d2841d97240af547ce511bce19a
@@ -270,6 +284,6 @@ SPEC CHECKSUMS:
   TwitterCore: 8cbc9ad34d91c63a0035ea05bfbfc0d7ca72a28c
   TwitterKit: 5e4f41d70b9abdb41df5467f52d7aa2c0fd26ebb
 
-PODFILE CHECKSUM: e1e4db12d515fb223998e5c871210db63571a0b3
+PODFILE CHECKSUM: 9856ed1a27f1bce9568276e85fbb6ca60b708e52
 
 COCOAPODS: 1.5.3
