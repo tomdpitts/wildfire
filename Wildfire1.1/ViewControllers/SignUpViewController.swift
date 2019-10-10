@@ -165,7 +165,7 @@ class SignUpViewController: UIViewController {
     
     // this unwind is deliberately generic - provides an anchor for the 'back' button in Add Payment
     @IBAction func unwindToPrevious(_ unwindSegue: UIStoryboardSegue) {
-        let sourceViewController = unwindSegue.source
+//        let sourceViewController = unwindSegue.source
         // Use data from the view controller which initiated the unwind segue
     }
     

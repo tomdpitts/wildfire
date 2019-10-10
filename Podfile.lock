@@ -44,9 +44,6 @@ PODS:
   - Firebase/Functions (5.16.0):
     - Firebase/CoreOnly
     - FirebaseFunctions (= 2.2.0)
-  - Firebase/Storage (5.16.0):
-    - Firebase/CoreOnly
-    - FirebaseStorage (= 3.1.0)
   - FirebaseAnalytics (5.5.0):
     - FirebaseCore (~> 5.2)
     - FirebaseInstanceID (~> 3.4)
@@ -91,60 +88,12 @@ PODS:
     - FirebaseCore (~> 5.2)
     - GoogleUtilities/Environment (~> 5.3)
     - GoogleUtilities/UserDefaults (~> 5.3)
-  - FirebaseStorage (3.1.0):
-    - FirebaseAuthInterop (~> 1.0)
-    - FirebaseCore (~> 5.2)
-    - GTMSessionFetcher/Core (~> 1.1)
-  - FirebaseUI (5.2.2):
-    - FirebaseUI/Anonymous (= 5.2.2)
-    - FirebaseUI/Auth (= 5.2.2)
-    - FirebaseUI/Database (= 5.2.2)
-    - FirebaseUI/Facebook (= 5.2.2)
-    - FirebaseUI/Firestore (= 5.2.2)
-    - FirebaseUI/Google (= 5.2.2)
-    - FirebaseUI/Phone (= 5.2.2)
-    - FirebaseUI/Storage (= 5.2.2)
-    - FirebaseUI/Twitter (= 5.2.2)
-  - FirebaseUI/Anonymous (5.2.2):
-    - FirebaseUI/Auth
-  - FirebaseUI/Auth (5.2.2):
-    - Firebase/Auth (~> 5.0)
-  - FirebaseUI/Database (5.2.2):
-    - Firebase/Database (~> 5.0)
-  - FirebaseUI/Facebook (5.2.2):
-    - FBSDKLoginKit (~> 4.0)
-    - FirebaseUI/Auth
-  - FirebaseUI/Firestore (5.2.2):
-    - Firebase/Firestore
-  - FirebaseUI/Google (5.2.2):
-    - FirebaseUI/Auth
-    - GoogleSignIn (~> 4.0)
-  - FirebaseUI/Phone (5.2.2):
-    - FirebaseUI/Auth
-  - FirebaseUI/Storage (5.2.2):
-    - Firebase/Storage (~> 5.0)
-    - SDWebImage (~> 4.0)
-  - FirebaseUI/Twitter (5.2.2):
-    - FirebaseUI/Auth
-    - TwitterKit (~> 3.0)
   - GoogleAppMeasurement (5.5.0):
     - GoogleUtilities/AppDelegateSwizzler (~> 5.2)
     - GoogleUtilities/MethodSwizzler (~> 5.2)
     - GoogleUtilities/Network (~> 5.2)
     - "GoogleUtilities/NSData+zlib (~> 5.2)"
     - nanopb (~> 0.3)
-  - GoogleSignIn (4.4.0):
-    - "GoogleToolboxForMac/NSDictionary+URLArguments (~> 2.1)"
-    - "GoogleToolboxForMac/NSString+URLArguments (~> 2.1)"
-    - GTMSessionFetcher/Core (~> 1.1)
-  - GoogleToolboxForMac/DebugUtils (2.2.0):
-    - GoogleToolboxForMac/Defines (= 2.2.0)
-  - GoogleToolboxForMac/Defines (2.2.0)
-  - "GoogleToolboxForMac/NSDictionary+URLArguments (2.2.0)":
-    - GoogleToolboxForMac/DebugUtils (= 2.2.0)
-    - GoogleToolboxForMac/Defines (= 2.2.0)
-    - "GoogleToolboxForMac/NSString+URLArguments (= 2.2.0)"
-  - "GoogleToolboxForMac/NSString+URLArguments (2.2.0)"
   - GoogleUtilities/AppDelegateSwizzler (5.3.7):
     - GoogleUtilities/Environment
     - GoogleUtilities/Logger
@@ -188,13 +137,7 @@ PODS:
   - nanopb/decode (0.3.901)
   - nanopb/encode (0.3.901)
   - Protobuf (3.6.1)
-  - SDWebImage (4.4.4):
-    - SDWebImage/Core (= 4.4.4)
-  - SDWebImage/Core (4.4.4)
   - SwiftyJSON (4.2.0)
-  - TwitterCore (3.2.0)
-  - TwitterKit (3.4.2):
-    - TwitterCore (>= 3.2.0)
 
 DEPENDENCIES:
   - Alamofire
@@ -207,7 +150,6 @@ DEPENDENCIES:
   - Firebase/Database
   - Firebase/Firestore
   - Firebase/Functions
-  - FirebaseUI
   - mangopay
   - SwiftyJSON
 
@@ -230,11 +172,7 @@ SPEC REPOS:
     - FirebaseFirestore
     - FirebaseFunctions
     - FirebaseInstanceID
-    - FirebaseStorage
-    - FirebaseUI
     - GoogleAppMeasurement
-    - GoogleSignIn
-    - GoogleToolboxForMac
     - GoogleUtilities
     - "gRPC-C++"
     - gRPC-Core
@@ -243,10 +181,7 @@ SPEC REPOS:
     - mangopay
     - nanopb
     - Protobuf
-    - SDWebImage
     - SwiftyJSON
-    - TwitterCore
-    - TwitterKit
 
 SPEC CHECKSUMS:
   Alamofire: 16ce2c353fb72865124ddae8a57c5942388f4f11
@@ -266,11 +201,7 @@ SPEC CHECKSUMS:
   FirebaseFirestore: 6f2b93b4f7bb8416628142763c91ccc00fa04c86
   FirebaseFunctions: f35dd01ba4cfd036c1c521b3ed99851d7ec08c70
   FirebaseInstanceID: 97ea7a5dca9afd72c79bfcdddb7a44aa1cbb42a1
-  FirebaseStorage: 29075f874c2b3cf61e5221a62c4ceefc809e5412
-  FirebaseUI: 09519bf436a055cd696bf68687d624423150e4c0
   GoogleAppMeasurement: 621f3bc6211d5ba548debe01fafad30cf5ab6859
-  GoogleSignIn: 7ff245e1a7b26d379099d3243a562f5747e23d39
-  GoogleToolboxForMac: ff31605b7d66400dcec09bed5861689aebadda4d
   GoogleUtilities: 111a012f4c3a29c9e7c954c082fafd6ee3c999c0
   "gRPC-C++": e76441995900ac90e9bd98644ab4733f12521edf
   gRPC-Core: 4028031ed2c5267cca0d846c876d8046b1ecb9b6
@@ -279,11 +210,8 @@ SPEC CHECKSUMS:
   mangopay: c8005077cfd2b6813b99d52a4cd78238eb1082e7
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
   Protobuf: 1eb9700044745f00181c136ef21b8ff3ad5a0fd5
-  SDWebImage: c00ec18ab25d10e5ffac109b0f78d1b4341c9691
   SwiftyJSON: c4bcba26dd9ec7a027fc8eade48e2c911f229e96
-  TwitterCore: 8cbc9ad34d91c63a0035ea05bfbfc0d7ca72a28c
-  TwitterKit: 5e4f41d70b9abdb41df5467f52d7aa2c0fd26ebb
 
-PODFILE CHECKSUM: 9856ed1a27f1bce9568276e85fbb6ca60b708e52
+PODFILE CHECKSUM: 6007d7218264cc31b462b04f12f18388cf4edd83
 
 COCOAPODS: 1.5.3

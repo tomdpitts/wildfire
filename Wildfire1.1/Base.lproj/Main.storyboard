@@ -653,9 +653,12 @@
                                             <segue destination="ng8-iT-cq6" kind="show" identifier="startToSignUp" id="uGv-JX-EDr"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sjc-sc-jJM">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sjc-sc-jJM" customClass="FBSDKButton">
                                         <rect key="frame" x="0.0" y="140" width="334" height="50"/>
-                                        <state key="normal" title="Facebook"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
+                                        <state key="normal" title="Login with Facebook">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
                                         <connections>
                                             <action selector="didTapFacebookButton:" destination="yQS-kr-M4m" eventType="touchUpInside" id="KMt-oC-gb5"/>
                                         </connections>

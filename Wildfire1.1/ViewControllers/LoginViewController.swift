@@ -9,6 +9,7 @@
 import UIKit
 import AVKit
 import FirebaseAuth
+import FirebaseFirestore
 import FacebookCore
 import FacebookLogin
 
@@ -24,6 +25,8 @@ class LoginViewController: UIViewController {
     
     @IBOutlet weak var facebookButton: UIButton!
     
+    
+    
     private let readPermissions: [ReadPermission] = [ .publicProfile, .email, .userFriends, .custom("user_posts") ]
     
     override func viewDidLoad() {
@@ -31,11 +34,12 @@ class LoginViewController: UIViewController {
 
         // Do any additional setup after loading the view.
         setUpElements()
-        
+        let buttonText = NSAttributedString(string: "Login with Facebook")
+        facebookButton.setAttributedTitle(buttonText, for: .normal)
+        facebookButton.titleLabel?.textAlignment = NSTextAlignment.center
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        
         // Set up video in the background
         setUpVideo()
     }
@@ -57,30 +61,78 @@ class LoginViewController: UIViewController {
     fileprivate func didLoginWithFacebook() {
         // Successful log in with Facebook
         if let accessToken = AccessToken.current {
-            // If Firebase enabled, we log the user into Firebase
+            // log the user into Firebase (if the user doesn't already exist, it is created automatically)
             FirebaseAuthManager().login(credential: FacebookAuthProvider.credential(withAccessToken: accessToken.authenticationToken)) {[weak self] (success) in
-                guard let `self` = self else { return }
+                
+                guard let self = self else { return }
                 var message: String = ""
                 if (success) {
                     message = "User was sucessfully logged in."
                 } else {
                     message = "There was an error."
                 }
+                
                 let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
                 self.present(alert, animated: true)
+                
+                if let uid = Auth.auth().currentUser?.uid {
+                    
+                    let docRef = Firestore.firestore().collection("users").document(uid)
+                    
+                    docRef.getDocument { (document, error) in
+                        // this if statement adds protection against accidentlly overwriting existing data
+                        if let document = document, document.exists {
+                            // user already exists so there's nothing further to do
+                            return
+                        } else {
+                            // user doesn't yet exist, so we need to get the Facebook data into Firestore
+                            self.getFacebookData()
+                        }
+                    }
+                }
             }
         }
     }
-
-
-    func setUpElements() {
-        
-        // Style the elements
-        Utilities.styleFilledButton(logInButton)
-        Utilities.styleFilledButton(signUpButton)
-        Utilities.styleFilledButton(facebookButton)
-        
+    
+    func getFacebookData() {
+        let connection = GraphRequestConnection()
+        connection.add(MyProfileRequest()) { response, result in
+            switch result {
+            case .success(let response):
+                
+                print("Custom Graph Request Succeeded: \(response)")
+                let firstname = response.firstname
+                let lastname = response.lastname
+                let email = response.email
+                let facebookID = response.id
+                var photoURL = ""
+                
+                if let fID = response.id {
+                    photoURL = "http://graph.facebook.com/\(fID)/picture?type=large"
+                }
+            
+                self.addDataToFirebase(firstname: firstname, lastname: lastname, email: email, photoURL: photoURL, facebookID: facebookID)
+                
+            case .failed(let error):
+                print("Custom Graph Request Failed: \(error)")
+            }
+        }
+        connection.start()
+    }
+    
+    // this needs better error handling
+    // note the merge: true parameter in the .setData as a safeguard against overwriting any existing data, although this func should only be called when there is no preexisting user record in Firestore
+    func addDataToFirebase(firstname: String?, lastname: String?, email: String?, photoURL: String?, facebookID: String?) {
+        if let firebaseID = Auth.auth().currentUser?.uid {
+            Firestore.firestore().collection("users").document(firebaseID).setData(["firstname": firstname ?? "", "lastname": lastname ?? "", "email": email ?? "", "balance": 0, "photoURL": photoURL ?? "", "facebookID": facebookID ?? ""], merge: true) { (error) in
+                
+                if error != nil {
+                    // Show error message
+                    print("Error saving user data")
+                }
+            }
+        } else { return }
     }
     
     
@@ -110,6 +162,9 @@ class LoginViewController: UIViewController {
         
         view.layer.insertSublayer(videoPlayerLayer!, at: 0)
         
+        // None of our movies should interrupt system music playback.
+        _ = try? AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.playback, mode: .default, options: .mixWithOthers)
+        
         // Add it to the view and play it
         videoPlayer?.playImmediately(atRate: 1)
     }
@@ -119,8 +174,71 @@ class LoginViewController: UIViewController {
     }
     
     @IBAction func unwindToLogin(_ unwindSegue: UIStoryboardSegue) {
-        let sourceViewController = unwindSegue.source
+//        let sourceViewController = unwindSegue.source
         // Use data from the view controller which initiated the unwind segue
+    }
+    
+    struct MyProfileRequest: GraphRequestProtocol {
+        struct Response: GraphResponseProtocol {
+            var name: String?
+            var firstname: String?
+            var lastname: String?
+            var id: String?
+            var gender: String?
+            var email: String?
+            var profilePictureUrl: String?
+            
+            init(rawResponse: Any?) {
+                // Decode JSON from rawResponse into other properties here.
+                guard let response = rawResponse as? Dictionary<String, Any> else {
+                    return
+                }
+                
+                if let name = response["name"] as? String {
+                    self.name = name
+                }
+                
+                if let firstname = response["first_name"] as? String {
+                    self.firstname = firstname
+                }
+                
+                if let lastname = response["last_name"] as? String {
+                    self.lastname = lastname
+                }
+                
+                if let id = response["id"] as? String {
+                    self.id = id
+                }
+                
+                if let email = response["email"] as? String {
+                    self.email = email
+                }
+                
+//                if let picture = response["picture"] as? Dictionary<String, Any> {
+//
+//                    if let data = picture["data"] as? Dictionary<String, Any> {
+//                        if let url = data["url"] as? String {
+//                            self.profilePictureUrl = url
+//                        }
+//                    }
+//                }
+            }
+        }
+        
+        var graphPath = "/me"
+        var parameters: [String : Any]? = ["fields": "id, first_name, last_name, email"]
+        var accessToken = AccessToken.current
+        var httpMethod: GraphRequestHTTPMethod = .GET
+        var apiVersion: GraphAPIVersion = .defaultVersion
+        
+    }
+    
+    func setUpElements() {
+        
+        // Style the elements
+        Utilities.styleFilledButton(logInButton)
+        Utilities.styleFilledButton(signUpButton)
+        //        Utilities.styleFilledButton(facebookButton)
     }
     
 //  DEPRECATED
