@@ -38,19 +38,6 @@ exports.createNewMangopayCustomer = functions.region('europe-west1').firestore.d
   var nationality = 'GB'
   var residence = 'FR'
 
-  // // this can be rewritten 
-  // await admin.firestore().collection('users').doc(context.params.id).get().then(doc => {
-  //   userData = doc.data();
-  //   firstname = userData.firstname;
-  //   lastname = userData.lastname;
-  //   email = userData.email;
-  //   console.log('firestore returned firstname as:' + userData.firstname)
-  //   return
-  // })
-  // .catch(err => {
-  //   console.log('Error getting document:', err);
-  // });
-
   const customer = await mpAPI.Users.create({PersonType: 'NATURAL', FirstName: firstname, LastName: lastname, Birthday: birthday, Nationality: nationality, CountryOfResidence: residence, Email: email});
 
   return admin.firestore().collection('users').doc(context.params.id).update({mangopayID: customer.Id});
