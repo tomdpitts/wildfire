@@ -29,27 +29,27 @@ admin.initializeApp(functions.config().firebase);
 // When a user is created, register them with MangoPay and add an empty PaymentMethods collection
 exports.createNewMangopayCustomer = functions.region('europe-west1').firestore.document('users/{id}').onCreate(async (snap, context) => {
   
-  console.log(snap)
-  var firstname = ''
-  var lastname = ''
-  var email = ''
+  const data = snap.data()
+
+  var firstname = data.firstname
+  var lastname = data.lastname
+  var email = data.email
   var birthday = 1463496101
   var nationality = 'GB'
   var residence = 'FR'
 
-  await admin.firestore().collection('users').doc(context.params.id).get().then(doc => {
-    userData = doc.data();
-    firstname = userData.firstname;
-    lastname = userData.lastname;
-    email = userData.email;
-    console.log('firestore returned firstname as:' + userData.firstname)
-    return
-  })
-  .catch(err => {
-    console.log('Error getting document:', err);
-  });
-
-  console.log('the variable firstname is:' + firstname)
+  // // this can be rewritten 
+  // await admin.firestore().collection('users').doc(context.params.id).get().then(doc => {
+  //   userData = doc.data();
+  //   firstname = userData.firstname;
+  //   lastname = userData.lastname;
+  //   email = userData.email;
+  //   console.log('firestore returned firstname as:' + userData.firstname)
+  //   return
+  // })
+  // .catch(err => {
+  //   console.log('Error getting document:', err);
+  // });
 
   const customer = await mpAPI.Users.create({PersonType: 'NATURAL', FirstName: firstname, LastName: lastname, Birthday: birthday, Nationality: nationality, CountryOfResidence: residence, Email: email});
 

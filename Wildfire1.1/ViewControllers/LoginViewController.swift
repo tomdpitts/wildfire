@@ -19,6 +19,8 @@ class LoginViewController: UIViewController {
     
     var videoPlayerLayer:AVPlayerLayer?
     
+    private let readPermissions: [ReadPermission] = [ .publicProfile, .email]
+    
     @IBOutlet weak var logInButton: UIButton!
     
     @IBOutlet weak var signUpButton: UIButton!
@@ -26,14 +28,12 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var facebookButton: UIButton!
     
     
-    
-    private let readPermissions: [ReadPermission] = [ .publicProfile, .email, .userFriends, .custom("user_posts") ]
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
         setUpElements()
+        
+        // builds facebook button
         let buttonText = NSAttributedString(string: "Login with Facebook")
         facebookButton.setAttributedTitle(buttonText, for: .normal)
         facebookButton.titleLabel?.textAlignment = NSTextAlignment.center
@@ -64,7 +64,9 @@ class LoginViewController: UIViewController {
             // log the user into Firebase (if the user doesn't already exist, it is created automatically)
             FirebaseAuthManager().login(credential: FacebookAuthProvider.credential(withAccessToken: accessToken.authenticationToken)) {[weak self] (success) in
                 
+                // this weird line is to prevent memory leak: https://benscheirman.com/2018/09/capturing-self-with-swift-4-2/
                 guard let self = self else { return }
+                
                 var message: String = ""
                 if (success) {
                     message = "User was sucessfully logged in."
@@ -72,10 +74,12 @@ class LoginViewController: UIViewController {
                     message = "There was an error."
                 }
                 
+                // pop up an alert to tell user the login was successful, or not
                 let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
                 self.present(alert, animated: true)
                 
+                // user is already logged into Firebase, but we want to check if there's already a firestore doc for that user, and add one if not
                 if let uid = Auth.auth().currentUser?.uid {
                     
                     let docRef = Firestore.firestore().collection("users").document(uid)
@@ -108,6 +112,7 @@ class LoginViewController: UIViewController {
                 let facebookID = response.id
                 var photoURL = ""
                 
+                // this is the easiest way to access the Facebook profile pic (type options: small (50px), normal (100px), large (200px), square (?))
                 if let fID = response.id {
                     photoURL = "http://graph.facebook.com/\(fID)/picture?type=large"
                 }
@@ -178,6 +183,7 @@ class LoginViewController: UIViewController {
         // Use data from the view controller which initiated the unwind segue
     }
     
+    // this struct is a handy way to access facebook's graph api for facebook data
     struct MyProfileRequest: GraphRequestProtocol {
         struct Response: GraphResponseProtocol {
             var name: String?
