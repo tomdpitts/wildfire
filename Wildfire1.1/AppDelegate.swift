@@ -28,6 +28,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // one for later
 //        let db = Firestore.firestore()
         FBSDKApplicationDelegate.sharedInstance()?.application(application, didFinishLaunchingWithOptions: launchOptions)
+        
+//        // used to store profile pic cache key across sessions, to save from having to download it again from Storage
+//        let defaults = UserDefaults.standard
+//        let defaultValue = ["profilePicCacheKey": ""]
+//        defaults.register(defaults: defaultValue)
+        
         return true
     }
     

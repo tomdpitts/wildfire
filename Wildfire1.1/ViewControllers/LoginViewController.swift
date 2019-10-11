@@ -10,14 +10,22 @@ import UIKit
 import AVKit
 import FirebaseAuth
 import FirebaseFirestore
+import FirebaseStorage
 import FacebookCore
 import FacebookLogin
+import Alamofire
 
 class LoginViewController: UIViewController {
 
     var videoPlayer:AVPlayer?
-    
     var videoPlayerLayer:AVPlayerLayer?
+    
+    var profilePic: UIImage? {
+        // using didSet to trigger automatically upload to Storage when the profilePic image is added/changed
+        didSet {
+            uploadProfilePic(imageToUpload: self.profilePic)
+        }
+    }
     
     private let readPermissions: [ReadPermission] = [ .publicProfile, .email]
     
@@ -79,6 +87,8 @@ class LoginViewController: UIViewController {
                 alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
                 self.present(alert, animated: true)
                 
+                self.getFacebookData()
+                
                 // user is already logged into Firebase, but we want to check if there's already a firestore doc for that user, and add one if not
                 if let uid = Auth.auth().currentUser?.uid {
                     
@@ -99,6 +109,49 @@ class LoginViewController: UIViewController {
         }
     }
     
+    fileprivate func uploadProfilePic(imageToUpload: UIImage?) {
+        // let's give the filename as the user id for simplicity
+        guard let filename = Auth.auth().currentUser?.uid,
+            let profilePic = imageToUpload,
+            let uploadData = profilePic.jpegData(compressionQuality: 0.9) else { return }
+        
+        let storageRef = Storage.storage().reference().child("profilePictures").child(filename)
+        let uploadTask = storageRef.putData(uploadData, metadata: nil) { (metadata, err) in
+            if let err = err {
+                print(err)
+                return
+            }
+        }
+        // template for deeper error handling TODO: complete this
+        uploadTask.observe(.failure) { snapshot in
+            if let error = snapshot.error as NSError? {
+                switch (StorageErrorCode(rawValue: error.code)!) {
+                case .objectNotFound:
+                    // File doesn't exist
+                    break
+                case .unauthorized:
+                    // User doesn't have permission to access file
+                    break
+                case .cancelled:
+                    // User canceled the upload
+                    break
+                    
+                    /* ... */
+                    
+                case .unknown:
+                    // Unknown error occurred, inspect the server response
+                    break
+                default:
+                    // A separate error occurred. This is a good place to retry the upload.
+                    break
+                }
+            }
+        }
+        uploadTask.observe(.success) { snapshot in
+            
+        }
+    }
+    
     func getFacebookData() {
         let connection = GraphRequestConnection()
         connection.add(MyProfileRequest()) { response, result in
@@ -106,17 +159,31 @@ class LoginViewController: UIViewController {
             case .success(let response):
                 
                 print("Custom Graph Request Succeeded: \(response)")
+                
                 let firstname = response.firstname
                 let lastname = response.lastname
                 let email = response.email
                 let facebookID = response.id
-                var photoURL = ""
+                let photoURL = response.profilePictureURL
                 
-                // this is the easiest way to access the Facebook profile pic (type options: small (50px), normal (100px), large (200px), square (?))
-                if let fID = response.id {
-                    photoURL = "http://graph.facebook.com/\(fID)/picture?type=large"
+                print(photoURL as Any)
+                
+                if let photoURL = photoURL {
+                    Alamofire.request(photoURL).responseData(completionHandler: { (response) in
+                        if let data = response.value {
+                            let image = UIImage(data: data)
+                            // upload of the profilePic is handled automatically on change of the self.profilePic variable by uploadProfilePic func
+                            self.profilePic = image
+                        }
+                    })
                 }
-            
+                
+                
+//                // old: this is the easiest way to access the Facebook profile pic (type options: small (50px), normal (100px), large (200px), square (?))
+//                if let fID = response.id {
+//                    photoURL = "http://graph.facebook.com/\(fID)/picture?type=large"
+//                }
+                
                 self.addDataToFirebase(firstname: firstname, lastname: lastname, email: email, photoURL: photoURL, facebookID: facebookID)
                 
             case .failed(let error):
@@ -186,22 +253,16 @@ class LoginViewController: UIViewController {
     // this struct is a handy way to access facebook's graph api for facebook data
     struct MyProfileRequest: GraphRequestProtocol {
         struct Response: GraphResponseProtocol {
-            var name: String?
             var firstname: String?
             var lastname: String?
             var id: String?
-            var gender: String?
             var email: String?
-            var profilePictureUrl: String?
+            var profilePictureURL: String?
             
             init(rawResponse: Any?) {
                 // Decode JSON from rawResponse into other properties here.
                 guard let response = rawResponse as? Dictionary<String, Any> else {
                     return
-                }
-                
-                if let name = response["name"] as? String {
-                    self.name = name
                 }
                 
                 if let firstname = response["first_name"] as? String {
@@ -220,19 +281,19 @@ class LoginViewController: UIViewController {
                     self.email = email
                 }
                 
-//                if let picture = response["picture"] as? Dictionary<String, Any> {
-//
-//                    if let data = picture["data"] as? Dictionary<String, Any> {
-//                        if let url = data["url"] as? String {
-//                            self.profilePictureUrl = url
-//                        }
-//                    }
-//                }
+                if let picture = response["picture"] as? Dictionary<String, Any> {
+
+                    if let data = picture["data"] as? Dictionary<String, Any> {
+                        if let url = data["url"] as? String {
+                            self.profilePictureURL = url
+                        }
+                    }
+                }
             }
         }
         
         var graphPath = "/me"
-        var parameters: [String : Any]? = ["fields": "id, first_name, last_name, email"]
+        var parameters: [String : Any]? = ["fields": "id, first_name, last_name, email, picture.type(large)"]
         var accessToken = AccessToken.current
         var httpMethod: GraphRequestHTTPMethod = .GET
         var apiVersion: GraphAPIVersion = .defaultVersion

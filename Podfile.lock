@@ -44,6 +44,9 @@ PODS:
   - Firebase/Functions (5.16.0):
     - Firebase/CoreOnly
     - FirebaseFunctions (= 2.2.0)
+  - Firebase/Storage (5.16.0):
+    - Firebase/CoreOnly
+    - FirebaseStorage (= 3.1.0)
   - FirebaseAnalytics (5.5.0):
     - FirebaseCore (~> 5.2)
     - FirebaseInstanceID (~> 3.4)
@@ -88,6 +91,13 @@ PODS:
     - FirebaseCore (~> 5.2)
     - GoogleUtilities/Environment (~> 5.3)
     - GoogleUtilities/UserDefaults (~> 5.3)
+  - FirebaseStorage (3.1.0):
+    - FirebaseAuthInterop (~> 1.0)
+    - FirebaseCore (~> 5.2)
+    - GTMSessionFetcher/Core (~> 1.1)
+  - FirebaseUI/Storage (6.2.1):
+    - Firebase/Storage (~> 5.0)
+    - SDWebImage (~> 4.0)
   - GoogleAppMeasurement (5.5.0):
     - GoogleUtilities/AppDelegateSwizzler (~> 5.2)
     - GoogleUtilities/MethodSwizzler (~> 5.2)
@@ -129,6 +139,7 @@ PODS:
     - nanopb (~> 0.3)
   - gRPC-Core/Interface (1.17.0)
   - GTMSessionFetcher/Core (1.2.1)
+  - Kingfisher (5.7.1)
   - leveldb-library (1.20)
   - mangopay (1.0.2)
   - nanopb (0.3.901):
@@ -137,6 +148,9 @@ PODS:
   - nanopb/decode (0.3.901)
   - nanopb/encode (0.3.901)
   - Protobuf (3.6.1)
+  - SDWebImage (4.4.7):
+    - SDWebImage/Core (= 4.4.7)
+  - SDWebImage/Core (4.4.7)
   - SwiftyJSON (4.2.0)
 
 DEPENDENCIES:
@@ -150,6 +164,9 @@ DEPENDENCIES:
   - Firebase/Database
   - Firebase/Firestore
   - Firebase/Functions
+  - Firebase/Storage
+  - FirebaseUI/Storage
+  - Kingfisher
   - mangopay
   - SwiftyJSON
 
@@ -172,15 +189,19 @@ SPEC REPOS:
     - FirebaseFirestore
     - FirebaseFunctions
     - FirebaseInstanceID
+    - FirebaseStorage
+    - FirebaseUI
     - GoogleAppMeasurement
     - GoogleUtilities
     - "gRPC-C++"
     - gRPC-Core
     - GTMSessionFetcher
+    - Kingfisher
     - leveldb-library
     - mangopay
     - nanopb
     - Protobuf
+    - SDWebImage
     - SwiftyJSON
 
 SPEC CHECKSUMS:
@@ -201,17 +222,21 @@ SPEC CHECKSUMS:
   FirebaseFirestore: 6f2b93b4f7bb8416628142763c91ccc00fa04c86
   FirebaseFunctions: f35dd01ba4cfd036c1c521b3ed99851d7ec08c70
   FirebaseInstanceID: 97ea7a5dca9afd72c79bfcdddb7a44aa1cbb42a1
+  FirebaseStorage: 29075f874c2b3cf61e5221a62c4ceefc809e5412
+  FirebaseUI: c9e227a7d44e2e422a461cb3f4ead8dc5c7326e6
   GoogleAppMeasurement: 621f3bc6211d5ba548debe01fafad30cf5ab6859
   GoogleUtilities: 111a012f4c3a29c9e7c954c082fafd6ee3c999c0
   "gRPC-C++": e76441995900ac90e9bd98644ab4733f12521edf
   gRPC-Core: 4028031ed2c5267cca0d846c876d8046b1ecb9b6
   GTMSessionFetcher: 32aeca0aa144acea523e1c8e053089dec2cb98ca
+  Kingfisher: 176d377ad339113c99ad4980cbae687f807e20fe
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
   mangopay: c8005077cfd2b6813b99d52a4cd78238eb1082e7
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
   Protobuf: 1eb9700044745f00181c136ef21b8ff3ad5a0fd5
+  SDWebImage: c10d14a8883ebd89664f02a422006f66a85c0c5d
   SwiftyJSON: c4bcba26dd9ec7a027fc8eade48e2c911f229e96
 
-PODFILE CHECKSUM: 6007d7218264cc31b462b04f12f18388cf4edd83
+PODFILE CHECKSUM: a31f8c35e73531530b690d389bfa96a79023bc2a
 
 COCOAPODS: 1.5.3

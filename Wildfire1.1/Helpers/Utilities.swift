@@ -32,7 +32,7 @@ class Utilities {
         
         // Filled rounded corner style
         button.backgroundColor = UIColor.init(red: 57/255, green: 195/255, blue: 198/255, alpha: 1)
-        button.layer.cornerRadius = 25.0
+        button.layer.cornerRadius = 20.0
         button.tintColor = UIColor.white
     }
     
@@ -131,3 +131,4 @@ extension UIImageView {
         return CGRect(x: x, y: y, width: size.width, height: size.height)
     }
 }
+

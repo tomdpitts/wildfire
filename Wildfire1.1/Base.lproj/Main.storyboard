@@ -582,6 +582,19 @@
                                     <constraint firstItem="NrU-I3-Jiv" firstAttribute="height" secondItem="Ltx-sB-Zog" secondAttribute="height" id="iKj-oh-yBl"/>
                                 </constraints>
                             </stackView>
+                            <stackView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="9Sz-oF-vUW">
+                                <rect key="frame" x="326" y="35" width="70" height="70"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="aIZ-fg-1Cr">
+                                        <rect key="frame" x="0.0" y="0.0" width="70" height="70"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="70" id="Eep-Xm-M6D"/>
+                                            <constraint firstAttribute="height" constant="70" id="MdJ-lh-wGm"/>
+                                        </constraints>
+                                    </imageView>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -605,9 +618,11 @@
                         <outlet property="accountBalance" destination="aNa-nh-Xuv" id="LKX-kf-ZmI"/>
                         <outlet property="addPaymentMethodButton" destination="NrU-I3-Jiv" id="3ze-PQ-1px"/>
                         <outlet property="goToLoginButton" destination="Ltx-sB-Zog" id="FTh-nv-Ntq"/>
+                        <outlet property="profilePicView" destination="aIZ-fg-1Cr" id="lnw-Vc-LCe"/>
                         <outlet property="signOutButton" destination="ENQ-7L-jw7" id="uxu-Jb-lt1"/>
                         <outlet property="uidLabel" destination="vfa-fT-ZvN" id="jLS-uo-ZkV"/>
                         <segue destination="5ui-FC-2iH" kind="show" identifier="goToLogin" id="zvn-fx-uIz"/>
+                        <segue destination="7Vm-q6-s2U" kind="presentation" identifier="profilePicPicker" id="6vQ-sx-CXu"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vQQ-7h-bU5" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -939,6 +954,32 @@
             </objects>
             <point key="canvasLocation" x="907.24637681159425" y="0.0"/>
         </scene>
+        <!--Profile Pic View Controller-->
+        <scene sceneID="8uR-gI-71x">
+            <objects>
+                <viewController id="7Vm-q6-s2U" customClass="ProfilePicViewController" customModule="Wildfire1_1" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="oJ7-fz-xyE">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4FO-g0-LYY">
+                                <rect key="frame" x="44" y="70" width="34" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Back"/>
+                                <connections>
+                                    <segue destination="ivJ-f1-pSg" kind="unwind" unwindAction="unwindToPrevious:" id="33T-ld-2ng"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="N68-0E-283"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="aMG-Uy-CHU" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="ivJ-f1-pSg" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="1669" y="1908"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="E0t-5w-5ta">
             <objects>
@@ -964,8 +1005,8 @@
         <image name="icons8-paper-plane-50" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="SZ6-Gz-xE1"/>
+        <segue reference="zvn-fx-uIz"/>
         <segue reference="Imv-iW-H17"/>
-        <segue reference="glY-7p-FZI"/>
+        <segue reference="ruc-aj-d7j"/>
     </inferredMetricsTieBreakers>
 </document>

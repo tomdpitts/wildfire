@@ -25,6 +25,7 @@
 		E24388AA231575DA00948AD5 /* CustomSegues.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24388A9231575DA00948AD5 /* CustomSegues.swift */; };
 		E24388AD2315A5AC00948AD5 /* WildfireLogin.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = E24388AC2315A5AC00948AD5 /* WildfireLogin.mp4 */; };
 		E25213B9234E4375003B2160 /* FirebaseAuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25213B8234E4375003B2160 /* FirebaseAuthManager.swift */; };
+		E26039782350DABA0031C792 /* ProfilePicViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E26039772350DABA0031C792 /* ProfilePicViewController.swift */; };
 		E278AE0621FCEFDF00A65309 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E278AE0521FCEFDF00A65309 /* GoogleService-Info.plist */; };
 		E279717D231433AF00964F25 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E279717C231433AF00964F25 /* SignUpViewController.swift */; };
 		E279717F231433D500964F25 /* ExistingUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E279717E231433D500964F25 /* ExistingUserViewController.swift */; };
@@ -71,6 +72,7 @@
 		E24388A9231575DA00948AD5 /* CustomSegues.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSegues.swift; sourceTree = "<group>"; };
 		E24388AC2315A5AC00948AD5 /* WildfireLogin.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = WildfireLogin.mp4; sourceTree = "<group>"; };
 		E25213B8234E4375003B2160 /* FirebaseAuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseAuthManager.swift; sourceTree = "<group>"; };
+		E26039772350DABA0031C792 /* ProfilePicViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePicViewController.swift; sourceTree = "<group>"; };
 		E278AE0521FCEFDF00A65309 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		E279717C231433AF00964F25 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		E279717E231433D500964F25 /* ExistingUserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExistingUserViewController.swift; sourceTree = "<group>"; };
@@ -204,6 +206,7 @@
 				E2FA9ED52333D70D0068792D /* PaymentSetupViewController.swift */,
 				E21AC98421EA6C9E00D460A9 /* AccountViewController.swift */,
 				E222732923420BBE006D8326 /* AddCardViewController.swift */,
+				E26039772350DABA0031C792 /* ProfilePicViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -353,7 +356,9 @@
 				"${BUILT_PRODUCTS_DIR}/FacebookLogin/FacebookLogin.framework",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
+				"${BUILT_PRODUCTS_DIR}/Kingfisher/Kingfisher.framework",
 				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
+				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 				"${BUILT_PRODUCTS_DIR}/gRPC-C++/grpcpp.framework",
 				"${BUILT_PRODUCTS_DIR}/gRPC-Core/grpc.framework",
@@ -375,7 +380,9 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FacebookLogin.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Kingfisher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/grpcpp.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/grpc.framework",
@@ -419,6 +426,7 @@
 			files = (
 				E2026709230ED8CF003C0AF4 /* LoginViewController.swift in Sources */,
 				E2FA9ED62333D70D0068792D /* PaymentSetupViewController.swift in Sources */,
+				E26039782350DABA0031C792 /* ProfilePicViewController.swift in Sources */,
 				E24388A82315532200948AD5 /* Constants.swift in Sources */,
 				E21AC96721EA6BEF00D460A9 /* ReceiveViewController.swift in Sources */,
 				E2B979E3232960B000194E75 /* ConfirmViewController.swift in Sources */,

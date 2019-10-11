@@ -29,6 +29,12 @@
     
 <!--  end of Facebook related modules  -->
 
+<!-- Photo picker requirements -->
+    <key>NSCameraUsageDescription</key>
+    <string>This app requires access to the camera.</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>This app requires access to the photo library.</string>
+
 	<key>NSCameraUsageDescription</key>
 	<string>Wildfire needs to use the camera to scan QR codes</string>
 	<key>CFBundleDevelopmentRegion</key>
