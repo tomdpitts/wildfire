@@ -622,7 +622,7 @@
                         <outlet property="signOutButton" destination="ENQ-7L-jw7" id="uxu-Jb-lt1"/>
                         <outlet property="uidLabel" destination="vfa-fT-ZvN" id="jLS-uo-ZkV"/>
                         <segue destination="5ui-FC-2iH" kind="show" identifier="goToLogin" id="zvn-fx-uIz"/>
-                        <segue destination="7Vm-q6-s2U" kind="presentation" identifier="profilePicPicker" id="6vQ-sx-CXu"/>
+                        <segue destination="7Vm-q6-s2U" kind="presentation" identifier="profilePicSegue" id="6vQ-sx-CXu"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vQQ-7h-bU5" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -957,28 +957,66 @@
         <!--Profile Pic View Controller-->
         <scene sceneID="8uR-gI-71x">
             <objects>
-                <viewController id="7Vm-q6-s2U" customClass="ProfilePicViewController" customModule="Wildfire1_1" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="profilePicVC" id="7Vm-q6-s2U" customClass="ProfilePicViewController" customModule="Wildfire1_1" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="oJ7-fz-xyE">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4FO-g0-LYY">
-                                <rect key="frame" x="44" y="70" width="34" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4FO-g0-LYY">
+                                <rect key="frame" x="44" y="61" width="34" height="30"/>
                                 <state key="normal" title="Back"/>
                                 <connections>
-                                    <segue destination="ivJ-f1-pSg" kind="unwind" unwindAction="unwindToPrevious:" id="33T-ld-2ng"/>
+                                    <segue destination="ivJ-f1-pSg" kind="unwind" unwindAction="unwindToPrevious:" id="sLj-zt-4hK"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="73u-NB-3uI">
+                                <rect key="frame" x="317" y="61" width="30" height="30"/>
+                                <state key="normal" title="Edit"/>
+                                <connections>
+                                    <action selector="editProfilePicButton:" destination="7Vm-q6-s2U" eventType="touchUpInside" id="nfe-DQ-IHE"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZVE-iR-KzM">
+                                <rect key="frame" x="50" y="567.66666666666663" width="314" height="30.333333333333371"/>
+                                <state key="normal" title="Confirm"/>
+                                <connections>
+                                    <action selector="confirmButtonTapped:" destination="7Vm-q6-s2U" eventType="touchUpInside" id="lSD-g4-qsS"/>
+                                </connections>
+                            </button>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Qct-Jo-Jww">
+                                <rect key="frame" x="53" y="214.66666666666663" width="308" height="307"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="307" id="CrS-IO-F3d"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="Qct-Jo-Jww" firstAttribute="centerX" secondItem="oJ7-fz-xyE" secondAttribute="centerX" id="0bx-QW-Fd0"/>
+                            <constraint firstItem="ZVE-iR-KzM" firstAttribute="top" secondItem="Qct-Jo-Jww" secondAttribute="bottom" constant="46" id="1Qh-eO-YH5"/>
+                            <constraint firstItem="Qct-Jo-Jww" firstAttribute="centerY" secondItem="oJ7-fz-xyE" secondAttribute="centerY" id="2bi-Zr-VOs"/>
+                            <constraint firstItem="4FO-g0-LYY" firstAttribute="baseline" secondItem="73u-NB-3uI" secondAttribute="baseline" id="3MT-so-bix"/>
+                            <constraint firstItem="Qct-Jo-Jww" firstAttribute="leading" secondItem="N68-0E-283" secondAttribute="leading" constant="53" id="A3i-LY-5bA"/>
+                            <constraint firstItem="N68-0E-283" firstAttribute="bottom" secondItem="ZVE-iR-KzM" secondAttribute="bottom" constant="138" id="Dv5-DH-XEw"/>
+                            <constraint firstItem="4FO-g0-LYY" firstAttribute="leading" secondItem="N68-0E-283" secondAttribute="leading" constant="44" id="Go1-nY-6yl"/>
+                            <constraint firstItem="N68-0E-283" firstAttribute="trailing" secondItem="73u-NB-3uI" secondAttribute="trailing" constant="67" id="KKB-v1-7U6"/>
+                            <constraint firstItem="N68-0E-283" firstAttribute="trailing" secondItem="ZVE-iR-KzM" secondAttribute="trailing" constant="50" id="R8q-Hk-ZpS"/>
+                            <constraint firstItem="4FO-g0-LYY" firstAttribute="top" secondItem="N68-0E-283" secondAttribute="top" constant="41" id="Rji-Ba-dgh"/>
+                            <constraint firstItem="ZVE-iR-KzM" firstAttribute="leading" secondItem="N68-0E-283" secondAttribute="leading" constant="50" id="ZYv-iY-WL5"/>
+                            <constraint firstItem="ZVE-iR-KzM" firstAttribute="centerX" secondItem="oJ7-fz-xyE" secondAttribute="centerX" id="iWV-oZ-D3N"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="N68-0E-283"/>
                     </view>
+                    <connections>
+                        <outlet property="confirmButton" destination="ZVE-iR-KzM" id="geu-nH-bRw"/>
+                        <outlet property="pictureView" destination="Qct-Jo-Jww" id="Vjm-sZ-O36"/>
+                        <segue destination="ivJ-f1-pSg" kind="unwind" identifier="unwindToPrevious" unwindAction="unwindToPrevious:" id="kWW-B2-keO"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aMG-Uy-CHU" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="ivJ-f1-pSg" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="1669" y="1908"/>
+            <point key="canvasLocation" x="1668.1159420289857" y="1907.608695652174"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="E0t-5w-5ta">

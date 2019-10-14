@@ -16,6 +16,8 @@ import Kingfisher
 
 class AccountViewController: UIViewController {
     
+    
+    
     @IBOutlet var accountBalance: UILabel!
     @IBOutlet weak var uidLabel: UILabel!
     
@@ -36,13 +38,16 @@ class AccountViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        NotificationCenter.default.addObserver(self, selector: #selector(updateProfilePicView), name: Notification.Name("newProfilePicUploaded"), object: nil)
+
+        
+        // this line doesn't seem to be necessary
         // create tap gesture recognizer
         let tapGesture = UITapGestureRecognizer(target: self, action: Selector(("imageTapped:")))
         
-        // add it to the image view;
-        profilePicView.addGestureRecognizer(tapGesture)
-        // make sure imageView can be interacted with by user
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(profilePicTapped(tapGestureRecognizer:)))
         profilePicView.isUserInteractionEnabled = true
+        profilePicView.addGestureRecognizer(tapGestureRecognizer)
         
         updateProfilePicView()
         
@@ -97,8 +102,15 @@ class AccountViewController: UIViewController {
         
         
     }
+
     
-    
+    @objc func profilePicTapped(tapGestureRecognizer: UITapGestureRecognizer)
+    {
+        // this line doesn't seem to be necessary
+//        let tappedImage = tapGestureRecognizer.view as! UIImageView
+        
+        performSegue(withIdentifier: "profilePicSegue", sender: self)
+    }
     
     @IBAction func refreshUID(_ sender: Any) {
         
@@ -163,7 +175,8 @@ class AccountViewController: UIViewController {
     }
     
     
-    func updateProfilePicView() {
+    @objc func updateProfilePicView() {
+
         if let uid = Auth.auth().currentUser?.uid {
             let storageRef = Storage.storage().reference().child("profilePictures").child(uid)
 
@@ -201,10 +214,6 @@ class AccountViewController: UIViewController {
         }
     }
     
-    func imageTapped() {
-        
-        performSegue(withIdentifier: "profilePicPicker", sender: self)
-    }
     
 //    func updateProfilePicView() {
 //
