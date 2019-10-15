@@ -586,7 +586,7 @@
                                 <rect key="frame" x="326" y="35" width="70" height="70"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="aIZ-fg-1Cr">
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="genericProfilePic" translatesAutoresizingMaskIntoConstraints="NO" id="aIZ-fg-1Cr">
                                         <rect key="frame" x="0.0" y="0.0" width="70" height="70"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="70" id="Eep-Xm-M6D"/>
@@ -622,7 +622,7 @@
                         <outlet property="signOutButton" destination="ENQ-7L-jw7" id="uxu-Jb-lt1"/>
                         <outlet property="uidLabel" destination="vfa-fT-ZvN" id="jLS-uo-ZkV"/>
                         <segue destination="5ui-FC-2iH" kind="show" identifier="goToLogin" id="zvn-fx-uIz"/>
-                        <segue destination="7Vm-q6-s2U" kind="presentation" identifier="profilePicSegue" id="6vQ-sx-CXu"/>
+                        <segue destination="7Vm-q6-s2U" kind="presentation" identifier="profilePicSegue" modalTransitionStyle="coverVertical" id="6vQ-sx-CXu"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vQQ-7h-bU5" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -983,7 +983,7 @@
                                     <action selector="confirmButtonTapped:" destination="7Vm-q6-s2U" eventType="touchUpInside" id="lSD-g4-qsS"/>
                                 </connections>
                             </button>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Qct-Jo-Jww">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="genericProfilePic" translatesAutoresizingMaskIntoConstraints="NO" id="Qct-Jo-Jww">
                                 <rect key="frame" x="53" y="214.66666666666663" width="308" height="307"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="307" id="CrS-IO-F3d"/>
@@ -1038,6 +1038,7 @@
     </scenes>
     <resources>
         <image name="Ic_account_circle.png" width="16" height="16"/>
+        <image name="genericProfilePic" width="920" height="678"/>
         <image name="icons8-encrypt-50" width="25" height="25"/>
         <image name="icons8-get-cash-filled-50" width="25" height="25"/>
         <image name="icons8-paper-plane-50" width="25" height="25"/>

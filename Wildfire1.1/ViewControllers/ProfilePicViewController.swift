@@ -20,8 +20,12 @@ class ProfilePicViewController: UIViewController, UINavigationControllerDelegate
         confirmButton.isHidden = true
         confirmButton.isEnabled = false
         
+        pictureView.image = currentProfilePic
+        pictureView.layer.cornerRadius = pictureView.frame.height/3
+        
     }
 
+    var currentProfilePic = UIImage(named: "genericProfilePic")
     
     @IBOutlet weak var pictureView: UIImageView!
     

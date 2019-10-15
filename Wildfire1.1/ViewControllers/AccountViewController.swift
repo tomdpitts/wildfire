@@ -16,7 +16,7 @@ import Kingfisher
 
 class AccountViewController: UIViewController {
     
-    
+    var currentProfilePic = UIImage(named: "genericProfilePic")
     
     @IBOutlet var accountBalance: UILabel!
     @IBOutlet weak var uidLabel: UILabel!
@@ -38,17 +38,23 @@ class AccountViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        profilePicView.image = currentProfilePic
+        profilePicView.layer.cornerRadius = profilePicView.frame.height/3
+        
+        // this checks for change of profile pic (from within app)
         NotificationCenter.default.addObserver(self, selector: #selector(updateProfilePicView), name: Notification.Name("newProfilePicUploaded"), object: nil)
+        
+        // these enable touch on the profile pic
+            // this line doesn't seem to be necessary
+            // create tap gesture recognizer
+//            let tapGesture = UITapGestureRecognizer(target: self, action: Selector(("imageTapped:")))
+        
+            let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(profilePicTapped(tapGestureRecognizer:)))
 
+            profilePicView.isUserInteractionEnabled = true
+            profilePicView.addGestureRecognizer(tapGestureRecognizer)
         
-        // this line doesn't seem to be necessary
-        // create tap gesture recognizer
-        let tapGesture = UITapGestureRecognizer(target: self, action: Selector(("imageTapped:")))
-        
-        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(profilePicTapped(tapGestureRecognizer:)))
-        profilePicView.isUserInteractionEnabled = true
-        profilePicView.addGestureRecognizer(tapGestureRecognizer)
-        
+        // on load, get the profile pic from Firebase Storage
         updateProfilePicView()
         
         Utilities.styleFilledButton(goToLoginButton)
@@ -86,23 +92,17 @@ class AccountViewController: UIViewController {
             self.liveBalance = String(describing: balance)
             
         }
-        
-        // print(balance!)
-        //self.accountBalance.text = "\(balance ?? default error)"
-    
-        
-        /*if balance != nil {
-        
-            self.accountBalance.text = "\(balance)"
-         
-         
-        }*/
-        
     })
-        
-        
     }
-
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.destination is ProfilePicViewController {
+            let destination = segue.destination as! ProfilePicViewController
+            if let pic = self.currentProfilePic {
+                destination.currentProfilePic = pic
+            } else { return }
+        }
+    }
     
     @objc func profilePicTapped(tapGestureRecognizer: UITapGestureRecognizer)
     {
@@ -183,14 +183,16 @@ class AccountViewController: UIViewController {
             storageRef.downloadURL { url, error in
                 guard let url = url else { return }
 
-                let processor = DownsamplingImageProcessor(size: self.profilePicView.frame.size)
-                    >> RoundCornerImageProcessor(cornerRadius: 20)
+//                let processor = DownsamplingImageProcessor(size: self.profilePicView.frame.size)
+//                    >> RoundCornerImageProcessor(cornerRadius: 20)
                 self.profilePicView.kf.indicatorType = .activity
+                
+                // using Kingfisher library for tidy handling of image download
                 self.profilePicView.kf.setImage(
                     with: url,
+                    // TODO add placeholder image
                     placeholder: UIImage(named: "placeholderImage"),
                     options: [
-                        .processor(processor),
                         .scaleFactor(UIScreen.main.scale),
                         .transition(.fade(1)),
                         .cacheOriginalImage
@@ -198,14 +200,10 @@ class AccountViewController: UIViewController {
                 {
                     result in
                     switch result {
+                        // TODO add better error handling
                     case .success(let value):
+                        self.currentProfilePic = value.image
                         print("Task done for: \(value.source.url?.absoluteString ?? "")")
-
-                        //                            let defaults = UserDefaults.standard
-                        //                            defaults.set(url, forKey: "profilePicCacheKey")
-                        //                            print(url)
-                        //                            defaults.synchronize()
-
                     case .failure(let error):
                         print("Job failed: \(error.localizedDescription)")
                     }
@@ -213,71 +211,6 @@ class AccountViewController: UIViewController {
             }
         }
     }
-    
-    
-//    func updateProfilePicView() {
-//
-////        // this is to fetch the cacheKey (actually just the firebase URL)
-////        let defaults = UserDefaults.standard
-////
-////        if let cacheKey = defaults.string(forKey: "profilePicCacheKey") {
-////            let cache = ImageCache.default
-//
-////            cache.retrieveImage(forKey: cacheKey) { result in
-////                switch result {
-////
-////                case .success(let value):
-////
-////                    print(value.cacheType)
-////                    if value.cacheType != .none {
-////                        // If the `cacheType is `.none`, `image` will be `nil`.
-////                        self.profilePic = value.image
-////                    } else {
-////
-////
-//            if let uid = Auth.auth().currentUser?.uid {
-//                let storageRef = Storage.storage().reference().child("profilePictures").child(uid)
-//
-//                storageRef.downloadURL { url, error in
-//                    guard let url = url else { return }
-//
-//                    let processor = DownsamplingImageProcessor(size: self.profilePicView.frame.size)
-//                        >> RoundCornerImageProcessor(cornerRadius: 20)
-//                    self.profilePicView.kf.indicatorType = .activity
-//                    self.profilePicView.kf.setImage(
-//                        with: url,
-//                        placeholder: UIImage(named: "placeholderImage"),
-//                        options: [
-//                            .processor(processor),
-//                            .scaleFactor(UIScreen.main.scale),
-//                            .transition(.fade(1)),
-//                            .cacheOriginalImage
-//                        ])
-//                    {
-//                        result in
-//                        switch result {
-//                        case .success(let value):
-//                            print("Task done for: \(value.source.url?.absoluteString ?? "")")
-//
-////                            let defaults = UserDefaults.standard
-////                            defaults.set(url, forKey: "profilePicCacheKey")
-////                            print(url)
-////                            defaults.synchronize()
-//
-//                        case .failure(let error):
-//                            print("Job failed: \(error.localizedDescription)")
-//                        }
-//                    }
-//                }
-//            }
-////                    }
-////
-////                case .failure(let error):
-////                    print(error)
-////                }
-////            }
-////        }
-//    }
 }
 
 
