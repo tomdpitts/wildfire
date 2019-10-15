@@ -26,6 +26,8 @@
 		E24388AD2315A5AC00948AD5 /* WildfireLogin.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = E24388AC2315A5AC00948AD5 /* WildfireLogin.mp4 */; };
 		E25213B9234E4375003B2160 /* FirebaseAuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25213B8234E4375003B2160 /* FirebaseAuthManager.swift */; };
 		E26039782350DABA0031C792 /* ProfilePicViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E26039772350DABA0031C792 /* ProfilePicViewController.swift */; };
+		E26763652355EE6B00D079C6 /* formStep3ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E26763642355EE6B00D079C6 /* formStep3ViewController.swift */; };
+		E2676367235614DB00D079C6 /* formStep2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2676366235614DB00D079C6 /* formStep2ViewController.swift */; };
 		E278AE0621FCEFDF00A65309 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E278AE0521FCEFDF00A65309 /* GoogleService-Info.plist */; };
 		E279717D231433AF00964F25 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E279717C231433AF00964F25 /* SignUpViewController.swift */; };
 		E279717F231433D500964F25 /* ExistingUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E279717E231433D500964F25 /* ExistingUserViewController.swift */; };
@@ -73,6 +75,8 @@
 		E24388AC2315A5AC00948AD5 /* WildfireLogin.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = WildfireLogin.mp4; sourceTree = "<group>"; };
 		E25213B8234E4375003B2160 /* FirebaseAuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseAuthManager.swift; sourceTree = "<group>"; };
 		E26039772350DABA0031C792 /* ProfilePicViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePicViewController.swift; sourceTree = "<group>"; };
+		E26763642355EE6B00D079C6 /* formStep3ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = formStep3ViewController.swift; sourceTree = "<group>"; };
+		E2676366235614DB00D079C6 /* formStep2ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = formStep2ViewController.swift; sourceTree = "<group>"; };
 		E278AE0521FCEFDF00A65309 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		E279717C231433AF00964F25 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		E279717E231433D500964F25 /* ExistingUserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExistingUserViewController.swift; sourceTree = "<group>"; };
@@ -207,6 +211,8 @@
 				E21AC98421EA6C9E00D460A9 /* AccountViewController.swift */,
 				E222732923420BBE006D8326 /* AddCardViewController.swift */,
 				E26039772350DABA0031C792 /* ProfilePicViewController.swift */,
+				E2676366235614DB00D079C6 /* formStep2ViewController.swift */,
+				E26763642355EE6B00D079C6 /* formStep3ViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -442,7 +448,9 @@
 				E222732A23420BBE006D8326 /* AddCardViewController.swift in Sources */,
 				E279717F231433D500964F25 /* ExistingUserViewController.swift in Sources */,
 				E24388A523154A5200948AD5 /* Utilities.swift in Sources */,
+				E26763652355EE6B00D079C6 /* formStep3ViewController.swift in Sources */,
 				E2149704231410240048D149 /* HomeViewController.swift in Sources */,
+				E2676367235614DB00D079C6 /* formStep2ViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

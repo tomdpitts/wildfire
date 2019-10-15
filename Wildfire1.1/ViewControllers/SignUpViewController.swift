@@ -28,6 +28,11 @@ class SignUpViewController: UIViewController {
     
     @IBOutlet weak var errorLabel: UILabel!
     
+    var firstNameClean = ""
+    var lastNameClean = ""
+    var emailClean = ""
+    var passwordClean = ""
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -112,48 +117,13 @@ class SignUpViewController: UIViewController {
             if loggedInUser == false {
                     
                 // Create cleaned versions of the data
-                let firstNameClean = firstName.text!.trimmingCharacters(in: .whitespacesAndNewlines)
-                let lastNameClean = lastName.text!.trimmingCharacters(in: .whitespacesAndNewlines)
-                let emailClean = email.text!.trimmingCharacters(in: .whitespacesAndNewlines)
-                let passwordClean = password.text!.trimmingCharacters(in: .whitespacesAndNewlines)
-                
-                // Create the user
-                Auth.auth().createUser(withEmail: emailClean, password: passwordClean) { (result, err) in
-                    
-                    // Check for errors
-                    if err != nil {
-                        
-                        // There was an error creating the user
-                        self.showError("Error creating user")
-                    }
-                    else {
-                        
-                        // User was created successfully, now store the first name and last name
-                        let db = Firestore.firestore()
-                        
-                        
-                        db.collection("users").document(result!.user.uid).setData(["firstname":firstNameClean, "lastname":lastNameClean, "email": emailClean, "balance": 0, "photoURL": "https://cdn.pixabay.com/photo/2014/05/21/20/17/icon-350228_1280.png" ]) { (error) in
-                            
-    //                        print(result!.user.uid)
-                            if error != nil {
-                                // Show error message
-                                self.showError("Error saving user data")
-                            }
-                        }
-                        
-                    }
-                    
-                }
+                self.firstNameClean = firstName.text!.trimmingCharacters(in: .whitespacesAndNewlines)
+                self.lastNameClean = lastName.text!.trimmingCharacters(in: .whitespacesAndNewlines)
+                self.emailClean = email.text!.trimmingCharacters(in: .whitespacesAndNewlines)
+                self.passwordClean = password.text!.trimmingCharacters(in: .whitespacesAndNewlines)
                     
             }
-            
-            if userIsInPaymentFlow == true {
-                // Transition to step 2 aka PaymentSetUp VC
-                self.performSegue(withIdentifier: "goToStep2", sender: self)
-            } else {
-                self.performSegue(withIdentifier: "unwindToAccountViewID", sender: self)
-            }
-            
+            self.performSegue(withIdentifier: "formStep2segue", sender: self)
         }
     }
     
@@ -165,8 +135,6 @@ class SignUpViewController: UIViewController {
     
     // this unwind is deliberately generic - provides an anchor for the 'back' button in Add Payment
     @IBAction func unwindToPrevious(_ unwindSegue: UIStoryboardSegue) {
-//        let sourceViewController = unwindSegue.source
-        // Use data from the view controller which initiated the unwind segue
     }
     
     
