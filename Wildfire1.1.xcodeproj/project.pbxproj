@@ -24,6 +24,10 @@
 		E24388A82315532200948AD5 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24388A72315532200948AD5 /* Constants.swift */; };
 		E24388AA231575DA00948AD5 /* CustomSegues.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24388A9231575DA00948AD5 /* CustomSegues.swift */; };
 		E24388AD2315A5AC00948AD5 /* WildfireLogin.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = E24388AC2315A5AC00948AD5 /* WildfireLogin.mp4 */; };
+		E25213B9234E4375003B2160 /* FirebaseAuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25213B8234E4375003B2160 /* FirebaseAuthManager.swift */; };
+		E26039782350DABA0031C792 /* ProfilePicViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E26039772350DABA0031C792 /* ProfilePicViewController.swift */; };
+		E26763652355EE6B00D079C6 /* formStep3ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E26763642355EE6B00D079C6 /* formStep3ViewController.swift */; };
+		E2676367235614DB00D079C6 /* formStep2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2676366235614DB00D079C6 /* formStep2ViewController.swift */; };
 		E278AE0621FCEFDF00A65309 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E278AE0521FCEFDF00A65309 /* GoogleService-Info.plist */; };
 		E279717D231433AF00964F25 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E279717C231433AF00964F25 /* SignUpViewController.swift */; };
 		E279717F231433D500964F25 /* ExistingUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E279717E231433D500964F25 /* ExistingUserViewController.swift */; };
@@ -69,6 +73,10 @@
 		E24388A72315532200948AD5 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		E24388A9231575DA00948AD5 /* CustomSegues.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSegues.swift; sourceTree = "<group>"; };
 		E24388AC2315A5AC00948AD5 /* WildfireLogin.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = WildfireLogin.mp4; sourceTree = "<group>"; };
+		E25213B8234E4375003B2160 /* FirebaseAuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseAuthManager.swift; sourceTree = "<group>"; };
+		E26039772350DABA0031C792 /* ProfilePicViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePicViewController.swift; sourceTree = "<group>"; };
+		E26763642355EE6B00D079C6 /* formStep3ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = formStep3ViewController.swift; sourceTree = "<group>"; };
+		E2676366235614DB00D079C6 /* formStep2ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = formStep2ViewController.swift; sourceTree = "<group>"; };
 		E278AE0521FCEFDF00A65309 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		E279717C231433AF00964F25 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		E279717E231433D500964F25 /* ExistingUserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExistingUserViewController.swift; sourceTree = "<group>"; };
@@ -174,6 +182,7 @@
 				E24388A72315532200948AD5 /* Constants.swift */,
 				E24388A9231575DA00948AD5 /* CustomSegues.swift */,
 				E2FA9ED72334E6130068792D /* NetworkingClient.swift */,
+				E25213B8234E4375003B2160 /* FirebaseAuthManager.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -189,10 +198,10 @@
 		E257EA28230D8A9F003E2A32 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				E2149703231410240048D149 /* HomeViewController.swift */,
 				E2026708230ED8CF003C0AF4 /* LoginViewController.swift */,
 				E279717C231433AF00964F25 /* SignUpViewController.swift */,
 				E279717E231433D500964F25 /* ExistingUserViewController.swift */,
-				E2149703231410240048D149 /* HomeViewController.swift */,
 				E21AC96421EA6BEF00D460A9 /* PayViewController.swift */,
 				E21AC99621EA850C00D460A9 /* ScanViewController.swift */,
 				E2B979DE23295DB000194E75 /* ConfirmViewController.swift */,
@@ -201,6 +210,9 @@
 				E2FA9ED52333D70D0068792D /* PaymentSetupViewController.swift */,
 				E21AC98421EA6C9E00D460A9 /* AccountViewController.swift */,
 				E222732923420BBE006D8326 /* AddCardViewController.swift */,
+				E26039772350DABA0031C792 /* ProfilePicViewController.swift */,
+				E2676366235614DB00D079C6 /* formStep2ViewController.swift */,
+				E26763642355EE6B00D079C6 /* formStep3ViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -217,7 +229,6 @@
 				E21AC95C21EA6BEF00D460A9 /* Frameworks */,
 				E21AC95D21EA6BEF00D460A9 /* Resources */,
 				7E87FFF8C47FB8FE3D7E7AA0 /* [CP] Embed Pods Frameworks */,
-				A522467376DA6BB569B3D218 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -347,14 +358,14 @@
 				"${BUILT_PRODUCTS_DIR}/CryptoSwift/CryptoSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework",
 				"${BUILT_PRODUCTS_DIR}/FBSDKLoginKit/FBSDKLoginKit.framework",
+				"${BUILT_PRODUCTS_DIR}/FacebookCore/FacebookCore.framework",
+				"${BUILT_PRODUCTS_DIR}/FacebookLogin/FacebookLogin.framework",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
-				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
+				"${BUILT_PRODUCTS_DIR}/Kingfisher/Kingfisher.framework",
 				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
-				"${PODS_ROOT}/TwitterCore/iOS/TwitterCore.framework",
-				"${PODS_ROOT}/TwitterKit/iOS/TwitterKit.framework",
 				"${BUILT_PRODUCTS_DIR}/gRPC-C++/grpcpp.framework",
 				"${BUILT_PRODUCTS_DIR}/gRPC-Core/grpc.framework",
 				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
@@ -371,14 +382,14 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CryptoSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKCoreKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKLoginKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FacebookCore.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FacebookLogin.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Kingfisher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TwitterCore.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TwitterKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/grpcpp.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/grpc.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
@@ -388,42 +399,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Wildfire1.1/Pods-Wildfire1.1-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		A522467376DA6BB569B3D218 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-Wildfire1.1/Pods-Wildfire1.1-resources.sh",
-				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseUI/FirebaseAnonymousAuthUI.bundle",
-				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseUI/FirebaseAuthUI.bundle",
-				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseUI/FirebaseFacebookAuthUI.bundle",
-				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseUI/FirebaseGoogleAuthUI.bundle",
-				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseUI/FirebasePhoneAuthUI.bundle",
-				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseUI/FirebaseTwitterAuthUI.bundle",
-				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
-				"${PODS_ROOT}/TwitterKit/iOS/TwitterKit.framework/TwitterKitResources.bundle",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FirebaseAnonymousAuthUI.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FirebaseAuthUI.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FirebaseFacebookAuthUI.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FirebaseGoogleAuthUI.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FirebasePhoneAuthUI.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FirebaseTwitterAuthUI.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/TwitterKitResources.bundle",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Wildfire1.1/Pods-Wildfire1.1-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		DA009A4BC750AD74C31623CC /* [CP] Check Pods Manifest.lock */ = {
@@ -457,6 +432,7 @@
 			files = (
 				E2026709230ED8CF003C0AF4 /* LoginViewController.swift in Sources */,
 				E2FA9ED62333D70D0068792D /* PaymentSetupViewController.swift in Sources */,
+				E26039782350DABA0031C792 /* ProfilePicViewController.swift in Sources */,
 				E24388A82315532200948AD5 /* Constants.swift in Sources */,
 				E21AC96721EA6BEF00D460A9 /* ReceiveViewController.swift in Sources */,
 				E2B979E3232960B000194E75 /* ConfirmViewController.swift in Sources */,
@@ -467,11 +443,14 @@
 				E24388AA231575DA00948AD5 /* CustomSegues.swift in Sources */,
 				E23331D323328C630039E6A2 /* SuccessViewController.swift in Sources */,
 				E21AC98521EA6C9E00D460A9 /* AccountViewController.swift in Sources */,
+				E25213B9234E4375003B2160 /* FirebaseAuthManager.swift in Sources */,
 				E21AC96521EA6BEF00D460A9 /* PayViewController.swift in Sources */,
 				E222732A23420BBE006D8326 /* AddCardViewController.swift in Sources */,
 				E279717F231433D500964F25 /* ExistingUserViewController.swift in Sources */,
 				E24388A523154A5200948AD5 /* Utilities.swift in Sources */,
+				E26763652355EE6B00D079C6 /* formStep3ViewController.swift in Sources */,
 				E2149704231410240048D149 /* HomeViewController.swift in Sources */,
+				E2676367235614DB00D079C6 /* formStep2ViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

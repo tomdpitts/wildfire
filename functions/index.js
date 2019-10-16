@@ -7,7 +7,6 @@ const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 const gcs = require('@google-cloud/storage');
 const mangopay = require('mangopay2-nodejs-sdk');
-const axios = require('axios');
 
 const mpAPI = new mangopay({
                        clientId: 'wildfirewallet',
@@ -27,35 +26,29 @@ admin.initializeApp(functions.config().firebase);
 
 // Each function requires its own exports.customFunction
 
+// When a user is created, register them with MangoPay and add an empty PaymentMethods collection
+exports.createNewMangopayCustomer = functions.region('europe-west1').firestore.document('users/{id}').onCreate(async (snap, context) => {
+  
+  const data = snap.data()
 
-  // When a user is created, register them with MangoPay and add an empty PaymentMethods collection
-exports.createMangopayCustomer = functions.region('europe-west1').auth.user().onCreate(async (user) => {
-
-  var firstname = ''
-  var lastname = ''
-  var email = ''
-  var birthday = 1463496101
-  var nationality = 'GB'
-  var residence = 'FR'
-
-  await admin.firestore().collection('users').doc(user.uid).get().then(doc => {
-    userData = doc.data();
-    firstname = userData.firstname;
-    lastname = userData.lastname;
-    email = userData.email;
-    console.log('firestore returned firstname as:' + userData.firstname)
-    return
-  })
-  .catch(err => {
-    console.log('Error getting document', err);
-  });
-
-  console.log('the variable firstname is:' + firstname)
+  var firstname = data.firstname
+  var lastname = data.lastname
+  var email = data.email
+  var birthday = data.dob
+  var nationality = data.nationality
+  var residence = data.residence
 
   const customer = await mpAPI.Users.create({PersonType: 'NATURAL', FirstName: firstname, LastName: lastname, Birthday: birthday, Nationality: nationality, CountryOfResidence: residence, Email: email});
 
-  return admin.firestore().collection('users').doc(user.uid).update({mangopay_id: customer.Id});
-  });
+  return admin.firestore().collection('users').doc(context.params.id).update({mangopayID: customer.Id});
+
+})
+
+//   
+// exports.createMangopayCustomer = functions.region('europe-west1').auth.user().onCreate(async (user) => {
+
+
+//   });
 
 
 
@@ -68,8 +61,8 @@ exports.createMangopayCustomer = functions.region('europe-west1').auth.user().on
 
     const userid = context.auth.uid
 
-    var mangopay_id = []
-    var mangopay_idString = ''
+    var mangopayID = []
+    var mangopayIDString = ''
     const walletName = data.text
 
     console.log('User ID: ' + userid);
@@ -78,12 +71,12 @@ exports.createMangopayCustomer = functions.region('europe-west1').auth.user().on
 
     await admin.firestore().collection('users').doc(userid).get().then(doc => {
       userData = doc.data();
-      mangopay_id.push(userData.mangopay_id);
-      mangopay_idString = userData.mangopay_id;
+      mangopayID.push(userData.mangopayID);
+      mangopayIDString = userData.mangopayID;
 
       console.log(doc.data());
 
-      console.log('MP ID String is: ' + mangopay_idString);
+      console.log('MP ID String is: ' + mangopayIDString);
       return
     })
     .catch(err => {
@@ -92,9 +85,9 @@ exports.createMangopayCustomer = functions.region('europe-west1').auth.user().on
 
     // create Wallet and CardRegistration objects
 
-    const wallet = await mpAPI.Wallets.create({Owners: mangopay_id, Description: walletName, Currency: 'EUR'});
+    const wallet = await mpAPI.Wallets.create({Owners: mangopayID, Description: walletName, Currency: 'EUR'});
 
-    const cardReg = await mpAPI.CardRegistrations.create({UserId: mangopay_idString, Currency: 'EUR', CardType: "CB_VISA_MASTERCARD"});
+    const cardReg = await mpAPI.CardRegistrations.create({UserId: mangopayIDString, Currency: 'EUR', CardType: "CB_VISA_MASTERCARD"});
 
     // we need to add a Wallet to the user's Firestore record - this will store the card token(s) for repeat payments
 
@@ -110,7 +103,7 @@ exports.createMangopayCustomer = functions.region('europe-west1').auth.user().on
       console.log('Error saving to database', err);
     })
     // this function deals with steps 1-4 outlined here: https://docs.mangopay.com/endpoints/v2.01/cards#e177_the-card-registration-object
-    // we 1) created a wallet using the mangopay_id stored in Firestore, then 2) created a CardRegistration object, and now need to return the CardRegistration object to the client as per the docs
+    // we 1) created a wallet using the mangopayID stored in Firestore, then 2) created a CardRegistration object, and now need to return the CardRegistration object to the client as per the docs
     .then(() => {
       // 
       return cardReg;
@@ -122,14 +115,14 @@ exports.createMangopayCustomer = functions.region('europe-west1').auth.user().on
 
     const userid = context.auth.uid
 
-    var mangopay_id = ''
+    var mangopayID = ''
     const rd = data.regData
     const cardRegID = String(data.cardRegID)
 
-    // using the Firebase userid (supplied via 'context' of the request), get the mangopay_id 
+    // using the Firebase userid (supplied via 'context' of the request), get the mangopayID 
     await admin.firestore().collection('users').doc(userid).get().then(doc => {
       userData = doc.data();
-      mangopay_id = userData.mangopay_id
+      mangopayID = userData.mangopayID
       return
     })
     .catch(err => {

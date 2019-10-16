@@ -7,12 +7,14 @@
 //
 
 import UIKit
-import Firebase
+import FirebaseAuth
+import FirebaseFirestore
 
-class SignUpViewController: UIViewController {
+class SignUpViewController: UIViewController, UITextFieldDelegate {
     
     var loggedInUser = false
-    var handle: AuthStateDidChangeListenerHandle?
+//    var handle: AuthStateDidChangeListenerHandle?
+    var userIsInPaymentFlow = false
 
     @IBOutlet weak var firstName: UITextField!
     
@@ -26,19 +28,45 @@ class SignUpViewController: UIViewController {
     
     @IBOutlet weak var errorLabel: UILabel!
     
+    var firstnameClean = ""
+    var lastnameClean = ""
+    var emailClean = ""
+    var passwordClean = ""
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
         setUpElements()
+        
+        firstName.delegate = self
+        lastName.delegate = self
+        email.delegate = self
+        password.delegate = self
     }
     
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        if segue.destination is PaymentSetupViewController {
-//            let vc = segue.destination as! PaymentSetupViewController
-//
-//        }
-//    }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.destination is formStep2ViewController {
+            let vc = segue.destination as! formStep2ViewController
+            vc.userIsInPaymentFlow = userIsInPaymentFlow
+            vc.firstname = firstnameClean
+            vc.lastname = lastnameClean
+            vc.email = emailClean
+            vc.password = passwordClean
+        }
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        // Try to find next responder
+        if let nextField = textField.superview?.viewWithTag(textField.tag + 1) as? UITextField {
+            nextField.becomeFirstResponder()
+        } else {
+            // Not found, so remove keyboard.
+            textField.resignFirstResponder()
+            signUpTapped(self)
+        }
+        return true
+    }
     
      // for time being, leave this out as it's causing an issue because I'm always logged in
 //
@@ -63,7 +91,7 @@ class SignUpViewController: UIViewController {
     func setUpElements() {
         
         // Hide the error label
-        errorLabel.alpha = 0
+        errorLabel.isHidden = true
         
         // Style the elements
         Utilities.styleTextField(firstName)
@@ -110,57 +138,26 @@ class SignUpViewController: UIViewController {
             if loggedInUser == false {
                     
                 // Create cleaned versions of the data
-                let firstNameClean = firstName.text!.trimmingCharacters(in: .whitespacesAndNewlines)
-                let lastNameClean = lastName.text!.trimmingCharacters(in: .whitespacesAndNewlines)
-                let emailClean = email.text!.trimmingCharacters(in: .whitespacesAndNewlines)
-                let passwordClean = password.text!.trimmingCharacters(in: .whitespacesAndNewlines)
-                
-                // Create the user
-                Auth.auth().createUser(withEmail: emailClean, password: passwordClean) { (result, err) in
-                    
-                    // Check for errors
-                    if err != nil {
-                        
-                        // There was an error creating the user
-                        self.showError("Error creating user")
-                    }
-                    else {
-                        
-                        // User was created successfully, now store the first name and last name
-                        let db = Firestore.firestore()
-                        
-                        
-                        db.collection("users").document(result!.user.uid).setData(["firstname":firstNameClean, "lastname":lastNameClean, "email": emailClean, "balance": 0, "photoURL": "https://cdn.pixabay.com/photo/2014/05/21/20/17/icon-350228_1280.png" ]) { (error) in
-                            
-    //                        print(result!.user.uid)
-                            if error != nil {
-                                // Show error message
-                                self.showError("Error saving user data")
-                            }
-                        }
-                        
-                    }
-                    
-                }
+                self.firstnameClean = firstName.text!.trimmingCharacters(in: .whitespacesAndNewlines)
+                self.lastnameClean = lastName.text!.trimmingCharacters(in: .whitespacesAndNewlines)
+                self.emailClean = email.text!.trimmingCharacters(in: .whitespacesAndNewlines)
+                self.passwordClean = password.text!.trimmingCharacters(in: .whitespacesAndNewlines)
                     
             }
-            
-            // Transition to step 2 aka PaymentSetUp VC
-            self.performSegue(withIdentifier: "goToStep2", sender: Any?.self)
-            
+            self.performSegue(withIdentifier: "goToFormStep2", sender: self)
         }
     }
     
     func showError(_ message:String) {
         
         errorLabel.text = message
-        errorLabel.alpha = 1
+        errorLabel.isHidden = false
     }
     
-    @IBAction func unwindToSignUp(_ unwindSegue: UIStoryboardSegue) {
-        let sourceViewController = unwindSegue.source
-        // Use data from the view controller which initiated the unwind segue
+    // this unwind is deliberately generic - provides an anchor for the 'back' button in Add Payment
+    @IBAction func unwindToPrevious(_ unwindSegue: UIStoryboardSegue) {
     }
+    
     
 // Not sure the following function was ever a good idea - one to delete later
 //    func transitionToHome() {

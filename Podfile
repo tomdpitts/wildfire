@@ -8,15 +8,21 @@ target 'Wildfire1.1' do
   # Pods for Wildfire1.1
 pod 'Firebase/Analytics'
 pod 'Firebase/Core'
-pod 'FirebaseUI'
+# pod 'FirebaseUI'
 pod 'Firebase/Auth'
 pod 'Firebase/Database'
 pod 'Firebase/Firestore'
 pod 'Firebase/Functions'
+pod 'Firebase/Storage'
+pod 'FirebaseUI/Storage'
 pod 'mangopay'
 pod 'CryptoSwift'
 pod 'Alamofire'
 pod 'SwiftyJSON'
+pod 'FacebookCore'
+pod 'FacebookLogin'
+pod 'Kingfisher'
+
   target 'Wildfire1.1Tests' do
     inherit! :search_paths
     # Pods for testing

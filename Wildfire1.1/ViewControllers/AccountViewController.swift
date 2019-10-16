@@ -9,12 +9,24 @@
 import UIKit
 import FirebaseDatabase
 import FirebaseAuth
+import FirebaseStorage
+import SDWebImage
+import Kingfisher
 
+// TODO add a auth listener to trigger profile pic refresh when signed in status changes
 class AccountViewController: UIViewController {
     
-    @IBOutlet var accountBalance: UILabel!
+    var currentProfilePic = UIImage(named: "genericProfilePic")
     
+    @IBOutlet var accountBalance: UILabel!
     @IBOutlet weak var uidLabel: UILabel!
+    
+
+    @IBOutlet weak var profilePicView: UIImageView!
+    
+    @IBOutlet weak var goToLoginButton: UIButton!
+    @IBOutlet weak var addPaymentMethodButton: UIButton!
+    @IBOutlet weak var signOutButton: UIButton!
     
     // This 'ref' property will hold a firebase database reference
     var ref:DatabaseReference?
@@ -25,6 +37,31 @@ class AccountViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let uid = Auth.auth().currentUser?.uid
+        
+        profilePicView.image = currentProfilePic
+        profilePicView.layer.cornerRadius = profilePicView.frame.height/3
+        
+        // this checks for change of profile pic (from within app)
+        NotificationCenter.default.addObserver(self, selector: #selector(updateProfilePicView), name: Notification.Name("newProfilePicUploaded"), object: nil)
+        
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(profilePicTapped(tapGestureRecognizer:)))
+        
+        profilePicView.addGestureRecognizer(tapGestureRecognizer)
+        
+        if uid != nil {
+            // we only want to enable the profile pic editing if there's a pic to edit/if the user is logged in
+            self.profilePicView.isUserInteractionEnabled = true
+        }
+        
+        
+        // on load, get the profile pic from Firebase Storage
+        updateProfilePicView()
+        
+        Utilities.styleFilledButton(goToLoginButton)
+        Utilities.styleFilledButton(addPaymentMethodButton)
+        Utilities.styleFilledButton(signOutButton)
         
         // set the firebase reference
         ref = Database.database().reference()
@@ -56,31 +93,33 @@ class AccountViewController: UIViewController {
             self.accountBalance.text = "\(String(describing: balance))"
             self.liveBalance = String(describing: balance)
             
-            print(self.liveBalance)
-            
-            
         }
-        
-        // print(balance!)
-        //self.accountBalance.text = "\(balance ?? default error)"
-    
-        
-        /*if balance != nil {
-        
-            self.accountBalance.text = "\(balance)"
-         
-         
-        }*/
-        
     })
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.destination is ProfilePicViewController {
+            let destination = segue.destination as! ProfilePicViewController
+            if let pic = self.currentProfilePic {
+                destination.currentProfilePic = pic
+            } else { return }
+        }
+    }
+    
+    @objc func profilePicTapped(tapGestureRecognizer: UITapGestureRecognizer)
+    {
+        // this line doesn't seem to be necessary
+//        let tappedImage = tapGestureRecognizer.view as! UIImageView
         
-        
+        performSegue(withIdentifier: "profilePicSegue", sender: self)
     }
     
     @IBAction func refreshUID(_ sender: Any) {
         
-        guard let uid = Auth.auth().currentUser?.uid else { return }
-        
+        guard let uid = Auth.auth().currentUser?.uid else {
+            self.uidLabel.text = "Not logged in"
+            return
+        }
         self.uidLabel.text = uid
     }
     
@@ -89,12 +128,91 @@ class AccountViewController: UIViewController {
         performSegue(withIdentifier: "goToLogin", sender: self)
     }
     
-    @IBAction func unwindToSignUp(_ unwindSegue: UIStoryboardSegue) {
-        let sourceViewController = unwindSegue.source
+    
+    // this unwind segue is deliberately generic! Allows the Back button on PaymentSetupVC to unwind to the appropriate VC depending on where it came from
+    @IBAction func unwindToPrevious(_ unwindSegue: UIStoryboardSegue) {
+//        let sourceViewController = unwindSegue.source
         // Use data from the view controller which initiated the unwind segue
     }
     
+    // This unwind segue exists independently to the above to allow a specific unwind call e.g. in LoginVC
+    @IBAction func unwindToAccountView(_ unwindSegue: UIStoryboardSegue) {
+//        let sourceViewController = unwindSegue.source
+        // Use data from the view controller which initiated the unwind segue
+    }
     
+    @IBAction func signOutButtonTapped(_ sender: Any) {
+        
+        // Declare Alert message
+        let dialogMessage = UIAlertController(title: "Confirm", message: "Are you sure you want to Sign Out?", preferredStyle: .alert)
+        
+        // Create OK button with action handler
+        let ok = UIAlertAction(title: "OK", style: .default, handler: { (action) -> Void in
+            self.signOut()
+            self.updateProfilePicView()
+        })
+        
+        // Create Cancel button with action handlder
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel) { (action) -> Void in
+        }
+        
+        //Add OK and Cancel button to dialog message
+        dialogMessage.addAction(ok)
+        dialogMessage.addAction(cancel)
+        
+        // Present dialog message to user
+        self.present(dialogMessage, animated: true, completion: nil)
+
+        
+        
+    }
+    
+    func signOut() {
+        do {
+            try Auth.auth().signOut()
+        } catch let err {
+            print(err)
+        }
+    }
+    
+    
+    @objc func updateProfilePicView() {
+
+        if let uid = Auth.auth().currentUser?.uid {
+            let storageRef = Storage.storage().reference().child("profilePictures").child(uid)
+
+            storageRef.downloadURL { url, error in
+                guard let url = url else { return }
+
+//                let processor = DownsamplingImageProcessor(size: self.profilePicView.frame.size)
+//                    >> RoundCornerImageProcessor(cornerRadius: 20)
+                self.profilePicView.kf.indicatorType = .activity
+                
+                // using Kingfisher library for tidy handling of image download
+                self.profilePicView.kf.setImage(
+                    with: url,
+                    // TODO add placeholder image
+                    placeholder: UIImage(named: "placeholderImage"),
+                    options: [
+                        .scaleFactor(UIScreen.main.scale),
+                        .transition(.fade(1)),
+                        .cacheOriginalImage
+                    ])
+                {
+                    result in
+                    switch result {
+                        // TODO add better error handling
+                    case .success(let value):
+                        self.currentProfilePic = value.image
+                    case .failure(let error):
+                        print("Job failed: \(error.localizedDescription)")
+                    }
+                }
+            }
+        } else {
+            currentProfilePic = UIImage(named: "genericProfilePic")
+        }
+    }
 }
 
 
