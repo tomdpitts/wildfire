@@ -34,9 +34,9 @@ exports.createNewMangopayCustomer = functions.region('europe-west1').firestore.d
   var firstname = data.firstname
   var lastname = data.lastname
   var email = data.email
-  var birthday = 1463496101
-  var nationality = 'GB'
-  var residence = 'FR'
+  var birthday = data.dob
+  var nationality = data.nationality
+  var residence = data.residence
 
   const customer = await mpAPI.Users.create({PersonType: 'NATURAL', FirstName: firstname, LastName: lastname, Birthday: birthday, Nationality: nationality, CountryOfResidence: residence, Email: email});
 

@@ -13,7 +13,7 @@ import FirebaseStorage
 import SDWebImage
 import Kingfisher
 
-
+// TODO add a auth listener to trigger profile pic refresh when signed in status changes
 class AccountViewController: UIViewController {
     
     var currentProfilePic = UIImage(named: "genericProfilePic")
@@ -38,21 +38,23 @@ class AccountViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let uid = Auth.auth().currentUser?.uid
+        
         profilePicView.image = currentProfilePic
         profilePicView.layer.cornerRadius = profilePicView.frame.height/3
         
         // this checks for change of profile pic (from within app)
         NotificationCenter.default.addObserver(self, selector: #selector(updateProfilePicView), name: Notification.Name("newProfilePicUploaded"), object: nil)
         
-        // these enable touch on the profile pic
-            // this line doesn't seem to be necessary
-            // create tap gesture recognizer
-//            let tapGesture = UITapGestureRecognizer(target: self, action: Selector(("imageTapped:")))
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(profilePicTapped(tapGestureRecognizer:)))
         
-            let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(profilePicTapped(tapGestureRecognizer:)))
-
-            profilePicView.isUserInteractionEnabled = true
-            profilePicView.addGestureRecognizer(tapGestureRecognizer)
+        profilePicView.addGestureRecognizer(tapGestureRecognizer)
+        
+        if uid != nil {
+            // we only want to enable the profile pic editing if there's a pic to edit/if the user is logged in
+            self.profilePicView.isUserInteractionEnabled = true
+        }
+        
         
         // on load, get the profile pic from Firebase Storage
         updateProfilePicView()
@@ -146,13 +148,12 @@ class AccountViewController: UIViewController {
         
         // Create OK button with action handler
         let ok = UIAlertAction(title: "OK", style: .default, handler: { (action) -> Void in
-            print("Ok button tapped")
             self.signOut()
+            self.updateProfilePicView()
         })
         
         // Create Cancel button with action handlder
         let cancel = UIAlertAction(title: "Cancel", style: .cancel) { (action) -> Void in
-            print("Cancel button tapped")
         }
         
         //Add OK and Cancel button to dialog message
@@ -203,12 +204,13 @@ class AccountViewController: UIViewController {
                         // TODO add better error handling
                     case .success(let value):
                         self.currentProfilePic = value.image
-                        print("Task done for: \(value.source.url?.absoluteString ?? "")")
                     case .failure(let error):
                         print("Job failed: \(error.localizedDescription)")
                     }
                 }
             }
+        } else {
+            currentProfilePic = UIImage(named: "genericProfilePic")
         }
     }
 }

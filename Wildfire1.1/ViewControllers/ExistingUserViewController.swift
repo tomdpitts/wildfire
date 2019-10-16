@@ -9,7 +9,7 @@
 import UIKit
 import FirebaseAuth
 
-class ExistingUserViewController: UIViewController {
+class ExistingUserViewController: UIViewController, UITextFieldDelegate {
     
     
     @IBOutlet weak var emailTextField: UITextField!
@@ -26,6 +26,8 @@ class ExistingUserViewController: UIViewController {
         // Do any additional setup after loading the view.
         setUpElements()
         
+        emailTextField.delegate = self
+        passwordTextField.delegate = self
     }
     
     func setUpElements() {
@@ -68,7 +70,14 @@ class ExistingUserViewController: UIViewController {
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
+        // Try to find next responder
+        if let nextField = textField.superview?.viewWithTag(textField.tag + 1) as? UITextField {
+            nextField.becomeFirstResponder()
+        } else {
+            // Not found, so remove keyboard.
+            textField.resignFirstResponder()
+            loginTapped(self)
+        }
         return true
     }
     
@@ -104,9 +113,7 @@ class ExistingUserViewController: UIViewController {
                     self.performSegue(withIdentifier: "unwindToAccountViewID", sender: self)
                 }
             }
-            
         }
-    
     }
 }
     
