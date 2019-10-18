@@ -69,7 +69,7 @@
         <!--Send2 View Controller-->
         <scene sceneID="K5Q-Df-OvN">
             <objects>
-                <viewController id="fvB-Qo-B7V" customClass="Send2ViewController" customModule="Wildfire1_1" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="Send2ViewController" id="fvB-Qo-B7V" customClass="Send2ViewController" customModule="Wildfire1_1" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="y25-cd-byd">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -182,15 +182,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="UID" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ehg-gO-Lkc">
-                                <rect key="frame" x="15" y="45" width="345" height="13"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="13" id="VLZ-u2-Qge"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="11"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Amount" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eWw-V4-7Xy">
                                 <rect key="frame" x="111.5" y="70" width="152" height="54"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="45"/>
@@ -264,20 +255,16 @@
                             <constraint firstItem="ivw-h8-kIN" firstAttribute="centerX" secondItem="mMr-aZ-U69" secondAttribute="centerX" id="Dbt-n7-pfn"/>
                             <constraint firstItem="eWw-V4-7Xy" firstAttribute="top" secondItem="Ai1-2c-1Je" secondAttribute="top" constant="50" id="EpO-WE-Kur"/>
                             <constraint firstItem="nYt-WS-8W3" firstAttribute="leading" secondItem="Ai1-2c-1Je" secondAttribute="leading" constant="20" id="IRw-FJ-pMJ"/>
-                            <constraint firstItem="Ai1-2c-1Je" firstAttribute="trailing" secondItem="Ehg-gO-Lkc" secondAttribute="trailing" constant="15" id="POI-g8-0id"/>
                             <constraint firstItem="Ai1-2c-1Je" firstAttribute="bottom" secondItem="nhM-pb-9Kl" secondAttribute="bottom" constant="65" id="QB1-r0-MBv"/>
                             <constraint firstItem="Ai1-2c-1Je" firstAttribute="trailing" secondItem="nYt-WS-8W3" secondAttribute="trailing" constant="20" id="Txy-Pz-w9q"/>
                             <constraint firstItem="kXE-NH-Vf1" firstAttribute="centerX" secondItem="mMr-aZ-U69" secondAttribute="centerX" id="XIN-kI-ega"/>
                             <constraint firstItem="ivw-h8-kIN" firstAttribute="top" secondItem="kXE-NH-Vf1" secondAttribute="bottom" constant="35" id="gB1-ur-tTR"/>
                             <constraint firstItem="nhM-pb-9Kl" firstAttribute="top" secondItem="nYt-WS-8W3" secondAttribute="bottom" constant="30" id="lsa-1B-0Be"/>
-                            <constraint firstItem="Ehg-gO-Lkc" firstAttribute="top" secondItem="Ai1-2c-1Je" secondAttribute="top" constant="25" id="njy-nr-ogd"/>
                             <constraint firstItem="nYt-WS-8W3" firstAttribute="centerX" secondItem="mMr-aZ-U69" secondAttribute="centerX" id="soe-ok-MeJ"/>
-                            <constraint firstItem="Ehg-gO-Lkc" firstAttribute="leading" secondItem="Ai1-2c-1Je" secondAttribute="leading" constant="15" id="wgx-jH-w0p"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Ai1-2c-1Je"/>
                     </view>
                     <connections>
-                        <outlet property="QROutput" destination="Ehg-gO-Lkc" id="Exk-0h-dVq"/>
                         <outlet property="amountLabel" destination="eWw-V4-7Xy" id="knY-uj-6eh"/>
                         <outlet property="backButton" destination="QSV-2X-2nW" id="Ugd-Re-sW0"/>
                         <outlet property="confirmButton" destination="fNs-zu-hAr" id="znC-1I-Vuz"/>
@@ -311,9 +298,6 @@
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
-                                <connections>
-                                    <segue destination="fvB-Qo-B7V" kind="show" id="7JT-Sh-CfM"/>
-                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -328,6 +312,9 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <segue destination="fvB-Qo-B7V" kind="show" identifier="goToSend2" id="0Ax-ni-7Uh"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wKv-Qz-woH" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="obs-bI-TTp" userLabel="Exit" sceneMemberID="exit"/>

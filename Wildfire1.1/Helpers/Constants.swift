@@ -18,10 +18,11 @@ struct Constants {
 }
 
 struct Contact {
-    let givenName: String
-    let familyName: String
-    let phoneNumber: Int
-    let uid: String
+    var givenName: String
+    var familyName: String
+    var fullName: String
+    var phoneNumber: Int?
+    var uid: String?
     
 //    var initials: String {
 //        return "\(givenName.first!)\(familyName.first!)"

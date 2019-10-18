@@ -20,7 +20,7 @@ class ConfirmViewController: UIViewController {
     let userUID = Auth.auth().currentUser?.uid
 
     
-    var finalString2 = ""
+    var finalString2: String?
     var decryptedString = ""
     var sendAmount = 0
     var transactionAmountFinal = 0
@@ -34,7 +34,6 @@ class ConfirmViewController: UIViewController {
     var enoughCredit = false
     var existingPaymentMethod = false
 
-    @IBOutlet weak var QROutput: UILabel!
     @IBOutlet weak var amountLabel: UILabel!
     
     @IBOutlet weak var backButton: UIButton!
@@ -85,29 +84,13 @@ class ConfirmViewController: UIViewController {
         
         // TODO this existing payment strategy doesn't quite add up - needs to be replaced with a flag (and have checkForExistingPaymentMethod() run in ViewDidAppear
         checkForExistingPaymentMethod()
-        //        // first decrypt the QR data
-        //        decryptedString = decryptQRString(QRstring: finalString2)
         
-        // then extract the UID (at time of writing, last 28 characters
-        self.recipientUIDParsed = String(finalString2.suffix(UIDLength))
-        
-        // then extract the transaction amount i.e. how much the transaction is for. Be careful to allow for any number of digits - strip out the UID
-        let transactionAmount = Int(finalString2.dropLast(UIDLength))
-        
-        // safely unwrap the number which has been converted to Int from a string, and divide the number by 7 (in the ReceiveViewController, we multiplied the amount requested by 7 before adding it to the string. Simply another level of security that makes it harder to reverse engineer the QR generation - then someone couldn't even guess that the transaction amount is encoded somewhere in the QR string
-        if let transactionAmountReal = transactionAmount {
-            transactionAmountFinal = transactionAmountReal/multiplicationFactor
-        } else {
-            print("houston we have a problem")
-            // this obviously needs better error handling
+        if finalString2 != nil {
+            handleQRScan()
         }
-        // now we have, in transactionAmountFinal... the final amount
-        sendAmount = Int(transactionAmountFinal)
         
-        
-        QROutput.text = recipientUIDParsed
         // display transaction amount front and centre
-        amountLabel.text = "£" + String(sendAmount)
+        amountLabel.text = "£" + String(self.sendAmount)
         
         // get the recipient's full name and profile pic
         setUpRecipientDetails(uid: recipientUIDParsed)
@@ -120,7 +103,30 @@ class ConfirmViewController: UIViewController {
         // update the labels to explain current balance and what the user can expect to happen next
         // for reasons explained in the func itself, this should be called AFTER setUpRecipientDetails, as they both refer to class variable sendAmount
         getUserBalance()
+    }
+    
+    func handleQRScan() {
+        
+        if let QRString = finalString2 {
+            // first decrypt the QR data
+            decryptedString = decryptQRString(QRstring: QRString)
+            
+            // then extract the UID (at time of writing, last 28 characters
+            self.recipientUIDParsed = String(QRString.suffix(UIDLength))
+            
+            // then extract the transaction amount i.e. how much the transaction is for. Be careful to allow for any number of digits - strip out the UID
+            
+            // safely unwrap the number which has been converted to Int from a string, and divide the number by 7 (in the ReceiveViewController, we multiplied the amount requested by 7 before adding it to the string. Simply another level of security that makes it harder to reverse engineer the QR generation - then someone couldn't even guess that the transaction amount is encoded somewhere in the QR string
+            if let m = Int(QRString.dropLast(UIDLength)) {
+                self.sendAmount = m/multiplicationFactor
+            } else {
+                print("houston we have a problem")
+                // this obviously needs better error handling
+            }
         }
+        
+    }
+    
     
     // the encryption first concatenates the amount and the recipient's UID, then encrypts it with AES 128, then encodes the resulting data array into a Hex string which can easily be passed to the QR generator function
     // consequently, the decryption needs to unwind all of that in reverse order

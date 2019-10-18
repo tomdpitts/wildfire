@@ -15,9 +15,13 @@ class ContactsViewController: UITableViewController {
     
     var names = [String]()
     var namesList = [[String]]()
+    var contactsList = [Contact]()
+    var contactsGrouped = [[Contact]]()
+    
     var phonebook = [String: String]()
     var namesDict = [[String: String]]()
     var section = 0
+    var row = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,25 +43,26 @@ class ContactsViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let label = UILabel()
         label.backgroundColor = UIColor.lightGray
-        if let startsWith = namesList[section].first?.prefix(1) {
+        if let startsWith = contactsGrouped[section].first?.givenName.prefix(1) {
             label.text = String(startsWith)
         }
         return label
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return namesList[section].count
+        return contactsGrouped[section].count
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return namesList.count
+        return contactsGrouped.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath)
         
-        let name = namesList[indexPath.section][indexPath.row]
-        cell.textLabel?.text = name
+        let nameLocation = contactsGrouped[indexPath.section][indexPath.row]
+        // slightly safer than using fullName as these two are non-optional
+        cell.textLabel?.text = nameLocation.givenName + " " + nameLocation.familyName
         cell.detailTextLabel?.text = "test"
         
         return cell
@@ -83,31 +88,45 @@ class ContactsViewController: UITableViewController {
                         
                         let name = contact.givenName + " " + contact.familyName
                         let number = contact.phoneNumbers
-                        var mobileNumber = ""
+                        
+                        var mobile = ""
                         for n in number {
-                            if n.label == "_$!<Mobile>!$_" {
-                                mobileNumber = number[0].value.stringValue
+                            if n.label == CNLabelPhoneNumberMobile {
+                                mobile = n.value.stringValue
                             }
                         }
+                        let allowedCharset = CharacterSet
+                            .decimalDigits
+                        let mobileClean = String(mobile.unicodeScalars.filter(allowedCharset.contains))
+                        let mobileNumber = Int(mobileClean)
                         
+                        let person = Contact(givenName: contact.givenName, familyName: contact.familyName, fullName: name, phoneNumber: mobileNumber, uid: nil)
+                        self.contactsList.append(person)
                         
-                        self.names.append(name)
-                        self.phonebook[name] = mobileNumber
+//                        self.names.append(name)
+//                        self.phonebook[name] = mobile
                     })
-                    
                 } catch let err {
                     print("error fetching contact", err)
                 }
                 
-                var letters: [Character]
+                var letters: [Character] = []
+                var capitalLetters: [Character] = []
                 
-                letters = self.names.map { (name) -> Character in
-                    return name[name.startIndex]
+//                letters = self.contactsList.map { (name) -> Character in
+//                    return name[name.startIndex]
+//                }
+                
+                for x in self.contactsList {
+                    let m = x.fullName.trimmingCharacters(in: .whitespaces)
+                    let y = String(m.prefix(1))
+                    if y != "" {
+                        let z = Character(y)
+                        letters.append(z)
+                    }
                 }
                 
                 letters = letters.sorted()
-                
-                var capitalLetters: [Character] = []
                 
                 for x in letters {
                     let y = String(x)
@@ -131,11 +150,11 @@ class ContactsViewController: UITableViewController {
                 }
                 
                 
-                
 //                let sortedNames = self.names.sorted()
                 
-                let sortedPhonebook = self.phonebook.sorted{ $0.key < $1.key }
+//                let sortedPhonebook = self.phonebook.sorted{ $0.key < $1.key }
                 
+                let sortedContactsList = self.contactsList.sorted{ $0.givenName < $1.givenName }
                 
 //
 //                for x in capitalLetters {
@@ -151,20 +170,33 @@ class ContactsViewController: UITableViewController {
 //                    self.namesList.append(group)
 //                }
                 
-                // sorry
+//                for x in capitalLetters {
+//                    var group: [String] = []
+//                    for (i,_) in sortedPhonebook {
+//                        if let j = i.first {
+//                            if Character(j.uppercased()) == x {
+//                                group.append(i)
+//                            }
+//                        }
+//
+//                    }
+//                    self.namesList.append(group)
+//                }
+                
+                // sorting the Contacts into groups by first letter of full name (NB not by family name)
                 for x in capitalLetters {
-                    var group: [String] = []
-                    for (i,_) in sortedPhonebook {
-                        if let j = i.first {
+                    var group: [Contact] = []
+                    for i in sortedContactsList {
+                        let m = i.fullName.trimmingCharacters(in: .whitespaces)
+                        let j = m.prefix(1)
+                        if j != "" {
                             if Character(j.uppercased()) == x {
                                 group.append(i)
                             }
                         }
-                        
                     }
-                    self.namesList.append(group)
+                    self.contactsGrouped.append(group)
                 }
-                
             } else {
                 // denied access
             }
@@ -175,20 +207,17 @@ class ContactsViewController: UITableViewController {
         // without this line, the cell remains (visually) selected after end of tap
         tableView.deselectRow(at: indexPath, animated: true)
         self.section = indexPath.section
-        // TODO perform segue
+        self.row = indexPath.row
+        
+        performSegue(withIdentifier: "goToSend2", sender: self)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard let row = tableView.indexPathForSelectedRow?.row else {
-            return
+        
+        let selectedContact = contactsGrouped[self.section][self.row]
+
+        if let Send2ViewController = segue.destination as? Send2ViewController {
+            Send2ViewController.contact = selectedContact
         }
-        let section = self.section
-        print(row)
-        
-        let selectedContact = namesList[section][row]
-        
-//        if let Send2ViewController = segue.destination as? Send2ViewController {
-//            Send2ViewController.contact = selectedContact
-//        }
     }
 }
