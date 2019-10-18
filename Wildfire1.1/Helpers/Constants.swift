@@ -1,9 +1,9 @@
 //
 //  Constants.swift
-//  CustomLoginDemo
+//  Wildfire1.1
 //
-//  Created by Christopher Ching on 2019-07-23.
-//  Copyright © 2019 Christopher Ching. All rights reserved.
+//  Created by Thomas Pitts on 18/10/2019.
+//  Copyright © 2019 Wildfire. All rights reserved.
 //
 
 import Foundation
@@ -14,11 +14,26 @@ struct Constants {
     struct Storyboard {
         
         static let homeViewController = "HomeVC"
-        
     }
-    
-    
 }
+
+struct Contact {
+    let givenName: String
+    let familyName: String
+    let phoneNumber: Int
+    let uid: String
+    
+//    var initials: String {
+//        return "\(givenName.first!)\(familyName.first!)"
+//    }
+}
+
+struct Transaction {
+    let amount: Int
+    let contact: Contact
+}
+
+
 //
 //class Service {
 //    static let baseColour = UIColor(r: 233, g: 233, b: 233)

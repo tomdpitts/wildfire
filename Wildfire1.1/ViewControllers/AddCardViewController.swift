@@ -31,6 +31,8 @@ class AddCardViewController: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        navigationController?.interactivePopGestureRecognizer?.delegate = nil
+        
         // this is required for the limiting of text fields such as Card Number to only numeric values
         cardNumberField.delegate = self
         

@@ -31,6 +31,8 @@
 		E278AE0621FCEFDF00A65309 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E278AE0521FCEFDF00A65309 /* GoogleService-Info.plist */; };
 		E279717D231433AF00964F25 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E279717C231433AF00964F25 /* SignUpViewController.swift */; };
 		E279717F231433D500964F25 /* ExistingUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E279717E231433D500964F25 /* ExistingUserViewController.swift */; };
+		E29CF69623586AE700ADC0D0 /* ContactsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29CF69523586AE700ADC0D0 /* ContactsViewController.swift */; };
+		E29CF6982359BECD00ADC0D0 /* Send2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29CF6972359BECD00ADC0D0 /* Send2ViewController.swift */; };
 		E2AD346821F384430030FA2E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E2AD346721F384430030FA2E /* Assets.xcassets */; };
 		E2B979E12329609E00194E75 /* ScanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E21AC99621EA850C00D460A9 /* ScanViewController.swift */; };
 		E2B979E3232960B000194E75 /* ConfirmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2B979DE23295DB000194E75 /* ConfirmViewController.swift */; };
@@ -80,6 +82,8 @@
 		E278AE0521FCEFDF00A65309 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		E279717C231433AF00964F25 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		E279717E231433D500964F25 /* ExistingUserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExistingUserViewController.swift; sourceTree = "<group>"; };
+		E29CF69523586AE700ADC0D0 /* ContactsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsViewController.swift; sourceTree = "<group>"; };
+		E29CF6972359BECD00ADC0D0 /* Send2ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Send2ViewController.swift; sourceTree = "<group>"; };
 		E2AD346721F384430030FA2E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E2B979DB2329441900194E75 /* Playground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Playground.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		E2B979DE23295DB000194E75 /* ConfirmViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmViewController.swift; sourceTree = "<group>"; };
@@ -213,6 +217,8 @@
 				E26039772350DABA0031C792 /* ProfilePicViewController.swift */,
 				E2676366235614DB00D079C6 /* formStep2ViewController.swift */,
 				E26763642355EE6B00D079C6 /* formStep3ViewController.swift */,
+				E29CF69523586AE700ADC0D0 /* ContactsViewController.swift */,
+				E29CF6972359BECD00ADC0D0 /* Send2ViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -431,6 +437,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E2026709230ED8CF003C0AF4 /* LoginViewController.swift in Sources */,
+				E29CF69623586AE700ADC0D0 /* ContactsViewController.swift in Sources */,
 				E2FA9ED62333D70D0068792D /* PaymentSetupViewController.swift in Sources */,
 				E26039782350DABA0031C792 /* ProfilePicViewController.swift in Sources */,
 				E24388A82315532200948AD5 /* Constants.swift in Sources */,
@@ -440,6 +447,7 @@
 				E279717D231433AF00964F25 /* SignUpViewController.swift in Sources */,
 				E21AC96321EA6BEF00D460A9 /* AppDelegate.swift in Sources */,
 				E2FA9ED82334E6130068792D /* NetworkingClient.swift in Sources */,
+				E29CF6982359BECD00ADC0D0 /* Send2ViewController.swift in Sources */,
 				E24388AA231575DA00948AD5 /* CustomSegues.swift in Sources */,
 				E23331D323328C630039E6A2 /* SuccessViewController.swift in Sources */,
 				E21AC98521EA6C9E00D460A9 /* AccountViewController.swift in Sources */,

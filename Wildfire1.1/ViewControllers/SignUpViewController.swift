@@ -35,6 +35,8 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        navigationController?.interactivePopGestureRecognizer?.delegate = nil
 
         // Do any additional setup after loading the view.
         setUpElements()
@@ -157,15 +159,4 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
     // this unwind is deliberately generic - provides an anchor for the 'back' button in Add Payment
     @IBAction func unwindToPrevious(_ unwindSegue: UIStoryboardSegue) {
     }
-    
-    
-// Not sure the following function was ever a good idea - one to delete later
-//    func transitionToHome() {
-//
-//        let homeViewController = storyboard?.instantiateViewController(withIdentifier: Constants.Storyboard.homeViewController) as? HomeViewController
-//
-//        view.window?.rootViewController = homeViewController
-//        view.window?.makeKeyAndVisible()
-//
-//    }
 }

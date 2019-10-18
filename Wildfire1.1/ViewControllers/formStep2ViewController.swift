@@ -25,6 +25,8 @@ class formStep2ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        navigationController?.interactivePopGestureRecognizer?.delegate = nil
+
         errorLabel.isHidden = true
         
         dobPicker.minimumDate = Calendar.current.date(byAdding: .year, value: -150, to: Date())

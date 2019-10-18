@@ -22,6 +22,9 @@ class ExistingUserViewController: UIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        navigationController?.interactivePopGestureRecognizer?.delegate = nil
+
 
         // Do any additional setup after loading the view.
         setUpElements()

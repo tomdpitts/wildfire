@@ -31,6 +31,8 @@ class formStep3ViewController: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        navigationController?.interactivePopGestureRecognizer?.delegate = nil
+
         errorLabel.isHidden = true
         
         for code in NSLocale.isoCountryCodes  {

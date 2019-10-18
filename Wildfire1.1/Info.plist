@@ -2,41 +2,32 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-    
-<!-- core Facebook app integration   -->
-    <key>CFBundleURLTypes</key>
-    <array>
-        <dict>
-            <key>CFBundleURLSchemes</key>
-            <array>
-                <string>fb389010488701223</string>
-            </array>
-        </dict>
-    </array>
-    <key>FacebookAppID</key>
-    <string>389010488701223</string>
-    <key>FacebookDisplayName</key>
-    <string>Wildfire</string>
-    
-<!--  additional Facebook authentication stuff  -->
-    <key>LSApplicationQueriesSchemes</key>
-    <array>
-        <string>fbapi</string>
-        <string>fb-messenger-share-api</string>
-        <string>fbauth2</string>
-        <string>fbshareextension</string>
-    </array>
-    
-<!--  end of Facebook related modules  -->
-
-<!-- Photo picker requirements -->
-    <key>NSCameraUsageDescription</key>
-    <string>This app requires access to the camera.</string>
-    <key>NSPhotoLibraryUsageDescription</key>
-    <string>This app requires access to the photo library.</string>
-
+	<key>NSContactsUsageDescription</key>
+	<string>Access required to pay contacts</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>fb389010488701223</string>
+			</array>
+		</dict>
+	</array>
+	<key>FacebookAppID</key>
+	<string>389010488701223</string>
+	<key>FacebookDisplayName</key>
+	<string>Wildfire</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>fbapi</string>
+		<string>fb-messenger-share-api</string>
+		<string>fbauth2</string>
+		<string>fbshareextension</string>
+	</array>
 	<key>NSCameraUsageDescription</key>
 	<string>Wildfire needs to use the camera to scan QR codes</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>This app requires access to the photo library.</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
