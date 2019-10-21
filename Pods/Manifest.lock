@@ -141,6 +141,7 @@ PODS:
   - GTMSessionFetcher/Core (1.2.1)
   - Kingfisher (5.7.1)
   - leveldb-library (1.20)
+  - libPhoneNumber-iOS (0.9.15)
   - mangopay (1.0.2)
   - nanopb (0.3.901):
     - nanopb/decode (= 0.3.901)
@@ -167,6 +168,7 @@ DEPENDENCIES:
   - Firebase/Storage
   - FirebaseUI/Storage
   - Kingfisher
+  - libPhoneNumber-iOS
   - mangopay
   - SwiftyJSON
 
@@ -198,6 +200,7 @@ SPEC REPOS:
     - GTMSessionFetcher
     - Kingfisher
     - leveldb-library
+    - libPhoneNumber-iOS
     - mangopay
     - nanopb
     - Protobuf
@@ -231,12 +234,13 @@ SPEC CHECKSUMS:
   GTMSessionFetcher: 32aeca0aa144acea523e1c8e053089dec2cb98ca
   Kingfisher: 176d377ad339113c99ad4980cbae687f807e20fe
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
+  libPhoneNumber-iOS: 0a32a9525cf8744fe02c5206eb30d571e38f7d75
   mangopay: c8005077cfd2b6813b99d52a4cd78238eb1082e7
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
   Protobuf: 1eb9700044745f00181c136ef21b8ff3ad5a0fd5
   SDWebImage: c10d14a8883ebd89664f02a422006f66a85c0c5d
   SwiftyJSON: c4bcba26dd9ec7a027fc8eade48e2c911f229e96
 
-PODFILE CHECKSUM: a31f8c35e73531530b690d389bfa96a79023bc2a
+PODFILE CHECKSUM: 525d6ff2408fad75762a0530f3090fa6387253fa
 
 COCOAPODS: 1.5.3

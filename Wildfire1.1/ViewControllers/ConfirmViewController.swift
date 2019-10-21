@@ -19,14 +19,10 @@ class ConfirmViewController: UIViewController {
     var handle: AuthStateDidChangeListenerHandle?
     let userUID = Auth.auth().currentUser?.uid
 
-    
-    var finalString2: String?
     var decryptedString = ""
     var sendAmount = 0
-    var transactionAmountFinal = 0
-    let UIDLength = 28
-    let multiplicationFactor = 7
-    var recipientUIDParsed = ""
+
+    var recipientUID = ""
     var recipientName = ""
     
     // these two variables are flags to determine logic triggered by the confirm button on the page
@@ -50,7 +46,7 @@ class ConfirmViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //        setUpElements()
+        setUpElements()
         recipientLabel.alpha = 0
         currentBalance.alpha = 0
         dynamicLabel.alpha = 0
@@ -85,15 +81,15 @@ class ConfirmViewController: UIViewController {
         // TODO this existing payment strategy doesn't quite add up - needs to be replaced with a flag (and have checkForExistingPaymentMethod() run in ViewDidAppear
         checkForExistingPaymentMethod()
         
-        if finalString2 != nil {
-            handleQRScan()
-        }
+//        if finalString2 != nil {
+//            handleQRScan()
+//        }
         
         // display transaction amount front and centre
         amountLabel.text = "£" + String(self.sendAmount)
         
         // get the recipient's full name and profile pic
-        setUpRecipientDetails(uid: recipientUIDParsed)
+        setUpRecipientDetails(uid: recipientUID)
         
         // format the profile pic nicely (should this live elsewhere?)
         recipientImage.contentMode = .scaleAspectFill
@@ -105,53 +101,14 @@ class ConfirmViewController: UIViewController {
         getUserBalance()
     }
     
-    func handleQRScan() {
-        
-        if let QRString = finalString2 {
-            // first decrypt the QR data
-            decryptedString = decryptQRString(QRstring: QRString)
-            
-            // then extract the UID (at time of writing, last 28 characters
-            self.recipientUIDParsed = String(QRString.suffix(UIDLength))
-            
-            // then extract the transaction amount i.e. how much the transaction is for. Be careful to allow for any number of digits - strip out the UID
-            
-            // safely unwrap the number which has been converted to Int from a string, and divide the number by 7 (in the ReceiveViewController, we multiplied the amount requested by 7 before adding it to the string. Simply another level of security that makes it harder to reverse engineer the QR generation - then someone couldn't even guess that the transaction amount is encoded somewhere in the QR string
-            if let m = Int(QRString.dropLast(UIDLength)) {
-                self.sendAmount = m/multiplicationFactor
-            } else {
-                print("houston we have a problem")
-                // this obviously needs better error handling
-            }
-        }
-        
-    }
-    
-    
-    // the encryption first concatenates the amount and the recipient's UID, then encrypts it with AES 128, then encodes the resulting data array into a Hex string which can easily be passed to the QR generator function
-    // consequently, the decryption needs to unwind all of that in reverse order
-    func decryptQRString(QRstring: String) -> String {
-        
-        let hexString = Array<UInt8>(hex: QRstring)
-        
-        // set up CryptoSwift object aes with the right key and initialization vector
-        let aes = try? AES(key: "afiretobekindled", iv: "hdjajshdhxdgeehf")
-        let aesData = try? aes?.decrypt(hexString)
+    func setUpElements() {
 
-        let decryptedString = String(bytes: aesData!, encoding: .utf8)
-        
-        return decryptedString ?? "decryption failed"
-    }
+        // Style the elements
 
-    
-//    func setUpElements() {
-//
-//        // Style the elements
-//
-//        Utilities.styleFilledButton(backButton)
-//        Utilities.styleFilledButton(confirmButton)
-//
-//    }
+        Utilities.styleFilledButton(self.backButton)
+        Utilities.styleFilledButton(self.confirmButton)
+
+    }
     
     func setUpRecipientDetails(uid: String) {
         
@@ -220,6 +177,7 @@ class ConfirmViewController: UIViewController {
         }
         
     }
+    
     func checkForExistingPaymentMethod() {
         // TODO if user has paymnet details set up, set class variable existingPaymentMethod to true
         // for now it will update to true by default
@@ -233,7 +191,7 @@ class ConfirmViewController: UIViewController {
             if enoughCredit == true {
                 // initiate transaction
                 // Update one field, creating the document if it does not exist.
-                transact()
+                transact(recipientUID: self.recipientUID, amount: self.sendAmount)
                 performSegue(withIdentifier: "showSuccessScreen", sender: self)
             } else {
                 if existingPaymentMethod == true {
@@ -251,10 +209,11 @@ class ConfirmViewController: UIViewController {
         }
     }
     
-    
-    func transact() {
+    // TODO move this func to cloudfunctions - if a bug or exploit emerges, it needs to be fixable without requiring users to update
+    func transact(recipientUID: String, amount: Int) {
         
-        let recipientRef = self.db.collection("users").document(self.recipientUIDParsed)
+//        let recipientRef = self.db.collection("users").document(self.recipientUIDParsed)
+        let recipientRef = self.db.collection("users").document(recipientUID)
         if let uid = self.userUID {
             let userRef = db.collection("users").document(uid)
         
@@ -305,12 +264,12 @@ class ConfirmViewController: UIViewController {
                 }
                 
                 // here's the magic
-                if self.sendAmount <= oldUserBalance && self.sendAmount > 0 {
+                if amount <= oldUserBalance && amount > 0 {
                     
                     // P.S. the sendAmount > 0 should always pass since there will be validation elsewhere. However, suggest leaving it in as it doesn't hurt and if the FE validation ever breaks for whatever reason, allowing sendAmount < 0 would be a catastrophic security issue i.e. a useful failsafe
                     
-                    let newUserBalance = oldUserBalance - self.sendAmount
-                    let newRecipientBalance = oldRecipientBalance + self.sendAmount
+                    let newUserBalance = oldUserBalance - amount
+                    let newRecipientBalance = oldRecipientBalance + amount
                     
                     transaction.updateData(["balance": newUserBalance], forDocument: userRef)
                     transaction.updateData(["balance": newRecipientBalance], forDocument: recipientRef)

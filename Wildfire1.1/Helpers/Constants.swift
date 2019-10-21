@@ -21,7 +21,7 @@ struct Contact {
     var givenName: String
     var familyName: String
     var fullName: String
-    var phoneNumber: Int?
+    var phoneNumber: String?
     var uid: String?
     
 //    var initials: String {

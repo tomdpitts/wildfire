@@ -22,6 +22,7 @@ pod 'SwiftyJSON'
 pod 'FacebookCore'
 pod 'FacebookLogin'
 pod 'Kingfisher'
+pod 'libPhoneNumber-iOS'
 
   target 'Wildfire1.1Tests' do
     inherit! :search_paths

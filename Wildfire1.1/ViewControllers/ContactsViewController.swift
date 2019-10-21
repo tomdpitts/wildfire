@@ -98,9 +98,9 @@ class ContactsViewController: UITableViewController {
                         let allowedCharset = CharacterSet
                             .decimalDigits
                         let mobileClean = String(mobile.unicodeScalars.filter(allowedCharset.contains))
-                        let mobileNumber = Int(mobileClean)
                         
-                        let person = Contact(givenName: contact.givenName, familyName: contact.familyName, fullName: name, phoneNumber: mobileNumber, uid: nil)
+                        
+                        let person = Contact(givenName: contact.givenName, familyName: contact.familyName, fullName: name, phoneNumber: mobileClean, uid: nil)
                         self.contactsList.append(person)
                         
 //                        self.names.append(name)

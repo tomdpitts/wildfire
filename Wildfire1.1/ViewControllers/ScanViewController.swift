@@ -33,6 +33,17 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
     var balance: Int = 0
     var finalString = ""
     
+    let validator = """
+        Einstein, James Dean, Brooklyn's got a winning team, Bardot, Budapest, Alabama, Krushchev
+        """
+    // be careful - the validatorLength must be exactly correct
+    let validatorLength = 89
+    let multiplicationFactor = 7
+    let UIDLength = 28
+    
+    var recipientUID: String?
+    var sendAmount: Int?
+    
     
     var runScan = true
 
@@ -43,7 +54,11 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.destination is ConfirmViewController {
             let vc = segue.destination as! ConfirmViewController
-            vc.finalString2 = finalString
+//            vc.finalString2 = finalString
+            if let uid = recipientUID, let send = sendAmount {
+                vc.recipientUID = uid
+                vc.sendAmount = send
+            }
         }
     }
     
@@ -115,9 +130,7 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
             // Check if the metadataObjects array is not nil and it contains at least one object.
         
         if runScan {
-        
-        var validatedString = ""
-        
+            
         if metadataObjects.count == 0 {
             qrCodeFrameView?.frame = CGRect.zero
 
@@ -137,13 +150,13 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
             if metadataObj.stringValue != nil {
 
                 // decrypt the QR data - this will either return valid data or "decryption failed" if it's not a Wildfire code
-                validatedString = decryptQRString(QRstring: metadataObj.stringValue!)
+                let QRRead = decryptQRString(QRstring: metadataObj.stringValue!)
                 
                 // now we know what the situation is, we can respond accordingly. If it's valid, segue to ConfirmViewController (check the prepareForSegue method in this VC for more context), otherwise do nothing and let the user continue scanning
-                if validatedString == "decryption failed" {
+                if QRRead == false {
                     return
                 } else {
-                    self.finalString = validatedString
+//                    self.finalString = validatedString
 //                    self.runScan == false
                     performSegue(withIdentifier: "showConfirmScreen", sender: self)
                     self.captureSession!.stopRunning()
@@ -155,7 +168,7 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
         }
     }
     
-    func decryptQRString(QRstring: String) -> String {
+    func decryptQRString(QRstring: String) -> Bool {
         
         // this function could really do with some more nuanced error logging so we can find out what is causing decryption failure
 
@@ -166,31 +179,55 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
         
         // try to decrypt the encryptedArray - if it's not a wildfire code and not formatted right this will probably break
         guard let decryptedArray = try? aes?.decrypt(encryptedArray) else {
-            return "decryption failed"
+            return false
         }
         
         // turn this into a string
         guard let decryptedString = String(bytes: decryptedArray, encoding: .utf8) else {
-            return "decryption failed"
+            return false
         }
         
         // now let's check it's legit - if it is, it will begin with the validator text. Theoretically, a QR code could contain something that can be decoded and handled by the above logic but the output would be gibberish e.g. a string encrypted with a different key - this validation checks that the result has come through as expected.
-        let validator = """
-        Einstein, James Dean, Brooklyn's got a winning team, Bardot, Budapest, Alabama, Krushchev
-        """
-        let validatorLength = validator.count
         
-        // check the first 89 characters match the validator text, and if so, carry on and return the decrypted string. Otherwise abort and flag the issue to the user
-        let billyJoel = String(decryptedString.prefix(validatorLength))
-        if billyJoel == validator {
-            let validatedString = String(decryptedString.dropFirst(validatorLength))
-            return validatedString
+        // check the first 89 characters match the validator text, and if so, carry on and return the decrypted string
+        let billyJoel = String(decryptedString.prefix(self.validatorLength))
+        if billyJoel == self.validator {
+            let validatedString = String(decryptedString.dropFirst(self.validatorLength))
+            
+            // this function updates the class variables for recipientUID and sendAmount
+            let extractedSuccessfully = extractQRData(QRString: validatedString)
+            if extractedSuccessfully == true {
+                return true
+            } else {
+                return false
+            }
         } else {
-            return "decryption failed"
+            // TODO  could add logic here to show alert 'this is not a Wildfire code'
+            return false
         }
     }
-
     
+    func extractQRData(QRString: String) -> Bool {
+        // extract the UID (at time of writing, last 28 characters
+        self.recipientUID = String(QRString.suffix(UIDLength))
+        
+        
+        // then extract the transaction amount i.e. how much the transaction is for. Be careful to allow for any number of digits - strip out the UID
+        
+        // safely unwrap the number which has been converted to Int from a string, and divide the number by 7 (in the ReceiveViewController, we multiplied the amount requested by 7 before adding it to the string. Simply another level of security that makes it harder to reverse engineer the QR generation - then someone couldn't even guess that the transaction amount is encoded somewhere in the QR string
+        
+        if let m = Int(QRString.dropLast(self.UIDLength)) {
+            self.sendAmount = m/self.multiplicationFactor
+            return true
+        } else {
+            return false
+        }
+    }
+    
+    @IBAction func unwindToPrevious(_ unwindSegue: UIStoryboardSegue) {
+        //        let sourceViewController = unwindSegue.source
+        // Use data from the view controller which initiated the unwind segue
+    }
 }
 
 
