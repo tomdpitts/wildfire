@@ -33,7 +33,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        let defaults = UserDefaults.standard
 //        let defaultValue = ["profilePicCacheKey": ""]
 //        defaults.register(defaults: defaultValue)
-        
+        redirect()
         return true
     }
     
@@ -55,27 +55,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
-        // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
-        guard let now = self.timestamp else { return }
         
-        if Auth.auth().currentUser?.uid != nil {
-            if now < Date().toSeconds() - 7 {
-                
-                let mainStoryboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-                let initialViewControlleripad : UIViewController = mainStoryboard.instantiateViewController(withIdentifier: "HomeVC") as UIViewController
-                self.window = UIWindow(frame: UIScreen.main.bounds)
-                self.window?.rootViewController = initialViewControlleripad
-                self.window?.makeKeyAndVisible()
-            } else {
-                return
-            }
-        } else {
-            let mainStoryboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-            let initialViewControlleripad : UIViewController = mainStoryboard.instantiateViewController(withIdentifier: "mainMenu") as UIViewController
-            self.window = UIWindow(frame: UIScreen.main.bounds)
-            self.window?.rootViewController = initialViewControlleripad
-            self.window?.makeKeyAndVisible()
-        }
+        // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
+        redirect()
+        
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
@@ -84,6 +67,38 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    }
+    
+    func redirect() {
+        guard let now = self.timestamp else { return }
+        
+        let uid = Auth.auth().currentUser?.uid
+        let mainStoryboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        
+        if uid != nil {
+            if now < Date().toSeconds() - 2 {
+                
+                
+                let initialViewController : UIViewController = mainStoryboard.instantiateViewController(withIdentifier: "HomeVC") as UIViewController
+                self.window = UIWindow(frame: UIScreen.main.bounds)
+                self.window?.rootViewController = initialViewController
+                self.window?.makeKeyAndVisible()
+                
+            } else {
+                
+                let initialViewController : UIViewController = mainStoryboard.instantiateViewController(withIdentifier: "mainMenu") as UIViewController
+                self.window = UIWindow(frame: UIScreen.main.bounds)
+                self.window?.rootViewController = initialViewController
+                self.window?.makeKeyAndVisible()
+                
+            }
+        } else {
+            let initialViewController : UIViewController = mainStoryboard.instantiateViewController(withIdentifier: "verifyMobile") as UIViewController
+            self.window = UIWindow(frame: UIScreen.main.bounds)
+            self.window?.rootViewController = initialViewController
+            self.window?.makeKeyAndVisible()
+            
+        }
     }
 }
 

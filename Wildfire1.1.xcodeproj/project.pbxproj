@@ -36,6 +36,8 @@
 		E2AD346821F384430030FA2E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E2AD346721F384430030FA2E /* Assets.xcassets */; };
 		E2B979E12329609E00194E75 /* ScanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E21AC99621EA850C00D460A9 /* ScanViewController.swift */; };
 		E2B979E3232960B000194E75 /* ConfirmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2B979DE23295DB000194E75 /* ConfirmViewController.swift */; };
+		E2CDF4AB235F2126002E155D /* PhoneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2CDF4AA235F2126002E155D /* PhoneViewController.swift */; };
+		E2CDF4AD235F2859002E155D /* VerificationCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2CDF4AC235F2859002E155D /* VerificationCodeViewController.swift */; };
 		E2FA9ED62333D70D0068792D /* PaymentSetupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2FA9ED52333D70D0068792D /* PaymentSetupViewController.swift */; };
 		E2FA9ED82334E6130068792D /* NetworkingClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2FA9ED72334E6130068792D /* NetworkingClient.swift */; };
 /* End PBXBuildFile section */
@@ -87,6 +89,8 @@
 		E2AD346721F384430030FA2E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E2B979DB2329441900194E75 /* Playground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Playground.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		E2B979DE23295DB000194E75 /* ConfirmViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmViewController.swift; sourceTree = "<group>"; };
+		E2CDF4AA235F2126002E155D /* PhoneViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneViewController.swift; sourceTree = "<group>"; };
+		E2CDF4AC235F2859002E155D /* VerificationCodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationCodeViewController.swift; sourceTree = "<group>"; };
 		E2FA9ED52333D70D0068792D /* PaymentSetupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentSetupViewController.swift; sourceTree = "<group>"; };
 		E2FA9ED72334E6130068792D /* NetworkingClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkingClient.swift; sourceTree = "<group>"; };
 		E39DF65F0B716BEA2ADC4042 /* Pods-Wildfire1.1Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Wildfire1.1Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Wildfire1.1Tests/Pods-Wildfire1.1Tests.release.xcconfig"; sourceTree = "<group>"; };
@@ -219,6 +223,8 @@
 				E26763642355EE6B00D079C6 /* formStep3ViewController.swift */,
 				E29CF69523586AE700ADC0D0 /* ContactsViewController.swift */,
 				E29CF6972359BECD00ADC0D0 /* Send2ViewController.swift */,
+				E2CDF4AA235F2126002E155D /* PhoneViewController.swift */,
+				E2CDF4AC235F2859002E155D /* VerificationCodeViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -446,6 +452,7 @@
 				E21AC96721EA6BEF00D460A9 /* ReceiveViewController.swift in Sources */,
 				E2B979E3232960B000194E75 /* ConfirmViewController.swift in Sources */,
 				E2B979E12329609E00194E75 /* ScanViewController.swift in Sources */,
+				E2CDF4AD235F2859002E155D /* VerificationCodeViewController.swift in Sources */,
 				E279717D231433AF00964F25 /* SignUpViewController.swift in Sources */,
 				E21AC96321EA6BEF00D460A9 /* AppDelegate.swift in Sources */,
 				E2FA9ED82334E6130068792D /* NetworkingClient.swift in Sources */,
@@ -459,6 +466,7 @@
 				E279717F231433D500964F25 /* ExistingUserViewController.swift in Sources */,
 				E24388A523154A5200948AD5 /* Utilities.swift in Sources */,
 				E26763652355EE6B00D079C6 /* formStep3ViewController.swift in Sources */,
+				E2CDF4AB235F2126002E155D /* PhoneViewController.swift in Sources */,
 				E2149704231410240048D149 /* HomeViewController.swift in Sources */,
 				E2676367235614DB00D079C6 /* formStep2ViewController.swift in Sources */,
 			);
