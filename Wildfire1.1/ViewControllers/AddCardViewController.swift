@@ -103,8 +103,6 @@ class AddCardViewController: UIViewController, UITextFieldDelegate {
                 
                 var json = JSON(result?.data ?? "no data returned")
                 
-                print(json)
-                
                 // extract the following values from the returned CardRegistration object
                 if let ak = json["AccessKey"].string {
                     accessKey = ak

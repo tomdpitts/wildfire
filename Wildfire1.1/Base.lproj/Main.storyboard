@@ -92,7 +92,7 @@
                                 </subviews>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="38" translatesAutoresizingMaskIntoConstraints="NO" id="quu-cW-C4i" userLabel="Amount Stack">
-                                <rect key="frame" x="103" y="150.5" width="169.5" height="60"/>
+                                <rect key="frame" x="103" y="190.5" width="169.5" height="60"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="€" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l5b-0R-eSL">
                                         <rect key="frame" x="0.0" y="0.0" width="29.5" height="60"/>
@@ -109,7 +109,7 @@
                                 </subviews>
                             </stackView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6Nw-Yl-zwS">
-                                <rect key="frame" x="137.5" y="296" width="100" height="50"/>
+                                <rect key="frame" x="137.5" y="336" width="100" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="100" id="JZ4-YM-GFs"/>
                                     <constraint firstAttribute="height" constant="50" id="h58-wR-aaR"/>
@@ -120,11 +120,30 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Error Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZI4-d1-BuS">
-                                <rect key="frame" x="50" y="225.5" width="275" height="20.5"/>
+                                <rect key="frame" x="50" y="265.5" width="275" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <stackView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="X4a-ZK-Zyr">
+                                <rect key="frame" x="91" y="140" width="211.5" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="greenTick" translatesAutoresizingMaskIntoConstraints="NO" id="R0p-Yg-O3y">
+                                        <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="30" id="5TT-3Z-6Gv"/>
+                                            <constraint firstAttribute="width" constant="30" id="QlN-Og-TRn"/>
+                                        </constraints>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Checking for account.." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Oq4-0m-RfI">
+                                        <rect key="frame" x="38" y="0.0" width="173.5" height="30"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -133,7 +152,7 @@
                             <constraint firstItem="ZI4-d1-BuS" firstAttribute="leading" secondItem="d8M-zN-Egg" secondAttribute="leading" constant="50" id="J3m-UO-An8"/>
                             <constraint firstItem="6Nw-Yl-zwS" firstAttribute="centerX" secondItem="y25-cd-byd" secondAttribute="centerX" id="Vjd-IS-8lf"/>
                             <constraint firstItem="6Nw-Yl-zwS" firstAttribute="top" secondItem="ZI4-d1-BuS" secondAttribute="bottom" constant="50" id="YLP-Yd-wrP"/>
-                            <constraint firstItem="quu-cW-C4i" firstAttribute="top" secondItem="QLW-LI-hXT" secondAttribute="bottom" constant="30" id="cMZ-IR-hV6"/>
+                            <constraint firstItem="quu-cW-C4i" firstAttribute="top" secondItem="QLW-LI-hXT" secondAttribute="bottom" constant="70" id="cMZ-IR-hV6"/>
                             <constraint firstItem="d8M-zN-Egg" firstAttribute="trailing" secondItem="ZI4-d1-BuS" secondAttribute="trailing" constant="50" id="oMf-vG-IZD"/>
                             <constraint firstItem="QLW-LI-hXT" firstAttribute="top" secondItem="d8M-zN-Egg" secondAttribute="top" constant="36" id="sfu-U0-F3x"/>
                             <constraint firstItem="QLW-LI-hXT" firstAttribute="centerX" secondItem="y25-cd-byd" secondAttribute="centerX" id="wKy-3q-mbm"/>
@@ -142,8 +161,10 @@
                     </view>
                     <connections>
                         <outlet property="amountTextField" destination="nm4-lS-reI" id="xY0-TO-QGq"/>
+                        <outlet property="confirmationTick" destination="R0p-Yg-O3y" id="Dbr-QB-bHA"/>
                         <outlet property="errorLabel" destination="ZI4-d1-BuS" id="1zF-uC-T6s"/>
                         <outlet property="recipientLabel" destination="ikX-YK-Ipp" id="eJb-ew-LP2"/>
+                        <outlet property="searchStatus" destination="Oq4-0m-RfI" id="M6r-t2-Sre"/>
                         <segue destination="pFC-XD-G7v" kind="show" identifier="goToConfirm" id="6CO-tz-ak8"/>
                     </connections>
                 </viewController>
@@ -1240,7 +1261,7 @@
         <scene sceneID="8uR-gI-71x">
             <objects>
                 <viewController storyboardIdentifier="profilePicVC" id="7Vm-q6-s2U" customClass="ProfilePicViewController" customModule="Wildfire1_1" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" ambiguous="YES" id="oJ7-fz-xyE">
+                    <view key="view" contentMode="scaleToFill" id="oJ7-fz-xyE">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -1258,14 +1279,14 @@
                                     <action selector="editProfilePicButton:" destination="7Vm-q6-s2U" eventType="touchUpInside" id="nfe-DQ-IHE"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZVE-iR-KzM">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZVE-iR-KzM">
                                 <rect key="frame" x="50" y="499" width="275" height="30"/>
                                 <state key="normal" title="Confirm"/>
                                 <connections>
                                     <action selector="confirmButtonTapped:" destination="7Vm-q6-s2U" eventType="touchUpInside" id="lSD-g4-qsS"/>
                                 </connections>
                             </button>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" image="genericProfilePic" translatesAutoresizingMaskIntoConstraints="NO" id="Qct-Jo-Jww">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="genericProfilePic" translatesAutoresizingMaskIntoConstraints="NO" id="Qct-Jo-Jww">
                                 <rect key="frame" x="53" y="146" width="269" height="307"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="307" id="CrS-IO-F3d"/>
@@ -1485,15 +1506,16 @@
     </scenes>
     <resources>
         <image name="Ic_account_circle.png" width="16" height="16"/>
-        <image name="genericProfilePic" width="920" height="678"/>
+        <image name="genericProfilePic" width="460" height="339"/>
+        <image name="greenTick" width="25" height="25"/>
         <image name="icons8-encrypt-50" width="25" height="25"/>
         <image name="icons8-get-cash-filled-50" width="25" height="25"/>
         <image name="icons8-paper-plane-50" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="Ded-wM-35q"/>
-        <segue reference="KNr-jR-5zd"/>
+        <segue reference="uFv-8x-UrP"/>
         <segue reference="7rf-pY-aAl"/>
-        <segue reference="KC7-yY-zWV"/>
+        <segue reference="6CO-tz-ak8"/>
     </inferredMetricsTieBreakers>
 </document>

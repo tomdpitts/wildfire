@@ -9,14 +9,20 @@
 import UIKit
 import FirebaseAuth
 import FirebaseFirestore
+import FirebaseFunctions
 import libPhoneNumber_iOS
+import SwiftyJSON
 
 class Send2ViewController: UIViewController {
+    
+    lazy var functions = Functions.functions(region:"europe-west1")
 
 
     @IBOutlet weak var recipientLabel: UILabel!
     @IBOutlet weak var amountTextField: UITextField!
     @IBOutlet weak var errorLabel: UILabel!
+    @IBOutlet weak var confirmationTick: UIImageView!
+    @IBOutlet weak var searchStatus: UILabel!
     
     let phoneUtil = NBPhoneNumberUtil()
     var contact: Contact?
@@ -26,12 +32,13 @@ class Send2ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let phone = contact?.phoneNumber
+        self.confirmationTick.isHidden = true
+        self.searchStatus.isHidden = true
         
-
-        
-        if let c = contact?.phoneNumber {
-            isRegistered(phoneNumber: c)
+        if let number = contact?.phoneNumber {
+            if let name = contact?.givenName {
+                isRegistered(phoneNumber: number, name: name)
+            }
         }
         
         
@@ -52,30 +59,59 @@ class Send2ViewController: UIViewController {
         }
     }
     
-    func isRegistered(phoneNumber: String) {
+    func isRegistered(phoneNumber: String, name: String) {
+        // to check whether the selected contact is already registered, we pass the number to Cloud Functions to search against database
         
-        if let phone = contact?.phoneNumber {
+        // call the function to check for a match
+        functions.httpsCallable("isRegistered").call(["phone": phoneNumber]) { (result, error) in
+            //                if let error = error as NSError? {
+            //                    if error.domain == FunctionsErrorDomain {
+            //                        let code = FunctionsErrorCode(rawValue: error.code)
+            //                        let message = error.localizedDescription
+            //                        let details = error.userInfo[FunctionsErrorDetailsKey]
+            //                    }
+            //                    // ...
+            //                }
             
-            let phoneString = String(phone)
-
-            let phoneClean = phoneString.filter("0123456789".contains)
+            let json = JSON(result?.data ?? "no data returned")
             
-            // Create a query against the collection.
-            let ref = Firestore.firestore().collection("users")
-            let query = ref.whereField("phone", isEqualTo: phoneClean)
-            
-            query.getDocuments() { (querySnapshot, err) in
-                if let err = err {
-                    print("Error getting documents: \(err)")
-                } else {
-                    for document in querySnapshot!.documents {
-                        print("\(document.documentID) => \(document.data())")
-                        
-                    }
-                }
+            if let uid = json["uid"].string {
+                self.confirmationTick.isHidden = false
+                self.searchStatus.text = "\(name) is registered"
+                self.searchStatus.isHidden = false
+                self.contact?.uid = uid
+            } else {
+                // searched for the number but no match found i.e. the contact isn't registered
+                self.searchStatus.text = "Text \(name) a download link to collect their money"
+                self.searchStatus.isHidden = false
             }
         }
-        return
+    
+    
+
+        // the below is old code to check against the firestore database
+//        if let phone = contact?.phoneNumber {
+//
+//            let phoneString = String(phone)
+//
+//            let phoneClean = phoneString.filter("0123456789".contains)
+//
+//            // Create a query against the collection.
+//            let ref = Firestore.firestore().collection("users")
+//            let query = ref.whereField("phone", isEqualTo: phoneClean)
+//
+//            query.getDocuments() { (querySnapshot, err) in
+//                if let err = err {
+//                    print("Error getting documents: \(err)")
+//                } else {
+//                    for document in querySnapshot!.documents {
+//                        print("\(document.documentID) => \(document.data())")
+//
+//                    }
+//                }
+//            }
+//        }
+//        return
     }
     
     func validateAmount() -> Bool {

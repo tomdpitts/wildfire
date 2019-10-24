@@ -9,8 +9,11 @@
 import UIKit
 import FirebaseAuth
 import FirebaseFirestore
+import FirebaseFunctions
 
 class formStep3ViewController: UIViewController, UITextFieldDelegate {
+    
+    lazy var functions = Functions.functions(region:"europe-west1")
     
     var userIsInPaymentFlow = false
     
@@ -141,7 +144,7 @@ class formStep3ViewController: UIViewController, UITextFieldDelegate {
             // Check for errors
             if err != nil {
                 // There was an error creating the user
-                self.showAlert(message: "Error creating user", progress: false)
+                self.showAlert(title: "Error creating user", message: nil, progress: false)
             } else {
                 
                 // User was created successfully, now store the first name and last name
@@ -157,13 +160,64 @@ class formStep3ViewController: UIViewController, UITextFieldDelegate {
                     // print(result!.user.uid)
                     if error != nil {
                         // Show error message
-                        self.showAlert(message: "Error saving user data", progress: false)
+                        self.showAlert(title: "Error saving user data", message: nil, progress: false)
                     } else {
-                        self.showAlert(message: "Great! You're signed up.", progress: true)
+                        self.triggerMangopayUserCreation()
+                        // the user is already logged in with their phone number, but adding email address gives a killswitch option
+                        // segue is handled in this function as well..
+                        self.addEmailToFirebaseUser()
+                        
                     }
                 }
             }
         }
+    }
+    
+    // all users of the app are signed in via Phone Authentication, but we want to add email to the auth as well for the killswitch functionality i.e. if users ever lose their phone and want to terminate their account & deposit all credit to their bank account
+    func addEmailToFirebaseUser() {
+        
+        let credential = EmailAuthProvider.credential(withEmail: email, password: password)
+        
+        if let user = Auth.auth().currentUser {
+            
+            user.linkAndRetrieveData(with: credential) { (authResult, error) in
+                // ...
+                if let err = error {
+                    // TODO
+                    // what are the error options here?
+                    self.showAlert(title: "This email is already registered, please use another", message: "You can delete old accounts at wildfirewallet.com", progress: false)
+                } else {
+                    // progress: true presents next screen
+                    self.showAlert(title: "Great! You're signed up.", message: nil, progress: true)
+                }
+            }
+        }
+    }
+    
+    func triggerMangopayUserCreation() {
+        
+        functions.httpsCallable("createNewMangopayCustomerONCALL").call() { (result, error) in
+            // TODO error handling!
+            //                if let error = error as NSError? {
+            //                    if error.domain == FunctionsErrorDomain {
+            //                        let code = FunctionsErrorCode(rawValue: error.code)
+            //                        let message = error.localizedDescription
+            //                        let details = error.userInfo[FunctionsErrorDetailsKey]
+            //                    }
+            //                    // ...
+            //                }
+        }
+    }
+    
+    func showAlert(title: String?, message: String?, progress: Bool) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        
+        alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: { (action) in
+            if progress == true {
+                self.progressUser()
+            }
+        }))
+        self.present(alert, animated: true)
     }
     
     func progressUser() {
@@ -173,16 +227,6 @@ class formStep3ViewController: UIViewController, UITextFieldDelegate {
         } else {
             self.performSegue(withIdentifier: "unwindToAccountView", sender: self)
         }
-    }
-    
-    func showAlert(message: String, progress: Bool) {
-        let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: { (action) in
-            if progress == true {
-                self.progressUser()
-            }
-        }))
-        self.present(alert, animated: true)
     }
     
     private func localeFinder(for fullCountryName : String) -> String? {
