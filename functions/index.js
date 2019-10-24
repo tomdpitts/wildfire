@@ -46,11 +46,14 @@ admin.initializeApp(functions.config().firebase);
 
 // When a user is created, register them with MangoPay and add an empty PaymentMethods collection
 exports.createNewMangopayCustomerONCALL = functions.region('europe-west1').https.onCall( async (data, context) => {
+
+
+  // TODO if this func fails for whatever reason, it should be retried (data is already in Firestore database)
   
   const userid = context.auth.uid
 
   await admin.firestore().collection('users').doc(userid).get().then(doc => {
-    
+
     userData = doc.data();
    
     const firstname = data.firstname
@@ -66,6 +69,7 @@ exports.createNewMangopayCustomerONCALL = functions.region('europe-west1').https
     console.log('Error getting userID', err);
   });
 
+// this call to MangoPay includes a response, saved as customer - we take the ID contained therein and write to Firestore database in the next step
   const customer = await mpAPI.Users.create({PersonType: 'NATURAL', FirstName: firstname, LastName: lastname, Birthday: birthday, Nationality: nationality, CountryOfResidence: residence, Email: email});
 
   return admin.firestore().collection('users').doc(context.params.id).update({mangopayID: customer.Id});
