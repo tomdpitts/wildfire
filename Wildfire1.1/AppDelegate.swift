@@ -70,30 +70,39 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func redirect() {
-        guard let now = self.timestamp else { return }
         
         let uid = Auth.auth().currentUser?.uid
         let mainStoryboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         
         if uid != nil {
-            if now < Date().toSeconds() - 2 {
-                
-                
-                let initialViewController : UIViewController = mainStoryboard.instantiateViewController(withIdentifier: "HomeVC") as UIViewController
-                self.window = UIWindow(frame: UIScreen.main.bounds)
-                self.window?.rootViewController = initialViewController
-                self.window?.makeKeyAndVisible()
-                
+            if let checkoutTime = self.timestamp {
+                if checkoutTime > Date().toSeconds() - 2 {
+                    
+                    
+                    let initialViewController: UIViewController = mainStoryboard.instantiateViewController(withIdentifier: "mainMenu") as UIViewController
+                    self.window = UIWindow(frame: UIScreen.main.bounds)
+                    self.window?.rootViewController = initialViewController
+                    self.window?.makeKeyAndVisible()
+                    
+                } else {
+                    
+                    let initialViewController: UIViewController = mainStoryboard.instantiateViewController(withIdentifier: "HomeVC") as UIViewController
+                    self.window = UIWindow(frame: UIScreen.main.bounds)
+                    self.window?.rootViewController = initialViewController
+                    self.window?.makeKeyAndVisible()
+                    
+                }
             } else {
                 
-                let initialViewController : UIViewController = mainStoryboard.instantiateViewController(withIdentifier: "mainMenu") as UIViewController
+                let initialViewController: UIViewController = mainStoryboard.instantiateViewController(withIdentifier: "HomeVC") as UIViewController
                 self.window = UIWindow(frame: UIScreen.main.bounds)
                 self.window?.rootViewController = initialViewController
                 self.window?.makeKeyAndVisible()
                 
             }
+            
         } else {
-            let initialViewController : UIViewController = mainStoryboard.instantiateViewController(withIdentifier: "verifyMobile") as UIViewController
+            let initialViewController: UIViewController = mainStoryboard.instantiateViewController(withIdentifier: "verifyMobile") as UIViewController
             self.window = UIWindow(frame: UIScreen.main.bounds)
             self.window?.rootViewController = initialViewController
             self.window?.makeKeyAndVisible()
