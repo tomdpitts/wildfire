@@ -12,8 +12,9 @@ import FirebaseFirestore
 import FirebaseFunctions
 import libPhoneNumber_iOS
 import SwiftyJSON
+import MessageUI
 
-class Send2ViewController: UIViewController {
+class Send2ViewController: UIViewController, MFMessageComposeViewControllerDelegate {
     
     lazy var functions = Functions.functions(region:"europe-west1")
 
@@ -23,17 +24,20 @@ class Send2ViewController: UIViewController {
     @IBOutlet weak var errorLabel: UILabel!
     @IBOutlet weak var confirmationTick: UIImageView!
     @IBOutlet weak var searchStatus: UILabel!
+    @IBOutlet weak var sendButton: UIButton!
     
     let phoneUtil = NBPhoneNumberUtil()
     var contact: Contact?
     var transaction: Transaction?
     var sendAmount = 0
+    var isRegistered = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.confirmationTick.isHidden = true
-        self.searchStatus.isHidden = true
+        self.sendButton.isEnabled = false
+        
         
         if let number = contact?.phoneNumber {
             if let name = contact?.givenName {
@@ -79,39 +83,24 @@ class Send2ViewController: UIViewController {
                 self.confirmationTick.isHidden = false
                 self.searchStatus.text = "\(name) is registered"
                 self.searchStatus.isHidden = false
-                self.contact?.uid = uid
+                
+                // check the recipient isn't the user themself! If they are, we should go back to the previous screen and display an error message
+                
+                if uid != Auth.auth().currentUser?.uid {
+                    self.contact?.uid = uid
+                    self.isRegistered = true
+                } else {
+                    self.showAlert(title: "Oops", message: "Please select a recipient that isn't yourself")
+                }
+                
             } else {
                 // searched for the number but no match found i.e. the contact isn't registered
                 self.searchStatus.text = "Text \(name) a download link to collect their money"
                 self.searchStatus.isHidden = false
             }
+            
+            self.sendButton.isEnabled = true
         }
-    
-    
-
-        // the below is old code to check against the firestore database
-//        if let phone = contact?.phoneNumber {
-//
-//            let phoneString = String(phone)
-//
-//            let phoneClean = phoneString.filter("0123456789".contains)
-//
-//            // Create a query against the collection.
-//            let ref = Firestore.firestore().collection("users")
-//            let query = ref.whereField("phone", isEqualTo: phoneClean)
-//
-//            query.getDocuments() { (querySnapshot, err) in
-//                if let err = err {
-//                    print("Error getting documents: \(err)")
-//                } else {
-//                    for document in querySnapshot!.documents {
-//                        print("\(document.documentID) => \(document.data())")
-//
-//                    }
-//                }
-//            }
-//        }
-//        return
     }
     
     func validateAmount() -> Bool {
@@ -140,7 +129,11 @@ class Send2ViewController: UIViewController {
         let success = validateAmount()
         if success == true {
             errorLabel.isHidden = true
-            performSegue(withIdentifier: "goToConfirm", sender: self)
+            if isRegistered == true {
+                performSegue(withIdentifier: "goToConfirm", sender: self)
+            } else {
+                sendText()
+            }
         } else {
             return
         }
@@ -160,6 +153,38 @@ class Send2ViewController: UIViewController {
                 vc.sendAmount = sendAmount
             }
         }
+    }
+    
+    func sendText() {
+        
+        let messageBody = "Hi \(self.contact?.givenName), I'd like to send you £\(self.sendAmount) with Wildfire - the payments app. Download the app here to collect it http://tiny.cc/bznffz"
+        if (MFMessageComposeViewController.canSendText()) {
+            let controller = MFMessageComposeViewController()
+            controller.body = messageBody
+            
+            let phone = contact?.phoneNumber
+            controller.recipients = ([phone] as! [String])
+            controller.messageComposeDelegate = self
+            self.present(controller, animated: true, completion: nil)
+        }
+    }
+    
+    func messageComposeViewController(_ controller: MFMessageComposeViewController!, didFinishWith result: MessageComposeResult) {
+        //... handle sms screen actions
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        self.navigationController?.isNavigationBarHidden = false
+    }
+    
+    func showAlert(title: String?, message: String?) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        
+        alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: { (action) in
+            self.performSegue(withIdentifier: "unwindToPrevious", sender: self)
+        }))
+        self.present(alert, animated: true)
     }
     
     

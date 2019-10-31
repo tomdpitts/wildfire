@@ -89,20 +89,24 @@ class ContactsViewController: UITableViewController {
                         let name = contact.givenName + " " + contact.familyName
                         let number = contact.phoneNumbers
                         
-                        var mobile = ""
-                        for n in number {
-                            if n.label == CNLabelPhoneNumberMobile {
-                                mobile = n.value.stringValue
+                        // if they don't have a mobile number we don't need to include them in the list
+                        if number.isEmpty == false {
+                            var mobile = ""
+                            for n in number {
+                                if n.label == CNLabelPhoneNumberMobile {
+                                    mobile = n.value.stringValue
+                                }
                             }
+                            let allowedCharset = CharacterSet
+                                .decimalDigits
+                            let mobileClean = String(mobile.unicodeScalars.filter(allowedCharset.contains))
+                            
+                            
+                            let person = Contact(givenName: contact.givenName, familyName: contact.familyName, fullName: name, phoneNumber: mobileClean, uid: nil)
+                            
+                            
+                            self.contactsList.append(person)
                         }
-                        let allowedCharset = CharacterSet
-                            .decimalDigits
-                        let mobileClean = String(mobile.unicodeScalars.filter(allowedCharset.contains))
-                        
-                        
-                        let person = Contact(givenName: contact.givenName, familyName: contact.familyName, fullName: name, phoneNumber: mobileClean, uid: nil)
-                        self.contactsList.append(person)
-                        
 //                        self.names.append(name)
 //                        self.phonebook[name] = mobile
                     })
@@ -219,5 +223,8 @@ class ContactsViewController: UITableViewController {
         if let Send2ViewController = segue.destination as? Send2ViewController {
             Send2ViewController.contact = selectedContact
         }
+    }
+    
+    @IBAction func unwindToPrevious(_ unwindSegue: UIStoryboardSegue) {
     }
 }

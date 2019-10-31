@@ -202,5 +202,4 @@ class ImagePickerManager: NSObject, UIImagePickerControllerDelegate, UINavigatio
     
     @objc func imagePickerController(_ picker: UIImagePickerController, pickedImage: UIImage?) {
     }
-    
 }
