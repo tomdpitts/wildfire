@@ -26,23 +26,7 @@ admin.initializeApp(functions.config().firebase);
 
 // Each function requires its own exports.customFunction
 
-// When a user is created, register them with MangoPay and add an empty PaymentMethods collection
-// exports.createNewMangopayCustomer = functions.region('europe-west1').firestore.document('users/{id}').onCreate(async (snap, context) => {
-  
-//   const data = snap.data()
 
-//   var firstname = data.firstname
-//   var lastname = data.lastname
-//   var email = data.email
-//   var birthday = data.dob
-//   var nationality = data.nationality
-//   var residence = data.residence
-
-//   const customer = await mpAPI.Users.create({PersonType: 'NATURAL', FirstName: firstname, LastName: lastname, Birthday: birthday, Nationality: nationality, CountryOfResidence: residence, Email: email});
-
-//   return admin.firestore().collection('users').doc(context.params.id).update({mangopayID: customer.Id});
-
-// })
 
 // When a user is created, register them with MangoPay and add an empty PaymentMethods collection
 exports.createNewMangopayCustomerONCALL = functions.region('europe-west1').https.onCall( async (data, context) => {
@@ -50,9 +34,9 @@ exports.createNewMangopayCustomerONCALL = functions.region('europe-west1').https
 
   // TODO if this func fails for whatever reason, it should be retried (data is already in Firestore database)
   
-  const userid = context.auth.uid
+  const userID = context.auth.uid
 
-  await admin.firestore().collection('users').doc(userid).get().then(doc => {
+  await admin.firestore().collection('users').doc(userID).get().then(doc => {
 
     userData = doc.data();
    
@@ -79,14 +63,14 @@ exports.createNewMangopayCustomerONCALL = functions.region('europe-west1').https
   // When user adds a new payment method, a) create a MangoPay wallet, b) create a Card Registration Object, and c) save the card token
   exports.createPaymentMethodHTTPS = functions.region('europe-west1').https.onCall( async (data, context) => {
 
-    const userid = context.auth.uid
+    const userID = context.auth.uid
 
     var mangopayID = []
     var mangopayIDString = ''
     const walletName = data.text
 
 
-    await admin.firestore().collection('users').doc(userid).get().then(doc => {
+    await admin.firestore().collection('users').doc(userID).get().then(doc => {
       userData = doc.data();
       mangopayID.push(userData.mangopayID);
       mangopayIDString = userData.mangopayID;
@@ -100,11 +84,11 @@ exports.createNewMangopayCustomerONCALL = functions.region('europe-west1').https
 
     const wallet = await mpAPI.Wallets.create({Owners: mangopayID, Description: walletName, Currency: 'EUR'});
 
-    const cardReg = await mpAPI.CardRegistrations.create({UserId: mangopayIDString, Currency: 'EUR', CardType: "CB_VISA_MASTERCARD"});
+    const cardReg = await mpAPI.CardRegistrations.create({userID: mangopayIDString, Currency: 'EUR', CardType: "CB_VISA_MASTERCARD"});
 
     // we need to add a Wallet to the user's Firestore record - this will store the card token(s) for repeat payments
 
-    return admin.firestore().collection('users').doc(userid).collection('wallets').doc(wallet.Id).set({
+    return admin.firestore().collection('users').doc(userID).collection('wallets').doc(wallet.Id).set({
       created: wallet.CreationDate,
       balance: wallet.Balance['Amount'],
       description: wallet.Description,
@@ -126,14 +110,14 @@ exports.createNewMangopayCustomerONCALL = functions.region('europe-west1').https
 
   exports.addCardRegistration = functions.region('europe-west1').https.onCall( async (data, context) => {
 
-    const userid = context.auth.uid
+    const userID = context.auth.uid
 
     var mangopayID = ''
     const rd = data.regData
     const cardRegID = String(data.cardRegID)
 
-    // using the Firebase userid (supplied via 'context' of the request), get the mangopayID 
-    await admin.firestore().collection('users').doc(userid).get().then(doc => {
+    // using the Firebase userID (supplied via 'context' of the request), get the mangopayID 
+    await admin.firestore().collection('users').doc(userID).get().then(doc => {
       userData = doc.data();
       mangopayID = userData.mangopayID
       return
@@ -148,7 +132,7 @@ exports.createNewMangopayCustomerONCALL = functions.region('europe-west1').https
     const cardObject = await mpAPI.CardRegistrations.update({RegistrationData: rd, Id: cardRegID})
 
     // and save the important part of the response - the cardId - to the Firestore (at 'user' level, not in 'wallets')
-    return admin.firestore().collection('users').doc(userid).update({
+    return admin.firestore().collection('users').doc(userID).update({
       card1_id: cardObject.CardId
     })
     .catch(err => {
@@ -156,6 +140,215 @@ exports.createNewMangopayCustomerONCALL = functions.region('europe-west1').https
     })
   })
 
+  // transact function needs to also log the transaction in Firestore
+
+  exports.transact = functions.region('europe-west1').https.onCall( async (data, context) => {
+    //        let recipientRef = self.db.collection("users").document(self.recipientUIDParsed)
+    const db = admin.firestore()
+    const userID = context.auth.uid
+    const recipientID = data.recipientID
+
+    const userRef = db.collection("users").document(userID)
+    const recipientRef = db.collection("users").document(recipientID)
+
+    let transaction = db.runTransaction(t => {
+      return t.get(cityRef)
+        .then(doc => {
+          // Add one person to the city population.
+          
+          let newPopulation = doc.data().population + 1;
+          t.update(cityRef, {population: newPopulation});
+        });
+    }).then(result => {
+      console.log('Transaction success!');
+    }).catch(err => {
+      console.log('Transaction failure:', err);
+    });
+
+
+
+
+    if let uid = self.userUID {
+        let userRef = db.collection("users").document(uid)
+
+        
+
+
+
+        db.runTransaction({ (transaction, errorPointer) -> Any? in
+            
+            // set up user (="payer") Firestore document/database info
+            let userDoc: DocumentSnapshot
+            do {
+                try userDoc = transaction.getDocument(userRef)
+            } catch let fetchError as NSError {
+                errorPointer?.pointee = fetchError
+                return nil
+            }
+            
+            // do the same for the recipient doc
+            let recipientDoc: DocumentSnapshot
+            do {
+                try recipientDoc = transaction.getDocument(recipientRef)
+            } catch let fetchError as NSError {
+                errorPointer?.pointee = fetchError
+                return nil
+            }
+            
+            // create reference to current ('old') balance of user
+            guard let oldUserBalance = userDoc.data()?["balance"] as? Int else {
+                let error = NSError(
+                    domain: "AppErrorDomain",
+                    code: -1,
+                    userInfo: [
+                        NSLocalizedDescriptionKey: "Unable to retrieve population from snapshot \(userDoc)"
+                    ]
+                )
+                errorPointer?.pointee = error
+                return nil
+            }
+            
+            // ditto for recipient
+            guard let oldRecipientBalance = recipientDoc.data()?["balance"] as? Int else {
+                let error = NSError(
+                    domain: "AppErrorDomain",
+                    code: -1,
+                    userInfo: [
+                        NSLocalizedDescriptionKey: "Unable to retrieve population from snapshot \(recipientDoc)"
+                    ]
+                )
+                errorPointer?.pointee = error
+                return nil
+            }
+            
+            // here's the magic
+            if amount <= oldUserBalance && amount > 0 {
+                
+                // P.S. the sendAmount > 0 should always pass since there will be validation elsewhere. However, suggest leaving it in as it doesn't hurt and if the FE validation ever breaks for whatever reason, allowing sendAmount < 0 would be a catastrophic security issue i.e. a useful failsafe
+                
+                let newUserBalance = oldUserBalance - amount
+                let newRecipientBalance = oldRecipientBalance + amount
+                
+                transaction.updateData(["balance": newUserBalance], forDocument: userRef)
+                transaction.updateData(["balance": newRecipientBalance], forDocument: recipientRef)
+
+            } else {
+                return nil
+            }
+            
+            return nil
+            
+            
+        }) { (object, error) in
+            if let error = error {
+                print("Transaction failed: \(error)")
+            } else {
+                print("Transaction successfully committed!")
+            }
+        }
+    }
+  }
+
+      // TODO move this func to cloudfunctions - if a bug or exploit emerges, it needs to be fixable without requiring users to update
+      func transact(recipientUID: String, amount: Int) {
+        
+        //        let recipientRef = self.db.collection("users").document(self.recipientUIDParsed)
+                let recipientRef = self.db.collection("users").document(recipientUID)
+                if let uid = self.userUID {
+                    let userRef = db.collection("users").document(uid)
+                
+                    db.runTransaction({ (transaction, errorPointer) -> Any? in
+                        
+                        // set up user (="payer") Firestore document/database info
+                        let userDoc: DocumentSnapshot
+                        do {
+                            try userDoc = transaction.getDocument(userRef)
+                        } catch let fetchError as NSError {
+                            errorPointer?.pointee = fetchError
+                            return nil
+                        }
+                        
+                        // do the same for the recipient doc
+                        let recipientDoc: DocumentSnapshot
+                        do {
+                            try recipientDoc = transaction.getDocument(recipientRef)
+                        } catch let fetchError as NSError {
+                            errorPointer?.pointee = fetchError
+                            return nil
+                        }
+                        
+                        // create reference to current ('old') balance of user
+                        guard let oldUserBalance = userDoc.data()?["balance"] as? Int else {
+                            let error = NSError(
+                                domain: "AppErrorDomain",
+                                code: -1,
+                                userInfo: [
+                                    NSLocalizedDescriptionKey: "Unable to retrieve population from snapshot \(userDoc)"
+                                ]
+                            )
+                            errorPointer?.pointee = error
+                            return nil
+                        }
+                        
+                        // ditto for recipient
+                        guard let oldRecipientBalance = recipientDoc.data()?["balance"] as? Int else {
+                            let error = NSError(
+                                domain: "AppErrorDomain",
+                                code: -1,
+                                userInfo: [
+                                    NSLocalizedDescriptionKey: "Unable to retrieve population from snapshot \(recipientDoc)"
+                                ]
+                            )
+                            errorPointer?.pointee = error
+                            return nil
+                        }
+                        
+                        // here's the magic
+                        if amount <= oldUserBalance && amount > 0 {
+                            
+                            // P.S. the sendAmount > 0 should always pass since there will be validation elsewhere. However, suggest leaving it in as it doesn't hurt and if the FE validation ever breaks for whatever reason, allowing sendAmount < 0 would be a catastrophic security issue i.e. a useful failsafe
+                            
+                            let newUserBalance = oldUserBalance - amount
+                            let newRecipientBalance = oldRecipientBalance + amount
+                            
+                            transaction.updateData(["balance": newUserBalance], forDocument: userRef)
+                            transaction.updateData(["balance": newRecipientBalance], forDocument: recipientRef)
+        
+                        } else {
+                            return nil
+                        }
+                        
+                        return nil
+                        
+                        
+                    }) { (object, error) in
+                        if let error = error {
+                            print("Transaction failed: \(error)")
+                        } else {
+                            print("Transaction successfully committed!")
+                        }
+                    }
+                }
+            }
+
+
+  // When a user is created, register them with MangoPay and add an empty PaymentMethods collection
+// exports.createNewMangopayCustomer = functions.region('europe-west1').firestore.document('users/{id}').onCreate(async (snap, context) => {
+  
+//   const data = snap.data()
+
+//   var firstname = data.firstname
+//   var lastname = data.lastname
+//   var email = data.email
+//   var birthday = data.dob
+//   var nationality = data.nationality
+//   var residence = data.residence
+
+//   const customer = await mpAPI.Users.create({PersonType: 'NATURAL', FirstName: firstname, LastName: lastname, Birthday: birthday, Nationality: nationality, CountryOfResidence: residence, Email: email});
+
+//   return admin.firestore().collection('users').doc(context.params.id).update({mangopayID: customer.Id});
+
+// })
 
 
 //// when a user is deleted, set isDeleted flag to True in the database

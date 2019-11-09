@@ -71,6 +71,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func redirect() {
         
+        // TODO if no connectivity, prevent user from progressing
+        
+        // check if they are logged in already
         let uid = Auth.auth().currentUser?.uid
         let mainStoryboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         

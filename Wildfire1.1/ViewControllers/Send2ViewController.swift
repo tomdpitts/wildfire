@@ -19,7 +19,6 @@ class Send2ViewController: UIViewController, MFMessageComposeViewControllerDeleg
     lazy var functions = Functions.functions(region:"europe-west1")
 
 
-    @IBOutlet weak var recipientLabel: UILabel!
     @IBOutlet weak var amountTextField: UITextField!
     @IBOutlet weak var errorLabel: UILabel!
     @IBOutlet weak var confirmationTick: UIImageView!
@@ -31,6 +30,7 @@ class Send2ViewController: UIViewController, MFMessageComposeViewControllerDeleg
     var transaction: Transaction?
     var sendAmount = 0
     var isRegistered = false
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,7 +48,7 @@ class Send2ViewController: UIViewController, MFMessageComposeViewControllerDeleg
         
         errorLabel.isHidden = true
         
-        if let name = contact?.givenName {
+        if let name = contact?.fullName {
             navigationItem.title = "To \(name)"
         } else {
             navigationItem.title = "Recipient"
@@ -58,9 +58,6 @@ class Send2ViewController: UIViewController, MFMessageComposeViewControllerDeleg
     
     override func viewWillAppear(_ animated: Bool) {
         amountTextField.becomeFirstResponder()
-        if let contact = contact {
-            recipientLabel.text = contact.fullName
-        }
     }
     
     func isRegistered(phoneNumber: String, name: String) {
