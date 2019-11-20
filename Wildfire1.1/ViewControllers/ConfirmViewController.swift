@@ -11,6 +11,7 @@ import CoreGraphics
 import CoreImage
 import CryptoSwift
 import Firebase
+import FirebaseFunctions
 
 
 class ConfirmViewController: UIViewController {
@@ -18,6 +19,7 @@ class ConfirmViewController: UIViewController {
     let db = Firestore.firestore()
     var handle: AuthStateDidChangeListenerHandle?
     let userUID = Auth.auth().currentUser?.uid
+    lazy var functions = Functions.functions()
 
     var decryptedString = ""
     var sendAmount = 0
@@ -190,8 +192,10 @@ class ConfirmViewController: UIViewController {
         if loggedInUser == true {
             if enoughCredit == true {
                 // initiate transaction
-                // Update one field, creating the document if it does not exist.
+                // TODO add spinner
+                // TODO add semaphore or something to wait for result before continuing, with timeout
                 transact(recipientUID: self.recipientUID, amount: self.sendAmount)
+                // TODO add result (success or failure)
                 performSegue(withIdentifier: "showSuccessScreen", sender: self)
             } else {
                 if existingPaymentMethod == true {
@@ -212,82 +216,17 @@ class ConfirmViewController: UIViewController {
     // TODO move this func to cloudfunctions - if a bug or exploit emerges, it needs to be fixable without requiring users to update
     func transact(recipientUID: String, amount: Int) {
         
-//        let recipientRef = self.db.collection("users").document(self.recipientUIDParsed)
-        let recipientRef = self.db.collection("users").document(recipientUID)
-        if let uid = self.userUID {
-            let userRef = db.collection("users").document(uid)
         
-            db.runTransaction({ (transaction, errorPointer) -> Any? in
-                
-                // set up user (="payer") Firestore document/database info
-                let userDoc: DocumentSnapshot
-                do {
-                    try userDoc = transaction.getDocument(userRef)
-                } catch let fetchError as NSError {
-                    errorPointer?.pointee = fetchError
-                    return nil
-                }
-                
-                // do the same for the recipient doc
-                let recipientDoc: DocumentSnapshot
-                do {
-                    try recipientDoc = transaction.getDocument(recipientRef)
-                } catch let fetchError as NSError {
-                    errorPointer?.pointee = fetchError
-                    return nil
-                }
-                
-                // create reference to current ('old') balance of user
-                guard let oldUserBalance = userDoc.data()?["balance"] as? Int else {
-                    let error = NSError(
-                        domain: "AppErrorDomain",
-                        code: -1,
-                        userInfo: [
-                            NSLocalizedDescriptionKey: "Unable to retrieve population from snapshot \(userDoc)"
-                        ]
-                    )
-                    errorPointer?.pointee = error
-                    return nil
-                }
-                
-                // ditto for recipient
-                guard let oldRecipientBalance = recipientDoc.data()?["balance"] as? Int else {
-                    let error = NSError(
-                        domain: "AppErrorDomain",
-                        code: -1,
-                        userInfo: [
-                            NSLocalizedDescriptionKey: "Unable to retrieve population from snapshot \(recipientDoc)"
-                        ]
-                    )
-                    errorPointer?.pointee = error
-                    return nil
-                }
-                
-                // here's the magic
-                if amount <= oldUserBalance && amount > 0 {
-                    
-                    // P.S. the sendAmount > 0 should always pass since there will be validation elsewhere. However, suggest leaving it in as it doesn't hurt and if the FE validation ever breaks for whatever reason, allowing sendAmount < 0 would be a catastrophic security issue i.e. a useful failsafe
-                    
-                    let newUserBalance = oldUserBalance - amount
-                    let newRecipientBalance = oldRecipientBalance + amount
-                    
-                    transaction.updateData(["balance": newUserBalance], forDocument: userRef)
-                    transaction.updateData(["balance": newRecipientBalance], forDocument: recipientRef)
-
-                } else {
-                    return nil
-                }
-                
-                return nil
-                
-                
-            }) { (object, error) in
-                if let error = error {
-                    print("Transaction failed: \(error)")
-                } else {
-                    print("Transaction successfully committed!")
-                }
-            }
+        functions.httpsCallable("transact").call(["recipientUID": recipientUID, "amount": amount]) { (result, error) in
+            // TODO error handling!
+            //                if let error = error as NSError? {
+            //                    if error.domain == FunctionsErrorDomain {
+            //                        let code = FunctionsErrorCode(rawValue: error.code)
+            //                        let message = error.localizedDescription
+            //                        let details = error.userInfo[FunctionsErrorDetailsKey]
+            //                    }
+            //                    // ...
+            //                }
         }
     }
     

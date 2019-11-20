@@ -144,192 +144,78 @@ exports.createNewMangopayCustomerONCALL = functions.region('europe-west1').https
 
   exports.transact = functions.region('europe-west1').https.onCall( async (data, context) => {
     //        let recipientRef = self.db.collection("users").document(self.recipientUIDParsed)
+
     const db = admin.firestore()
     const userID = context.auth.uid
     const recipientID = data.recipientID
+    const amount = data.amount
+
+    // now we have all the input we need ^
 
     const userRef = db.collection("users").document(userID)
     const recipientRef = db.collection("users").document(recipientID)
 
-    let transaction = db.runTransaction(t => {
-      return t.get(cityRef)
-        .then(doc => {
-          // Add one person to the city population.
-          
-          let newPopulation = doc.data().population + 1;
-          t.update(cityRef, {population: newPopulation});
-        });
-    }).then(result => {
-      console.log('Transaction success!');
-    }).catch(err => {
-      console.log('Transaction failure:', err);
+    var oldUserBalance = 0
+    var oldRecipientBalance = 0
+
+    // boolean flag to check the balances have been correctly fetched
+    var balanceFail = false
+
+    // get the user balance 
+    await userRef.get().then(doc => {
+      oldUserBalance = doc.data().balance;
+      return
+    })
+    .catch(err => {
+      balanceFail = true
+      console.log('Error getting user balance', err);
     });
 
+    // get the recipient balance
+    await recipientRef.get().then(doc => {
+      oldRecipientBalance = doc.data().balance;
+      return
+    })
+    .catch(err => {
+      balanceFail = true
+      console.log('Error getting recipient balance', err);
+    });
 
+    // if both balances have been correctly retrieved, trigger the transaction
+    if (balanceFail !== true) {
 
-
-    if let uid = self.userUID {
-        let userRef = db.collection("users").document(uid)
-
+      // runTransaction is a Firebase thing - designed for this kind of use case
+      let transaction = db.runTransaction(t => {
+        // return t.get(userRef)
+        //   .then(doc => {
         
+        // here's the magic
+        if (amount <= oldUserBalance && amount > 0) {
+              
+          // P.S. the sendAmount > 0 should always pass since there will be validation elsewhere. However, suggest leaving it in as it doesn't hurt and if the FE validation ever breaks for whatever reason, allowing sendAmount < 0 would be a catastrophic security issue i.e. this is a useful failsafe
+          
+          let newUserBalance = oldUserBalance - amount
+          let newRecipientBalance = oldRecipientBalance + amount
 
-
-
-        db.runTransaction({ (transaction, errorPointer) -> Any? in
-            
-            // set up user (="payer") Firestore document/database info
-            let userDoc: DocumentSnapshot
-            do {
-                try userDoc = transaction.getDocument(userRef)
-            } catch let fetchError as NSError {
-                errorPointer?.pointee = fetchError
-                return nil
-            }
-            
-            // do the same for the recipient doc
-            let recipientDoc: DocumentSnapshot
-            do {
-                try recipientDoc = transaction.getDocument(recipientRef)
-            } catch let fetchError as NSError {
-                errorPointer?.pointee = fetchError
-                return nil
-            }
-            
-            // create reference to current ('old') balance of user
-            guard let oldUserBalance = userDoc.data()?["balance"] as? Int else {
-                let error = NSError(
-                    domain: "AppErrorDomain",
-                    code: -1,
-                    userInfo: [
-                        NSLocalizedDescriptionKey: "Unable to retrieve population from snapshot \(userDoc)"
-                    ]
-                )
-                errorPointer?.pointee = error
-                return nil
-            }
-            
-            // ditto for recipient
-            guard let oldRecipientBalance = recipientDoc.data()?["balance"] as? Int else {
-                let error = NSError(
-                    domain: "AppErrorDomain",
-                    code: -1,
-                    userInfo: [
-                        NSLocalizedDescriptionKey: "Unable to retrieve population from snapshot \(recipientDoc)"
-                    ]
-                )
-                errorPointer?.pointee = error
-                return nil
-            }
-            
-            // here's the magic
-            if amount <= oldUserBalance && amount > 0 {
-                
-                // P.S. the sendAmount > 0 should always pass since there will be validation elsewhere. However, suggest leaving it in as it doesn't hurt and if the FE validation ever breaks for whatever reason, allowing sendAmount < 0 would be a catastrophic security issue i.e. a useful failsafe
-                
-                let newUserBalance = oldUserBalance - amount
-                let newRecipientBalance = oldRecipientBalance + amount
-                
-                transaction.updateData(["balance": newUserBalance], forDocument: userRef)
-                transaction.updateData(["balance": newRecipientBalance], forDocument: recipientRef)
-
-            } else {
-                return nil
-            }
-            
+          // update both parties' balances
+          t.update(userRef, {balance: newUserBalance});
+          t.update(recipientRef, {balance: newRecipientBalance})
+        } else {
             return nil
-            
-            
-        }) { (object, error) in
-            if let error = error {
-                print("Transaction failed: \(error)")
-            } else {
-                print("Transaction successfully committed!")
-            }
         }
+        return nil
+      }).then(result => {
+        // this transaction will only complete if both parties' balances are updated
+        console.log('Transaction success!');
+        return result
+      }).catch(err => {
+        console.log('Transaction failure:', err);
+        return result
+      });
+    } else {
+      // TODO there was an error getting one of the balances - abort transaction and inform user
     }
-  }
-
-      // TODO move this func to cloudfunctions - if a bug or exploit emerges, it needs to be fixable without requiring users to update
-      func transact(recipientUID: String, amount: Int) {
-        
-        //        let recipientRef = self.db.collection("users").document(self.recipientUIDParsed)
-                let recipientRef = self.db.collection("users").document(recipientUID)
-                if let uid = self.userUID {
-                    let userRef = db.collection("users").document(uid)
-                
-                    db.runTransaction({ (transaction, errorPointer) -> Any? in
-                        
-                        // set up user (="payer") Firestore document/database info
-                        let userDoc: DocumentSnapshot
-                        do {
-                            try userDoc = transaction.getDocument(userRef)
-                        } catch let fetchError as NSError {
-                            errorPointer?.pointee = fetchError
-                            return nil
-                        }
-                        
-                        // do the same for the recipient doc
-                        let recipientDoc: DocumentSnapshot
-                        do {
-                            try recipientDoc = transaction.getDocument(recipientRef)
-                        } catch let fetchError as NSError {
-                            errorPointer?.pointee = fetchError
-                            return nil
-                        }
-                        
-                        // create reference to current ('old') balance of user
-                        guard let oldUserBalance = userDoc.data()?["balance"] as? Int else {
-                            let error = NSError(
-                                domain: "AppErrorDomain",
-                                code: -1,
-                                userInfo: [
-                                    NSLocalizedDescriptionKey: "Unable to retrieve population from snapshot \(userDoc)"
-                                ]
-                            )
-                            errorPointer?.pointee = error
-                            return nil
-                        }
-                        
-                        // ditto for recipient
-                        guard let oldRecipientBalance = recipientDoc.data()?["balance"] as? Int else {
-                            let error = NSError(
-                                domain: "AppErrorDomain",
-                                code: -1,
-                                userInfo: [
-                                    NSLocalizedDescriptionKey: "Unable to retrieve population from snapshot \(recipientDoc)"
-                                ]
-                            )
-                            errorPointer?.pointee = error
-                            return nil
-                        }
-                        
-                        // here's the magic
-                        if amount <= oldUserBalance && amount > 0 {
-                            
-                            // P.S. the sendAmount > 0 should always pass since there will be validation elsewhere. However, suggest leaving it in as it doesn't hurt and if the FE validation ever breaks for whatever reason, allowing sendAmount < 0 would be a catastrophic security issue i.e. a useful failsafe
-                            
-                            let newUserBalance = oldUserBalance - amount
-                            let newRecipientBalance = oldRecipientBalance + amount
-                            
-                            transaction.updateData(["balance": newUserBalance], forDocument: userRef)
-                            transaction.updateData(["balance": newRecipientBalance], forDocument: recipientRef)
-        
-                        } else {
-                            return nil
-                        }
-                        
-                        return nil
-                        
-                        
-                    }) { (object, error) in
-                        if let error = error {
-                            print("Transaction failed: \(error)")
-                        } else {
-                            print("Transaction successfully committed!")
-                        }
-                    }
-                }
-            }
+  })
 
 
   // When a user is created, register them with MangoPay and add an empty PaymentMethods collection
