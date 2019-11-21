@@ -147,13 +147,13 @@ exports.createNewMangopayCustomerONCALL = functions.region('europe-west1').https
 
     const db = admin.firestore()
     const userID = context.auth.uid
-    const recipientID = data.recipientID
+    const recipientUID = data.recipientUID
     const amount = data.amount
 
     // now we have all the input we need ^
 
     const userRef = db.collection("users").document(userID)
-    const recipientRef = db.collection("users").document(recipientID)
+    const recipientRef = db.collection("users").document(recipientUID)
 
     var oldUserBalance = 0
     var oldRecipientBalance = 0
@@ -173,7 +173,7 @@ exports.createNewMangopayCustomerONCALL = functions.region('europe-west1').https
 
     // get the recipient balance
     await recipientRef.get().then(doc => {
-      oldRecipientBalance = doc.data().balance;
+      oldRecipientBalance = doc.data().balance; 
       return
     })
     .catch(err => {
