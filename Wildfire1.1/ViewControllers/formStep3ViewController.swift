@@ -78,7 +78,7 @@ class formStep3ViewController: UIViewController, UITextFieldDelegate {
                 return
             }
             
-            addNewUser(firstname: self.firstname, lastname: self.lastname, email: self.email, password: self.password, dob: self.dob!, nationality: nationality!, residence: residence!)
+            addNewUserToDatabase(firstname: self.firstname, lastname: self.lastname, email: self.email, password: self.password, dob: self.dob!, nationality: nationality!, residence: residence!)
         }
     }
     
@@ -135,41 +135,39 @@ class formStep3ViewController: UIViewController, UITextFieldDelegate {
         return false
     }
     
-    func addNewUser(firstname: String, lastname: String, email: String, password: String, dob: Int64, nationality: String, residence: String) {
+    // not adding validation to check for existing doc as that should already be covered
+    func addNewUserToDatabase(firstname: String, lastname: String, email: String, password: String, dob: Int64, nationality: String, residence: String) {
         
-        // Create the user
-        Auth.auth().createUser(withEmail: email, password: password) { (result, err) in
-            // TODO need a spinner here to wait for result!
-            
-            // Check for errors
-            if err != nil {
-                // There was an error creating the user
-                self.showAlert(title: "Error creating user", message: nil, progress: false)
-            } else {
-                
-                // User was created successfully, now store the first name and last name
-                Firestore.firestore().collection("users").document(result!.user.uid).setData(["firstname": firstname,
-                   "lastname": lastname,
-                   "email": email,
-                   "dob": dob,
-                   "nationality": nationality,
-                   "residence": residence,
-                   "balance": 0,
-                   "photoURL": "https://cdn.pixabay.com/photo/2014/05/21/20/17/icon-350228_1280.png" ]) { (error) in
+        if let uid = Auth.auth().currentUser?.uid {
+            Firestore.firestore().collection("users").document(uid).setData(["firstname": firstname,
+            "lastname": lastname,
+            "email": email,
+            "dob": dob,
+            "nationality": nationality,
+            "residence": residence,
+            // TODO if facebook login, use profile pic here
+            "photoURL": "https://cdn.pixabay.com/photo/2014/05/21/20/17/icon-350228_1280.png" ]) { (error) in
+             
+                 // print(result!.user.uid)
+                 if error != nil {
+                     // Show error message
+                     self.showAlert(title: "Error saving user data", message: nil, progress: false)
+                 } else {
+                    // we use this info to create a MangoPay user as well, to which card details can (later) be added
+                     self.triggerMangopayUserCreation()
+                     
                     
-                    // print(result!.user.uid)
-                    if error != nil {
-                        // Show error message
-                        self.showAlert(title: "Error saving user data", message: nil, progress: false)
-                    } else {
-                        self.triggerMangopayUserCreation()
-                        // the user is already logged in with their phone number, but adding email address gives a killswitch option
-                        // segue is handled in this function as well..
-                        self.addEmailToFirebaseUser()
-                        
-                    }
+                    // the user is already logged in with their phone number, but adding email address gives a killswitch option
+                    // for future ref - we might want to add email to User as well (easy to do, allows for checking of dupe emails... but not sure this is actually something that's needed so commenting out for now)
+                    // self.addEmailToFirebaseUser()
+                    
+                    // progress: true presents next screen
+                    self.showAlert(title: "Great! You're signed up.", message: nil, progress: true)
                 }
             }
+        } else {
+            // TODO error handling
+            print("couldn't find UID")
         }
     }
     
@@ -186,9 +184,6 @@ class formStep3ViewController: UIViewController, UITextFieldDelegate {
                     // TODO
                     // what are the error options here?
                     self.showAlert(title: "This email is already registered, please use another", message: "You can delete old accounts at wildfirewallet.com", progress: false)
-                } else {
-                    // progress: true presents next screen
-                    self.showAlert(title: "Great! You're signed up.", message: nil, progress: true)
                 }
             }
         }

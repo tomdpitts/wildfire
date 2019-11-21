@@ -75,6 +75,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // check if they are logged in already
         let uid = Auth.auth().currentUser?.uid
+        print(uid)
         let mainStoryboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         
         if uid != nil {

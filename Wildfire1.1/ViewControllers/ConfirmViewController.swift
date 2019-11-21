@@ -49,43 +49,31 @@ class ConfirmViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpElements()
-        recipientLabel.alpha = 0
-        currentBalance.alpha = 0
-        dynamicLabel.alpha = 0
         
-        if (Auth.auth().currentUser?.uid) != nil {
-            self.loggedInUser = true
-        } else {
-            self.loggedInUser = false
+        if let uid = Auth.auth().currentUser?.uid {
+            let docRef = db.collection("users").document(uid)
+
+            docRef.getDocument { (document, error) in
+                if let document = document, document.exists {
+                    self.loggedInUser = true
+                } else {
+                    // redundant but just for clarity:
+                    self.loggedInUser = false
+                }
+            }
         }
     }
     
     override func viewWillAppear(_ animated: Bool) {
         handle = Auth.auth().addStateDidChangeListener { (auth, user) in
             
-            if (Auth.auth().currentUser?.uid) != nil {
-                self.loggedInUser = true
-            } else {
+            if (Auth.auth().currentUser?.uid) == nil {
                 self.loggedInUser = false
             }
-
-            
         }
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        Auth.auth().removeStateDidChangeListener(handle!)
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
         
         // TODO this existing payment strategy doesn't quite add up - needs to be replaced with a flag (and have checkForExistingPaymentMethod() run in ViewDidAppear
         checkForExistingPaymentMethod()
-        
-//        if finalString2 != nil {
-//            handleQRScan()
-//        }
         
         // display transaction amount front and centre
         amountLabel.text = "£" + String(self.sendAmount)
@@ -97,6 +85,15 @@ class ConfirmViewController: UIViewController {
         recipientImage.contentMode = .scaleAspectFill
         recipientImage.layer.cornerRadius = recipientImage.frame.size.height/2
         recipientImage.clipsToBounds = true
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        Auth.auth().removeStateDidChangeListener(handle!)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
         
         // update the labels to explain current balance and what the user can expect to happen next
         // for reasons explained in the func itself, this should be called AFTER setUpRecipientDetails, as they both refer to class variable sendAmount
@@ -109,6 +106,10 @@ class ConfirmViewController: UIViewController {
 
         Utilities.styleFilledButton(self.backButton)
         Utilities.styleFilledButton(self.confirmButton)
+        
+        recipientLabel.isHidden = true
+        currentBalance.isHidden = true
+        dynamicLabel.isHidden = true
 
     }
     
@@ -136,7 +137,7 @@ class ConfirmViewController: UIViewController {
                     self.recipientImage.load(url: riurl)
                 }
                 self.recipientLabel.text = "to \(recipientFirstname) \(recipientLastname)"
-                self.recipientLabel.alpha = 1
+                self.recipientLabel.isHidden = false
                 
                 // important to update the class variable recipientName because at present, the getUserBalance function relies on it
                 // TODO: replace this clunky solution
@@ -148,6 +149,7 @@ class ConfirmViewController: UIViewController {
     func getUserBalance() {
         // check this func doesn't crash if the user hasn't made an account yet!
         let uid = Auth.auth().currentUser!.uid
+        print(uid)
         let docRef = self.db.collection("users").document(uid)
         
         docRef.getDocument { (document, error) in
@@ -172,16 +174,18 @@ class ConfirmViewController: UIViewController {
                 }
                 
                 // show these two labels (initially hidden)
-                self.currentBalance.alpha = 1
-                self.dynamicLabel.alpha = 1
+                self.currentBalance.isHidden = false
+                self.dynamicLabel.isHidden = false
                 
+            } else {
+                print("didn't get that document..")
             }
         }
         
     }
     
     func checkForExistingPaymentMethod() {
-        // TODO if user has paymnet details set up, set class variable existingPaymentMethod to true
+        // TODO if user has payment details set up, set class variable existingPaymentMethod to true
         // for now it will update to true by default
         self.existingPaymentMethod = true
         return
@@ -208,15 +212,13 @@ class ConfirmViewController: UIViewController {
                 }
             }
         } else {
-            // TODO show alert to ask the user to log in (they may or may not have thought they were already logged in), provide some context and/or rationale
-            performSegue(withIdentifier: "goToLogin", sender: self)
+            // the user hasn't set up their account yet so we need to a) explain that and b) take them to the sign up flow
+            showAlert(title: "Set up your Account", message: "We just need a few details to let you make a secure payment")
         }
     }
     
-    // TODO move this func to cloudfunctions - if a bug or exploit emerges, it needs to be fixable without requiring users to update
+    // this func now lives in Cloud Functions - allows for realtime updates if any security concerns should ever arise
     func transact(recipientUID: String, amount: Int) {
-        
-        
         functions.httpsCallable("transact").call(["recipientUID": recipientUID, "amount": amount]) { (result, error) in
             // TODO error handling!
             //                if let error = error as NSError? {
@@ -228,6 +230,15 @@ class ConfirmViewController: UIViewController {
             //                    // ...
             //                }
         }
+    }
+    
+    func showAlert(title: String, message: String?) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        
+        alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: { (action) in
+            self.performSegue(withIdentifier: "goToLogin", sender: self)
+        }))
+        self.present(alert, animated: true)
     }
     
     @IBAction func unwindToPrevious(_ unwindSegue: UIStoryboardSegue) {

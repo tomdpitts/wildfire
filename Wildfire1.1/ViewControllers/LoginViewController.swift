@@ -45,6 +45,11 @@ class LoginViewController: UIViewController {
         let buttonText = NSAttributedString(string: "Login with Facebook")
         facebookButton.setAttributedTitle(buttonText, for: .normal)
         facebookButton.titleLabel?.textAlignment = NSTextAlignment.center
+        
+        // took decision to leave Facebook integration out for V1, have left code for the future
+        // it currently creates a new user in Firebase Authentication - the design changed and this is now NOT what we want. Instead, in the future this should probably allow for prepopulation of the sign up form and profile pic, rather than triggering new user creation
+        facebookButton.isHidden = true
+        facebookButton.isEnabled = false
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -77,17 +82,15 @@ class LoginViewController: UIViewController {
                 
                 var message: String = ""
                 if (success) {
-                    message = "User was sucessfully logged in."
+                    message = "Sucessful Facebook integration."
                 } else {
-                    message = "There was an error."
+                    message = "There was an error. We're not sure what went wrong..."
                 }
                 
                 // pop up an alert to tell user the login was successful, or not
                 let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
                 self.present(alert, animated: true)
-                
-                self.getFacebookData()
                 
                 // user is already logged into Firebase, but we want to check if there's already a firestore doc for that user, and add one if not
                 if let uid = Auth.auth().currentUser?.uid {
