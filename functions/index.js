@@ -26,7 +26,47 @@ admin.initializeApp(functions.config().firebase);
 
 // Each function requires its own exports.customFunction
 
+exports.addZeroBalanceOnCreation = functions.firestore
+  .document('users/{userId}')
+  .onCreate((snap, context) => {
+    // get a ref to the doc
+    const docRef = db.collection('users').document(context.params.id)
+    // add a field called 'balance' and set it to 0
+    // this func is only called onCreate i.e. the very first time a user logs in with this phone number
+    let updateSingle = docRef.update({balance: 0});
+  });
 
+exports.addTransactionsToUsers = functions.firestore
+  .document('transactions/{transactionID}')
+  .onCreate((snap, context) => {
+
+    const transactionID = context.params.transactionID
+    
+    // Get an object representing the document
+    // e.g. {'name': 'Marie', 'age': 66}
+    const data = snap.data();
+
+    // get the payer and recipient user IDs
+    const payer = data.from;
+    const recipient = data.to;
+
+    // get a ref to the payer and recipient user docs
+    const payerDocRef = db.collection('users').document(payer);
+    const recipientDocRef = db.collection('users').document(recipient);
+
+    // pull the transaction Data to be added to both the payer and recipient transaction subcollections
+    const transactionData = {
+      from: data.from,
+      to: data.to,
+      datetime: data.datetime,
+      //currency: data.currency,
+      amount: data.amount
+    };
+
+    // within the 'receipts' subcollection for the payer and recipient user docs, we add a doc with the transactionID
+    let newPayerTransaction = payerDocRef.collection('receipts').doc(transactionID).set(transactionData);
+    let newRecipientTransaction = recipientDocRef.collection('receipts').doc(transactionID).set(transactionData)
+  });
 
 // When a user is created, register them with MangoPay and add an empty PaymentMethods collection
 exports.createNewMangopayCustomerONCALL = functions.region('europe-west1').https.onCall( async (data, context) => {
@@ -141,7 +181,6 @@ exports.createNewMangopayCustomerONCALL = functions.region('europe-west1').https
   })
 
   // transact function needs to also log the transaction in Firestore
-
   exports.transact = functions.region('europe-west1').https.onCall( async (data, context) => {
     //        let recipientRef = self.db.collection("users").document(self.recipientUIDParsed)
 
@@ -149,6 +188,15 @@ exports.createNewMangopayCustomerONCALL = functions.region('europe-west1').https
     const userID = context.auth.uid
     const recipientUID = data.recipientUID
     const amount = data.amount
+    // const currency = data.currency
+
+    const transactionData = {
+      from: userID,
+      to: recipientUID,
+      datetime: Date.now,
+      //currency: currency,
+      amount: amount
+    }
 
     // now we have all the input we need ^
 
@@ -200,6 +248,10 @@ exports.createNewMangopayCustomerONCALL = functions.region('europe-west1').https
           // update both parties' balances
           t.update(userRef, {balance: newUserBalance});
           t.update(recipientRef, {balance: newRecipientBalance})
+          
+          // Add a new document with a generated id.
+          let addDoc = db.collection('transactions').add(transactionData)
+
         } else {
             return nil
         }
