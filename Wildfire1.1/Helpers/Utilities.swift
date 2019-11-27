@@ -8,8 +8,27 @@
 
 import Foundation
 import UIKit
+import FirebaseAuth
+import FirebaseFirestore
 
 class Utilities {
+    
+    func checkForUserAccount() {
+        let global = GlobalVariables()
+        let db = Firestore.firestore()
+        
+        if let uid = Auth.auth().currentUser?.uid {
+            let docRef = db.collection("users").document(uid)
+
+            docRef.getDocument { (document, error) in
+                if let document = document, document.exists {
+                    global.userAccountExists = true
+                } else {
+                    global.userAccountExists = false
+                }
+            }
+        }
+    }
     
     static func styleTextField(_ textfield:UITextField) {
         

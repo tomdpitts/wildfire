@@ -40,16 +40,6 @@ class LoginViewController: UIViewController {
         super.viewDidLoad()
 
         setUpElements()
-        
-        // builds facebook button
-        let buttonText = NSAttributedString(string: "Login with Facebook")
-        facebookButton.setAttributedTitle(buttonText, for: .normal)
-        facebookButton.titleLabel?.textAlignment = NSTextAlignment.center
-        
-        // took decision to leave Facebook integration out for V1, have left code for the future
-        // it currently creates a new user in Firebase Authentication - the design changed and this is now NOT what we want. Instead, in the future this should probably allow for prepopulation of the sign up form and profile pic, rather than triggering new user creation
-        facebookButton.isHidden = true
-        facebookButton.isEnabled = false
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -309,6 +299,19 @@ class LoginViewController: UIViewController {
         Utilities.styleFilledButton(logInButton)
         Utilities.styleFilledButton(signUpButton)
         //        Utilities.styleFilledButton(facebookButton)
+        
+        logInButton.isHidden = true
+        logInButton.isEnabled = false
+        
+        // builds facebook button
+        let buttonText = NSAttributedString(string: "Login with Facebook")
+        facebookButton.setAttributedTitle(buttonText, for: .normal)
+        facebookButton.titleLabel?.textAlignment = NSTextAlignment.center
+        
+        // took decision to leave Facebook integration out for V1, have left code for the future
+        // it currently creates a new user in Firebase Authentication - the design changed and this is now NOT what we want. Instead, in the future this should probably allow for prepopulation of the sign up form and profile pic, rather than triggering new user creation
+        facebookButton.isHidden = true
+        facebookButton.isEnabled = false
     }
     
 //  DEPRECATED

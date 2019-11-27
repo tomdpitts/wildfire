@@ -30,10 +30,11 @@ exports.addZeroBalanceOnCreation = functions.firestore
   .document('users/{userId}')
   .onCreate((snap, context) => {
     // get a ref to the doc
-    const docRef = db.collection('users').document(context.params.id)
+    const docRef = context.params.userId
+
     // add a field called 'balance' and set it to 0
     // this func is only called onCreate i.e. the very first time a user logs in with this phone number
-    let updateSingle = docRef.update({balance: 0});
+    return admin.firestore().collection('users').doc(docRef).update({balance: 0})
   });
 
 exports.addTransactionsToUsers = functions.firestore
@@ -47,12 +48,12 @@ exports.addTransactionsToUsers = functions.firestore
     const data = snap.data();
 
     // get the payer and recipient user IDs
-    const payer = data.from;
-    const recipient = data.to;
+    const payerID = data.from;
+    const recipientID = data.to;
 
     // get a ref to the payer and recipient user docs
-    const payerDocRef = db.collection('users').document(payer);
-    const recipientDocRef = db.collection('users').document(recipient);
+    const payerDocRef = admin.firestore().collection('users').document(payerID);
+    const recipientDocRef = admin.firestore().collection('users').document(recipientID);
 
     // pull the transaction Data to be added to both the payer and recipient transaction subcollections
     const transactionData = {
@@ -69,36 +70,62 @@ exports.addTransactionsToUsers = functions.firestore
   });
 
 // When a user is created, register them with MangoPay and add an empty PaymentMethods collection
-exports.createNewMangopayCustomerONCALL = functions.region('europe-west1').https.onCall( async (data, context) => {
-
+exports.createNewMangopayCustomer = functions.region('europe-west1').firestore.document('users/{id}').onCreate(async (snap, context) => {
 
   // TODO if this func fails for whatever reason, it should be retried (data is already in Firestore database)
   
-  const userID = context.auth.uid
+  const data = snap.data()
 
-  await admin.firestore().collection('users').doc(userID).get().then(doc => {
+  var firstname = data.firstname
+  var lastname = data.lastname
+  var email = data.email
+  var birthday = data.dob
+  var nationality = data.nationality
+  var residence = data.residence
 
-    userData = doc.data();
-   
-    const firstname = data.firstname
-    const lastname = data.lastname
-    const email = data.email
-    const birthday = data.dob
-    const nationality = data.nationality
-    const residence = data.residence
-   
-    return
-  })
-  .catch(err => {
-    console.log('Error getting userID', err);
-  });
-
-// this call to MangoPay includes a response, saved as customer - we take the ID contained therein and write to Firestore database in the next step
   const customer = await mpAPI.Users.create({PersonType: 'NATURAL', FirstName: firstname, LastName: lastname, Birthday: birthday, Nationality: nationality, CountryOfResidence: residence, Email: email});
 
   return admin.firestore().collection('users').doc(context.params.id).update({mangopayID: customer.Id});
 
 })
+
+// // When a user is created, register them with MangoPay and add an empty PaymentMethods collection
+// exports.createNewMangopayCustomerONCALL = functions.region('europe-west1').https.onCall( async (data, context) => {
+
+//   // TODO if this func fails for whatever reason, it should be retried (data is already in Firestore database)
+  
+//   const userID = context.auth.uid
+
+//   await admin.firestore().collection('users').doc(userID).get().then(doc => {
+
+//     userData = doc.data()
+//     console.log(userData)
+   
+//     const firstname = userData.firstname
+//     const lastname = userData.lastname
+//     const email = userData.email
+//     const birthday = userData.dob
+//     const nationality = userData.nationality
+//     const residence = userData.residence
+
+//     // this call to MangoPay includes a response, saved as customer - we take the ID contained therein and write to Firestore database in the next step
+//     const customer = await mpAPI.Users.create({PersonType: 'NATURAL', FirstName: firstname, LastName: lastname, Birthday: birthday, Nationality: nationality, CountryOfResidence: residence, Email: email}).then(docco => {
+
+//     });
+
+//     return admin.firestore().collection('users').doc(context.params.id).update({mangopayID: customer.Id})
+
+//     )
+
+    
+//   })
+//   .catch(err => {
+//     console.log('Error getting userID', err);
+//   });
+
+
+
+// })
 
   // When user adds a new payment method, a) create a MangoPay wallet, b) create a Card Registration Object, and c) save the card token
   exports.createPaymentMethodHTTPS = functions.region('europe-west1').https.onCall( async (data, context) => {
@@ -268,25 +295,6 @@ exports.createNewMangopayCustomerONCALL = functions.region('europe-west1').https
       // TODO there was an error getting one of the balances - abort transaction and inform user
     }
   })
-
-
-  // When a user is created, register them with MangoPay and add an empty PaymentMethods collection
-// exports.createNewMangopayCustomer = functions.region('europe-west1').firestore.document('users/{id}').onCreate(async (snap, context) => {
-  
-//   const data = snap.data()
-
-//   var firstname = data.firstname
-//   var lastname = data.lastname
-//   var email = data.email
-//   var birthday = data.dob
-//   var nationality = data.nationality
-//   var residence = data.residence
-
-//   const customer = await mpAPI.Users.create({PersonType: 'NATURAL', FirstName: firstname, LastName: lastname, Birthday: birthday, Nationality: nationality, CountryOfResidence: residence, Email: email});
-
-//   return admin.firestore().collection('users').doc(context.params.id).update({mangopayID: customer.Id});
-
-// })
 
 
 //// when a user is deleted, set isDeleted flag to True in the database

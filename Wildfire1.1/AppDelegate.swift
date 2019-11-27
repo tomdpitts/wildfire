@@ -86,6 +86,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     let initialViewController: UIViewController = mainStoryboard.instantiateViewController(withIdentifier: "mainMenu") as UIViewController
                     self.window = UIWindow(frame: UIScreen.main.bounds)
                     self.window?.rootViewController = initialViewController
+                    initialViewController.global = GlobalVariables()
                     self.window?.makeKeyAndVisible()
                     
                 } else {

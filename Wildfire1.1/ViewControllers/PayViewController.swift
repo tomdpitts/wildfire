@@ -10,6 +10,8 @@ import UIKit
 
 class PayViewController: UIViewController {
     
+    var global: GlobalVariables!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }

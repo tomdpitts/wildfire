@@ -155,21 +155,26 @@ class formStep3ViewController: UIViewController, UITextFieldDelegate {
                      // Show error message
                      self.showAlert(title: "Error saving user data", message: nil, progress: false)
                  } else {
-                    // we use this info to create a MangoPay user as well, to which card details can (later) be added
-                    self.functions.httpsCallable("createNewMangopayCustomerONCALL").call() { (result, error) in
-                        // TODO error handling!
-                        //                if let error = error as NSError? {
-                        //                    if error.domain == FunctionsErrorDomain {
-                        //                        let code = FunctionsErrorCode(rawValue: error.code)
-                        //                        let message = error.localizedDescription
-                        //                        let details = error.userInfo[FunctionsErrorDetailsKey]
-                        //                    }
-                        //                    // ...
-                        //                }
-                        
+                    
+                    let utilities = Utilities()
+                    utilities.checkForUserAccount()
+                    
+//                    // we use this info to create a MangoPay user as well, to which card details can (later) be added
+//                    self.functions.httpsCallable("createNewMangopayCustomerONCALL").call() { (result, error) in
+//                        // TODO error handling!
+//                        //                if let error = error as NSError? {
+//                        //                    if error.domain == FunctionsErrorDomain {
+//                        //                        let code = FunctionsErrorCode(rawValue: error.code)
+//                        //                        let message = error.localizedDescription
+//                        //                        let details = error.userInfo[FunctionsErrorDetailsKey]
+//                        //                    }
+//                        //                    // ...
+//                        //                }
+//                    }
+                    
                         // progress: true presents next screen
                         self.showAlert(title: "Great! You're signed up.", message: nil, progress: true)
-                    }
+                    
                     
                      
                     

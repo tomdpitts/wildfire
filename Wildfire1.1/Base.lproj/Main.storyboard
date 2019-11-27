@@ -13,17 +13,17 @@
             <objects>
                 <viewController id="9pv-A4-QxB" customClass="PayViewController" customModule="Wildfire1_1" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="tsR-hK-woN">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pay" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hqu-IG-AfA">
-                                <rect key="frame" x="30" y="59" width="67.5" height="47"/>
+                                <rect key="frame" x="30" y="71" width="67.5" height="47"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="40"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HgW-XE-C0H">
-                                <rect key="frame" x="150" y="424" width="75" height="44"/>
+                                <rect key="frame" x="150" y="404" width="75" height="44"/>
                                 <gestureRecognizers/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="27"/>
                                 <size key="titleShadowOffset" width="30" height="30"/>
@@ -35,7 +35,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oEZ-Et-K1S">
-                                <rect key="frame" x="150" y="305" width="75" height="44"/>
+                                <rect key="frame" x="150" y="285" width="75" height="44"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="27"/>
                                 <size key="titleShadowOffset" width="30" height="30"/>
                                 <state key="normal" title="Send"/>
@@ -69,11 +69,11 @@
             <objects>
                 <viewController storyboardIdentifier="Send2ViewController" id="fvB-Qo-B7V" customClass="Send2ViewController" customModule="Wildfire1_1" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="y25-cd-byd">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="quu-cW-C4i" userLabel="Amount Stack">
-                                <rect key="frame" x="110.5" y="154" width="154.5" height="60"/>
+                                <rect key="frame" x="110.5" y="166" width="154.5" height="60"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="€" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l5b-0R-eSL">
                                         <rect key="frame" x="0.0" y="0.0" width="36.5" height="60"/>
@@ -89,7 +89,7 @@
                                 </subviews>
                             </stackView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6Nw-Yl-zwS">
-                                <rect key="frame" x="137.5" y="299.5" width="100" height="50"/>
+                                <rect key="frame" x="137.5" y="311.5" width="100" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="100" id="JZ4-YM-GFs"/>
                                     <constraint firstAttribute="height" constant="50" id="h58-wR-aaR"/>
@@ -100,13 +100,13 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Error Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZI4-d1-BuS">
-                                <rect key="frame" x="50" y="229" width="275" height="20.5"/>
+                                <rect key="frame" x="50" y="241" width="275" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="X4a-ZK-Zyr" userLabel="Check Stack View">
-                                <rect key="frame" x="79.5" y="84" width="216" height="30"/>
+                                <rect key="frame" x="79.5" y="96" width="216" height="30"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="greenTick" translatesAutoresizingMaskIntoConstraints="NO" id="R0p-Yg-O3y">
                                         <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
@@ -138,6 +138,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="d8M-zN-Egg"/>
                     </view>
+                    <navigationItem key="navigationItem" id="oPk-PI-QX8"/>
                     <connections>
                         <outlet property="amountTextField" destination="nm4-lS-reI" id="xY0-TO-QGq"/>
                         <outlet property="confirmationTick" destination="R0p-Yg-O3y" id="Dbr-QB-bHA"/>
@@ -209,7 +210,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="23" translatesAutoresizingMaskIntoConstraints="NO" id="nYt-WS-8W3" userLabel="Balance Info Stack view">
-                                <rect key="frame" x="27.5" y="414" width="320" height="162"/>
+                                <rect key="frame" x="27.5" y="455" width="320" height="162"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your current balance is" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wG4-8b-AdV" userLabel="Current Balance">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="20.5"/>
@@ -284,16 +285,17 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="Ai1-2c-1Je" firstAttribute="bottom" secondItem="nYt-WS-8W3" secondAttribute="bottom" constant="30" id="AXo-FD-BmN"/>
                             <constraint firstItem="ivw-h8-kIN" firstAttribute="centerX" secondItem="mMr-aZ-U69" secondAttribute="centerX" id="BQh-k1-GMB"/>
                             <constraint firstItem="ivw-h8-kIN" firstAttribute="centerY" secondItem="mMr-aZ-U69" secondAttribute="centerY" id="eQN-sz-HPa"/>
                             <constraint firstItem="hlp-hq-nWQ" firstAttribute="centerX" secondItem="mMr-aZ-U69" secondAttribute="centerX" id="fHm-xq-Udw"/>
                             <constraint firstItem="ivw-h8-kIN" firstAttribute="centerX" secondItem="nYt-WS-8W3" secondAttribute="centerX" id="gG3-rL-Ez5"/>
-                            <constraint firstItem="nYt-WS-8W3" firstAttribute="top" secondItem="ivw-h8-kIN" secondAttribute="bottom" constant="23" id="gun-hd-lJa"/>
                             <constraint firstItem="ivw-h8-kIN" firstAttribute="leading" secondItem="Ai1-2c-1Je" secondAttribute="leading" constant="120" id="lQJ-Ds-WLY"/>
                             <constraint firstItem="hlp-hq-nWQ" firstAttribute="top" secondItem="Ai1-2c-1Je" secondAttribute="top" constant="78" id="nAI-5y-baA"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Ai1-2c-1Je"/>
                     </view>
+                    <navigationItem key="navigationItem" id="V9E-3V-Ljn"/>
                     <connections>
                         <outlet property="amountLabel" destination="eWw-V4-7Xy" id="knY-uj-6eh"/>
                         <outlet property="backButton" destination="QSV-2X-2nW" id="Ugd-Re-sW0"/>
@@ -317,7 +319,7 @@
             <objects>
                 <tableViewController title="Contacts View Controller" id="u43-ox-leC" customClass="ContactsViewController" customModule="Wildfire1_1" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="3Ix-oZ-8dH">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
@@ -382,6 +384,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="rI4-KZ-U0t"/>
                     </view>
+                    <navigationItem key="navigationItem" id="BXm-1h-Ozc"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aCy-gk-Kuv" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -444,6 +447,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="9ii-VS-xwx"/>
                     </view>
+                    <navigationItem key="navigationItem" id="B5f-fd-0Ag"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iwB-p0-SLX" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="dsM-hR-u4K" userLabel="Exit" sceneMemberID="exit"/>
@@ -542,6 +546,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="xwW-7g-PKd"/>
                     </view>
+                    <navigationItem key="navigationItem" id="R7G-7H-ymH"/>
                     <connections>
                         <outlet property="cardNumberField" destination="wPz-vK-2Zs" id="XYe-I2-DHo"/>
                         <outlet property="csvField" destination="1mW-cA-FA9" id="8es-cS-fbD"/>
@@ -621,17 +626,17 @@
             <objects>
                 <viewController id="a8f-Xp-OGW" customClass="AccountViewController" customModule="Wildfire1_1" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="SSu-YB-Ieg">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Account" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8fs-eO-7Aw">
-                                <rect key="frame" x="30" y="59" width="149" height="47"/>
+                                <rect key="frame" x="30" y="71" width="149" height="47"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="40"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="T9P-Kt-apV" userLabel="UID Stack">
-                                <rect key="frame" x="99.5" y="156" width="176.5" height="58.5"/>
+                                <rect key="frame" x="99.5" y="168" width="176.5" height="58.5"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Loading Firebase UID..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vfa-fT-ZvN">
                                         <rect key="frame" x="0.0" y="0.0" width="176.5" height="20.5"/>
@@ -649,31 +654,31 @@
                                 </subviews>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="zv9-3d-HHM" userLabel="Balance Stack">
-                                <rect key="frame" x="50" y="264.5" width="275" height="81.5"/>
+                                <rect key="frame" x="50" y="251.5" width="275" height="90"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Balance" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KDJ-oy-33P">
-                                        <rect key="frame" x="0.0" y="0.0" width="275" height="52.5"/>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="45"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Current balance" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KDJ-oy-33P">
+                                        <rect key="frame" x="0.0" y="0.0" width="275" height="29.5"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="25"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Loading balance..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aNa-nh-Xuv">
-                                        <rect key="frame" x="0.0" y="60.5" width="275" height="21"/>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="18"/>
+                                        <rect key="frame" x="0.0" y="37.5" width="275" height="52.5"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="45"/>
                                         <color key="textColor" red="0.92665155440414504" green="0.40088629707459428" blue="0.31245069111394319" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="V3N-rz-TwO" userLabel="Actions Stack">
-                                <rect key="frame" x="100" y="366" width="175" height="210"/>
+                                <rect key="frame" x="100" y="361.5" width="175" height="210"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ltx-sB-Zog">
                                         <rect key="frame" x="0.0" y="0.0" width="175" height="50"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="wQR-fI-Rqe"/>
                                         </constraints>
-                                        <state key="normal" title="Go to Login"/>
+                                        <state key="normal" title="Set up Account"/>
                                         <connections>
                                             <action selector="goToLogin:" destination="a8f-Xp-OGW" eventType="touchUpInside" id="XEZ-iE-dR5"/>
                                         </connections>
@@ -699,7 +704,7 @@
                                 </constraints>
                             </stackView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="genericProfilePic" translatesAutoresizingMaskIntoConstraints="NO" id="aIZ-fg-1Cr">
-                                <rect key="frame" x="277" y="59" width="70" height="70"/>
+                                <rect key="frame" x="277" y="71" width="70" height="70"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="70" id="LPB-4l-ciZ"/>
                                     <constraint firstAttribute="height" constant="70" id="dgD-Nc-PVv"/>
@@ -716,7 +721,7 @@
                             <constraint firstItem="ySe-Vp-N53" firstAttribute="trailing" secondItem="V3N-rz-TwO" secondAttribute="trailing" constant="100" id="HPl-da-iEp"/>
                             <constraint firstItem="V3N-rz-TwO" firstAttribute="centerX" secondItem="SSu-YB-Ieg" secondAttribute="centerX" id="K9d-JF-cwY"/>
                             <constraint firstItem="aIZ-fg-1Cr" firstAttribute="top" secondItem="8fs-eO-7Aw" secondAttribute="top" id="L68-Kv-Kso"/>
-                            <constraint firstItem="zv9-3d-HHM" firstAttribute="top" secondItem="T9P-Kt-apV" secondAttribute="bottom" constant="50" id="WWe-ou-kat"/>
+                            <constraint firstItem="zv9-3d-HHM" firstAttribute="top" secondItem="T9P-Kt-apV" secondAttribute="bottom" constant="25" id="WWe-ou-kat"/>
                             <constraint firstItem="8fs-eO-7Aw" firstAttribute="top" secondItem="ySe-Vp-N53" secondAttribute="top" constant="15" id="YXP-y8-X5g"/>
                             <constraint firstItem="ySe-Vp-N53" firstAttribute="trailing" secondItem="zv9-3d-HHM" secondAttribute="trailing" constant="50" id="dTE-9q-5Wx"/>
                             <constraint firstItem="zv9-3d-HHM" firstAttribute="leading" secondItem="ySe-Vp-N53" secondAttribute="leading" constant="50" id="esV-SI-1UY"/>
@@ -729,8 +734,8 @@
                     <connections>
                         <outlet property="accountBalance" destination="aNa-nh-Xuv" id="LKX-kf-ZmI"/>
                         <outlet property="addPaymentMethodButton" destination="NrU-I3-Jiv" id="3ze-PQ-1px"/>
-                        <outlet property="goToLoginButton" destination="Ltx-sB-Zog" id="FTh-nv-Ntq"/>
                         <outlet property="profilePicView" destination="aIZ-fg-1Cr" id="lnw-Vc-LCe"/>
+                        <outlet property="setUpAccountButton" destination="Ltx-sB-Zog" id="FTh-nv-Ntq"/>
                         <outlet property="signOutButton" destination="ENQ-7L-jw7" id="uxu-Jb-lt1"/>
                         <outlet property="uidLabel" destination="vfa-fT-ZvN" id="jLS-uo-ZkV"/>
                         <segue destination="5ui-FC-2iH" kind="show" identifier="goToLogin" id="zvn-fx-uIz"/>
@@ -763,21 +768,21 @@
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="7S3-OJ-d2S">
                                 <rect key="frame" x="40" y="417" width="295" height="190"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="H2I-AD-2Rx">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TwO-Ty-sor">
                                         <rect key="frame" x="0.0" y="0.0" width="295" height="50"/>
+                                        <state key="normal" title="Sign up"/>
+                                        <connections>
+                                            <segue destination="ng8-iT-cq6" kind="show" identifier="startToSignUp" id="uGv-JX-EDr"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="H2I-AD-2Rx">
+                                        <rect key="frame" x="0.0" y="70" width="295" height="50"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="K9Z-rI-PTQ"/>
                                         </constraints>
                                         <state key="normal" title="Log in"/>
                                         <connections>
                                             <segue destination="qDH-ht-Uez" kind="show" identifier="startToExistingUser" id="q30-yN-J8d"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TwO-Ty-sor">
-                                        <rect key="frame" x="0.0" y="70" width="295" height="50"/>
-                                        <state key="normal" title="Sign up"/>
-                                        <connections>
-                                            <segue destination="ng8-iT-cq6" kind="show" identifier="startToSignUp" id="uGv-JX-EDr"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sjc-sc-jJM" customClass="FBSDKButton">
@@ -896,6 +901,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="2yA-zQ-7Tm"/>
                     </view>
+                    <navigationItem key="navigationItem" id="49P-P9-WWs"/>
                     <connections>
                         <outlet property="emailTextField" destination="9Qp-e9-eZC" id="7pY-ca-go4"/>
                         <outlet property="errorLabel" destination="JjH-O3-Iwn" id="Pyx-sj-Zrj"/>
@@ -992,6 +998,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="8hO-Bu-Snp"/>
                     </view>
+                    <navigationItem key="navigationItem" id="E9D-eO-ib6"/>
                     <connections>
                         <outlet property="email" destination="Wu8-Dy-78Y" id="xVU-U7-3bx"/>
                         <outlet property="errorLabel" destination="Gjj-NR-EwL" id="iMv-dD-kGa"/>
@@ -1073,6 +1080,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="hzc-hI-Mnp"/>
                     </view>
+                    <navigationItem key="navigationItem" id="uZK-B0-ckl"/>
                     <connections>
                         <outlet property="dobPicker" destination="nXz-78-P4r" id="rLz-Ls-gI3"/>
                         <outlet property="errorLabel" destination="QS6-Q5-HDB" id="jzd-96-Dd9"/>
@@ -1159,6 +1167,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Jhd-v8-zs7"/>
                     </view>
+                    <navigationItem key="navigationItem" id="JSJ-to-Kpy"/>
                     <connections>
                         <outlet property="errorLabel" destination="Y8H-vk-shM" id="9uZ-cz-xOW"/>
                         <outlet property="nationalityField" destination="iZX-Dv-jd3" id="1vN-K3-Rgo"/>
@@ -1199,6 +1208,7 @@
                     <connections>
                         <segue destination="49e-Tb-3d3" kind="showDetail" identifier="goToPay" id="Imv-iW-H17"/>
                         <segue destination="5ui-FC-2iH" kind="showDetail" identifier="sendToLogin" id="Ded-wM-35q"/>
+                        <segue destination="dYx-C1-cdM" kind="showDetail" identifier="goToPhoneVerification" id="Ew7-LD-xpa"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PqR-YE-jXW" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1293,6 +1303,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="5ui-FC-2iH" sceneMemberID="viewController">
                     <toolbarItems/>
+                    <navigationItem key="navigationItem" id="gT7-bf-ART"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="KVe-na-go2">
                         <rect key="frame" x="0.0" y="-20" width="0.0" height="0.0"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -1311,11 +1322,11 @@
             <objects>
                 <viewController id="xal-Cf-0cP" customClass="PhoneViewController" customModule="Wildfire1_1" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="IQk-SR-yQZ">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Mobile number" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="GZT-gZ-ufH">
-                                <rect key="frame" x="50" y="164" width="275" height="50"/>
+                                <rect key="frame" x="50" y="176" width="275" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="nAp-fL-csJ"/>
                                 </constraints>
@@ -1328,7 +1339,7 @@
                                 </userDefinedRuntimeAttributes>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J6X-9D-j2g">
-                                <rect key="frame" x="127.5" y="274" width="120" height="50"/>
+                                <rect key="frame" x="127.5" y="286" width="120" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="120" id="6j1-U8-szR"/>
                                     <constraint firstAttribute="height" constant="50" id="F3x-K5-1h6"/>
@@ -1366,11 +1377,11 @@
             <objects>
                 <viewController id="ulI-eW-qCk" customClass="VerificationCodeViewController" customModule="Wildfire1_1" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="FY8-Zg-YSQ">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6RR-Up-5I0">
-                                <rect key="frame" x="127.5" y="274" width="120" height="50"/>
+                                <rect key="frame" x="127.5" y="286" width="120" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="120" id="9qU-eL-yXc"/>
                                     <constraint firstAttribute="height" constant="50" id="TaJ-mW-Dw0"/>
@@ -1381,7 +1392,7 @@
                                 </connections>
                             </button>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Verification code" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="RhF-xj-I3r">
-                                <rect key="frame" x="62" y="164" width="251" height="50"/>
+                                <rect key="frame" x="62" y="176" width="251" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="wfu-yx-fFD"/>
                                 </constraints>
@@ -1403,6 +1414,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="TDy-HD-ic8"/>
                     </view>
+                    <navigationItem key="navigationItem" id="BrS-BK-Oln"/>
                     <connections>
                         <outlet property="verificationField" destination="RhF-xj-I3r" id="Tmh-UB-V6z"/>
                         <outlet property="verifyButton" destination="6RR-Up-5I0" id="cOO-Yi-qb2"/>
@@ -1420,7 +1432,7 @@
                     <tabBarItem key="tabBarItem" title="Pay" image="icons8-paper-plane-50" id="acW-dT-cKf"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="oyu-eT-WTY">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="56"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -1439,7 +1451,7 @@
                     <tabBarItem key="tabBarItem" title="Account" image="icons8-encrypt-50" id="4H4-bh-m9b"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="jGA-If-hG9">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="56"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -1456,8 +1468,9 @@
             <objects>
                 <navigationController storyboardIdentifier="verifyMobile" automaticallyAdjustsScrollViewInsets="NO" id="dYx-C1-cdM" sceneMemberID="viewController">
                     <toolbarItems/>
+                    <navigationItem key="navigationItem" id="jKw-Hg-HBm"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="CEa-aV-I3L">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="56"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -1480,8 +1493,8 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="SZ6-Gz-xE1"/>
-        <segue reference="KNr-jR-5zd"/>
-        <segue reference="7rf-pY-aAl"/>
+        <segue reference="Imv-iW-H17"/>
+        <segue reference="7l4-N5-uFd"/>
         <segue reference="KC7-yY-zWV"/>
     </inferredMetricsTieBreakers>
 </document>

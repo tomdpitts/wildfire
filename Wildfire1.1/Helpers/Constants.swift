@@ -9,6 +9,12 @@
 import Foundation
 //import LBTAComponents
 
+class GlobalVariables {
+    var userAccountExists = false
+    var enoughCredit = false
+    var existingPaymentMethod = false
+}
+
 struct Constants {
     
     struct Storyboard {

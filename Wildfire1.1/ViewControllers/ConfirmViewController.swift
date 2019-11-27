@@ -15,7 +15,7 @@ import FirebaseFunctions
 
 
 class ConfirmViewController: UIViewController {
-    
+    let global = GlobalVariables()
     let db = Firestore.firestore()
     var handle: AuthStateDidChangeListenerHandle?
     let userUID = Auth.auth().currentUser?.uid
@@ -28,7 +28,7 @@ class ConfirmViewController: UIViewController {
     var recipientName = ""
     
     // these two variables are flags to determine logic triggered by the confirm button on the page
-    var loggedInUser = false
+    var userAccountExists = false
     var enoughCredit = false
     var existingPaymentMethod = false
 
@@ -50,25 +50,16 @@ class ConfirmViewController: UIViewController {
         super.viewDidLoad()
         setUpElements()
         
-        if let uid = Auth.auth().currentUser?.uid {
-            let docRef = db.collection("users").document(uid)
-
-            docRef.getDocument { (document, error) in
-                if let document = document, document.exists {
-                    self.loggedInUser = true
-                } else {
-                    // redundant but just for clarity:
-                    self.loggedInUser = false
-                }
-            }
-        }
+        let utilities = Utilities()
+        utilities.checkForUserAccount()
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         handle = Auth.auth().addStateDidChangeListener { (auth, user) in
-            
+            // TODO replace this logic with check for user doc in Firestore as proof of having created user account
             if (Auth.auth().currentUser?.uid) == nil {
-                self.loggedInUser = false
+                self.userAccountExists = false
             }
         }
         
@@ -149,7 +140,7 @@ class ConfirmViewController: UIViewController {
     func getUserBalance() {
         // check this func doesn't crash if the user hasn't made an account yet!
         let uid = Auth.auth().currentUser!.uid
-        print(uid)
+        
         let docRef = self.db.collection("users").document(uid)
         
         docRef.getDocument { (document, error) in
@@ -178,7 +169,8 @@ class ConfirmViewController: UIViewController {
                 self.dynamicLabel.isHidden = false
                 
             } else {
-                print("didn't get that document..")
+                // didn't get that document..
+                return
             }
         }
         
@@ -188,12 +180,13 @@ class ConfirmViewController: UIViewController {
         // TODO if user has payment details set up, set class variable existingPaymentMethod to true
         // for now it will update to true by default
         self.existingPaymentMethod = true
+        global.existingPaymentMethod = true
         return
     }
     
     // TODO: complete this func
     @IBAction func confirmButtonPressed(_ sender: UIButton) {
-        if loggedInUser == true {
+        if userAccountExists == true {
             if enoughCredit == true {
                 // initiate transaction
                 // TODO add spinner
@@ -235,9 +228,13 @@ class ConfirmViewController: UIViewController {
     func showAlert(title: String, message: String?) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         
-        alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: { (action) in
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
             self.performSegue(withIdentifier: "goToLogin", sender: self)
         }))
+        
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
+        }))
+        
         self.present(alert, animated: true)
     }
     

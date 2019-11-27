@@ -16,15 +16,16 @@ import Kingfisher
 // TODO add a auth listener to trigger profile pic refresh when signed in status changes
 class AccountViewController: UIViewController {
     
+    var global: GlobalVariables!
+    
     var currentProfilePic = UIImage(named: "genericProfilePic")
     
     @IBOutlet var accountBalance: UILabel!
     @IBOutlet weak var uidLabel: UILabel!
-    
 
     @IBOutlet weak var profilePicView: UIImageView!
     
-    @IBOutlet weak var goToLoginButton: UIButton!
+    @IBOutlet weak var setUpAccountButton: UIButton!
     @IBOutlet weak var addPaymentMethodButton: UIButton!
     @IBOutlet weak var signOutButton: UIButton!
     
@@ -38,30 +39,10 @@ class AccountViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let uid = Auth.auth().currentUser?.uid
+        let utilities = Utilities()
+        utilities.checkForUserAccount()
         
-        profilePicView.image = currentProfilePic
-        profilePicView.layer.cornerRadius = profilePicView.frame.height/3
-        
-        // this checks for change of profile pic (from within app)
-        NotificationCenter.default.addObserver(self, selector: #selector(updateProfilePicView), name: Notification.Name("newProfilePicUploaded"), object: nil)
-        
-        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(profilePicTapped(tapGestureRecognizer:)))
-        
-        profilePicView.addGestureRecognizer(tapGestureRecognizer)
-        
-        if uid != nil {
-            // we only want to enable the profile pic editing if there's a pic to edit/if the user is logged in
-            self.profilePicView.isUserInteractionEnabled = true
-        }
-        
-        
-        // on load, get the profile pic from Firebase Storage
-        updateProfilePicView()
-        
-        Utilities.styleFilledButton(goToLoginButton)
-        Utilities.styleFilledButton(addPaymentMethodButton)
-        Utilities.styleFilledButton(signOutButton)
+        // this all needs to be updated to point to Firestore, not RT database
         
         // set the firebase reference
         ref = Database.database().reference()
@@ -100,6 +81,9 @@ class AccountViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: animated)
+        
+        setUpProfilePic()
+        setUpButtons()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -183,6 +167,47 @@ class AccountViewController: UIViewController {
         } catch let err {
             print(err)
         }
+    }
+    
+    func setUpButtons() {
+        
+        // disabling signout button as probably no longer needed
+        signOutButton.isHidden = true
+        signOutButton.isEnabled = false
+        
+        Utilities.styleFilledButton(setUpAccountButton)
+        Utilities.styleFilledButton(addPaymentMethodButton)
+        Utilities.styleFilledButton(signOutButton)
+        
+        // depending on whether User has completed full signup or not, we want to show different options here
+        if global.userAccountExists == true {
+            setUpAccountButton.isHidden = true
+            setUpAccountButton.isEnabled = false
+        }
+    }
+    
+    func setUpProfilePic() {
+        
+        let uid = Auth.auth().currentUser?.uid
+        
+        profilePicView.image = currentProfilePic
+        profilePicView.layer.cornerRadius = profilePicView.frame.height/3
+        
+        // this checks for change of profile pic (from within app)
+        NotificationCenter.default.addObserver(self, selector: #selector(updateProfilePicView), name: Notification.Name("newProfilePicUploaded"), object: nil)
+        
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(profilePicTapped(tapGestureRecognizer:)))
+        
+        profilePicView.addGestureRecognizer(tapGestureRecognizer)
+        
+        if uid != nil {
+            // we only want to enable the profile pic editing if there's a pic to edit/if the user is logged in
+            self.profilePicView.isUserInteractionEnabled = true
+        }
+        
+        
+        // on load, get the profile pic from Firebase Storage
+        updateProfilePicView()
     }
     
     

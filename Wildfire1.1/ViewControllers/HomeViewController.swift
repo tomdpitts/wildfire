@@ -68,9 +68,9 @@ class HomeViewController: UIViewController {
                             print(err)
                         }
                         
-                        let ac = UIAlertController(title: "Continue", message: "You can log in again in the 'Account' Tab", preferredStyle: .alert)
+                        let ac = UIAlertController(title: "Continue", message: "Login didn't work - you'll need to verify your phone number", preferredStyle: .alert)
                         
-                        ac.addAction(UIAlertAction(title: "OK", style: .default, handler: {(alert: UIAlertAction!) in self.performSegue(withIdentifier: "goToPay", sender: self)}
+                        ac.addAction(UIAlertAction(title: "OK", style: .default, handler: {(alert: UIAlertAction!) in self.performSegue(withIdentifier: "goToPhoneVerification", sender: self)}
                         ))
                         self.present(ac, animated: true)
                     }

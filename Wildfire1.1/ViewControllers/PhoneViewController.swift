@@ -12,6 +12,8 @@ import libPhoneNumber_iOS
 
 class PhoneViewController: UIViewController {
     
+    var global: GlobalVariables!
+    
     @IBOutlet weak var phoneField: UITextField!
     @IBOutlet weak var verifyButton: UIButton!
     
