@@ -16,7 +16,7 @@ import MessageUI
 
 class Send2ViewController: UIViewController, MFMessageComposeViewControllerDelegate {
     
-    lazy var functions = Functions.functions(region:"europe-west1")
+    lazy var functions = Functions.functions(region: "europe-west1")
 
 
     @IBOutlet weak var amountTextField: UITextField!
@@ -65,14 +65,15 @@ class Send2ViewController: UIViewController, MFMessageComposeViewControllerDeleg
         
         // call the function to check for a match
         functions.httpsCallable("isRegistered").call(["phone": phoneNumber]) { (result, error) in
-            //                if let error = error as NSError? {
-            //                    if error.domain == FunctionsErrorDomain {
-            //                        let code = FunctionsErrorCode(rawValue: error.code)
-            //                        let message = error.localizedDescription
-            //                        let details = error.userInfo[FunctionsErrorDetailsKey]
-            //                    }
-            //                    // ...
-            //                }
+            if let error = error as NSError? {
+                print(error)
+//                if error.domain == FunctionsErrorDomain {
+//                    let code = FunctionsErrorCode(rawValue: error.code)
+//                    let message = error.localizedDescription
+//                    let details = error.userInfo[FunctionsErrorDetailsKey]
+//                }
+//                // ...
+            }
             
             let json = JSON(result?.data ?? "no data returned")
             

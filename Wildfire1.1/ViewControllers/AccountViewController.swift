@@ -16,8 +16,6 @@ import Kingfisher
 // TODO add a auth listener to trigger profile pic refresh when signed in status changes
 class AccountViewController: UIViewController {
     
-    var global: GlobalVariables!
-    
     var currentProfilePic = UIImage(named: "genericProfilePic")
     
     @IBOutlet var accountBalance: UILabel!
@@ -39,8 +37,11 @@ class AccountViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let utilities = Utilities()
-        utilities.checkForUserAccount()
+        // check whether the user has completed signup flow
+        if UserDefaults.standard.bool(forKey: "userAccountExists") != true {
+            let utilities = Utilities()
+            utilities.checkForUserAccount()
+        }
         
         // this all needs to be updated to point to Firestore, not RT database
         
@@ -177,10 +178,10 @@ class AccountViewController: UIViewController {
         
         Utilities.styleFilledButton(setUpAccountButton)
         Utilities.styleFilledButton(addPaymentMethodButton)
-        Utilities.styleFilledButton(signOutButton)
         
         // depending on whether User has completed full signup or not, we want to show different options here
-        if global.userAccountExists == true {
+        if UserDefaults.standard.bool(forKey: "userAccountExists") == true {
+            
             setUpAccountButton.isHidden = true
             setUpAccountButton.isEnabled = false
         }

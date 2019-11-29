@@ -156,8 +156,11 @@ class formStep3ViewController: UIViewController, UITextFieldDelegate {
                      self.showAlert(title: "Error saving user data", message: nil, progress: false)
                  } else {
                     
-                    let utilities = Utilities()
-                    utilities.checkForUserAccount()
+                    // check whether the user has completed signup flow
+                    if UserDefaults.standard.bool(forKey: "userAccountExists") != true {
+                        let utilities = Utilities()
+                        utilities.checkForUserAccount()
+                    }
                     
 //                    // we use this info to create a MangoPay user as well, to which card details can (later) be added
 //                    self.functions.httpsCallable("createNewMangopayCustomerONCALL").call() { (result, error) in

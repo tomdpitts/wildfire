@@ -33,6 +33,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        let defaults = UserDefaults.standard
 //        let defaultValue = ["profilePicCacheKey": ""]
 //        defaults.register(defaults: defaultValue)
+        
+        // check whether the user has completed signup flow 
+        if UserDefaults.standard.bool(forKey: "userAccountExists") != true {
+            let utilities = Utilities()
+            utilities.checkForUserAccount()
+        }
         redirect()
         return true
     }

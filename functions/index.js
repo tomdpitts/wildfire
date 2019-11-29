@@ -26,7 +26,9 @@ admin.initializeApp(functions.config().firebase);
 
 // Each function requires its own exports.customFunction
 
-exports.addZeroBalanceOnCreation = functions.firestore
+
+// the thinking behind having this function here rather than on client is that any functionality concerned with transactions should be a Cloud Function so that any necessary fixes can be applied immediately in realtime
+exports.addZeroBalanceOnCreation = functions.region('europe-west1').firestore
   .document('users/{userId}')
   .onCreate((snap, context) => {
     // get a ref to the doc
@@ -37,14 +39,14 @@ exports.addZeroBalanceOnCreation = functions.firestore
     return admin.firestore().collection('users').doc(docRef).update({balance: 0})
   });
 
-exports.addTransactionsToUsers = functions.firestore
+exports.addTransactionsToUsers = functions.region('europe-west1').firestore
   .document('transactions/{transactionID}')
   .onCreate((snap, context) => {
+    const db = admin.firestore()
 
     const transactionID = context.params.transactionID
     
     // Get an object representing the document
-    // e.g. {'name': 'Marie', 'age': 66}
     const data = snap.data();
 
     // get the payer and recipient user IDs
@@ -52,8 +54,8 @@ exports.addTransactionsToUsers = functions.firestore
     const recipientID = data.to;
 
     // get a ref to the payer and recipient user docs
-    const payerDocRef = admin.firestore().collection('users').document(payerID);
-    const recipientDocRef = admin.firestore().collection('users').document(recipientID);
+    let payerDocRef = db.collection('users').doc(payerID);
+    let recipientDocRef = db.collection('users').doc(recipientID);
 
     // pull the transaction Data to be added to both the payer and recipient transaction subcollections
     const transactionData = {
@@ -65,8 +67,7 @@ exports.addTransactionsToUsers = functions.firestore
     };
 
     // within the 'receipts' subcollection for the payer and recipient user docs, we add a doc with the transactionID
-    let newPayerTransaction = payerDocRef.collection('receipts').doc(transactionID).set(transactionData);
-    let newRecipientTransaction = recipientDocRef.collection('receipts').doc(transactionID).set(transactionData)
+    return payerDocRef.collection('receipts').doc(transactionID).set(transactionData), newRecipientTransaction = recipientDocRef.collection('receipts').doc(transactionID).set(transactionData)
   });
 
 // When a user is created, register them with MangoPay and add an empty PaymentMethods collection
@@ -208,7 +209,7 @@ exports.createNewMangopayCustomer = functions.region('europe-west1').firestore.d
   })
 
   // transact function needs to also log the transaction in Firestore
-  exports.transact = functions.region('europe-west1').https.onCall( async (data, context) => {
+  exports.transact = functions.https.onCall( async (data, context) => {
     //        let recipientRef = self.db.collection("users").document(self.recipientUIDParsed)
 
     const db = admin.firestore()
@@ -220,15 +221,15 @@ exports.createNewMangopayCustomer = functions.region('europe-west1').firestore.d
     const transactionData = {
       from: userID,
       to: recipientUID,
-      datetime: Date.now,
+      datetime: Date.now(),
       //currency: currency,
       amount: amount
     }
 
     // now we have all the input we need ^
 
-    const userRef = db.collection("users").document(userID)
-    const recipientRef = db.collection("users").document(recipientUID)
+    let userRef = db.collection("users").doc(userID)
+    let recipientRef = db.collection("users").doc(recipientUID)
 
     var oldUserBalance = 0
     var oldRecipientBalance = 0
@@ -238,8 +239,7 @@ exports.createNewMangopayCustomer = functions.region('europe-west1').firestore.d
 
     // get the user balance 
     await userRef.get().then(doc => {
-      oldUserBalance = doc.data().balance;
-      return
+      return oldUserBalance = doc.data().balance;
     })
     .catch(err => {
       balanceFail = true
@@ -248,8 +248,7 @@ exports.createNewMangopayCustomer = functions.region('europe-west1').firestore.d
 
     // get the recipient balance
     await recipientRef.get().then(doc => {
-      oldRecipientBalance = doc.data().balance; 
-      return
+      return oldRecipientBalance = doc.data().balance; 
     })
     .catch(err => {
       balanceFail = true
@@ -277,22 +276,21 @@ exports.createNewMangopayCustomer = functions.region('europe-west1').firestore.d
           t.update(recipientRef, {balance: newRecipientBalance})
           
           // Add a new document with a generated id.
-          let addDoc = db.collection('transactions').add(transactionData)
-
+          return db.collection('transactions').add(transactionData)
         } else {
-            return nil
+          return nil        
         }
-        return nil
       }).then(result => {
         // this transaction will only complete if both parties' balances are updated
         console.log('Transaction success!');
-        return result
+        return { text: "success" };
       }).catch(err => {
         console.log('Transaction failure:', err);
-        return result
+        return { text: "failure" };
       });
     } else {
       // TODO there was an error getting one of the balances - abort transaction and inform user
+      console.log('one or more of the balances wasnt retrieved')
     }
   })
 

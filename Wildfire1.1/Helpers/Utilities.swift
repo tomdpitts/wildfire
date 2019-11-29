@@ -13,8 +13,10 @@ import FirebaseFirestore
 
 class Utilities {
     
+    // run check to see if user has set up their account i.e. completed the signup flow
+    // this should run everytime user opens app while the value for key userAccountExists is false - thereafter we can ignore the func
     func checkForUserAccount() {
-        let global = GlobalVariables()
+        
         let db = Firestore.firestore()
         
         if let uid = Auth.auth().currentUser?.uid {
@@ -22,13 +24,15 @@ class Utilities {
 
             docRef.getDocument { (document, error) in
                 if let document = document, document.exists {
-                    global.userAccountExists = true
+                    UserDefaults.standard.set(true, forKey: "userAccountExists")
+                    
                 } else {
-                    global.userAccountExists = false
+                    UserDefaults.standard.set(false, forKey: "userAccountExists")
                 }
             }
         }
     }
+    
     
     static func styleTextField(_ textfield:UITextField) {
         

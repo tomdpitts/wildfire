@@ -15,7 +15,7 @@ import FirebaseFunctions
 
 
 class ConfirmViewController: UIViewController {
-    let global = GlobalVariables()
+    
     let db = Firestore.firestore()
     var handle: AuthStateDidChangeListenerHandle?
     let userUID = Auth.auth().currentUser?.uid
@@ -27,8 +27,7 @@ class ConfirmViewController: UIViewController {
     var recipientUID = ""
     var recipientName = ""
     
-    // these two variables are flags to determine logic triggered by the confirm button on the page
-    var userAccountExists = false
+    // these variables are flags to determine logic triggered by the confirm button on the page
     var enoughCredit = false
     var existingPaymentMethod = false
 
@@ -50,17 +49,21 @@ class ConfirmViewController: UIViewController {
         super.viewDidLoad()
         setUpElements()
         
-        let utilities = Utilities()
-        utilities.checkForUserAccount()
+        // check whether the user has completed signup flow
+        if UserDefaults.standard.bool(forKey: "userAccountExists") != true {
+            let utilities = Utilities()
+            utilities.checkForUserAccount()
+        }
         
     }
     
     override func viewWillAppear(_ animated: Bool) {
         handle = Auth.auth().addStateDidChangeListener { (auth, user) in
             // TODO replace this logic with check for user doc in Firestore as proof of having created user account
-            if (Auth.auth().currentUser?.uid) == nil {
-                self.userAccountExists = false
-            }
+//            if (Auth.auth().currentUser?.uid) == nil {
+//                self.userAccountExists = false
+//            }
+            
         }
         
         // TODO this existing payment strategy doesn't quite add up - needs to be replaced with a flag (and have checkForExistingPaymentMethod() run in ViewDidAppear
@@ -180,12 +183,13 @@ class ConfirmViewController: UIViewController {
         // TODO if user has payment details set up, set class variable existingPaymentMethod to true
         // for now it will update to true by default
         self.existingPaymentMethod = true
-        global.existingPaymentMethod = true
+        
         return
     }
     
     // TODO: complete this func
     @IBAction func confirmButtonPressed(_ sender: UIButton) {
+        let userAccountExists = UserDefaults.standard.bool(forKey: "userAccountExists")
         if userAccountExists == true {
             if enoughCredit == true {
                 // initiate transaction
@@ -212,17 +216,23 @@ class ConfirmViewController: UIViewController {
     
     // this func now lives in Cloud Functions - allows for realtime updates if any security concerns should ever arise
     func transact(recipientUID: String, amount: Int) {
-        functions.httpsCallable("transact").call(["recipientUID": recipientUID, "amount": amount]) { (result, error) in
+        print("initiating transaction")
+        print("recipientUID is: " + recipientUID)
+        print("amount is: \(amount)")
+        functions.httpsCallable("transact").call(["recipientUID": recipientUID, "amount": amount], completion: { (result, error) in
             // TODO error handling!
-            //                if let error = error as NSError? {
-            //                    if error.domain == FunctionsErrorDomain {
-            //                        let code = FunctionsErrorCode(rawValue: error.code)
-            //                        let message = error.localizedDescription
-            //                        let details = error.userInfo[FunctionsErrorDetailsKey]
-            //                    }
-            //                    // ...
-            //                }
-        }
+            if let error = error as NSError? {
+                print(error)
+        //                                if error.domain == FunctionsErrorDomain {
+        //                                    let code = FunctionsErrorCode(rawValue: error.code)
+        //                                    let message = error.localizedDescription
+        //                                    let details = error.userInfo[FunctionsErrorDetailsKey]
+        //                                }
+                // ...
+            } else {
+                print("no error here")
+            }
+        })
     }
     
     func showAlert(title: String, message: String?) {

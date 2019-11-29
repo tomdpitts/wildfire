@@ -671,7 +671,7 @@
                                 </subviews>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="V3N-rz-TwO" userLabel="Actions Stack">
-                                <rect key="frame" x="100" y="361.5" width="175" height="210"/>
+                                <rect key="frame" x="100" y="391.5" width="175" height="210"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ltx-sB-Zog">
                                         <rect key="frame" x="0.0" y="0.0" width="175" height="50"/>
@@ -717,7 +717,7 @@
                             <constraint firstItem="zv9-3d-HHM" firstAttribute="centerX" secondItem="SSu-YB-Ieg" secondAttribute="centerX" id="79Y-zg-8zu"/>
                             <constraint firstItem="T9P-Kt-apV" firstAttribute="top" secondItem="8fs-eO-7Aw" secondAttribute="bottom" constant="50" id="C58-Qt-iVu"/>
                             <constraint firstItem="V3N-rz-TwO" firstAttribute="leading" secondItem="ySe-Vp-N53" secondAttribute="leading" constant="100" id="Eff-z1-aaq"/>
-                            <constraint firstItem="V3N-rz-TwO" firstAttribute="top" secondItem="zv9-3d-HHM" secondAttribute="bottom" constant="20" id="Gil-R5-oE1"/>
+                            <constraint firstItem="V3N-rz-TwO" firstAttribute="top" secondItem="zv9-3d-HHM" secondAttribute="bottom" constant="50" id="Gil-R5-oE1"/>
                             <constraint firstItem="ySe-Vp-N53" firstAttribute="trailing" secondItem="V3N-rz-TwO" secondAttribute="trailing" constant="100" id="HPl-da-iEp"/>
                             <constraint firstItem="V3N-rz-TwO" firstAttribute="centerX" secondItem="SSu-YB-Ieg" secondAttribute="centerX" id="K9d-JF-cwY"/>
                             <constraint firstItem="aIZ-fg-1Cr" firstAttribute="top" secondItem="8fs-eO-7Aw" secondAttribute="top" id="L68-Kv-Kso"/>
