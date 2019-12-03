@@ -19,6 +19,7 @@
 		E21AC97A21EA6BF000D460A9 /* Wildfire1_1Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E21AC97921EA6BF000D460A9 /* Wildfire1_1Tests.swift */; };
 		E21AC98521EA6C9E00D460A9 /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E21AC98421EA6C9E00D460A9 /* AccountViewController.swift */; };
 		E222732A23420BBE006D8326 /* AddCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E222732923420BBE006D8326 /* AddCardViewController.swift */; };
+		E22A9CFD239546C400A35EC1 /* Account2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E22A9CFC239546C400A35EC1 /* Account2ViewController.swift */; };
 		E23331D323328C630039E6A2 /* SuccessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23331D223328C630039E6A2 /* SuccessViewController.swift */; };
 		E24388A523154A5200948AD5 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24388A423154A5200948AD5 /* Utilities.swift */; };
 		E24388A82315532200948AD5 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24388A72315532200948AD5 /* Constants.swift */; };
@@ -72,6 +73,7 @@
 		E21AC98421EA6C9E00D460A9 /* AccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
 		E21AC99621EA850C00D460A9 /* ScanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanViewController.swift; sourceTree = "<group>"; };
 		E222732923420BBE006D8326 /* AddCardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCardViewController.swift; sourceTree = "<group>"; };
+		E22A9CFC239546C400A35EC1 /* Account2ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Account2ViewController.swift; sourceTree = "<group>"; };
 		E23331D223328C630039E6A2 /* SuccessViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuccessViewController.swift; sourceTree = "<group>"; };
 		E24388A423154A5200948AD5 /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		E24388A72315532200948AD5 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -225,6 +227,7 @@
 				E29CF6972359BECD00ADC0D0 /* Send2ViewController.swift */,
 				E2CDF4AA235F2126002E155D /* PhoneViewController.swift */,
 				E2CDF4AC235F2859002E155D /* VerificationCodeViewController.swift */,
+				E22A9CFC239546C400A35EC1 /* Account2ViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -461,6 +464,7 @@
 				E23331D323328C630039E6A2 /* SuccessViewController.swift in Sources */,
 				E21AC98521EA6C9E00D460A9 /* AccountViewController.swift in Sources */,
 				E25213B9234E4375003B2160 /* FirebaseAuthManager.swift in Sources */,
+				E22A9CFD239546C400A35EC1 /* Account2ViewController.swift in Sources */,
 				E21AC96521EA6BEF00D460A9 /* PayViewController.swift in Sources */,
 				E222732A23420BBE006D8326 /* AddCardViewController.swift in Sources */,
 				E279717F231433D500964F25 /* ExistingUserViewController.swift in Sources */,

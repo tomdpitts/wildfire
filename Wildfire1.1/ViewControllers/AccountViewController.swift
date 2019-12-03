@@ -27,6 +27,11 @@ class AccountViewController: UIViewController {
     @IBOutlet weak var addPaymentMethodButton: UIButton!
     @IBOutlet weak var signOutButton: UIButton!
     
+    @IBOutlet weak var tableView: UITableView!
+    
+    @IBOutlet weak var navBar: UINavigationItem!
+    
+    
     // This 'ref' property will hold a firebase database reference
     var ref:DatabaseReference?
     var databaseHandle:DatabaseHandle?
@@ -42,6 +47,14 @@ class AccountViewController: UIViewController {
             let utilities = Utilities()
             utilities.checkForUserAccount()
         }
+        
+        navigationController?.interactivePopGestureRecognizer?.delegate = nil
+        
+        navigationItem.title = "Account"
+        navigationController?.navigationBar.prefersLargeTitles = true
+        
+        
+        
         
         // this all needs to be updated to point to Firestore, not RT database
         
@@ -77,6 +90,24 @@ class AccountViewController: UIViewController {
             
         }
     })
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 2
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+         return 5
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath, cellText: String) -> UITableViewCell {
+         let cell = tableView.dequeueReusableCell(withIdentifier: "cellReuseIdentifier")! //1.
+            
+         let text = cellText //2.
+            
+         cell.textLabel?.text = text //3.
+            
+         return cell //4.
     }
     
     override func viewWillAppear(_ animated: Bool) {
