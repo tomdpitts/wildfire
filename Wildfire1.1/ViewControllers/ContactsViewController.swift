@@ -26,6 +26,7 @@ class ContactsViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // can't remember what this does - try google
         navigationController?.interactivePopGestureRecognizer?.delegate = nil
         
         navigationItem.title = "Send"
