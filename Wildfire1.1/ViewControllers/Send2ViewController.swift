@@ -27,7 +27,7 @@ class Send2ViewController: UIViewController, MFMessageComposeViewControllerDeleg
     
     let phoneUtil = NBPhoneNumberUtil()
     var contact: Contact?
-    var transaction: Transaction?
+    
     var sendAmount = 0
     var isRegistered = false
     

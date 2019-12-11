@@ -41,6 +41,8 @@ class ReceiveViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
+        navigationItem.title = "Receive"
+        navigationController?.navigationBar.prefersLargeTitles = true
         
         textField.delegate = self as? UITextFieldDelegate
         textField.keyboardType = .decimalPad

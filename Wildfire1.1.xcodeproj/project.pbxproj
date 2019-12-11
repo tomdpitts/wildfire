@@ -25,6 +25,7 @@
 		E24388A82315532200948AD5 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24388A72315532200948AD5 /* Constants.swift */; };
 		E24388AA231575DA00948AD5 /* CustomSegues.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24388A9231575DA00948AD5 /* CustomSegues.swift */; };
 		E24388AD2315A5AC00948AD5 /* WildfireLogin.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = E24388AC2315A5AC00948AD5 /* WildfireLogin.mp4 */; };
+		E2444DF823A0A7930035674D /* ReceiptsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2444DF723A0A7930035674D /* ReceiptsViewController.swift */; };
 		E25213B9234E4375003B2160 /* FirebaseAuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25213B8234E4375003B2160 /* FirebaseAuthManager.swift */; };
 		E26039782350DABA0031C792 /* ProfilePicViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E26039772350DABA0031C792 /* ProfilePicViewController.swift */; };
 		E26763652355EE6B00D079C6 /* formStep3ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E26763642355EE6B00D079C6 /* formStep3ViewController.swift */; };
@@ -79,6 +80,7 @@
 		E24388A72315532200948AD5 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		E24388A9231575DA00948AD5 /* CustomSegues.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSegues.swift; sourceTree = "<group>"; };
 		E24388AC2315A5AC00948AD5 /* WildfireLogin.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = WildfireLogin.mp4; sourceTree = "<group>"; };
+		E2444DF723A0A7930035674D /* ReceiptsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiptsViewController.swift; sourceTree = "<group>"; };
 		E25213B8234E4375003B2160 /* FirebaseAuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseAuthManager.swift; sourceTree = "<group>"; };
 		E26039772350DABA0031C792 /* ProfilePicViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePicViewController.swift; sourceTree = "<group>"; };
 		E26763642355EE6B00D079C6 /* formStep3ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = formStep3ViewController.swift; sourceTree = "<group>"; };
@@ -228,6 +230,7 @@
 				E2CDF4AA235F2126002E155D /* PhoneViewController.swift */,
 				E2CDF4AC235F2859002E155D /* VerificationCodeViewController.swift */,
 				E22A9CFC239546C400A35EC1 /* Account2ViewController.swift */,
+				E2444DF723A0A7930035674D /* ReceiptsViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -457,6 +460,7 @@
 				E2B979E12329609E00194E75 /* ScanViewController.swift in Sources */,
 				E2CDF4AD235F2859002E155D /* VerificationCodeViewController.swift in Sources */,
 				E279717D231433AF00964F25 /* SignUpViewController.swift in Sources */,
+				E2444DF823A0A7930035674D /* ReceiptsViewController.swift in Sources */,
 				E21AC96321EA6BEF00D460A9 /* AppDelegate.swift in Sources */,
 				E2FA9ED82334E6130068792D /* NetworkingClient.swift in Sources */,
 				E29CF6982359BECD00ADC0D0 /* Send2ViewController.swift in Sources */,

@@ -29,15 +29,13 @@ struct Contact {
     var fullName: String
     var phoneNumber: String?
     var uid: String?
-    
-//    var initials: String {
-//        return "\(givenName.first!)\(familyName.first!)"
-//    }
 }
 
 struct Transaction {
     let amount: Int
-    let contact: Contact
+    let datetime: Date
+    let payerID: String
+    let recipientID: String
 }
 
 
