@@ -41,7 +41,7 @@ exports.addZeroBalanceOnCreation = functions.region('europe-west1').firestore
 
 exports.addTransactionsToUsers = functions.region('europe-west1').firestore
   .document('transactions/{transactionID}')
-  .onCreate((snap, context) => {
+  .onCreate( async (snap, context) => {
     const db = admin.firestore()
 
     const transactionID = context.params.transactionID
@@ -57,13 +57,41 @@ exports.addTransactionsToUsers = functions.region('europe-west1').firestore
     let payerDocRef = db.collection('users').doc(payerID);
     let recipientDocRef = db.collection('users').doc(recipientID);
 
+    var payerName = ""
+    var recipientName = ""
+
+// this was an experiment - unlikely to work, but haven't tried it yet
+    // let payerName = payerDocRef.firstname
+    // let recipientName = recipientDocRef.firstname
+
+    // get the payer name 
+    await payerDocRef.get().then(doc => {
+      return payerName = doc.data().firstname + " " + doc.data().lastname;
+    })
+    .catch(err => {
+      balanceFail = true
+      console.log('Error getting payer name', err);
+    });
+
+    // get the recipient name
+    await recipientDocRef.get().then(doc => {
+      return recipientName = doc.data().firstname + " " + doc.data().lastname;
+    })
+    .catch(err => {
+      balanceFail = true
+      console.log('Error getting recipient name', err);
+    });
+
     // pull the transaction Data to be added to both the payer and recipient transaction subcollections
     const transactionData = {
-      from: data.from,
-      to: data.to,
+      payerID: data.from,
+      payerName: payerName,
+      recipientID: data.to,
+      recipientName: recipientName,
       datetime: data.datetime,
       //currency: data.currency,
       amount: data.amount
+
     };
 
     // within the 'receipts' subcollection for the payer and recipient user docs, we add a doc with the transactionID
@@ -221,7 +249,7 @@ exports.createNewMangopayCustomer = functions.region('europe-west1').firestore.d
     const transactionData = {
       from: userID,
       to: recipientUID,
-      datetime: Date.now(),
+      datetime: Math.round(Date.now()/1000),
       //currency: currency,
       amount: amount
     }

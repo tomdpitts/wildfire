@@ -36,6 +36,8 @@ struct Transaction {
     let datetime: Date
     let payerID: String
     let recipientID: String
+    let payerName: String?
+    let recipientName: String?
 }
 
 

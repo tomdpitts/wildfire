@@ -49,6 +49,9 @@ class ConfirmViewController: UIViewController {
         super.viewDidLoad()
         setUpElements()
         
+        // disable confirm button until recipient details are fully loaded
+        confirmButton.isEnabled = false
+        
         // check whether the user has completed signup flow
         if UserDefaults.standard.bool(forKey: "userAccountExists") != true {
             let utilities = Utilities()
@@ -136,6 +139,8 @@ class ConfirmViewController: UIViewController {
                 // important to update the class variable recipientName because at present, the getUserBalance function relies on it
                 // TODO: replace this clunky solution
                 self.recipientName = "\(recipientFirstname) \(recipientLastname)"
+                
+                self.confirmButton.isEnabled = true
             }
         }
     }
@@ -216,9 +221,7 @@ class ConfirmViewController: UIViewController {
     
     // this func now lives in Cloud Functions - allows for realtime updates if any security concerns should ever arise
     func transact(recipientUID: String, amount: Int) {
-        print("initiating transaction")
-        print("recipientUID is: " + recipientUID)
-        print("amount is: \(amount)")
+        
         functions.httpsCallable("transact").call(["recipientUID": recipientUID, "amount": amount], completion: { (result, error) in
             // TODO error handling!
             if let error = error as NSError? {

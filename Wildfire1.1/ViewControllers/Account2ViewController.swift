@@ -22,8 +22,12 @@ class Account2ViewController: UITableViewController {
     @IBOutlet weak var userNameLabel: UILabel!
     @IBOutlet weak var balanceAmountLabel: UILabel!
     
+    @IBOutlet weak var logOutCell: UITableViewCell!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        tableView.delegate = self
         
         getUserInfo()
         setUpProfilePic()
@@ -41,13 +45,25 @@ class Account2ViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-         return 9
+         return 10
+    }
+    
+    // a method from UITableViewDelegate
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.row == 8 {
+            let title = "Are you sure you want to Log Out?"
+            let message = "You can log back in at any time"
+            let segue = "goToPhoneVerify"
+            showAlert(title: title, message: message, segueIdentifier: segue)
+        }
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
     func getUserInfo() {
         if let uid = Auth.auth().currentUser?.uid {
             let docRef = Firestore.firestore().collection("users").document(uid)
 
+            // TODO replace with listener
             docRef.getDocument { (document, error) in
                 if let error = error {
                     // TODO error handling
@@ -145,4 +161,24 @@ class Account2ViewController: UITableViewController {
                 // user isn't logged in...?
             }
         }
+    func showAlert(title: String, message: String?, segueIdentifier: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
+            do {
+                try Auth.auth().signOut()
+            } catch let err {
+                // TODO what if signout fails e.g. no connection
+            }
+            self.performSegue(withIdentifier: segueIdentifier, sender: self)
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
+        }))
+        
+        self.present(alert, animated: true)
+    }
+    
+    @IBAction func unwindToPrevious(_ unwindSegue: UIStoryboardSegue) {
+    }
 }
