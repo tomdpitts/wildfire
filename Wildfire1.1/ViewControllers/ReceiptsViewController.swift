@@ -10,14 +10,14 @@ import UIKit
 import FirebaseAuth
 import FirebaseFirestore
 
-class ReceiptCell: UITableViewCell {
-
-    
-    @IBOutlet weak var nameLabel: UILabel!
-    
-    @IBOutlet weak var amountLabel: UILabel!
-    
-}
+//class ReceiptCell: UITableViewCell {
+//
+//
+//    @IBOutlet weak var nameLabel: UILabel!
+//
+//    @IBOutlet weak var amountLabel: UILabel!
+//
+//}
 
 class ReceiptsViewController: UITableViewController {
     

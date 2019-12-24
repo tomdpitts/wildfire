@@ -21,6 +21,7 @@
 		E222732A23420BBE006D8326 /* AddCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E222732923420BBE006D8326 /* AddCardViewController.swift */; };
 		E22A9CFD239546C400A35EC1 /* Account2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E22A9CFC239546C400A35EC1 /* Account2ViewController.swift */; };
 		E22D7E0323A7393100F86487 /* DisplayReceiptViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E22D7E0223A7393100F86487 /* DisplayReceiptViewController.swift */; };
+		E22D7E0523B04E8A00F86487 /* PaymentMethodsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E22D7E0423B04E8A00F86487 /* PaymentMethodsViewController.swift */; };
 		E23331D323328C630039E6A2 /* SuccessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23331D223328C630039E6A2 /* SuccessViewController.swift */; };
 		E24388A523154A5200948AD5 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24388A423154A5200948AD5 /* Utilities.swift */; };
 		E24388A82315532200948AD5 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24388A72315532200948AD5 /* Constants.swift */; };
@@ -77,6 +78,7 @@
 		E222732923420BBE006D8326 /* AddCardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCardViewController.swift; sourceTree = "<group>"; };
 		E22A9CFC239546C400A35EC1 /* Account2ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Account2ViewController.swift; sourceTree = "<group>"; };
 		E22D7E0223A7393100F86487 /* DisplayReceiptViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayReceiptViewController.swift; sourceTree = "<group>"; };
+		E22D7E0423B04E8A00F86487 /* PaymentMethodsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentMethodsViewController.swift; sourceTree = "<group>"; };
 		E23331D223328C630039E6A2 /* SuccessViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuccessViewController.swift; sourceTree = "<group>"; };
 		E24388A423154A5200948AD5 /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		E24388A72315532200948AD5 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -234,6 +236,7 @@
 				E22A9CFC239546C400A35EC1 /* Account2ViewController.swift */,
 				E2444DF723A0A7930035674D /* ReceiptsViewController.swift */,
 				E22D7E0223A7393100F86487 /* DisplayReceiptViewController.swift */,
+				E22D7E0423B04E8A00F86487 /* PaymentMethodsViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -475,6 +478,7 @@
 				E22A9CFD239546C400A35EC1 /* Account2ViewController.swift in Sources */,
 				E21AC96521EA6BEF00D460A9 /* PayViewController.swift in Sources */,
 				E222732A23420BBE006D8326 /* AddCardViewController.swift in Sources */,
+				E22D7E0523B04E8A00F86487 /* PaymentMethodsViewController.swift in Sources */,
 				E279717F231433D500964F25 /* ExistingUserViewController.swift in Sources */,
 				E24388A523154A5200948AD5 /* Utilities.swift in Sources */,
 				E26763652355EE6B00D079C6 /* formStep3ViewController.swift in Sources */,

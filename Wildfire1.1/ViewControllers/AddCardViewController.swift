@@ -71,6 +71,8 @@ class AddCardViewController: UIViewController, UITextFieldDelegate {
     
     @IBAction func submitPressed(_ sender: Any) {
         
+        // API guide https://docs.mangopay.com/endpoints/v2.01/cards#e177_the-card-registration-object
+        
         // Validate the fields
         let error = validateFields()
         
@@ -101,7 +103,7 @@ class AddCardViewController: UIViewController, UITextFieldDelegate {
 //                }
                 semaphore.wait()
                 
-                var json = JSON(result?.data ?? "no data returned")
+                let json = JSON(result?.data ?? "no data returned")
                 
                 // extract the following values from the returned CardRegistration object
                 if let ak = json["AccessKey"].string {
@@ -140,22 +142,26 @@ class AddCardViewController: UIViewController, UITextFieldDelegate {
                     
                     semaphore.signal()
 
-                    // now pass the RegistrationData object to callable Cloud Function which will complete the Card Registration and store the CardId in Firestore (a secure way to store the user's card without having their sensitive info touch our server)
+                    // now pass the RegistrationData object to callable Cloud Function which will complete the Card Registration and store the CardId in Firestore (this whole process is a secure way to store the user's card without having their sensitive info ever touch our server)
                     self.functions.httpsCallable("addCardRegistration").call(["regData": regData, "cardRegID": cardRegID]) { (result, error) in
 
-                            semaphore.wait()
-                            //                if let error = error as NSError? {
-                            //                    if error.domain == FunctionsErrorDomain {
-                            //                        let code = FunctionsErrorCode(rawValue: error.code)
-                            //                        let message = error.localizedDescription
-                            //                        let details = error.userInfo[FunctionsErrorDetailsKey]
-                            //                    }
-                            // ...
-                            //                }
-                            print("done?")
-                            semaphore.signal()
+                        semaphore.wait()
+                        //                if let error = error as NSError? {
+                        //                    if error.domain == FunctionsErrorDomain {
+                        //                        let code = FunctionsErrorCode(rawValue: error.code)
+                        //                        let message = error.localizedDescription
+                        //                        let details = error.userInfo[FunctionsErrorDetailsKey]
+                        //                    }
+                        // ...
+                        //                }
+                        
+                        let json = JSON(result?.data ?? "no data returned")
+                        
+                        
+                        print("done?")
+                        semaphore.signal()
 
-                        }
+                    }
                     
                     // TODO add loading spinner to wait for responseURL
 

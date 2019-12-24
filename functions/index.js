@@ -224,10 +224,10 @@ exports.createNewMangopayCustomer = functions.region('europe-west1').firestore.d
 
     // update the CardRegistration object with the Registration data and cardRegID sent as the argument for this function.
     // see https://docs.mangopay.com/endpoints/v2.01/cards#e1042_post-card-info 
-    // step 5: Update a Card Registration
+    // "Update a Card Registration"
     const cardObject = await mpAPI.CardRegistrations.update({RegistrationData: rd, Id: cardRegID})
 
-    // and save the important part of the response - the cardId - to the Firestore (at 'user' level, not in 'wallets')
+    // and save the important part of the response - the cardId - to the Firestore database (at 'user' level, not in 'wallets')
     return admin.firestore().collection('users').doc(userID).update({
       card1_id: cardObject.CardId
     })

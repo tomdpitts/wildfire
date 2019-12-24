@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 //import LBTAComponents
 
 //class GlobalVariables {
@@ -40,6 +41,12 @@ struct Transaction {
     let recipientName: String?
 }
 
+struct PaymentMethod {
+    let name: String
+    let truncatedCardNumber: String
+    let CVV: String
+    let icon: UIImage
+}
 
 //
 //class Service {
