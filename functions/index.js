@@ -114,6 +114,8 @@ exports.createNewMangopayCustomer = functions.region('europe-west1').firestore.d
 
   const customer = await mpAPI.Users.create({PersonType: 'NATURAL', FirstName: firstname, LastName: lastname, Birthday: birthday, Nationality: nationality, CountryOfResidence: residence, Email: email});
 
+  console.log(customer.Id)
+
   return admin.firestore().collection('users').doc(context.params.id).update({mangopayID: customer.Id});
 
 })
@@ -318,8 +320,27 @@ exports.createNewMangopayCustomer = functions.region('europe-west1').firestore.d
       });
     } else {
       // TODO there was an error getting one of the balances - abort transaction and inform user
-      console.log('one or more of the balances wasnt retrieved')
+      console.log('one or more of the balances was not retrieved')
     }
+  })
+
+  exports.listCards = functions.region('europe-west1').https.onCall( async (data, context) => {
+
+    const userID = context.auth.uid
+    var mangopayID = ""
+
+    // using the Firebase userID (supplied via 'context' of the request), get the mangopayID 
+    await admin.firestore().collection('users').doc(userID).get().then(doc => {
+      userData = doc.data();
+      mangopayID = userData.mangopayID
+      return
+    })
+    .catch(err => {
+      console.log('Error getting userID', err);
+    });
+
+
+    return mpAPI.Users.getCards(mangopayID)
   })
 
 

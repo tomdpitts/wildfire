@@ -170,6 +170,16 @@ class AddCardViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
+    func saveCardStubToDisk() {
+        
+        functions.httpsCallable("listCards").call() { (result, error) in
+            
+            let json = JSON(result?.data ?? "no data returned")
+
+            print(json)
+        }
+    }
+    
     
     func validateFields() -> String? {
         

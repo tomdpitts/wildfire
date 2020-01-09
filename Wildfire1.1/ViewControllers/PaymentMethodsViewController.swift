@@ -9,11 +9,14 @@
 import UIKit
 import FirebaseAuth
 import FirebaseFirestore
+import FirebaseFunctions
 import Alamofire
 import mangopay
+import SwiftyJSON
 
 class PaymentMethodsViewController: UITableViewController {
-        
+    
+        lazy var functions = Functions.functions(region:"europe-west1")
         let db = Firestore.firestore()
         let uid = Auth.auth().currentUser?.uid
         
@@ -35,7 +38,7 @@ class PaymentMethodsViewController: UITableViewController {
             
             tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellID)
             
-            fetchTransactions() { () in
+            fetchCards() { () in
 //                if self.transactionsList.isEmpty == true {
 //                    let title = "Looks like you haven't made any transactions yet"
 //                    let message = "When you pay someone or get paid, it'll show up here"
@@ -54,6 +57,7 @@ class PaymentMethodsViewController: UITableViewController {
 //        }
         
         override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+            // tableView needs to include a cell for each card, plus 1 cell for "Add new card"
             return paymentMethodsList.count
         }
         
@@ -62,34 +66,58 @@ class PaymentMethodsViewController: UITableViewController {
         }
         
         override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+            
+//            if indexPath.row == paymentMethodsList.count + 1 {
+//                var cell = tableView.dequeueReusableCell(withIdentifier: self.cellID, for: indexPath)
+//
+//                cell = UITableViewCell(style: .subtitle, reuseIdentifier: self.cellID)
+//
+//                cell.textLabel?.text = "Add new card"
+//
+//                return cell
+//
+//            } else {
+                var cell = tableView.dequeueReusableCell(withIdentifier: self.cellID, for: indexPath)
+                         
+                cell = UITableViewCell(style: .subtitle, reuseIdentifier: self.cellID)
+                 
+                let found = paymentMethodsList[indexPath.row]
+             
+                cell.textLabel?.text = found.name
+                cell.detailTextLabel?.text = found.truncatedCardNumber
+                cell.imageView?.image = found.icon
+             
+                return cell
+//            }
 
-            var cell = tableView.dequeueReusableCell(withIdentifier: self.cellID, for: indexPath)
-            
-            cell = UITableViewCell(style: .subtitle, reuseIdentifier: self.cellID)
-            
-            let found = paymentMethodsList[indexPath.row]
-            
-            cell.textLabel?.text = found.name
-            cell.detailTextLabel?.text = found.truncatedCardNumber
-            cell.imageView?.image = found.icon
-            
-            return cell
+         
         }
         
-        func fetchTransactions(completion: @escaping ()->()) {
+        func fetchCards(completion: @escaping ()->()) {
             // TODO add mangopay call to fetch list of cards
             // OR store them locally?
-            let cardsEndpoint =
             
-            if let photoURL = photoURL {
-                Alamofire.request(photoURL).responseData(completionHandler: { (response) in
-                    if let data = response.value {
-                        let image = UIImage(data: data)
-                        // upload of the profilePic is handled automatically on change of the self.profilePic variable by uploadProfilePic func
-                        self.profilePic = image
-                    }
-                })
+
+            functions.httpsCallable("listCards").call() { (result, error) in
+                var cardNumberStub = ""
+                
+                let jsonArray = JSON(result?.data ?? "no data returned")
+                
+                // data is returned as array of json blobs - don't forget a user can have multiple cards so this makes sense.
+                // TODO parse the result and save to UserDefaults (?), or alternatively, fetch the data each time the page is loaded, but that feels like a bad solution. It might be MVP worthy though. 
+                
+                // extract the following values from the returned CardRegistration object
+                if let alias = json["Alias"].string {
+                    cardNumberStub = alias
+                    print(cardNumberStub)
+                }
+
+                print(json)
+                
             }
+            
+//            UserDefaults.standard.string(forKey: <#T##String#>)
+            
             completion()
         }
             
@@ -102,15 +130,15 @@ class PaymentMethodsViewController: UITableViewController {
             
             performSegue(withIdentifier: "displayReceipt", sender: self)
         }
-        
-        override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-
-            if let displayReceiptVC = segue.destination as? DisplayReceiptViewController {
-                let selectedTransaction = transactionsGrouped[self.section][self.row]
-                displayReceiptVC.transaction = selectedTransaction
-            }
-        }
-        
+//
+//        override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//
+//            if let displayReceiptVC = segue.destination as? DisplayReceiptViewController {
+//                let selectedTransaction = transactionsGrouped[self.section][self.row]
+//                displayReceiptVC.transaction = selectedTransaction
+//            }
+//        }
+//
         func showAlert(title: String, message: String?) {
             let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
             

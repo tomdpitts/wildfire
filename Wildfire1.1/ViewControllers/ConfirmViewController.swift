@@ -19,7 +19,7 @@ class ConfirmViewController: UIViewController {
     let db = Firestore.firestore()
     var handle: AuthStateDidChangeListenerHandle?
     let userUID = Auth.auth().currentUser?.uid
-    lazy var functions = Functions.functions()
+    lazy var functions = Functions.functions(region:"europe-west1")
 
     var decryptedString = ""
     var sendAmount = 0
@@ -187,7 +187,7 @@ class ConfirmViewController: UIViewController {
     func checkForExistingPaymentMethod() {
         // TODO if user has payment details set up, set class variable existingPaymentMethod to true
         // for now it will update to true by default
-        self.existingPaymentMethod = true
+        self.existingPaymentMethod = false
         
         return
     }
