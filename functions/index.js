@@ -338,9 +338,22 @@ exports.createNewMangopayCustomer = functions.region('europe-west1').firestore.d
     .catch(err => {
       console.log('Error getting userID', err);
     });
+    return cardsList = mpAPI.Users.getCards(mangopayID, JSON)
 
+    // return cardsList = mpAPI.Users.getCards(mangopayID)
 
-    return mpAPI.Users.getCards(mangopayID)
+    // const cardNumber = cardsList.Alias
+    // const cardProvider = cardsList.CardProvider
+    // const expiryDate = cardsList.ExpirationDate
+
+    
+
+    // return {
+    //   cardNumber: cardNumber,
+    //   cardProvider: cardProvider,
+    //   expiryDate: expiryDate
+    // };
+
   })
 
 

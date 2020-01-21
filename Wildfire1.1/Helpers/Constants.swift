@@ -41,11 +41,17 @@ struct Transaction {
     let recipientName: String?
 }
 
-struct PaymentMethod {
-    let name: String
-    let truncatedCardNumber: String
-    let CVV: String
-    let icon: UIImage
+struct PaymentCard: Codable {
+    let cardNumber: String
+    let cardProvider: String
+    let expiryDate: String
+//    let icon: UIImage?
+    
+    enum CodingKeys: String, CodingKey {
+        case cardNumber = "Alias"
+        case cardProvider = "CardProvider"
+        case expiryDate = "ExpirationDate"
+    }
 }
 
 //

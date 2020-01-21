@@ -10,6 +10,8 @@ import UIKit
 import FirebaseCore
 import LocalAuthentication
 import FirebaseAuth
+import FirebaseFunctions
+import SwiftyJSON
 import FBSDKCoreKit
 import FBSDKLoginKit
 import FacebookCore
@@ -20,6 +22,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     var timestamp: Int64?
+    
+    lazy var functions = Functions.functions(region:"europe-west1")
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
@@ -36,9 +40,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // check whether the user has completed signup flow 
         if UserDefaults.standard.bool(forKey: "userAccountExists") != true {
-            let utilities = Utilities()
-            utilities.checkForUserAccount()
+            Utilities().checkForUserAccount()
         }
+        fetchPaymentMethodsListFromMangopay()
         redirect()
         return true
     }
@@ -63,6 +67,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillEnterForeground(_ application: UIApplication) {
         
         // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
+        fetchPaymentMethodsListFromMangopay()
         redirect()
         
     }
@@ -117,6 +122,40 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             self.window?.rootViewController = initialViewController
             self.window?.makeKeyAndVisible()
             
+        }
+    }
+    
+    func fetchPaymentMethodsListFromMangopay() {
+        print("trying to fetch cards")
+        functions.httpsCallable("listCards").call() { (result, error) in
+
+            if let cardList = result?.data as? [[String: Any]] {
+                let defaults = UserDefaults.standard
+                
+                defaults.set(cardList.count, forKey: "numberOfCards")
+                
+                let count = cardList.count - 1
+                
+                for i in 0...count {
+                    var cardNumber = ""
+                    var cardProvider = ""
+                    var expiryDate = ""
+                    
+                    let blob1 = cardList[i]
+                    if let cn = blob1["Alias"] as? String, let cp = blob1["CardProvider"] as? String, let ed = blob1["ExpirationDate"] as? String {
+                        
+                        cardNumber = String(cn.suffix(4))
+                        cardProvider = cp
+                        expiryDate = ed
+                    }
+                    let card = PaymentCard(cardNumber: cardNumber, cardProvider: cardProvider, expiryDate: expiryDate)
+                    
+                    defaults.set(try? PropertyListEncoder().encode(card), forKey: "card\(i)")
+                }
+
+            } else {
+                print("nope")
+            }
         }
     }
 }

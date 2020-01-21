@@ -180,6 +180,29 @@ class AddCardViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
+    func fetchPaymentMethodsListFromMangopay() {
+        functions.httpsCallable("listCards").call() { (result, error) in
+            var cardNumberStub = ""
+            
+            let jsonArray = JSON(result?.data ?? "no data returned")
+            
+            // data is returned as array of json blobs - don't forget a user can have multiple cards so this makes sense.
+            // TODO parse the result and save to UserDefaults (?), or alternatively, fetch the data each time the page is loaded, but that feels like a bad solution. It might be MVP worthy though.
+            
+            // extract the following values from the returned CardRegistration object
+            if let alias = jsonArray["Alias"].string {
+                cardNumberStub = alias
+                print(cardNumberStub)
+            } else {
+                print("no alias")
+            }
+
+            print(jsonArray)
+            
+        }
+    }
+
+    
     
     func validateFields() -> String? {
         

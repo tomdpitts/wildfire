@@ -389,8 +389,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" axis="vertical" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="MG4-qs-hnE">
-                                <rect key="frame" x="20" y="201" width="335" height="115"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="MG4-qs-hnE">
+                                <rect key="frame" x="20" y="206" width="335" height="115"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="u23-DQ-eRY">
                                         <rect key="frame" x="0.0" y="0.0" width="335" height="50"/>
@@ -408,7 +408,7 @@
                                     </button>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstItem="Drb-I7-dCN" firstAttribute="height" secondItem="u23-DQ-eRY" secondAttribute="height" id="OgV-Yt-MG5"/>
+                                    <constraint firstItem="Drb-I7-dCN" firstAttribute="height" secondItem="u23-DQ-eRY" secondAttribute="height" id="In2-LH-FbH"/>
                                 </constraints>
                             </stackView>
                         </subviews>
@@ -417,6 +417,7 @@
                             <constraint firstItem="MG4-qs-hnE" firstAttribute="leading" secondItem="9ii-VS-xwx" secondAttribute="leading" constant="20" id="Lgb-t8-nJt"/>
                             <constraint firstItem="MG4-qs-hnE" firstAttribute="centerX" secondItem="OwD-Q3-WWs" secondAttribute="centerX" id="UkR-2o-2yc"/>
                             <constraint firstItem="9ii-VS-xwx" firstAttribute="trailing" secondItem="MG4-qs-hnE" secondAttribute="trailing" constant="20" id="e3w-Bo-vsK"/>
+                            <constraint firstItem="MG4-qs-hnE" firstAttribute="top" secondItem="9ii-VS-xwx" secondAttribute="top" constant="150" id="gcv-HE-BYW"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="9ii-VS-xwx"/>
                     </view>
@@ -1559,10 +1560,13 @@
                             <outlet property="delegate" destination="Cy9-Yl-4jQ" id="sEZ-My-5fZ"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="3SY-5E-Xsm"/>
-                    <connections>
-                        <segue destination="el8-WD-CPR" kind="show" id="D1C-1Q-t7L"/>
-                    </connections>
+                    <navigationItem key="navigationItem" id="3SY-5E-Xsm">
+                        <barButtonItem key="rightBarButtonItem" title="Add Card" id="mLI-va-q7L">
+                            <connections>
+                                <segue destination="el8-WD-CPR" kind="show" id="JeQ-ak-brF"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jSc-Ma-ipP" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1961,10 +1965,10 @@
         <image name="logo Wildfire vertical-1" width="1282" height="1247.5"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="77W-hC-y4a"/>
-        <segue reference="SZ6-Gz-xE1"/>
+        <segue reference="Ew7-LD-xpa"/>
+        <segue reference="Ded-wM-35q"/>
         <segue reference="Imv-iW-H17"/>
-        <segue reference="D1C-1Q-t7L"/>
+        <segue reference="JeQ-ak-brF"/>
         <segue reference="KC7-yY-zWV"/>
     </inferredMetricsTieBreakers>
 </document>
