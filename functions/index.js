@@ -157,6 +157,7 @@ exports.createNewMangopayCustomer = functions.region('europe-west1').firestore.d
 
 
 // })
+// TODO - wallet only needs to be created once (per currency) - wallet creation should happen earlier and the wallet ID can be passed through as at present. But we don't need a new wallet for every card
 
   // When user adds a new payment method, a) create a MangoPay wallet, b) create a Card Registration Object, and c) save the card token
   exports.createPaymentMethodHTTPS = functions.region('europe-west1').https.onCall( async (data, context) => {
@@ -201,7 +202,8 @@ exports.createNewMangopayCustomer = functions.region('europe-west1').firestore.d
     // we 1) created a wallet using the mangopayID stored in Firestore, then 2) created a CardRegistration object, and now need to return the CardRegistration object to the client as per the docs
     .then(() => {
       // 
-      return cardReg;
+      const walletData = {"walletID": wallet.Id}
+      return [cardReg, walletData];
     })
     // transaction history should be dealt with later and the .set() method should handle the collection creation without any need to build it in now
   });
@@ -213,6 +215,7 @@ exports.createNewMangopayCustomer = functions.region('europe-west1').firestore.d
     var mangopayID = ''
     const rd = data.regData
     const cardRegID = String(data.cardRegID)
+    const walletID = data.walletID
 
     // using the Firebase userID (supplied via 'context' of the request), get the mangopayID 
     await admin.firestore().collection('users').doc(userID).get().then(doc => {
@@ -229,9 +232,10 @@ exports.createNewMangopayCustomer = functions.region('europe-west1').firestore.d
     // "Update a Card Registration"
     const cardObject = await mpAPI.CardRegistrations.update({RegistrationData: rd, Id: cardRegID})
 
-    // and save the important part of the response - the cardId - to the Firestore database (at 'user' level, not in 'wallets')
-    return admin.firestore().collection('users').doc(userID).update({
-      card1_id: cardObject.CardId
+    // and save the important part of the response - the cardId - to the Firestore database
+    return admin.firestore().collection('users').doc(userID).collection('wallets').doc(walletID).update({
+      cardID: cardObject.CardId,
+      active: "true"
     })
     .catch(err => {
       console.log('Error saving to database', err);

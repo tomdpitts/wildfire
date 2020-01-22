@@ -54,6 +54,7 @@ class Utilities {
     static func styleFilledButton(_ button:UIButton) {
         
         // Filled rounded corner style
+        // hex code for this colour is #39c3c6
         button.backgroundColor = UIColor.init(red: 57/255, green: 195/255, blue: 198/255, alpha: 1)
         button.layer.cornerRadius = 20.0
         button.tintColor = UIColor.white

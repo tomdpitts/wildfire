@@ -103,107 +103,95 @@ class AddCardViewController: UIViewController, UITextFieldDelegate {
 //                }
                 semaphore.wait()
                 
-                let json = JSON(result?.data ?? "no data returned")
                 
-                // extract the following values from the returned CardRegistration object
-                if let ak = json["AccessKey"].string {
-                    accessKey = ak
-                }
-                
-                if let prd = json["PreregistrationData"].string {
-                    preregistrationData = prd
-                }
-                
-                if let crurl = json["CardRegistrationURL"].string {
-                    cardRegURL = URL(string: crurl)
-                }
-                
-                if let crd = json["Id"].string {
-                    cardRegID = crd
-                }
-                
-
-                semaphore.signal()
-            
-                let body = [
-                    "accessKeyRef": accessKey,
-                    "data": preregistrationData,
-                    "cardNumber": self.cardNumberField.text!,
-                    "cardExpirationDate": self.expiryDateField.text!,
-                    "cardCvx": self.csvField.text!
-                    ]
-                
-                // send card details to Mangopay's tokenization server, and get a RegistrationData object back as response
-                self.networkingClient.postCardInfo(url: cardRegURL, parameters: body) { (response, error) in
+                if let returnedArray = result?.data as? [[String: Any]] {
+                // the result includes the bits we need (this is the result of step 4 in the diagram found at the API doc link above)
                     
-                    semaphore.wait()
                     
-                    regData = String(response)
                     
-                    semaphore.signal()
-
-                    // now pass the RegistrationData object to callable Cloud Function which will complete the Card Registration and store the CardId in Firestore (this whole process is a secure way to store the user's card without having their sensitive info ever touch our server)
-                    self.functions.httpsCallable("addCardRegistration").call(["regData": regData, "cardRegID": cardRegID]) { (result, error) in
-
-                        semaphore.wait()
-                        //                if let error = error as NSError? {
-                        //                    if error.domain == FunctionsErrorDomain {
-                        //                        let code = FunctionsErrorCode(rawValue: error.code)
-                        //                        let message = error.localizedDescription
-                        //                        let details = error.userInfo[FunctionsErrorDetailsKey]
-                        //                    }
-                        // ...
-                        //                }
-                        
-                        let json = JSON(result?.data ?? "no data returned")
-                        
-                        
-                        print("done?")
-                        semaphore.signal()
-
+                    
+                    let jsonCardReg = JSON(returnedArray[0])
+                    
+                    
+                    
+                    // extract the following values from the returned CardRegistration object
+                    if let ak = jsonCardReg["AccessKey"].string {
+                        accessKey = ak
                     }
                     
-                    // TODO add loading spinner to wait for responseURL
+                    if let prd = jsonCardReg["PreregistrationData"].string {
+                        preregistrationData = prd
+                    }
+                    
+                    if let crurl = jsonCardReg["CardRegistrationURL"].string {
+                        cardRegURL = URL(string: crurl)
+                    }
+                    
+                    if let crd = jsonCardReg["Id"].string {
+                        cardRegID = crd
+                    }
+                    
+                    // json
+                    let walletIdData = JSON(returnedArray[1])
+                    
+                    
+                    if let walletID = walletIdData["walletID"].string {
+                    
+                        semaphore.signal()
+                    
+                        let body = [
+                            "accessKeyRef": accessKey,
+                            "data": preregistrationData,
+                            "cardNumber": self.cardNumberField.text!,
+                            "cardExpirationDate": self.expiryDateField.text!,
+                            "cardCvx": self.csvField.text!
+                            ]
+                        
+                        // send card details to Mangopay's tokenization server, and get a RegistrationData object back as response
+                        self.networkingClient.postCardInfo(url: cardRegURL, parameters: body) { (response, error) in
+                            
+                            semaphore.wait()
+                            
+                            regData = String(response)
+                            
+                            semaphore.signal()
+                            
+                            print("checkpoint 1")
 
+                            // now pass the RegistrationData object to callable Cloud Function which will complete the Card Registration and store the CardId in Firestore (this whole process is a secure way to store the user's card without having their sensitive info ever touch our server)
+                            // N.B. we send the wallet ID received earlier so that the Cloud Function can store the final CardID under the user's Firestore wallet entry (the correct wallet - they could have multiple)
+                            self.functions.httpsCallable("addCardRegistration").call(["regData": regData, "cardRegID": cardRegID, "walletID": walletID]) { (result, error) in
+
+                                semaphore.wait()
+                                //                if let error = error as NSError? {
+                                //                    if error.domain == FunctionsErrorDomain {
+                                //                        let code = FunctionsErrorCode(rawValue: error.code)
+                                //                        let message = error.localizedDescription
+                                //                        let details = error.userInfo[FunctionsErrorDetailsKey]
+                                //                    }
+                                // ...
+                                //                }
+                            
+                                
+                                
+                                semaphore.signal()
+                                
+                                // When the card has been added, trigger the API call to MangoPay to update UserDefaults with the card data (so that it shows up in the PaymentMethods View)
+                                // N.B. one benefit of NOT saving it directly is that MangoPay can handle any validation - this way, we only save it when it's definitely been correctly added to their MP account
+                                let appDelegate = AppDelegate()
+                                appDelegate.fetchPaymentMethodsListFromMangopay()
+                                print("done?")
+                                self.performSegue(withIdentifier: "unwindToPrevious", sender: self)
+
+                            }
+                            // TODO add loading spinner to wait for responseURL
+                        }
+                    }
                 }
             }
         }
     }
-    
-    func saveCardStubToDisk() {
-        
-        functions.httpsCallable("listCards").call() { (result, error) in
-            
-            let json = JSON(result?.data ?? "no data returned")
 
-            print(json)
-        }
-    }
-    
-    func fetchPaymentMethodsListFromMangopay() {
-        functions.httpsCallable("listCards").call() { (result, error) in
-            var cardNumberStub = ""
-            
-            let jsonArray = JSON(result?.data ?? "no data returned")
-            
-            // data is returned as array of json blobs - don't forget a user can have multiple cards so this makes sense.
-            // TODO parse the result and save to UserDefaults (?), or alternatively, fetch the data each time the page is loaded, but that feels like a bad solution. It might be MVP worthy though.
-            
-            // extract the following values from the returned CardRegistration object
-            if let alias = jsonArray["Alias"].string {
-                cardNumberStub = alias
-                print(cardNumberStub)
-            } else {
-                print("no alias")
-            }
-
-            print(jsonArray)
-            
-        }
-    }
-
-    
-    
     func validateFields() -> String? {
         
         let cardNumber = cardNumberField.text!.trimmingCharacters(in: .whitespacesAndNewlines)

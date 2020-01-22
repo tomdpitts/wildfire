@@ -115,10 +115,10 @@ class Account2ViewController: UITableViewController {
 //
 //        profilePicView.addGestureRecognizer(tapGestureRecognizer)
         
-        if uid != nil {
-            // we only want to enable the profile pic editing if there's a pic to edit/if the user is logged in
-            self.profilePicView.isUserInteractionEnabled = true
-        }
+//        if uid != nil {
+//            // we only want to enable the profile pic editing if there's a pic to edit/if the user is logged in
+//            self.profilePicView.isUserInteractionEnabled = true
+//        }
         
         
         // on load, get the profile pic from Firebase Storage

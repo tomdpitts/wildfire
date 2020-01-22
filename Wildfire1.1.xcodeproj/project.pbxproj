@@ -225,7 +225,6 @@
 				E21AC96621EA6BEF00D460A9 /* ReceiveViewController.swift */,
 				E2FA9ED52333D70D0068792D /* PaymentSetupViewController.swift */,
 				E21AC98421EA6C9E00D460A9 /* AccountViewController.swift */,
-				E222732923420BBE006D8326 /* AddCardViewController.swift */,
 				E26039772350DABA0031C792 /* ProfilePicViewController.swift */,
 				E2676366235614DB00D079C6 /* formStep2ViewController.swift */,
 				E26763642355EE6B00D079C6 /* formStep3ViewController.swift */,
@@ -237,6 +236,7 @@
 				E2444DF723A0A7930035674D /* ReceiptsViewController.swift */,
 				E22D7E0223A7393100F86487 /* DisplayReceiptViewController.swift */,
 				E22D7E0423B04E8A00F86487 /* PaymentMethodsViewController.swift */,
+				E222732923420BBE006D8326 /* AddCardViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";

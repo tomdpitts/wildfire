@@ -49,6 +49,9 @@ class ReceiptsViewController: UITableViewController {
         navigationItem.title = "Receipts"
         navigationController?.navigationBar.prefersLargeTitles = true
         
+        tableView.tableFooterView = UIView()
+        tableView.backgroundColor = .groupTableViewBackground
+        
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellID)
         
         fetchTransactions() { () in

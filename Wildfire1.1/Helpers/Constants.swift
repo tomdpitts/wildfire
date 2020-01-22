@@ -47,6 +47,7 @@ struct PaymentCard: Codable {
     let expiryDate: String
 //    let icon: UIImage?
     
+    // this simply translates MangoPay's naming system to our (clearer) system
     enum CodingKeys: String, CodingKey {
         case cardNumber = "Alias"
         case cardProvider = "CardProvider"

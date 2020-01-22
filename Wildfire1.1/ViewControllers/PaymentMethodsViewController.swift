@@ -37,6 +37,9 @@ class PaymentMethodsViewController: UITableViewController {
         navigationItem.title = "Payment Methods"
         navigationController?.navigationBar.prefersLargeTitles = true
         
+        tableView.tableFooterView = UIView()
+        tableView.backgroundColor = .groupTableViewBackground
+        
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellID)
         
         fetchCards() { () in
@@ -85,7 +88,7 @@ class PaymentMethodsViewController: UITableViewController {
             let found = paymentMethodsList[indexPath.row]
          
             cell.textLabel?.text = found.cardNumber
-//            cell.imageView?.image = found.icon
+        cell.imageView?.image = UIImage(named: "icons8-mastercard-credit-card-50")
          
             return cell
 //            }
@@ -107,11 +110,12 @@ class PaymentMethodsViewController: UITableViewController {
         let count = defaults.integer(forKey: "numberOfCards")
         
         for i in 0...count {
+            
             guard let savedCardData = defaults.object(forKey: "card\(i)") as? Data else {
                 return
             }
             
-            // Use PropertyListDecoder to convert Data into Player
+            // Use PropertyListDecoder to convert retreived Data into PaymentCard
             guard let card = try? PropertyListDecoder().decode(PaymentCard.self, from: savedCardData) else {
                 return
             }

@@ -144,7 +144,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     let blob1 = cardList[i]
                     if let cn = blob1["Alias"] as? String, let cp = blob1["CardProvider"] as? String, let ed = blob1["ExpirationDate"] as? String {
                         
-                        cardNumber = String(cn.suffix(4))
+                        cardNumber = String(cn.suffix(8))
                         cardProvider = cp
                         expiryDate = ed
                     }
