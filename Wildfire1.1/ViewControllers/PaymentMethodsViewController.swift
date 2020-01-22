@@ -95,6 +95,16 @@ class PaymentMethodsViewController: UITableViewController {
 
      
     }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        // without this line, the cell remains (visually) selected after end of tap
+        tableView.deselectRow(at: indexPath, animated: true)
+        self.section = indexPath.section
+        self.row = indexPath.row
+
+        
+        performSegue(withIdentifier: "showCardDetails", sender: self)
+    }
         
     func fetchCards(completion: @escaping ()->()) {
         // TODO add mangopay call to fetch list of cards
@@ -126,24 +136,16 @@ class PaymentMethodsViewController: UITableViewController {
         completion()
     }
         
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        // without this line, the cell remains (visually) selected after end of tap
-        tableView.deselectRow(at: indexPath, animated: true)
-        self.section = indexPath.section
-        self.row = indexPath.row
+    
 
-        
-        performSegue(withIdentifier: "displayReceipt", sender: self)
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+
+        if let showCardDetailsVC = segue.destination as? CardDetailsViewController {
+            let selectedCard = paymentMethodsList[self.row]
+            showCardDetailsVC.card = selectedCard
+        }
     }
-//
-//        override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//
-//            if let displayReceiptVC = segue.destination as? DisplayReceiptViewController {
-//                let selectedTransaction = transactionsGrouped[self.section][self.row]
-//                displayReceiptVC.transaction = selectedTransaction
-//            }
-//        }
-//
+
     func showAlert(title: String, message: String?) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         

@@ -157,7 +157,8 @@ exports.createNewMangopayCustomer = functions.region('europe-west1').firestore.d
 
 
 // })
-// TODO - wallet only needs to be created once (per currency) - wallet creation should happen earlier and the wallet ID can be passed through as at present. But we don't need a new wallet for every card
+
+// TODO rename this function!
 
   // When user adds a new payment method, a) create a MangoPay wallet, b) create a Card Registration Object, and c) save the card token
   exports.createPaymentMethodHTTPS = functions.region('europe-west1').https.onCall( async (data, context) => {
@@ -179,33 +180,58 @@ exports.createNewMangopayCustomer = functions.region('europe-west1').firestore.d
       console.log('Error getting userID', err);
     });
 
-    // create Wallet and CardRegistration objects
+    var walletExists = false
+    var walletID = ""
 
-    const wallet = await mpAPI.Wallets.create({Owners: mangopayID, Description: walletName, Currency: 'EUR'});
+    // we want to know whether the user already has a wallet or not - if they don't, we'll need to create it
+    await admin.firestore().collection('users').doc(userID).collection('wallets').get().then(snapshot => {
+
+      if (snapshot.docs.length < 1) {
+        // redundant but helps for clarity
+        walletExists = false
+      } else {
+        console.log('found a wallet!')
+        walletExists = true
+        const foundWallet = snapshot.docs[0]
+        walletID = foundWallet.id
+      }
+      return
+    }).catch(err => {
+      console.log('Error getting userID', err);
+    });
+
+    if (walletExists === false) {
+      const wallet = await mpAPI.Wallets.create({Owners: mangopayID, Description: walletName, Currency: 'EUR'});
+
+      walletID = wallet.Id
+
+      // we need to add a Wallet to the user's Firestore record - this will store the card token(s) for repeat payments
+
+      return admin.firestore().collection('users').doc(userID).collection('wallets').doc(wallet.Id).set({
+        created: wallet.CreationDate,
+        balance: wallet.Balance['Amount'],
+        description: wallet.Description,
+        currency: wallet.Currency,
+        // this last line is new
+        temp_card_registration_id: cardReg.Id
+      })
+      .catch(err => {
+        console.log('Error saving to database', err);
+      })
+    }
+
+    // create Wallet and CardRegistration objects
 
     const cardReg = await mpAPI.CardRegistrations.create({userID: mangopayIDString, Currency: 'EUR', CardType: "CB_VISA_MASTERCARD"});
 
-    // we need to add a Wallet to the user's Firestore record - this will store the card token(s) for repeat payments
-
-    return admin.firestore().collection('users').doc(userID).collection('wallets').doc(wallet.Id).set({
-      created: wallet.CreationDate,
-      balance: wallet.Balance['Amount'],
-      description: wallet.Description,
-      currency: wallet.Currency,
-      // this last line is new
-      card_registration_id: cardReg.Id
-    })
-    .catch(err => {
-      console.log('Error saving to database', err);
-    })
     // this function deals with steps 1-4 outlined here: https://docs.mangopay.com/endpoints/v2.01/cards#e177_the-card-registration-object
-    // we 1) created a wallet using the mangopayID stored in Firestore, then 2) created a CardRegistration object, and now need to return the CardRegistration object to the client as per the docs
-    .then(() => {
-      // 
-      const walletData = {"walletID": wallet.Id}
-      return [cardReg, walletData];
-    })
-    // transaction history should be dealt with later and the .set() method should handle the collection creation without any need to build it in now
+    // we 1) created a wallet using the mangopayID stored in Firestore (if it didn't already exist), then 2) created a CardRegistration object, and now need to return the CardRegistration object to the client as per the docs
+    
+    // creating a little JSON to send back to the client - the walletID is used later in the process
+    const walletData = {"walletID": walletID}
+
+    return [cardReg, walletData];
+
   });
 
   exports.addCardRegistration = functions.region('europe-west1').https.onCall( async (data, context) => {
@@ -233,10 +259,10 @@ exports.createNewMangopayCustomer = functions.region('europe-west1').firestore.d
     const cardObject = await mpAPI.CardRegistrations.update({RegistrationData: rd, Id: cardRegID})
 
     // and save the important part of the response - the cardId - to the Firestore database
-    return admin.firestore().collection('users').doc(userID).collection('wallets').doc(walletID).update({
-      cardID: cardObject.CardId,
-      active: "true"
-    })
+    return admin.firestore().collection('users').doc(userID).collection('wallets').doc(walletID).collection('cards').doc(cardObject.CardId).set({
+      cardID: cardObject.CardId
+      // merge (to prevent overwriting other fields) should never be needed, but just in case..
+    }, {merge: true})
     .catch(err => {
       console.log('Error saving to database', err);
     })
@@ -344,19 +370,27 @@ exports.createNewMangopayCustomer = functions.region('europe-west1').firestore.d
     });
     return cardsList = mpAPI.Users.getCards(mangopayID, JSON)
 
-    // return cardsList = mpAPI.Users.getCards(mangopayID)
+  })
 
-    // const cardNumber = cardsList.Alias
-    // const cardProvider = cardsList.CardProvider
-    // const expiryDate = cardsList.ExpirationDate
+  exports.deleteCard = functions.region('europe-west1').https.onCall( async (data, context) => {
 
-    
+    // const userID = context.auth.uid
+    // var mangopayID = ""
 
-    // return {
-    //   cardNumber: cardNumber,
-    //   cardProvider: cardProvider,
-    //   expiryDate: expiryDate
-    // };
+    // // using the Firebase userID (supplied via 'context' of the request), get the mangopayID 
+    // await admin.firestore().collection('users').doc(userID).collection('wallets').doc(get().then(doc => {
+    //   userData = doc.data();
+    //   mangopayID = userData.mangopayID
+    //   return
+    // })
+    // .catch(err => {
+    //   console.log('Error getting userID', err);
+    // })
+
+    // TODO add MangoPay Card Deactivation (useful code above)
+
+
+    return cardsList = mpAPI.Users.getCards(mangopayID, JSON)
 
   })
 

@@ -38,35 +38,11 @@ class AddCardViewController: UIViewController, UITextFieldDelegate {
         
         errorLabel.isHidden = true
         
-        cardNumberField.isHidden = true
-        expiryDateField.isHidden = true
-        csvField.isHidden = true
-        submitButton.isHidden = true
-        
-        
-        cardNumberField.isEnabled = false
-        expiryDateField.isEnabled = false
-        csvField.isEnabled = false
-        submitButton.isEnabled = false
     }
-    
-    
-    
-    
-    @IBAction func addCard(_ sender: Any) {
         
-        cardNumberField.isHidden = false
-        expiryDateField.isHidden = false
-        csvField.isHidden = false
-        submitButton.isHidden = false
-        
-        cardNumberField.isEnabled = true
-        expiryDateField.isEnabled = true
-        csvField.isEnabled = true
-        submitButton.isEnabled = true
-        
-            // watch out: theoretically the user can submit card details before this async function returns its values, which are required for the submitPressed func below. Leaving for time being as testing suggests it's practically impossible for user to fill in their card info that fast, but good to be aware
-        }
+    // Not sure what this comment was about but I think it's no longer relevant. I think the Wallet creation used to happen prior to the card creation - that might have been it. Leaving as it might solve a mystery down the road:
+    
+    // watch out: theoretically the user can submit card details before this async function returns its values, which are required for the submitPressed func below. Leaving for time being as testing suggests it's practically impossible for user to fill in their card info that fast, but good to be aware
     
     
     @IBAction func submitPressed(_ sender: Any) {
