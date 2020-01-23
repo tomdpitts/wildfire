@@ -212,8 +212,8 @@ exports.createNewMangopayCustomer = functions.region('europe-west1').firestore.d
         balance: wallet.Balance['Amount'],
         description: wallet.Description,
         currency: wallet.Currency,
-        // this last line is new
-        temp_card_registration_id: cardReg.Id
+        // I'm not sure this line is even needed
+        // temp_card_registration_id: cardReg.Id
       })
       .catch(err => {
         console.log('Error saving to database', err);

@@ -20,7 +20,7 @@ class formStep3ViewController: UIViewController, UITextFieldDelegate {
     var firstname = ""
     var lastname = ""
     var email = ""
-    var password = ""
+//    var password = ""
     var dob: Int64?
     
     @IBOutlet var nationalityField: UITextField! = UITextField()
@@ -29,14 +29,18 @@ class formStep3ViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var errorLabel: UILabel!
     
+    @IBOutlet weak var confirmButton: UIButton!
+    
     var countries: [String] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         navigationController?.interactivePopGestureRecognizer?.delegate = nil
+        
+        navigationItem.title = "Legal Info"
+        navigationController?.navigationBar.prefersLargeTitles = true
 
-        errorLabel.isHidden = true
         
         for code in NSLocale.isoCountryCodes  {
             let id = NSLocale.localeIdentifier(fromComponents: [NSLocale.Key.countryCode.rawValue: code])
@@ -49,6 +53,8 @@ class formStep3ViewController: UIViewController, UITextFieldDelegate {
 //        edgesForExtendedLayout = UIRectEdge()
         nationalityField.delegate = self
         residenceField.delegate = self
+        
+        setUpElements()
     }
     
     @IBAction func confirmButtonTapped(_ sender: Any) {
@@ -78,7 +84,7 @@ class formStep3ViewController: UIViewController, UITextFieldDelegate {
                 return
             }
             
-            addNewUserToDatabases(firstname: self.firstname, lastname: self.lastname, email: self.email, password: self.password, dob: self.dob!, nationality: nationality!, residence: residence!)
+            addNewUserToDatabases(firstname: self.firstname, lastname: self.lastname, email: self.email, dob: self.dob!, nationality: nationality!, residence: residence!)
         }
     }
     
@@ -136,7 +142,7 @@ class formStep3ViewController: UIViewController, UITextFieldDelegate {
     }
     
     // not adding validation to check for existing doc as that should already be covered
-    func addNewUserToDatabases(firstname: String, lastname: String, email: String, password: String, dob: Int64, nationality: String, residence: String) {
+    func addNewUserToDatabases(firstname: String, lastname: String, email: String, dob: Int64, nationality: String, residence: String) {
         
         if let uid = Auth.auth().currentUser?.uid {
             Firestore.firestore().collection("users").document(uid).setData(["firstname": firstname,
@@ -194,23 +200,25 @@ class formStep3ViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
+    // UPDATE don't think this is needed anymore - leaving for reference:
+    
     // all users of the app are signed in via Phone Authentication, but we want to add email to the auth as well for the killswitch functionality i.e. if users ever lose their phone and want to terminate their account & deposit all credit to their bank account
-    func addEmailToFirebaseUser() {
-        
-        let credential = EmailAuthProvider.credential(withEmail: email, password: password)
-        
-        if let user = Auth.auth().currentUser {
-            
-            user.linkAndRetrieveData(with: credential) { (authResult, error) in
-                // ...
-                if let err = error {
-                    // TODO
-                    // what are the error options here?
-                    self.showAlert(title: "This email is already registered, please use another", message: "You can delete old accounts at wildfirewallet.com", progress: false)
-                }
-            }
-        }
-    }
+//    func addEmailToFirebaseUser() {
+//
+//        let credential = EmailAuthProvider.credential(withEmail: email, password: password)
+//
+//        if let user = Auth.auth().currentUser {
+//
+//            user.linkAndRetrieveData(with: credential) { (authResult, error) in
+//                // ...
+//                if let err = error {
+//                    // TODO
+//                    // what are the error options here?
+//                    self.showAlert(title: "This email is already registered, please use another", message: "You can delete old accounts at wildfirewallet.com", progress: false)
+//                }
+//            }
+//        }
+//    }
     
     func showAlert(title: String?, message: String?, progress: Bool) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
@@ -228,7 +236,7 @@ class formStep3ViewController: UIViewController, UITextFieldDelegate {
             // Transition to step 2 aka PaymentSetUp VC
             self.performSegue(withIdentifier: "goToAddPayment", sender: self)
         } else {
-            self.performSegue(withIdentifier: "unwindToAccountView", sender: self)
+            self.performSegue(withIdentifier: "unwindToPrevious", sender: self)
         }
     }
     
@@ -264,6 +272,17 @@ class formStep3ViewController: UIViewController, UITextFieldDelegate {
             return "Please fill in all fields."
         }
         return nil
+    }
+    
+    func setUpElements() {
+            
+        // Hide the error label
+        errorLabel.isHidden = true
+        
+        // Style the elements
+        Utilities.styleTextField(nationalityField)
+        Utilities.styleTextField(residenceField)
+        Utilities.styleFilledButton(confirmButton)
     }
     
 }

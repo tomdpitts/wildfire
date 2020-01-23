@@ -17,6 +17,7 @@ class Account2ViewController: UITableViewController {
     var balance: Int?
     var firstname: String?
     var lastname: String?
+    var email: String?
 
     @IBOutlet weak var profilePicView: UIImageView!
     @IBOutlet weak var userNameLabel: UILabel!
@@ -24,19 +25,30 @@ class Account2ViewController: UITableViewController {
     
     @IBOutlet weak var logOutCell: UITableViewCell!
     
+    @IBOutlet weak var noAccountYetCell: UITableViewCell!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         tableView.delegate = self
         
-        getUserInfo()
-        setUpProfilePic()
+        if UserDefaults.standard.bool(forKey: "userAccountExists") == true {
+            getUserInfo()
+            setUpProfilePic()
+        }
         
         navigationItem.title = "Account"
         navigationController?.navigationBar.prefersLargeTitles = true
         
         tableView.tableFooterView = UIView()
         tableView.backgroundColor = .groupTableViewBackground
+        
+        // we only need this cell if there's no account yet
+        if UserDefaults.standard.bool(forKey: "userAccountExists") == true {
+            noAccountYetCell.isHidden = true
+        }
+        
 
     }
     
@@ -45,12 +57,15 @@ class Account2ViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-         return 10
+        if UserDefaults.standard.bool(forKey: "userAccountExists") == false {
+             return 2
+        } else {
+            return 11
+        }
     }
     
-    // a method from UITableViewDelegate
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.row == 8 {
+        if indexPath.row == 9 {
             let title = "Are you sure you want to Log Out?"
             let message = "You can log back in at any time"
             let segue = "goToPhoneVerify"
@@ -63,36 +78,65 @@ class Account2ViewController: UITableViewController {
         if let uid = Auth.auth().currentUser?.uid {
             let docRef = Firestore.firestore().collection("users").document(uid)
 
-            // TODO replace with listener
-            docRef.getDocument { (document, error) in
-                if let error = error {
-                    // TODO error handling
-                    print(error)
-                } else {
+            docRef.addSnapshotListener { documentSnapshot, error in
+                guard let document = documentSnapshot else {
+                
+                    print("Error fetching document: \(error!)")
+                    return
                 }
-                if let document = document, document.exists {
-                    let userData = document.data()
-                    let balance = userData?["balance"] as! Int
-                    let balanceString = String(balance)
-                    let firstname = userData?["firstname"] as! String
-                    let lastname = userData?["lastname"] as! String
-                    
-                    self.balance = balance
-                    self.firstname = firstname
-                    self.lastname = lastname
-                    
-                    self.userNameLabel.text = firstname + " " + lastname
-                    self.balanceAmountLabel.text = balanceString
-                    
-//                    self.tableView.reloadData()
-                    print("that's all done for you")
-                    
-                } else {
-                    print("Document does not exist")
+                
+                guard let data = document.data() else {
+                    print("Document data was empty.")
+                    return
                 }
-            }
+                
+                let balance = data["balance"] as! Int
+                let balanceString = String(balance)
+                let firstname = data["firstname"] as! String
+                let lastname = data["lastname"] as! String
+                let email = data["email"] as! String
+                
+                self.email = email
+                self.firstname = firstname
+                self.lastname = lastname
+                
+                self.userNameLabel.text = firstname + " " + lastname
+                self.balanceAmountLabel.text = balanceString
+              }
         }
     }
+         //     TO BE DELETED:
+    
+//            // TODO replace with listener
+//            docRef.getDocument { (document, error) in
+//                if let error = error {
+//                    // TODO error handling
+//                    print(error)
+//                } else {
+//                }
+//                if let document = document, document.exists {
+//                    let userData = document.data()
+//                    let balance = userData?["balance"] as! Int
+//                    let balanceString = String(balance)
+//                    let firstname = userData?["firstname"] as! String
+//                    let lastname = userData?["lastname"] as! String
+//
+//                    self.balance = balance
+//                    self.firstname = firstname
+//                    self.lastname = lastname
+//
+//                    self.userNameLabel.text = firstname + " " + lastname
+//                    self.balanceAmountLabel.text = balanceString
+//
+////                    self.tableView.reloadData()
+//                    print("that's all done for you")
+//
+//                } else {
+//                    print("Document does not exist")
+//                }
+//            }
+//        }
+//    }
     
     func setUpProfilePic() {
         
@@ -161,12 +205,15 @@ class Account2ViewController: UITableViewController {
                 // user isn't logged in...?
             }
         }
+    
     func showAlert(title: String, message: String?, segueIdentifier: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
             do {
                 try Auth.auth().signOut()
+                // update the userAccountExists flag (if user signs in with a different number, we don't want this flag to persist in memory and mess things up
+                UserDefaults.standard.set(false, forKey: "userAccountExists")
             } catch let err {
                 // TODO what if signout fails e.g. no connection
             }

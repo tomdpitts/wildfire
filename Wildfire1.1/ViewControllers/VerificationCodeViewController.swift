@@ -54,7 +54,14 @@ class VerificationCodeViewController: UIViewController {
                     print(error)
                     return
                 }
+                
                 // User is signed in
+                
+                // update credit cards list
+                let appDelegate = AppDelegate()
+                appDelegate.fetchPaymentMethodsListFromMangopay()
+                
+                // segue to main screens
                 self.performSegue(withIdentifier: "goToMainMenu", sender: self)
             }
         }

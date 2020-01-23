@@ -62,7 +62,11 @@ class PaymentMethodsViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // tableView needs to include a cell for each card, plus 1 cell for "Add new card"
-        return paymentMethodsList.count
+        if paymentMethodsList.count == 0 {
+            return 1
+        } else {
+            return paymentMethodsList.count
+        }
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -84,12 +88,16 @@ class PaymentMethodsViewController: UITableViewController {
             var cell = tableView.dequeueReusableCell(withIdentifier: self.cellID, for: indexPath)
                      
             cell = UITableViewCell(style: .subtitle, reuseIdentifier: self.cellID)
-             
+        
+        if paymentMethodsList.count == 0 {
+            cell.textLabel?.text = "You haven't added any cards yet"
+            cell.imageView?.image = UIImage(named: "icons8-mastercard-credit-card-50")
+        } else {
             let found = paymentMethodsList[indexPath.row]
-         
-            cell.textLabel?.text = found.cardNumber
-        cell.imageView?.image = UIImage(named: "icons8-mastercard-credit-card-50")
-         
+             
+                cell.textLabel?.text = found.cardNumber
+            cell.imageView?.image = UIImage(named: "icons8-mastercard-credit-card-50")
+        }
             return cell
 //            }
 
@@ -102,8 +110,9 @@ class PaymentMethodsViewController: UITableViewController {
         self.section = indexPath.section
         self.row = indexPath.row
 
-        
-        performSegue(withIdentifier: "showCardDetails", sender: self)
+        if paymentMethodsList.count != 0 {
+            performSegue(withIdentifier: "showCardDetails", sender: self)
+        }
     }
         
     func fetchCards(completion: @escaping ()->()) {
@@ -119,20 +128,22 @@ class PaymentMethodsViewController: UITableViewController {
         
         let count = defaults.integer(forKey: "numberOfCards")
         
-        for i in 0...count {
-            
-            guard let savedCardData = defaults.object(forKey: "card\(i)") as? Data else {
-                return
+        if count > 0 {
+            for i in 1...count {
+                
+                guard let savedCardData = defaults.object(forKey: "card\(i)") as? Data else {
+                    return
+                }
+                
+                // Use PropertyListDecoder to convert retreived Data into PaymentCard
+                guard let card = try? PropertyListDecoder().decode(PaymentCard.self, from: savedCardData) else {
+                    return
+                }
+                
+                paymentMethodsList.append(card)
             }
-            
-            // Use PropertyListDecoder to convert retreived Data into PaymentCard
-            guard let card = try? PropertyListDecoder().decode(PaymentCard.self, from: savedCardData) else {
-                return
-            }
-            
-            paymentMethodsList.append(card)
         }
-
+        
         completion()
     }
         

@@ -134,25 +134,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 
                 defaults.set(cardList.count, forKey: "numberOfCards")
                 
-                let count = cardList.count - 1
+                let count = cardList.count
                 
-                for i in 0...count {
-                    var cardNumber = ""
-                    var cardProvider = ""
-                    var expiryDate = ""
-                    
-                    let blob1 = cardList[i]
-                    if let cn = blob1["Alias"] as? String, let cp = blob1["CardProvider"] as? String, let ed = blob1["ExpirationDate"] as? String {
+                if count > 0 {
+                    for i in 1...count {
+                        var cardNumber = ""
+                        var cardProvider = ""
+                        var expiryDate = ""
                         
-                        cardNumber = String(cn.suffix(8))
-                        cardProvider = cp
-                        expiryDate = ed
+                        let blob1 = cardList[i-1]
+                        if let cn = blob1["Alias"] as? String, let cp = blob1["CardProvider"] as? String, let ed = blob1["ExpirationDate"] as? String {
+                            
+                            cardNumber = String(cn.suffix(8))
+                            cardProvider = cp
+                            expiryDate = ed
+                        }
+                        let card = PaymentCard(cardNumber: cardNumber, cardProvider: cardProvider, expiryDate: expiryDate)
+                        
+                        defaults.set(try? PropertyListEncoder().encode(card), forKey: "card\(i)")
                     }
-                    let card = PaymentCard(cardNumber: cardNumber, cardProvider: cardProvider, expiryDate: expiryDate)
-                    
-                    defaults.set(try? PropertyListEncoder().encode(card), forKey: "card\(i)")
                 }
-
+                
             } else {
                 print("nope")
             }

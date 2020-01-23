@@ -33,6 +33,9 @@ class AddCardViewController: UIViewController, UITextFieldDelegate {
         
         navigationController?.interactivePopGestureRecognizer?.delegate = nil
         
+        navigationItem.title = "Add Card"
+        navigationController?.navigationBar.prefersLargeTitles = true
+        
         // this is required for the limiting of text fields such as Card Number to only numeric values
         cardNumberField.delegate = self
         
@@ -83,7 +86,7 @@ class AddCardViewController: UIViewController, UITextFieldDelegate {
                 if let returnedArray = result?.data as? [[String: Any]] {
                 // the result includes the bits we need (this is the result of step 4 in the diagram found at the API doc link above)
                     
-                    
+                    print(returnedArray)
                     
                     
                     let jsonCardReg = JSON(returnedArray[0])
@@ -107,11 +110,13 @@ class AddCardViewController: UIViewController, UITextFieldDelegate {
                         cardRegID = crd
                     }
                     
+                    
                     // json
                     let walletIdData = JSON(returnedArray[1])
                     
-                    
                     if let walletID = walletIdData["walletID"].string {
+                        
+                        print(walletID)
                     
                         semaphore.signal()
                     
@@ -123,8 +128,16 @@ class AddCardViewController: UIViewController, UITextFieldDelegate {
                             "cardCvx": self.csvField.text!
                             ]
                         
+                        print(body)
+                        
                         // send card details to Mangopay's tokenization server, and get a RegistrationData object back as response
                         self.networkingClient.postCardInfo(url: cardRegURL, parameters: body) { (response, error) in
+                            
+                            if let err = error {
+                                print(err)
+                            }
+                            print(response)
+                            
                             
                             semaphore.wait()
                             

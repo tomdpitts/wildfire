@@ -16,7 +16,10 @@ class CardDetailsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        
+        
+        navigationItem.title = "Card Details"
+        navigationController?.navigationBar.prefersLargeTitles = true
         
     }
     

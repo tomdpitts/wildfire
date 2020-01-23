@@ -31,12 +31,15 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
     var firstnameClean = ""
     var lastnameClean = ""
     var emailClean = ""
-    var passwordClean = ""
+//    var passwordClean = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         navigationController?.interactivePopGestureRecognizer?.delegate = nil
+        
+        navigationItem.title = "About me"
+        navigationController?.navigationBar.prefersLargeTitles = true
 
         // Do any additional setup after loading the view.
         setUpElements()
@@ -44,7 +47,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         firstName.delegate = self
         lastName.delegate = self
         email.delegate = self
-        password.delegate = self
+//        password.delegate = self
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -54,7 +57,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
             vc.firstname = firstnameClean
             vc.lastname = lastnameClean
             vc.email = emailClean
-            vc.password = passwordClean
+//            vc.password = passwordClean
         }
     }
     
@@ -99,7 +102,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         Utilities.styleTextField(firstName)
         Utilities.styleTextField(lastName)
         Utilities.styleTextField(email)
-        Utilities.styleTextField(password)
+//        Utilities.styleTextField(password)
         Utilities.styleFilledButton(signUpButton)
     }
     
@@ -109,19 +112,26 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         // Check that all fields are filled in
         if firstName.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" ||
             lastName.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" ||
-            email.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" ||
-            password.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
+            email.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
             
             return "Please fill in all fields."
         }
         
-        // Check if the password is secure
-        let cleanedPassword = password.text!.trimmingCharacters(in: .whitespacesAndNewlines)
-        
-        if Utilities.isPasswordValid(cleanedPassword) == false {
-            // Password isn't secure enough
-            return "Please make sure your password is at least 8 characters and contains a number."
+        if let ema = email.text {
+            let valid = isValidEmail(ema)
+            if valid == false {
+                return "Please enter a valid email address"
+            }
         }
+        
+        
+//        // Check if the password is secure
+//        let cleanedPassword = password.text!.trimmingCharacters(in: .whitespacesAndNewlines)
+//
+//        if Utilities.isPasswordValid(cleanedPassword) == false {
+//            // Password isn't secure enough
+//            return "Please make sure your password is at least 8 characters and contains a number."
+//        }
         
         return nil
     }
@@ -143,20 +153,22 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
                 self.firstnameClean = firstName.text!.trimmingCharacters(in: .whitespacesAndNewlines)
                 self.lastnameClean = lastName.text!.trimmingCharacters(in: .whitespacesAndNewlines)
                 self.emailClean = email.text!.trimmingCharacters(in: .whitespacesAndNewlines)
-                self.passwordClean = password.text!.trimmingCharacters(in: .whitespacesAndNewlines)
+//                self.passwordClean = password.text!.trimmingCharacters(in: .whitespacesAndNewlines)
                     
             }
             self.performSegue(withIdentifier: "goToFormStep2", sender: self)
         }
     }
     
+    func isValidEmail(_ email:String) -> Bool {
+         let emailRegEx = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{1,4}$"
+         let emailTest = NSPredicate(format:"SELF MATCHES[c] %@", emailRegEx)
+         return emailTest.evaluate(with: email)
+    }
+    
     func showError(_ message:String) {
         
         errorLabel.text = message
         errorLabel.isHidden = false
-    }
-    
-    // this unwind is deliberately generic - provides an anchor for the 'back' button in Add Payment
-    @IBAction func unwindToPrevious(_ unwindSegue: UIStoryboardSegue) {
     }
 }
