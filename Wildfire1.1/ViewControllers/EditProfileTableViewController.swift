@@ -10,22 +10,33 @@ import UIKit
 
 class EditProfileTableViewController: UITableViewController {
 
-    var firstName = ""
-    var secondName = ""
-    
+    var firstname = ""
+    var lastname = ""
     var email = ""
+    var profilePic: UIImage?
     
     @IBOutlet weak var nameTextField: UITextField!
     
     @IBOutlet weak var emailTextField: UITextField!
     
+    @IBOutlet weak var profilePicView: UIImageView!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        nameTextField.text = firstName + " " + secondName
+        nameTextField.text = firstname + " " + lastname
         
         emailTextField.text = email
+        
+        navigationItem.title = "Edit Profile"
+        navigationController?.navigationBar.prefersLargeTitles = true
 
+        tableView.tableFooterView = UIView()
+        tableView.backgroundColor = .groupTableViewBackground
+        
+        showProfilePic()
+        
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -37,14 +48,23 @@ class EditProfileTableViewController: UITableViewController {
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 0
+        return 6
     }
 
+    func showProfilePic() {
+        
+        if let pp = profilePic {
+            profilePicView.image = pp
+        } else {
+            profilePicView.image = UIImage(named: "icons8-user-50")
+        }
+        
+    }
     /*
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)

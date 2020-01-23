@@ -18,6 +18,7 @@ class Account2ViewController: UITableViewController {
     var firstname: String?
     var lastname: String?
     var email: String?
+    var profilePic: UIImage?
 
     @IBOutlet weak var profilePicView: UIImageView!
     @IBOutlet weak var userNameLabel: UILabel!
@@ -141,8 +142,8 @@ class Account2ViewController: UITableViewController {
     func setUpProfilePic() {
         
         let uid = Auth.auth().currentUser?.uid
-        let image = genericProfilePic
-        profilePicView.image = image
+//        let image = genericProfilePic
+//        profilePicView.image = image
         
 //        profilePicView.layer.borderWidth = 3.0
 //        profilePicView.layer.borderColor = UIColor.white.cgColor
@@ -153,7 +154,7 @@ class Account2ViewController: UITableViewController {
         // this checks for change of profile pic (from within app)
         NotificationCenter.default.addObserver(self, selector: #selector(updateProfilePicView), name: Notification.Name("newProfilePicUploaded"), object: nil)
         
-        // uncomment these lines when you want to do something with a profile pic tap
+        // uncomment these lines if you want to do something with a profile pic tap
         
 //        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(profilePicTapped(tapGestureRecognizer:)))
 //
@@ -195,7 +196,8 @@ class Account2ViewController: UITableViewController {
                         switch result {
                             // TODO add better error handling
                         case .success(let value):
-                            self.genericProfilePic = value.image
+                           
+                            self.profilePic = value.image
                         case .failure(let error):
                             print("Job failed: \(error.localizedDescription)")
                         }
@@ -224,6 +226,22 @@ class Account2ViewController: UITableViewController {
         }))
         
         self.present(alert, animated: true)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.destination is EditProfileTableViewController {
+            let vc = segue.destination as! EditProfileTableViewController
+            
+            if let fn = self.firstname, let ln = self.lastname, let em = self.email {
+                vc.firstname = fn
+                vc.lastname = ln
+                vc.email = em
+            }
+            
+            if let pp = self.profilePic {
+                vc.profilePic = pp
+            }
+        }
     }
     
     @IBAction func unwindToPrevious(_ unwindSegue: UIStoryboardSegue) {
