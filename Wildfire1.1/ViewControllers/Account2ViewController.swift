@@ -142,8 +142,9 @@ class Account2ViewController: UITableViewController {
     func setUpProfilePic() {
         
         let uid = Auth.auth().currentUser?.uid
-//        let image = genericProfilePic
-//        profilePicView.image = image
+
+        // set the generic image immediately
+        profilePicView.image = genericProfilePic
         
 //        profilePicView.layer.borderWidth = 3.0
 //        profilePicView.layer.borderColor = UIColor.white.cgColor

@@ -61,6 +61,11 @@ class VerificationCodeViewController: UIViewController {
                 let appDelegate = AppDelegate()
                 appDelegate.fetchPaymentMethodsListFromMangopay()
                 
+                // check whether the user has completed signup flow
+                if UserDefaults.standard.bool(forKey: "userAccountExists") != true {
+                    Utilities().checkForUserAccount()
+                }
+                
                 // segue to main screens
                 self.performSegue(withIdentifier: "goToMainMenu", sender: self)
             }
