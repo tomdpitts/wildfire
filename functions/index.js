@@ -207,6 +207,14 @@ exports.createNewMangopayCustomer = functions.region('europe-west1').firestore.d
 
       // we need to add a Wallet to the user's Firestore record - this will store the card token(s) for repeat payments
 
+      admin.firestore().collection('users').doc(userID).set({
+        defaultWalletID: wallet.Id
+      }, {merge: true})
+      // merge: true is often crucial but perhaps nowhere more so than here.. DO NOT DELETE without extreme care
+      .catch(err => {
+        console.log('Error saving to database', err);
+      })
+
       return admin.firestore().collection('users').doc(userID).collection('wallets').doc(wallet.Id).set({
         created: wallet.CreationDate,
         balance: wallet.Balance['Amount'],
@@ -218,7 +226,11 @@ exports.createNewMangopayCustomer = functions.region('europe-west1').firestore.d
       .catch(err => {
         console.log('Error saving to database', err);
       })
+
+      
     }
+
+
 
     // create Wallet and CardRegistration objects
 
@@ -257,6 +269,15 @@ exports.createNewMangopayCustomer = functions.region('europe-west1').firestore.d
     // see https://docs.mangopay.com/endpoints/v2.01/cards#e1042_post-card-info 
     // "Update a Card Registration"
     const cardObject = await mpAPI.CardRegistrations.update({RegistrationData: rd, Id: cardRegID})
+
+    admin.firestore().collection('users').doc(userID).set({
+      defaultCardID: cardObject.CardId
+      // merge (to prevent overwriting other fields) should never be needed, but just in case..
+    }, {merge: true})
+    .catch(err => {
+      console.log('Error saving to database', err);
+    })
+
 
     // and save the important part of the response - the cardId - to the Firestore database
     return admin.firestore().collection('users').doc(userID).collection('wallets').doc(walletID).collection('cards').doc(cardObject.CardId).set({
@@ -370,6 +391,89 @@ exports.createNewMangopayCustomer = functions.region('europe-west1').firestore.d
     });
     return cardsList = mpAPI.Users.getCards(mangopayID, JSON)
 
+  })
+
+  exports.addCredit = functions.region('europe-west1').https.onCall( async (data, context) => {
+    const userID = context.auth.uid
+
+    var mangopayID = ''
+    var walletID = ''
+    var cardID = ''
+    var billingAddress = {
+      "AddressLine1": '',
+      "AddressLine2": '',
+      "City": '',
+      "Region": '',
+      "PostalCode": '',
+      "Country": ''
+    }
+    var culture = ''
+
+    const currencyType = data.currency
+    const amount = data.amount
+    // the fee to be taken should be an integer, since the amount is in cents/pence
+    const fee = ceil(amount/100*1.8)
+
+    // using the Firebase userID (supplied via 'context' of the request), get the data we need for the payin 
+    await admin.firestore().collection('users').doc(userID).get().then(doc => {
+      userData = doc.data();
+      mangopayID = userData.mangopayID
+      walletID = userData.defaultWalletID
+      cardID = userData.defaultCardID
+
+      billingAddress["AddressLine1"] = userData.defaultBillingAddress[line1]
+      billingAddress["AddressLine2"] = userData.defaultBillingAddress[line2]
+      billingAddress["City"] = userData.defaultBillingAddress[city]
+      billingAddress["Region"] = userData.defaultBillingAddress[region]
+      billingAddress["PostalCode"] = userData.defaultBillingAddress[postCode]
+      billingAddress["Country"] = userData.defaultBillingAddress[country]
+
+      culture = userData.culture
+      return
+    })
+    .catch(err => {
+      console.log('Error getting userID', err);
+    });
+
+    // for reference: 
+    // "Billing": {
+    //   "Address": {
+    //   "AddressLine1": "1 Mangopay Street",
+    //   "AddressLine2": "The Loop",
+    //   "City": "Paris",
+    //   "Region": "Ile de France",
+    //   "PostalCode": "75001",
+    //   "Country": "FR"
+    //   }
+    // },
+
+    const payinData = {
+        "AuthorId": mangopayID,
+        "CreditedWalletId": walletID,
+        "DebitedFunds": {
+          "Currency": currencyType,
+          "Amount": amount
+          },
+        "Fees": {
+          // TODO: what currency should fees be taken in? 
+          "Currency": currencyType,
+          "Amount": fee
+          },
+        // if 3DSecure or some other flow is triggered, the user is redirected to this URL on completion (which should redirect them back to the app, I guess?)
+        "SecureModeReturnURL": "http://www.my-site.com/returnURL",
+        "CardId": cardID,
+        // Secure3D flow can be triggered manually if required, but is mandatory for all payins over 50 EUR regardless. Leaving as default for now
+        "SecureMode": "DEFAULT",
+        "StatementDescriptor": "WILDFIRE TOPUP",
+        "Billing": {
+          "Address": billingAddress
+        },
+        "Culture": culture
+        }
+
+    const payin = mpAPI.PayIns.create(payinData)
+
+    return payin
   })
 
   exports.deleteCard = functions.region('europe-west1').https.onCall( async (data, context) => {

@@ -13,6 +13,12 @@ import Kingfisher
 
 
 class ProfilePicViewController: UIViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+    
+    var currentProfilePic: UIImage?
+    
+    @IBOutlet weak var pictureView: UIImageView!
+    
+    @IBOutlet weak var confirmButton: UIButton!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,16 +26,15 @@ class ProfilePicViewController: UIViewController, UINavigationControllerDelegate
         confirmButton.isHidden = true
         confirmButton.isEnabled = false
         
-        pictureView.image = currentProfilePic
-        pictureView.layer.cornerRadius = pictureView.frame.height/3
+        navigationItem.title = "Profile Picture"
+        navigationController?.navigationBar.prefersLargeTitles = true
         
+        // set the profile pic, if it exists
+        if let cpp = currentProfilePic {
+            pictureView.image = cpp
+        }
+//        pictureView.layer.cornerRadius = pictureView.frame.height/3
     }
-
-    var currentProfilePic = UIImage(named: "genericProfilePic")
-    
-    @IBOutlet weak var pictureView: UIImageView!
-    
-    @IBOutlet weak var confirmButton: UIButton!
     
 
     @IBAction func confirmButtonTapped(_ sender: Any) {

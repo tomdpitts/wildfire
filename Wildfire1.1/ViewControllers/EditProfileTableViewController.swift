@@ -7,11 +7,12 @@
 //
 
 import UIKit
+import FirebaseAuth
+import FirebaseFirestore
 
 class EditProfileTableViewController: UITableViewController {
 
-    var firstname = ""
-    var lastname = ""
+    var fullname = ""
     var email = ""
     var profilePic: UIImage?
     
@@ -21,13 +22,41 @@ class EditProfileTableViewController: UITableViewController {
     
     @IBOutlet weak var profilePicView: UIImageView!
     
+    @IBOutlet weak var saveButton: UIBarButtonItem!
+    
+    @IBAction func nameEdited(_ sender: Any) {
+        saveButton.isEnabled = true
+        saveButton.title = "Save"
+    }
+    
+    @IBAction func emailEdited(_ sender: Any) {
+        saveButton.isEnabled = true
+        saveButton.title = "Save"
+    }
+    
+    @IBAction func saveTapped(_ sender: Any) {
+        if let uid = Auth.auth().currentUser?.uid, let name = nameTextField.text, let email = emailTextField.text {
+            Firestore.firestore().collection("users").document(uid).setData(["fullname": name, "email": email]
+            // merge: true is IMPORTANT - prevents complete overwriting of a document if a user logs in for a second time, for example, which could wipe important data (including the balance..)
+            , merge: true) { (error) in
+                // print(result!.user.uid)
+                if error != nil {
+                    // Show error message
+                    
+                } else {
+                    
+                    // progress: true presents next screen
+                    self.showAlert(title: "Great! That's updated for you.", message: nil, progress: true)
+                }
+            }
+        }
+    }
     
     override func viewDidLoad() {
+        
         super.viewDidLoad()
         
-        nameTextField.text = firstname + " " + lastname
-        
-        emailTextField.text = email
+        setUpTextFields()
         
         navigationItem.title = "Edit Profile"
         navigationController?.navigationBar.prefersLargeTitles = true
@@ -35,13 +64,9 @@ class EditProfileTableViewController: UITableViewController {
         tableView.tableFooterView = UIView()
         tableView.backgroundColor = .groupTableViewBackground
         
+        saveButton.isEnabled = false
+        saveButton.title = ""
         showProfilePic()
-        
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
 
     // MARK: - Table view data source
@@ -55,15 +80,46 @@ class EditProfileTableViewController: UITableViewController {
         // #warning Incomplete implementation, return the number of rows
         return 6
     }
-
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.row == 1 {
+            performSegue(withIdentifier: "showEditProfilePic", sender: self)
+        }
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+    func showAlert(title: String?, message: String?, progress: Bool) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
+            if progress == true {
+                self.performSegue(withIdentifier: "unwindToPrevious", sender: self)
+            }
+        }))
+        self.present(alert, animated: true)
+    }
+    
     func showProfilePic() {
         
+        profilePicView.layer.cornerRadius = profilePicView.frame.width/2
         if let pp = profilePic {
             profilePicView.image = pp
-        } else {
-            profilePicView.image = UIImage(named: "icons8-user-50")
         }
-        
+    }
+    
+    func setUpTextFields() {
+        nameTextField.text = fullname
+        emailTextField.text = email
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.destination is ProfilePicViewController {
+            let vc = segue.destination as! ProfilePicViewController
+            
+            if let cpp = profilePic {
+                vc.currentProfilePic = cpp
+            }
+        }
     }
     /*
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -110,14 +166,5 @@ class EditProfileTableViewController: UITableViewController {
     }
     */
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

@@ -13,10 +13,10 @@ import FirebaseStorage
 import Kingfisher
 
 class Account2ViewController: UITableViewController {
+    
     var genericProfilePic = UIImage(named: "icons8-user-50")
     var balance: Int?
-    var firstname: String?
-    var lastname: String?
+    var fullname: String?
     var email: String?
     var profilePic: UIImage?
 
@@ -53,6 +53,10 @@ class Account2ViewController: UITableViewController {
 
     }
     
+//    override func viewWillDisappear(_ animated: Bool) {
+//        listener.remove()
+//    }
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -75,11 +79,27 @@ class Account2ViewController: UITableViewController {
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
+    
+    // this is simply to remove the "set up account" cell by setting cell height to 0 in the case that userAccountExists == false
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        
+        if UserDefaults.standard.bool(forKey: "userAccountExists") == true {
+            if (indexPath.row == 1) {
+                let rowHeight: CGFloat = 0.0
+                return rowHeight
+            } else {
+                return super.tableView(tableView, heightForRowAt: indexPath)
+            }
+        } else {
+            return super.tableView(tableView, heightForRowAt: indexPath)
+        }
+    }
+    
     func getUserInfo() {
         if let uid = Auth.auth().currentUser?.uid {
             let docRef = Firestore.firestore().collection("users").document(uid)
 
-            docRef.addSnapshotListener { documentSnapshot, error in
+            let listener = docRef.addSnapshotListener { documentSnapshot, error in
                 guard let document = documentSnapshot else {
                 
                     print("Error fetching document: \(error!)")
@@ -90,19 +110,17 @@ class Account2ViewController: UITableViewController {
                     print("Document data was empty.")
                     return
                 }
-                
+                print(data)
                 let balance = data["balance"] as! Int
                 let balanceString = String(balance)
-                let firstname = data["firstname"] as! String
-                let lastname = data["lastname"] as! String
+                let fullname = data["fullname"] as! String
                 let email = data["email"] as! String
                 
                 self.email = email
-                self.firstname = firstname
-                self.lastname = lastname
+                self.fullname = fullname
                 
-                self.userNameLabel.text = firstname + " " + lastname
-                self.balanceAmountLabel.text = balanceString
+                self.userNameLabel.text = fullname
+                self.balanceAmountLabel.text = "Balance: £\(balanceString)"
               }
         }
     }
@@ -152,19 +170,9 @@ class Account2ViewController: UITableViewController {
         profilePicView.clipsToBounds = true
 //        self.profilePicView.layer.borderWidth = 5.0
         
+        
         // this checks for change of profile pic (from within app)
         NotificationCenter.default.addObserver(self, selector: #selector(updateProfilePicView), name: Notification.Name("newProfilePicUploaded"), object: nil)
-        
-        // uncomment these lines if you want to do something with a profile pic tap
-        
-//        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(profilePicTapped(tapGestureRecognizer:)))
-//
-//        profilePicView.addGestureRecognizer(tapGestureRecognizer)
-        
-//        if uid != nil {
-//            // we only want to enable the profile pic editing if there's a pic to edit/if the user is logged in
-//            self.profilePicView.isUserInteractionEnabled = true
-//        }
         
         
         // on load, get the profile pic from Firebase Storage
@@ -233,9 +241,8 @@ class Account2ViewController: UITableViewController {
         if segue.destination is EditProfileTableViewController {
             let vc = segue.destination as! EditProfileTableViewController
             
-            if let fn = self.firstname, let ln = self.lastname, let em = self.email {
-                vc.firstname = fn
-                vc.lastname = ln
+            if let fn = self.fullname, let em = self.email {
+                vc.fullname = fn
                 vc.email = em
             }
             

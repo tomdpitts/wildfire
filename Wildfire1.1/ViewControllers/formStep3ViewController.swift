@@ -144,9 +144,12 @@ class formStep3ViewController: UIViewController, UITextFieldDelegate {
     // not adding validation to check for existing doc as that should already be covered
     func addNewUserToDatabases(firstname: String, lastname: String, email: String, dob: Int64, nationality: String, residence: String) {
         
+        let fullname = firstname + " " + lastname
+        
         if let uid = Auth.auth().currentUser?.uid {
             Firestore.firestore().collection("users").document(uid).setData(["firstname": firstname,
             "lastname": lastname,
+            "fullname": fullname,
             "email": email,
             "dob": dob,
             "nationality": nationality,
