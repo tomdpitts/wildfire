@@ -11,6 +11,7 @@
 import UIKit
 import AVFoundation
 import CryptoSwift
+import FirebaseFunctions
 //import FirebaseDatabase
 
 class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
@@ -44,6 +45,7 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
     var recipientUID: String?
     var sendAmount: Int?
     
+    lazy var functions = Functions.functions(region:"europe-west1")
     
     var runScan = true
 
@@ -66,6 +68,15 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // this func triggers Firestore balance to update from MangoPay - useful for the next screen when balance will be fetched
+        self.functions.httpsCallable("getCurrentBalance").call(["foo": "bar"]) { (result, error) in
+            if error != nil {
+                // TODO error handling?
+            } else {
+                // nothing - happy days
+            }
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {

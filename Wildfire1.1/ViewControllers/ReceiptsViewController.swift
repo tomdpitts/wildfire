@@ -40,12 +40,12 @@ class ReceiptsViewController: UITableViewController {
     var transactionDates = [String]()
     var transactionsList = [Transaction]()
     var transactionsGrouped = [[Transaction]]()
-    
-    
         
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        transactionDates = []
+        transactionsList = []
+        transactionsGrouped = []
         navigationItem.title = "Receipts"
         navigationController?.navigationBar.prefersLargeTitles = true
         
@@ -119,6 +119,7 @@ class ReceiptsViewController: UITableViewController {
                     print("Error fetching documents: \(error!)")
                     return
                 }
+                
                 for document in querySnapshot!.documents {
                     
                     
@@ -134,8 +135,10 @@ class ReceiptsViewController: UITableViewController {
                     let payerName = data["payerName"] as! String
                     let recipientName = data["recipientName"] as! String
                     
+                    let userIsPayer = data["userIsPayer"] as! Bool
                     
-                    let transactionData = Transaction(amount: amount, datetime: datetime, payerID: payerID, recipientID: recipientID, payerName: payerName, recipientName: recipientName)
+                    
+                    let transactionData = Transaction(amount: amount, datetime: datetime, payerID: payerID, recipientID: recipientID, payerName: payerName, recipientName: recipientName, userIsPayer: userIsPayer)
                     
                     transactionsList.append(transactionData)
                     
@@ -199,9 +202,6 @@ class ReceiptsViewController: UITableViewController {
         
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
             self.performSegue(withIdentifier: "unwindToPrevious", sender: self)
-        }))
-        
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
         }))
         
         self.present(alert, animated: true)

@@ -30,6 +30,9 @@ class Utilities {
                     UserDefaults.standard.set(false, forKey: "userAccountExists")
                 }
             }
+        } else {
+            // perhaps overkill
+            UserDefaults.standard.set(false, forKey: "userAccountExists")
         }
     }
     

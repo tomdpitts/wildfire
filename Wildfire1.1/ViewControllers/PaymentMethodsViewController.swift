@@ -169,8 +169,4 @@ class PaymentMethodsViewController: UITableViewController {
         
         self.present(alert, animated: true)
     }
-    
-    @IBAction func unwindToPrevious(_ unwindSegue: UIStoryboardSegue) {
-    }
-
 }

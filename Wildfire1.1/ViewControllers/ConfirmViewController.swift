@@ -13,7 +13,7 @@ import CryptoSwift
 import Firebase
 import FirebaseFunctions
 import LocalAuthentication
-
+import Kingfisher
 
 class ConfirmViewController: UIViewController {
     
@@ -24,6 +24,8 @@ class ConfirmViewController: UIViewController {
 
     var decryptedString = ""
     var sendAmount = 0
+    
+    var topupAmount: Int?
 
     var recipientUID = ""
     var recipientName = ""
@@ -31,6 +33,7 @@ class ConfirmViewController: UIViewController {
     // these variables are flags to determine logic triggered by the confirm button on the page
     var enoughCredit = false
     var existingPaymentMethod = false
+    var shouldReloadView = false
 
     @IBOutlet weak var amountLabel: UILabel!
     
@@ -50,113 +53,103 @@ class ConfirmViewController: UIViewController {
         super.viewDidLoad()
         setUpElements()
         
-        // disable confirm button until recipient details are fully loaded
-        confirmButton.isEnabled = false
-        
         // check whether the user has completed signup flow
         if UserDefaults.standard.bool(forKey: "userAccountExists") != true {
             let utilities = Utilities()
             utilities.checkForUserAccount()
         }
         
+        // get the recipient's full name and profile pic
+        setUpRecipientDetails(recipientUID)
+        
+        checkForExistingPaymentMethod()
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        handle = Auth.auth().addStateDidChangeListener { (auth, user) in
-            // TODO replace this logic with check for user doc in Firestore as proof of having created user account
-//            if (Auth.auth().currentUser?.uid) == nil {
-//                self.userAccountExists = false
-//            }
-            
+        
+        // this is for the scenario in which a user has just added a card while in the payment view. N.B. this is (probably) going to happen max 1 time per user, but it's extremely important this flow is as seamless as possible since users are likely to judge the usefulness of the app on this experience i.e. it's make or break
+        if shouldReloadView == true {
+            // check whether the user has completed signup flow
+            if UserDefaults.standard.bool(forKey: "userAccountExists") != true {
+                let utilities = Utilities()
+                utilities.checkForUserAccount()
+            }
         }
-        
-        // TODO this existing payment strategy doesn't quite add up - needs to be replaced with a flag (and have checkForExistingPaymentMethod() run in ViewDidAppear
-        checkForExistingPaymentMethod()
-        
-        // display transaction amount front and centre
-        amountLabel.text = "£" + String(self.sendAmount)
-        
-        // get the recipient's full name and profile pic
-        setUpRecipientDetails(uid: recipientUID)
-        
-        // format the profile pic nicely (should this live elsewhere?)
-        recipientImage.contentMode = .scaleAspectFill
-        recipientImage.layer.cornerRadius = recipientImage.frame.size.height/2
-        recipientImage.clipsToBounds = true
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        Auth.auth().removeStateDidChangeListener(handle!)
-    }
+//    override func viewWillDisappear(_ animated: Bool) {
+//        Auth.auth().removeStateDidChangeListener(handle!)
+//    }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        
-        // update the labels to explain current balance and what the user can expect to happen next
-        // for reasons explained in the func itself, this should be called AFTER setUpRecipientDetails, as they both refer to class variable sendAmount
-        getUserBalance()
-    }
+//    override func viewDidAppear(_ animated: Bool) {
+//        super.viewDidAppear(animated)
+//
+//
+//        // update the labels to explain current balance and what the user can expect to happen next
+//        // for reasons explained in the func itself, this should be called AFTER setUpRecipientDetails, as they both refer to class variable sendAmount
+//        getUserBalance()
+//    }
     
     func setUpElements() {
 
         // Style the elements
-
         Utilities.styleFilledButton(self.backButton)
         Utilities.styleFilledButton(self.confirmButton)
         
         recipientLabel.isHidden = true
         currentBalance.isHidden = true
         dynamicLabel.isHidden = true
+        
+        // disable confirm button until recipient details are fully loaded
+        confirmButton.isEnabled = false
 
+        // format the profile pic image view nicely
+        recipientImage.contentMode = .scaleAspectFill
+        recipientImage.layer.cornerRadius = recipientImage.frame.width/2
+        recipientImage.clipsToBounds = true
+        
+        // display transaction amount front and centre
+        amountLabel.text = "£" + String(self.sendAmount)
     }
     
-    func setUpRecipientDetails(uid: String) {
+    func setUpRecipientDetails(_ uid: String) {
         
-        var recipientFirstname = ""
-        var recipientLastname = ""
-        var recipientImageURL = URL(string: "bbc.com")
+        loadRecipientProfilePicView(uid)
         
         let docRef = self.db.collection("users").document(uid)
-        
         
         docRef.getDocument { (document, error) in
             if let document = document, document.exists {
 //              let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
                 let userData = document.data()
                 
-                recipientFirstname = userData?["firstname"] as! String
-                recipientLastname = userData?["lastname"] as! String
-                if let url = URL(string: userData?["photoURL"] as! String) {
-                    recipientImageURL = url
-                }
+                let recipientFirstname = userData?["firstname"] as! String
+                let recipientLastname = userData?["lastname"] as! String
+            
                 
-                if let riurl = recipientImageURL {
-                    self.recipientImage.load(url: riurl)
-                }
+                
                 self.recipientLabel.text = "to \(recipientFirstname) \(recipientLastname)"
                 self.recipientLabel.isHidden = false
                 
                 // important to update the class variable recipientName because at present, the getUserBalance function relies on it
-                // TODO: replace this clunky solution
+                // TODO: replace this clunky solution?
                 self.recipientName = "\(recipientFirstname) \(recipientLastname)"
                 
-                self.confirmButton.isEnabled = true
+                // this func can be called now that the recipient data is available
+                self.getUserBalance()
             }
         }
     }
     
     func getUserBalance() {
-        // check this func doesn't crash if the user hasn't made an account yet!
+        // TODO double check this func doesn't crash if the user hasn't made an account yet!
         let uid = Auth.auth().currentUser!.uid
         
         let docRef = self.db.collection("users").document(uid)
         
         docRef.getDocument { (document, error) in
             if let document = document, document.exists {
-                // leaving this nifty bit in case you want to check the data that's being returned
-//                let dataDescription = document.data().map(String.init(describing:)) ?? "data is nil"
-//                print(dataDescription)
+                
                 let userData = document.data()
                 
                 let userBalance = userData?["balance"] as! Int
@@ -165,6 +158,9 @@ class ConfirmViewController: UIViewController {
                 
                 // TODO: add logic to handle the minimum top up amount so users don't authenticate a card payment for very small amounts
                 if difference < 0 {
+                    // we'll need this amount available for transact function to access if user wants to top up
+                    self.topupAmount = difference*(-1)
+                    
                     // due to the complexities of dealing with closures and async stuff, have resorted to updating class variable 'recipientName' in another function (setUpRecipientDetails) and then referring to it here. This should probably be improved in future but for now, ensure this function is only called after the other..!
                     self.dynamicLabel.text = "Hit 'confirm' to top up £\(difference*(-1)) and pay \(self.recipientName)"
                     self.enoughCredit = false
@@ -177,6 +173,8 @@ class ConfirmViewController: UIViewController {
                 self.currentBalance.isHidden = false
                 self.dynamicLabel.isHidden = false
                 
+                self.confirmButton.isEnabled = true
+                
             } else {
                 // didn't get that document..
                 return
@@ -186,9 +184,17 @@ class ConfirmViewController: UIViewController {
     }
     
     func checkForExistingPaymentMethod() {
-        // TODO if user has payment details set up, set class variable existingPaymentMethod to true
-        // for now it will update to true by default
-        self.existingPaymentMethod = false
+        
+        let defaults = UserDefaults.standard
+        
+        let count = defaults.integer(forKey: "numberOfCards")
+        
+        if count > 0 {
+            self.existingPaymentMethod = true
+        } else {
+            self.existingPaymentMethod = false
+        }
+        
         
         return
     }
@@ -197,74 +203,111 @@ class ConfirmViewController: UIViewController {
     @IBAction func confirmButtonPressed(_ sender: UIButton) {
         let userAccountExists = UserDefaults.standard.bool(forKey: "userAccountExists")
         if userAccountExists == true {
+            
+            // notice user doesn't strictly need to add card details if they already have sufficient credit to complete payment - this is intentional
             if enoughCredit == true {
                 // initiate transaction
                 // TODO add spinner
                 // TODO add semaphore or something to wait for result before continuing, with timeout
                 transact(recipientUID: self.recipientUID, amount: self.sendAmount, topup: false, topupAmount: nil) { result in
                     // TODO add result (success or failure)
-                    self.performSegue(withIdentifier: "showSuccessScreen", sender: self)
+                    
+                    print(result)
+//                    self.performSegue(withIdentifier: "showSuccessScreen", sender: self)
                 }
             } else {
                 if existingPaymentMethod == true {
+                    print("initiate topup")
                     // initiate topup (ideally with ApplePay & touchID)
-                    transact(recipientUID: self.recipientUID, amount: self.sendAmount, topup: false, topupAmount: nil) { result in
-                        
+                    transact(recipientUID: self.recipientUID, amount: self.sendAmount, topup: true, topupAmount: self.topupAmount) { result in
+                        let trunc = result.prefix(7)
+                        if trunc == "success" {
+                            
+                            // get updated balance
+                            
+                            // TODO wait for confirmation of transaction to come through, then:
+                            print("all sorted!")
+                            self.performSegue(withIdentifier: "showSuccessScreen", sender: self)
+                        } else {
+                            self.showAlert(title: "Oops!", message: result, segue: nil, cancel: false)
+                        }
                     }
-                    
                 } else {
                     // bring up Modal to add card details (but return the user to the flow - don't force them to scan again!
                     // this will probably come up in testing, but might be nice to present as popover instead
-                    performSegue(withIdentifier: "goToPaymentSetup", sender: self)
+                    showAlert(title: "Add card details", message: "We just need a few details to let you make a secure payment", segue: "goToAddCard", cancel: true)
                 }
             }
         } else {
             // the user hasn't set up their account yet so we need to a) explain that and b) take them to the sign up flow
-            showAlert(title: "Set up your Account", message: "We just need a few details to let you make a secure payment")
+            showAlert(title: "Set up your Account", message: "We just need a few details to let you make a secure payment", segue: "goToSignup", cancel: true)
         }
     }
     
     // the meat and bones of what happens in a transaction now lives in Cloud Functions - allows for realtime updates if any urgent concerns should ever arise
-    func transact(recipientUID: String, amount: Int, topup: Bool, topupAmount: Int?, completion: @escaping (Bool) -> Void) {
+    func transact(recipientUID: String, amount: Int, topup: Bool, topupAmount: Int?, completion: @escaping (String) -> Void) {
+        
+        // cloud functions don't like integers..
+//        let amountString = String(amount)
+//        print(recipientUID)
+//        print(amountString)
+        
         
         // for sake of readibility, we first divide into two cases: 1) user wants to topup and transact, 2) user just wants to transact - they already have sufficient credit.
         if topup == true {
-            authenticatePayment { authenticated in
+            print("we're topping up here")
+            authenticatePayment() { authenticated in
                 if authenticated == true {
                     // N.B. topupAmount must be passed if topup == true. Guarding so that this breaks if this condition isn't met.
                     guard let tpa = topupAmount else { return }
                     
-                    self.functions.httpsCallable("addCredit").call(["amount": tpa, "currency": "GBP"], completion: { (result, error) in
+                    print("auth was fine")
+                    
+                    self.functions.httpsCallable("addCredit").call(["amount": tpa, "currency": "EUR"]) { (result, error) in
                         if error != nil {
                             // TODO
-                            self.showAuthenticationError(title: "Oops!", message: "We couldn't top up your account. Please try again.")
-                            completion(false)
+//                            self.showAuthenticationError(title: "Oops!", message: "We couldn't top up your account. Please try again.")
+                            completion("We couldn't top up your account. Please try again.")
                         } else {
-                            self.functions.httpsCallable("transact").call(["recipientUID": recipientUID, "amount": amount], completion: { (result, error) in
-                                // TODO error handling!
+                            
+                            self.functions.httpsCallable("getCurrentBalance").call(["foo": "bar"]) { (result, error) in
+                                
                                 if error != nil {
-                                    self.showAuthenticationError(title: "Oops!", message: "We topped up your account but couldn't complete the transaction. Please try again.")
-                                    completion(false)
-                                    // adding a segue because the view logic is dependant on whether th user has enough credit or not. At this stage in the function, that has changed, so we should either reload the page somehow, be certain that this vc's code is clever enough to handle it, or, as I'm doing now, just booting the user back to Pay for the time being. TODO improve this. 
-                                    self.performSegue(withIdentifier: "unwindToPrevious", sender: self)
+                                    completion("We topped up your account but failed to complete the transaction. Please try again.")
                                 } else {
-                                    completion(true)
+                                    
+                                    self.functions.httpsCallable("transact").call(["recipientUID": recipientUID, "amount": amount]) { (result, error) in
+                                        // TODO error handling!
+                                        if error != nil {
+        //                                    self.showAuthenticationError(title: "Oops!", message: "We topped up your account but couldn't complete the transaction. Please try again.")
+                                            completion("We topped up your account but couldn't complete the transaction. Please try again.")
+                                            // in this scenario, the top up went through and only the transaction failed. This means we need to refresh certain parts of the view, and temporarily disable the confirm button until that's done
+                                            self.confirmButton.isEnabled = false
+                                            self.getUserBalance()
+                                            
+                                        } else {
+                                            completion("success (topped up)")
+                                        }
+                                    }
                                 }
-                            })
+                            }
                         }
-                    })
+                    }
                 } else {
-                    self.showAuthenticationError(title: "Oops", message: "Apologies - we couldn't authenticate this transaction. Please try again. ")
-                    completion(false)
+//                    self.showAuthenticationError(title: "Oops", message: "Apologies - we couldn't authenticate this transaction. Please try again. ")
+                    completion("Apologies - we couldn't authenticate this transaction. Please try again. ")
                 }
             }
         } else {
-            authenticatePayment { authenticated in
+            authenticatePayment() { authenticated in
                 if authenticated == true {
-                    self.functions.httpsCallable("transact").call(["recipientUID": recipientUID, "amount": amount], completion: { (result, error) in
+                    
+                    
+                    self.functions.httpsCallable("transact").call(["recipientUID": recipientUID, "amount": amount]) { (result, error) in
                         // TODO error handling!
                         if error != nil {
-                            completion(false)
+                            completion("error in transaction function")
+                            print(error)
                     //                                if error.domain == FunctionsErrorDomain {
                     //                                    let code = FunctionsErrorCode(rawValue: error.code)
                     //                                    let message = error.localizedDescription
@@ -272,67 +315,128 @@ class ConfirmViewController: UIViewController {
                     //                                }
                             // ...
                         } else {
-                            completion(true)
+                            completion("success (no topup required")
                         }
-                    })
+                    }
                 } else {
-                    self.showAuthenticationError(title: "Oops", message: "Apologies - we couldn't authenticate this transaction. Please try again. ")
-                    completion(false)
+                    print("auth failed bro")
+//                    self.showAuthenticationError(title: "Oops", message: "Apologies - we couldn't authenticate this transaction. Please try again. ")
+                    completion("Apologies - we couldn't authenticate this transaction. Please try again. ")
                 }
             }
         }
     }
     
     func authenticatePayment(completion: @escaping (Bool) -> Void) {
-            let context = LAContext()
-            var error: NSError?
-            context.localizedFallbackTitle = "Enter Passcode"
-    //        context.localizedCancelTitle = "Logout"
+        let context = LAContext()
+        var error: NSError?
+        context.localizedFallbackTitle = "Enter Passcode"
+//        context.localizedCancelTitle = "Logout"
+        
+        context.touchIDAuthenticationAllowableReuseDuration = 5
+        
+        if context.canEvaluatePolicy(LAPolicy.deviceOwnerAuthentication, error: &error) {
             
-            context.touchIDAuthenticationAllowableReuseDuration = 5
+            let reason = "Authenticate Payment"
+            var successfullyAuthenticated = false
             
-            if context.canEvaluatePolicy(LAPolicy.deviceOwnerAuthentication, error: &error) {
-                
-                let reason = "Authenticate Payment"
-                var successfullyAuthenticated = false
-                
+            print("let's give it a go")
+            DispatchQueue.main.async {
                 context.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: reason) {
                     [unowned self] success, authenticationError in
                     
-                    DispatchQueue.main.async {
-                        if success {
-                            successfullyAuthenticated = true
-                        } else {
-                            let ac = UIAlertController(title: "Continue", message: "Authentication failed - please try again", preferredStyle: .alert)
-                            
-                            ac.addAction(UIAlertAction(title: "OK", style: .default, handler: {(alert: UIAlertAction!) in }
-                            ))
-                            self.present(ac, animated: true)
-                            successfullyAuthenticated = false
-                        }
+                    print("we had a response")
+                    
+                    
+                    
+                    if success {
+                        print("success")
+                        successfullyAuthenticated = true
+                    } else {
+    //                            let ac = UIAlertController(title: "Continue", message: "Authentication failed - please try again", preferredStyle: .alert)
+    //
+    //                            ac.addAction(UIAlertAction(title: "OK", style: .default, handler: {(alert: UIAlertAction!) in }
+    //                            ))
+    //                            self.present(ac, animated: true)
+                        print(authenticationError)
+                        successfullyAuthenticated = false
                     }
+                    
                     // return the result - either authentication was successful or not
                     completion(successfullyAuthenticated)
                 }
+            }
+        } else {
+            let ac = UIAlertController(title: "Biometrics not available", message: "Your device doesn't seem to be configured for Biometric ID.", preferredStyle: .alert)
+            ac.addAction(UIAlertAction(title: "OK", style: .default))
+            present(ac, animated: true)
+            completion(false)
+        }
+    }
+    
+    func updateUserBalanceInFirestore() {
+        self.functions.httpsCallable("getCurrentBalance").call() { (result, error) in
+            if error != nil {
+                
             } else {
-                let ac = UIAlertController(title: "Biometrics not available", message: "Your device doesn't seem to be configured for Biometric ID.", preferredStyle: .alert)
-                ac.addAction(UIAlertAction(title: "OK", style: .default))
-                present(ac, animated: true)
-                completion(false)
+                
             }
         }
+    }
+        
+    @objc func loadRecipientProfilePicView(_ uid: String) {
+
+                
+        let storageRef = Storage.storage().reference().child("profilePictures").child(uid)
+
+        storageRef.downloadURL { url, error in
+            guard let url = url else { return }
+
+//                let processor = DownsamplingImageProcessor(size: self.profilePicView.frame.size)
+//                    >> RoundCornerImageProcessor(cornerRadius: 20)
+            self.recipientImage.kf.indicatorType = .activity
+            
+             DispatchQueue.main.async {
+                // using Kingfisher library for tidy handling of image download
+                self.recipientImage.kf.setImage(
+                    with: url,
+                    placeholder: UIImage(named: "icons8-user-50"),
+                    options: [
+                        .scaleFactor(UIScreen.main.scale),
+                        .transition(.fade(1)),
+                        .cacheOriginalImage
+                    ])
+                {
+                    result in
+                    switch result {
+                        // TODO add better error handling
+                    case .success(let value):
+                       print("Pic loaded")
+                    case .failure(let error):
+                        print("Job failed: \(error.localizedDescription)")
+                    }
+                }
+            }
+        }
+    }
     
-    func showAlert(title: String, message: String?) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
-            self.performSegue(withIdentifier: "goToLogin", sender: self)
-        }))
-        
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
-        }))
-        
-        self.present(alert, animated: true)
+    func showAlert(title: String, message: String?, segue: String?, cancel: Bool) {
+        DispatchQueue.main.async {
+            let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+            
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
+                if let seg = segue {
+                    self.performSegue(withIdentifier: seg, sender: self)
+                }
+            }))
+
+            if cancel == true {
+                alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
+                }))
+            }
+            
+            self.present(alert, animated: true)
+        }
     }
     
     func showAuthenticationError(title: String, message: String?) {
@@ -344,24 +448,44 @@ class ConfirmViewController: UIViewController {
         self.present(alert, animated: true)
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.destination is SignUpViewController {
+            let vc = segue.destination as! SignUpViewController
+            vc.userIsInPaymentFlow = true
+        } else if segue.destination is DisplayReceiptViewController {
+            
+            let isoDate = "2019-04-14T10:44:00+0000"
+
+            let dateFormatter = ISO8601DateFormatter()
+            let date2 = dateFormatter.date(from:isoDate)!
+            
+            // TODO replace this with the actual transaction
+            
+            let transaction = Transaction(amount: self.sendAmount, datetime: date2, payerID: "testPayer", recipientID: "testRecipient", payerName: "Jim", recipientName: "Sally", userIsPayer: true)
+            
+            
+            
+            let vc = segue.destination as! DisplayReceiptViewController
+            vc.transaction = transaction
+        }
+    }
+    
     @IBAction func unwindToPrevious(_ unwindSegue: UIStoryboardSegue) {
 //        let sourceViewController = unwindSegue.source
         // Use data from the view controller which initiated the unwind segue
     }
-    
-    
 }
-
-extension UIImageView {
-    func load(url: URL) {
-        DispatchQueue.global().async { [weak self] in
-            if let data = try? Data(contentsOf: url) {
-                if let image = UIImage(data: data) {
-                    DispatchQueue.main.async {
-                        self?.image = image
-                    }
-                }
-            }
-        }
-    }
-}
+// I think this is breaking in iOS13..
+//extension UIImageView {
+//    func load(url: URL) {
+//        DispatchQueue.global().async { [weak self] in
+//            if let data = try? Data(contentsOf: url) {
+//                if let image = UIImage(data: data) {
+//                    DispatchQueue.main.async {
+//                        self?.image = image
+//                    }
+//                }
+//            }
+//        }
+//    }
+//}

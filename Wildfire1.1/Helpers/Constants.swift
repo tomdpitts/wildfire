@@ -39,6 +39,7 @@ struct Transaction {
     let recipientID: String
     let payerName: String?
     let recipientName: String?
+    let userIsPayer: Bool
 }
 
 struct PaymentCard: Codable {

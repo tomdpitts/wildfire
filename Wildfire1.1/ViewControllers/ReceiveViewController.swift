@@ -102,15 +102,19 @@ class ReceiveViewController: UIViewController {
     func generateQRString() -> String {
         
         var receiveAmountString = ""
-        var receiveAmount7 = 0
+        
         // validator is text that will be appended to the beginning of the string - this is a failsafe to essentially ensure that the decrypted string is from Wildfire (lyrics are not all in the right order)
         let validator = """
             Einstein, James Dean, Brooklyn's got a winning team, Bardot, Budapest, Alabama, Krushchev
             """
         
-        if let receiveAmount = Int(textField.text!) {
-            receiveAmount7 = receiveAmount*7
-            receiveAmountString = String(receiveAmount7)
+        if let receiveAmount = textField.text {
+            if let float = Float(receiveAmount) {
+                print("converted to float")
+                let receiveAmountCents = float*100
+                let receiveAmount7 = Int(receiveAmountCents*7)
+                receiveAmountString = String(receiveAmount7)
+            }
         } else {
             receiveAmountString = ""
         }

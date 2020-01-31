@@ -82,6 +82,7 @@ class AddCardViewController: UIViewController, UITextFieldDelegate {
 //                }
                 semaphore.wait()
                 
+                print(result?.data)
                 
                 if let returnedArray = result?.data as? [[String: Any]] {
                 // the result includes the bits we need (this is the result of step 4 in the diagram found at the API doc link above)
@@ -214,6 +215,15 @@ class AddCardViewController: UIViewController, UITextFieldDelegate {
         
         errorLabel.text = message
         errorLabel.isHidden = false
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        // in the case that user is adding their card while in payment flow i.e. they came from ConfirmVC
+        if segue.destination is ConfirmViewController {
+            let vc = segue.destination as! ConfirmViewController
+            vc.shouldReloadView = true
+        }
     }
         
     //MARK - UITextField Delegates

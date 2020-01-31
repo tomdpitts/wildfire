@@ -70,11 +70,21 @@ class Account2ViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        // aka sign out, signout, and logout
         if indexPath.row == 9 {
             let title = "Are you sure you want to Log Out?"
-            let message = "You can log back in at any time"
+            // TODO a really nice user friendly feature would be to check whether balance is >0, and show a helpful hint to deposit if it is
+            let message = "You can log back in at any time, and your credit will still be here. Alternatively, you can deposit your credit to your back account before you go."
             let segue = "goToPhoneVerify"
-            showAlert(title: title, message: message, segueIdentifier: segue)
+            showLogOutAlert(title: title, message: message, segueIdentifier: segue)
+        } else if indexPath.row == 10 {
+            // aka Delete Account selected
+            let title = "Are you sure you want to delete your account?"
+            let message = "Any remaining credit will be deposited to your bank account, less the standard transaction charge."
+            let segue = "goToPhoneVerify"
+            // TODO add deposit to Bank Account functionality
+            // TODO add delete account functionality (in the showLogOutAlert func below (and consider renaming it..) 
+            showLogOutAlert(title: title, message: message, segueIdentifier: segue)
         }
         tableView.deselectRow(at: indexPath, animated: true)
     }
@@ -99,9 +109,23 @@ class Account2ViewController: UITableViewController {
         if let uid = Auth.auth().currentUser?.uid {
             let docRef = Firestore.firestore().collection("users").document(uid)
 
-            let listener = docRef.addSnapshotListener { documentSnapshot, error in
+//
+//            docRef.getDocument { (document, error) in
+//
+//                if let err = error {
+//                    print(err)
+//                }
+//                if let document = document, document.exists {
+//                    let data = document.data()
+//                    print(data)
+//                } else {
+//                    print("Document does not exist")
+//                }
+//            }
+            
+            docRef.addSnapshotListener { documentSnapshot, error in
                 guard let document = documentSnapshot else {
-                
+
                     print("Error fetching document: \(error!)")
                     return
                 }
@@ -111,16 +135,19 @@ class Account2ViewController: UITableViewController {
                     return
                 }
                 print(data)
+                
+                let fullname = data["fullname"] as! String
                 let balance = data["balance"] as! Int
                 let balanceString = String(balance)
-                let fullname = data["fullname"] as! String
+
                 let email = data["email"] as! String
-                
+
                 self.email = email
                 self.fullname = fullname
-                
+
                 self.userNameLabel.text = fullname
                 self.balanceAmountLabel.text = "Balance: £\(balanceString)"
+
               }
         }
     }
@@ -217,14 +244,14 @@ class Account2ViewController: UITableViewController {
             }
         }
     
-    func showAlert(title: String, message: String?, segueIdentifier: String) {
+    func showLogOutAlert(title: String, message: String?, segueIdentifier: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
             do {
                 try Auth.auth().signOut()
                 // update the userAccountExists flag (if user signs in with a different number, we don't want this flag to persist in memory and mess things up
-                UserDefaults.standard.set(false, forKey: "userAccountExists")
+                self.resetUserDefaults()
             } catch let err {
                 // TODO what if signout fails e.g. no connection
             }
@@ -250,6 +277,13 @@ class Account2ViewController: UITableViewController {
                 vc.profilePic = pp
             }
         }
+    }
+    
+    func resetUserDefaults() {
+        let domain = Bundle.main.bundleIdentifier!
+        UserDefaults.standard.removePersistentDomain(forName: domain)
+        UserDefaults.standard.synchronize()
+        print(Array(UserDefaults.standard.dictionaryRepresentation().keys).count)
     }
     
     @IBAction func unwindToPrevious(_ unwindSegue: UIStoryboardSegue) {
