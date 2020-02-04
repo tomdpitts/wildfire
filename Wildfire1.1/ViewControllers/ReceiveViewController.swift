@@ -44,11 +44,18 @@ class ReceiveViewController: UIViewController {
         navigationItem.title = "Receive"
         navigationController?.navigationBar.prefersLargeTitles = true
         
+        Utilities.styleFilledButton(btnAction)
+        
         textField.delegate = self as? UITextFieldDelegate
         textField.keyboardType = .decimalPad
         // N.B. You need to make sure users can't copy and paste non numeric characters into field
         // which hasn't been added yet, only the textField type. If there's no actual field and
         // the numbers are all back end, I don't think there's any point adding it now.
+        
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(DismissKeyboard))
+        view.addGestureRecognizer(tap)
+
+        
     }
     
     
@@ -132,6 +139,11 @@ class ReceiveViewController: UIViewController {
 
         
         return stringQR!
+    }
+    
+    @objc func DismissKeyboard(){
+    //Causes the view to resign from the status of first responder.
+    view.endEditing(true)
     }
     
         

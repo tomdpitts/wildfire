@@ -39,7 +39,8 @@ class DisplayReceiptViewController: UIViewController {
         payerLabel.text = transaction?.payerName
         recipientLabel.text = transaction?.recipientName
         if let x = transaction?.amount {
-            amountLabel.text = String(x)
+            let xFloat = Float(x)/100
+            amountLabel.text = String(format: "%.2f", xFloat)
         }
         
         dateLabel.text = formatter.string(from: transaction!.datetime)

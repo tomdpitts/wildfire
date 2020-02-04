@@ -59,11 +59,28 @@ class ProfilePicViewController: UIViewController, UINavigationControllerDelegate
         })
     }
     
+    func resizeImage(image: UIImage, newWidth: CGFloat) -> UIImage? {
+
+        let scale = newWidth / image.size.width
+        let newHeight = image.size.height * scale
+        UIGraphicsBeginImageContext(CGSize(width: newWidth, height: newHeight))
+        image.draw(in: CGRect(x: 0, y: 0, width: newWidth, height: newHeight))
+
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+
+        return newImage
+    }
+    
     fileprivate func uploadProfilePic(imageToUpload: UIImage?) {
         // let's give the filename as the user id for simplicity
         guard let filename = Auth.auth().currentUser?.uid,
-            let profilePic = imageToUpload,
-            let uploadData = profilePic.jpegData(compressionQuality: 0.4) else { return }
+            let profilePic = imageToUpload else { return }
+        
+        let size = CGSize(width: 200.0, height: 200.0)
+        let aspectScaledToFitImage = profilePic.af_
+        
+        let uploadData = profilePic.jpegData(compressionQuality: 0.4)
         
         let storageRef = Storage.storage().reference().child("profilePictures").child(filename)
         let uploadTask = storageRef.putData(uploadData, metadata: nil) { (metadata, err) in
@@ -72,6 +89,8 @@ class ProfilePicViewController: UIViewController, UINavigationControllerDelegate
                 return
             }
         }
+        
+        
         // template for deeper error handling TODO: complete this
         uploadTask.observe(.failure) { snapshot in
             if let error = snapshot.error as NSError? {

@@ -60,13 +60,9 @@ exports.addTransactionsToUsers = functions.region('europe-west1').firestore
     var payerName = ""
     var recipientName = ""
 
-// this was an experiment - unlikely to work, but haven't tried it yet
-    // let payerName = payerDocRef.firstname
-    // let recipientName = recipientDocRef.firstname
-
     // get the payer name 
     await payerDocRef.get().then(doc => {
-      return payerName = doc.data().firstname + " " + doc.data().lastname;
+      return payerName = doc.data().fullname
     })
     .catch(err => {
       balanceFail = true
@@ -75,7 +71,7 @@ exports.addTransactionsToUsers = functions.region('europe-west1').firestore
 
     // get the recipient name
     await recipientDocRef.get().then(doc => {
-      return recipientName = doc.data().firstname + " " + doc.data().lastname;
+      return recipientName = doc.data().fullname
     })
     .catch(err => {
       balanceFail = true
@@ -299,92 +295,167 @@ exports.createNewMangopayCustomer = functions.region('europe-west1').firestore.d
     })
   })
 
-  // transact function needs to also log the transaction in Firestore
-  exports.transact = functions.region('europe-west1').https.onCall( async (data, context) => {
-    //        let recipientRef = self.db.collection("users").document(self.recipientUIDParsed)
+  // the transact function is structured as follows: 1) receiving the call from client (payer) containing the recipient ID, the amount, and the currency 2) it fetches the MP wallet IDs of each party from Firestore 3) it checks the balance of each from the MP Wallet, 4) creates a MP Transfer, 5) logs a Transaction in the Firestore Transaction database (this automatically triggers updates to each party's Receipts), 6) update both payer/user and recipient balances - this may soon be deprecated in favour of calling the mangopay wallet balance directly - and 7) returns confirmation to client upon success. N.B. notification to the recipient happens elsewhere, and is triggered by the creation of a Transaction record (step 5 on this list)
 
+  exports.transact = functions.region('europe-west1').https.onCall( async (data, context) => {
+
+    // 1: request data
     const db = admin.firestore()
     const userID = context.auth.uid
-    const recipientUID = data.recipientUID
+    const recipientID = data.recipientUID
     const amount = data.amount
-    // const currency = data.currency
-
-    const transactionData = {
-      from: userID,
-      to: recipientUID,
-      datetime: Math.round(Date.now()/1000),
-      //currency: currency,
-      amount: amount
-    }
+    const currency = data.currency
 
     // now we have all the input we need ^
 
     let userRef = db.collection("users").doc(userID)
-    let recipientRef = db.collection("users").doc(recipientUID)
+    let recipientRef = db.collection("users").doc(recipientID)
 
     var oldUserBalance = 0
     var oldRecipientBalance = 0
 
+    var userWalletID = ''
+    var userMangoPayID = ''
+    var recipientWalletID = ''
+    var recipientMangoPayID = ''
+
     // boolean flag to check the balances have been correctly fetched
     var balanceFail = false
 
-    // get the user balance 
+    
+    // 2: get the user and recipient  wallet ID and MP ID
     await userRef.get().then(doc => {
-      return oldUserBalance = doc.data().balance;
+      let data = doc.data()
+      userMangoPayID = data.mangopayID
+      return userWalletID = data.defaultWalletID
+      // return oldUserBalance = data.balance;
     })
     .catch(err => {
       balanceFail = true
       console.log('Error getting user balance', err);
     });
-
-    // get the recipient balance
     await recipientRef.get().then(doc => {
-      const check = doc.data()
-      console.log(check)
-      return oldRecipientBalance = doc.data().balance; 
+      let data = doc.data()
+      recipientMangoPayID = data.mangopayID
+      return recipientWalletID = data.defaultWalletID
     })
     .catch(err => {
       balanceFail = true
       console.log('Error getting recipient balance', err);
     });
 
-    // if both balances have been correctly retrieved, trigger the transaction
+    // 3: Check balance of both parties
+    const userMPWallet = await mpAPI.Wallets.get(userWalletID)
+    .catch(err => {
+      balanceFail = true,
+      console.log('Error getting userMPWallet', err)
+    })
+    oldUserBalance = userMPWallet.Balance.Amount
+
+    const recipientMPWallet = await mpAPI.Wallets.get(recipientWalletID)
+    .catch(err => {
+      balanceFail = true,
+      console.log('Error getting recipientMPWallet', err)
+    })
+    oldRecipientBalance = recipientMPWallet.Balance.amount
+
+
+    // 4: if both balances have been correctly retrieved, trigger the transaction
     if (balanceFail !== true) {
 
-      // runTransaction is a Firebase thing - designed for this kind of use case
-      let transaction = db.runTransaction(t => {
-        // return t.get(userRef)
-        //   .then(doc => {
-        
-        // here's the magic
-        if (amount <= oldUserBalance && amount > 0) {
-              
-          // P.S. the sendAmount > 0 should always pass since there will be validation elsewhere. However, suggest leaving it in as it doesn't hurt and if the FE validation ever breaks for whatever reason, allowing sendAmount < 0 would be a catastrophic security issue i.e. this is a useful failsafe
-          
-          let newUserBalance = oldUserBalance - amount
-          let newRecipientBalance = oldRecipientBalance + amount
+      if (amount <= oldUserBalance && amount > 0) {
 
-          // update both parties' balances
-          t.update(userRef, {balance: newUserBalance});
-          t.update(recipientRef, {balance: newRecipientBalance})
-          
-          // Add a new document with a generated id.
-          return db.collection('transactions').add(transactionData)
-        } else {
-          return nil        
+        console.log('transact is going as planned')
+        const MPTransferData =
+          {
+          "AuthorId": userMangoPayID,
+          "CreditedUserId": recipientMangoPayID,
+          "DebitedFunds": {
+            "Currency": currency,
+            "Amount": amount
+            },
+          // intraplatform transactions are free, so fee is zero
+          "Fees": {
+            "Currency": currency,
+            "Amount": 0
+            },
+          "DebitedWalletId": userWalletID,
+          "CreditedWalletId": recipientWalletID
+          }
+
+        console.log(MPTransferData)
+
+        const transfer = await mpAPI.Transfers.create(MPTransferData)
+        .catch(err => {
+          console.log(err)
+          return err
+        })
+        console.log(transfer)
+
+        // 5: Add a new document to FS transaction database with a generated id
+        const transactionData = {
+          from: userID,
+          to: recipientID,
+          datetime: Math.round(Date.now()/1000),
+          currency: currency,
+          amount: amount
         }
-      }).then(result => {
-        // this transaction will only complete if both parties' balances are updated
-        console.log('Transaction success!');
-        return { text: "success" };
-      }).catch(err => {
-        console.log('Transaction failure:', err);
-        return { text: "failure" };
-      });
+
+        db.collection('transactions').add(transactionData)
+
+        // 6: update both party's wallets
+        const newUserWallet = await mpAPI.Wallets.get(userWalletID)
+        const newUserBalance = newUserWallet.Balance.Amount
+
+        const newRecipientWallet = await mpAPI.Wallets.get(recipientWalletID)
+        const newRecipientBalance = newRecipientWallet.Balance.Amount
+
+        userRef.set({balance: newUserBalance}, {merge: true})
+        recipientRef.set({balance: newRecipientBalance}, {merge: true})
+
+        // 7: return success to Client
+        return { text: "success" }
+      } else {
+        console.log("user does not have sufficient funds")
+        return { text: "user does not have sufficient funds"}
+      }
     } else {
       // TODO there was an error getting one of the balances - abort transaction and inform user
       console.log('one or more of the balances was not retrieved')
+      return { text: "balance retrieval failed" }
     }
+
+      // // runTransaction is a Firebase thing - designed for this kind of use case
+      // let transaction = db.runTransaction(t => {
+      //   // return t.get(userRef)
+      //   //   .then(doc => {
+        
+      //   // here's the magic
+      //   if (amount <= oldUserBalance && amount > 0) {
+              
+      //     // P.S. the sendAmount > 0 should always pass since there will be validation elsewhere. However, suggest leaving it in as it doesn't hurt and if the FE validation ever breaks for whatever reason, allowing sendAmount < 0 would be a catastrophic security issue i.e. this is a useful failsafe
+          
+      //     let newUserBalance = oldUserBalance - amount
+      //     let newRecipientBalance = oldRecipientBalance + amount
+
+      //     // update both parties' balances
+      //     t.update(userRef, {balance: newUserBalance});
+      //     t.update(recipientRef, {balance: newRecipientBalance})
+          
+      //     // Add a new document with a generated id.
+      //     return db.collection('transactions').add(transactionData)
+      //   } else {
+      //     return nil        
+      //   }
+      // }).then(result => {
+      //   // this transaction will only complete if both parties' balances are updated
+      //   console.log('Transaction success!');
+      //   return { text: "success" };
+      // }).catch(err => {
+      //   console.log('Transaction failure:', err);
+      //   return { text: "failure" };
+      // });
+    // }
   })
 
   exports.listCards = functions.region('europe-west1').https.onCall( async (data, context) => {
@@ -498,34 +569,73 @@ exports.createNewMangopayCustomer = functions.region('europe-west1').firestore.d
     const userID = context.auth.uid
     const db = admin.firestore().collection('users').doc(userID)
 
-    var mangopayID = ""
     var walletID = ""
-    var cardID = ""
 
-    // using the Firebase userID (supplied via 'context' of the request), get the data we need for the payin 
+    // using the Firebase userID (supplied via 'context' of the request), get the wallet ID
     await db.get().then(doc => {
       userData = doc.data();
-      mangopayID = userData.mangopayID
       walletID = userData.defaultWalletID
-      cardID = userData.defaultCardID
-
       return
     })
     .catch(err => {
       console.log('Error getting userID', err);
     });
 
-    console.log(walletID)
-    const wallet = mpAPI.Wallets.get(walletID)
-    console.log(wallet)
-
-    const currentBalance = wallet.balance
-
-    console.log(currentBalance)
+    
+    const wallet = await mpAPI.Wallets.get(walletID)
+    const currentBalance = wallet.Balance.Amount
 
     return db.set({balance: currentBalance}, {merge: true})
 
   });
+
+  exports.getCurrentBalance = functions.region('europe-west1').https.onCall( async (data, context) => {
+
+    const userID = context.auth.uid
+    const db = admin.firestore().collection('users').doc(userID)
+
+    var walletID = ""
+    var mangopayID = ""
+
+    const currencyType = data.currency
+    const amount = data.amount
+    
+    // the fee to be taken should be an integer, since the amount is in cents/pence
+    const fee = Math.round(amount/100*1.8)
+    
+
+    // using the Firebase userID (supplied via 'context' of the request), get the wallet ID
+    await db.get().then(doc => {
+      userData = doc.data();
+      
+      mangopayID = userData.mangopayID
+      walletID = userData.defaultWalletID
+      
+      return
+    })
+    .catch(err => {
+      console.log('Error getting userID', err);
+    });
+
+    const payinData = 
+      {
+      "AuthorId": mangopayID,
+      "DebitedFunds": {
+        "Currency": "EUR",
+        "Amount": amount
+        },
+      "Fees": {
+        "Currency": "EUR",
+        "Amount": 12
+        },
+      "BankAccountId": "14213351",
+      "DebitedWalletId": "8519987",
+      "BankWireRef": "invoice 7282"
+      }
+
+
+
+  }
 
   exports.deleteCard = functions.region('europe-west1').https.onCall( async (data, context) => {
 

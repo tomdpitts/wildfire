@@ -77,7 +77,7 @@ class ReceiptsViewController: UITableViewController {
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return transactionsGrouped.count
+        return transactionDates.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -97,8 +97,8 @@ class ReceiptsViewController: UITableViewController {
             cell.textLabel?.text = found.payerName
             cell.imageView?.image = UIImage(named: "icons8-teal-get-cash-50")
         }
-        
-        cell.detailTextLabel?.text = String(found.amount)
+        let amount = String(format: "%.2f", Float(found.amount)/100)
+        cell.detailTextLabel?.text = String(amount)
         
         
         return cell

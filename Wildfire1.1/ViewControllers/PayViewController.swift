@@ -10,11 +10,17 @@ import UIKit
 
 class PayViewController: UIViewController {
     
+    @IBOutlet weak var sendButton: UIButton!
+    
+    @IBOutlet weak var scanButton: UIButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         navigationItem.title = "Pay"
         navigationController?.navigationBar.prefersLargeTitles = true
+        
+        setUpElements()
     }
     
 //    override func viewWillAppear(_ animated: Bool) {
@@ -36,10 +42,17 @@ class PayViewController: UIViewController {
 //        return false
 //    }
 //
-    @IBAction func launchQRReader(_ sender: UIButton) {
-
-    // the QR code needs to go here?
+    
+    func setUpElements() {
+        Utilities.styleFilledButton(sendButton)
+        Utilities.styleFilledButton(scanButton)
+        
+        
     }
+//    @IBAction func launchQRReader(_ sender: UIButton) {
+//
+//    // the QR code needs to go here?
+//    }
 
 //    @IBAction func unwindToPayViewController(segue: UIStoryboardSegue) {
 //    }

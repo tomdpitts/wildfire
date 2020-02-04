@@ -138,7 +138,8 @@ class Account2ViewController: UITableViewController {
                 
                 let fullname = data["fullname"] as! String
                 let balance = data["balance"] as! Int
-                let balanceString = String(balance)
+                let balanceFloat = Float(balance)/100
+                let balanceString = String(format: "%.2f", balanceFloat)
 
                 let email = data["email"] as! String
 

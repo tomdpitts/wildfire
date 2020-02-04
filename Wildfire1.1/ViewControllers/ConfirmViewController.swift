@@ -104,12 +104,14 @@ class ConfirmViewController: UIViewController {
         confirmButton.isEnabled = false
 
         // format the profile pic image view nicely
-        recipientImage.contentMode = .scaleAspectFill
-        recipientImage.layer.cornerRadius = recipientImage.frame.width/2
+//        recipientImage.contentMode = .scaleAspectFill
         recipientImage.clipsToBounds = true
+        recipientImage.layer.cornerRadius = recipientImage.bounds.height/2
         
+        let sendAmountFloat = Float(sendAmount)/100
+        // TODO update with appropriate currency
         // display transaction amount front and centre
-        amountLabel.text = "£" + String(self.sendAmount)
+        amountLabel.text = "£" + String(format: "%.2f", sendAmountFloat)
     }
     
     func setUpRecipientDetails(_ uid: String) {
@@ -146,14 +148,17 @@ class ConfirmViewController: UIViewController {
         let uid = Auth.auth().currentUser!.uid
         
         let docRef = self.db.collection("users").document(uid)
-        
+        // TODO replace this with a call to MP Wallet to fetch balance
         docRef.getDocument { (document, error) in
             if let document = document, document.exists {
                 
                 let userData = document.data()
                 
                 let userBalance = userData?["balance"] as! Int
-                self.currentBalance.text = "Your current balance is £\(String(userBalance))"
+                
+                // N.B. all database amounts are in cents i.e. £43.50 is '4350'
+                let userBalanceFloat = Float(userBalance)/100
+                self.currentBalance.text = "Your current balance is £\(String(format: "%.2f", (userBalanceFloat)))"
                 let difference = userBalance - self.sendAmount
                 
                 // TODO: add logic to handle the minimum top up amount so users don't authenticate a card payment for very small amounts
@@ -162,10 +167,13 @@ class ConfirmViewController: UIViewController {
                     self.topupAmount = difference*(-1)
                     
                     // due to the complexities of dealing with closures and async stuff, have resorted to updating class variable 'recipientName' in another function (setUpRecipientDetails) and then referring to it here. This should probably be improved in future but for now, ensure this function is only called after the other..!
-                    self.dynamicLabel.text = "Hit 'confirm' to top up £\(difference*(-1)) and pay \(self.recipientName)"
+                    let diffFloat = String(format: "%.2f", Float(difference*(-1))/100)
+                    self.dynamicLabel.text = "Hit 'confirm' to top up £\(diffFloat) and pay \(self.recipientName)"
                     self.enoughCredit = false
                 } else {
-                    self.dynamicLabel.text = "Your remaining balance will be £\(difference)"
+                    
+                    let diffFloat = String(format: "%.2f", Float(difference)/100)
+                    self.dynamicLabel.text = "Your remaining balance will be £\(diffFloat)"
                     self.enoughCredit = true
                 }
                 
@@ -211,8 +219,8 @@ class ConfirmViewController: UIViewController {
                 // TODO add semaphore or something to wait for result before continuing, with timeout
                 transact(recipientUID: self.recipientUID, amount: self.sendAmount, topup: false, topupAmount: nil) { result in
                     // TODO add result (success or failure)
+                    self.performSegue(withIdentifier: "showSuccessScreen", sender: self)
                     
-                    print(result)
 //                    self.performSegue(withIdentifier: "showSuccessScreen", sender: self)
                 }
             } else {
@@ -276,7 +284,7 @@ class ConfirmViewController: UIViewController {
                                     completion("We topped up your account but failed to complete the transaction. Please try again.")
                                 } else {
                                     
-                                    self.functions.httpsCallable("transact").call(["recipientUID": recipientUID, "amount": amount]) { (result, error) in
+                                    self.functions.httpsCallable("transact").call(["recipientUID": recipientUID, "amount": amount, "currency": "EUR"]) { (result, error) in
                                         // TODO error handling!
                                         if error != nil {
         //                                    self.showAuthenticationError(title: "Oops!", message: "We topped up your account but couldn't complete the transaction. Please try again.")
@@ -303,7 +311,7 @@ class ConfirmViewController: UIViewController {
                 if authenticated == true {
                     
                     
-                    self.functions.httpsCallable("transact").call(["recipientUID": recipientUID, "amount": amount]) { (result, error) in
+                    self.functions.httpsCallable("transact").call(["recipientUID": recipientUID,  "amount": amount, "currency": "EUR"]) { (result, error) in
                         // TODO error handling!
                         if error != nil {
                             completion("error in transaction function")
