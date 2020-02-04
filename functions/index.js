@@ -589,7 +589,7 @@ exports.createNewMangopayCustomer = functions.region('europe-west1').firestore.d
 
   });
 
-  exports.getCurrentBalance = functions.region('europe-west1').https.onCall( async (data, context) => {
+  exports.triggerPayout = functions.region('europe-west1').https.onCall( async (data, context) => {
 
     const userID = context.auth.uid
     const db = admin.firestore().collection('users').doc(userID)
@@ -603,7 +603,6 @@ exports.createNewMangopayCustomer = functions.region('europe-west1').firestore.d
     // the fee to be taken should be an integer, since the amount is in cents/pence
     const fee = Math.round(amount/100*1.8)
     
-
     // using the Firebase userID (supplied via 'context' of the request), get the wallet ID
     await db.get().then(doc => {
       userData = doc.data();
@@ -617,16 +616,16 @@ exports.createNewMangopayCustomer = functions.region('europe-west1').firestore.d
       console.log('Error getting userID', err);
     });
 
-    const payinData = 
+    const payoutData = 
       {
       "AuthorId": mangopayID,
       "DebitedFunds": {
-        "Currency": "EUR",
+        "Currency": currency,
         "Amount": amount
         },
       "Fees": {
-        "Currency": "EUR",
-        "Amount": 12
+        "Currency": currency,
+        "Amount": fee
         },
       "BankAccountId": "14213351",
       "DebitedWalletId": "8519987",
