@@ -207,9 +207,9 @@ class AddCardViewController: UIViewController, UITextFieldDelegate {
             if csv.count != 3 {
                 return "CSV number must be exactly 3 digits"
                 }
-            }
-            return nil
         }
+        return nil
+    }
         
     func showError(_ message:String) {
         

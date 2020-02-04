@@ -3,12 +3,13 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		02B40DBB5BA0E3ABDC608F79 /* Pods_Wildfire1_1.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4483B7785E5EA4F8EEDBA322 /* Pods_Wildfire1_1.framework */; };
 		BA5775FCEF6517559C1353DB /* Pods_Wildfire1_1Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 70977A2D67508CF8EB0AA3E3 /* Pods_Wildfire1_1Tests.framework */; };
+		E20104EC23E93D4F00441040 /* AddCard2TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E20104EB23E93D4F00441040 /* AddCard2TableViewController.swift */; };
 		E2026709230ED8CF003C0AF4 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2026708230ED8CF003C0AF4 /* LoginViewController.swift */; };
 		E2149704231410240048D149 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2149703231410240048D149 /* HomeViewController.swift */; };
 		E21AC96321EA6BEF00D460A9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E21AC96221EA6BEF00D460A9 /* AppDelegate.swift */; };
@@ -63,6 +64,7 @@
 		4483B7785E5EA4F8EEDBA322 /* Pods_Wildfire1_1.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Wildfire1_1.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		70977A2D67508CF8EB0AA3E3 /* Pods_Wildfire1_1Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Wildfire1_1Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B1E15A2B9797B338CC0D02CA /* Pods-Wildfire1.1Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Wildfire1.1Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Wildfire1.1Tests/Pods-Wildfire1.1Tests.debug.xcconfig"; sourceTree = "<group>"; };
+		E20104EB23E93D4F00441040 /* AddCard2TableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCard2TableViewController.swift; sourceTree = "<group>"; };
 		E2026708230ED8CF003C0AF4 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		E2149703231410240048D149 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		E21AC95F21EA6BEF00D460A9 /* Wildfire1.1.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Wildfire1.1.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -241,6 +243,7 @@
 				E22D7E0223A7393100F86487 /* DisplayReceiptViewController.swift */,
 				E22D7E0423B04E8A00F86487 /* PaymentMethodsViewController.swift */,
 				E222732923420BBE006D8326 /* AddCardViewController.swift */,
+				E20104EB23E93D4F00441040 /* AddCard2TableViewController.swift */,
 				E271C0CD23D81EED004245CC /* CardDetailsViewController.swift */,
 				E271C0D123D99E6F004245CC /* EditProfileTableViewController.swift */,
 			);
@@ -427,6 +430,7 @@
 				E24388A82315532200948AD5 /* Constants.swift in Sources */,
 				E21AC96721EA6BEF00D460A9 /* ReceiveViewController.swift in Sources */,
 				E2B979E3232960B000194E75 /* ConfirmViewController.swift in Sources */,
+				E20104EC23E93D4F00441040 /* AddCard2TableViewController.swift in Sources */,
 				E2B979E12329609E00194E75 /* ScanViewController.swift in Sources */,
 				E2CDF4AD235F2859002E155D /* VerificationCodeViewController.swift in Sources */,
 				E279717D231433AF00964F25 /* SignUpViewController.swift in Sources */,
