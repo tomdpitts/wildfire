@@ -44,6 +44,7 @@ class AddCard2TableViewController: UITableViewController, UITextFieldDelegate {
         tableView.backgroundColor = .groupTableViewBackground
         
         errorLabel.isHidden = true
+        Utilities.styleFilledButton(submitButton)
         
         for code in NSLocale.isoCountryCodes  {
             let id = NSLocale.localeIdentifier(fromComponents: [NSLocale.Key.countryCode.rawValue: code])
@@ -72,6 +73,9 @@ class AddCard2TableViewController: UITableViewController, UITextFieldDelegate {
             // This means there's something wrong with the fields, so show error message
             showError(error!)
         } else {
+            
+            // kill the button to prevent retries
+            submitButton.isEnabled = false
             
             var accessKey = ""
             var preregistrationData = ""
@@ -178,7 +182,7 @@ class AddCard2TableViewController: UITableViewController, UITextFieldDelegate {
                                     self.addAddressToCard(walletID: walletID, cardID: cardID, makeDefault: true)
                                     
                                     print("done?")
-                                    self.performSegue(withIdentifier: "unwindToPrevious", sender: self)
+                                    self.performSegue(withIdentifier: "showSuccessScreen", sender: self)
                                 }
                             }
                             // TODO add loading spinner to wait for responseURL
@@ -195,7 +199,7 @@ class AddCard2TableViewController: UITableViewController, UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         // Try to find next responder
-        if let nextField = textField.superview?.viewWithTag(textField.tag + 1) as? UITextField {
+        if let nextField = textField.superview?.superview?.viewWithTag(textField.tag + 1) as? UITextField {
             nextField.becomeFirstResponder()
         } else {
             // Not found, so remove keyboard.
@@ -259,54 +263,55 @@ class AddCard2TableViewController: UITableViewController, UITextFieldDelegate {
     }
 
     func addAddressToCard(walletID: String, cardID: String, makeDefault: Bool) {
-        let validationResult = validateFields()
-        
-        if validationResult != "true" {
-            errorLabel.text = validationResult
-            errorLabel.isHidden = true
-        } else {
-            if let uid = Auth.auth().currentUser?.uid {
-                
-                guard let line1 = self.line1TextField.text else { return }
-                // N.B. line2 is not required - if nothing entered then pass empty string
-                let line2 = self.line2TextField.text ?? ""
-                // "city" not key value coding-compliant - renamed to "cityName"
-                guard let cityName = self.cityTextField.text else { return }
-                guard let region = self.regionTextField.text else { return }
-                guard let postcode = self.postcodeTextField.text else { return }
-                // TODO country needs to be converted to appropriate format
-                guard let country = self.countryTextField.text else { return }
-                
-                let addressData : [String: [String: String]] = [
-                    "billingAddress": ["line1": line1, "line2": line2,"city": cityName, "region": region,"postcode": postcode,"country": country]
-                ]
-                
-                let defaultAddressData : [String: [String: String]] = [
-                    "defaultBillingAddress": ["line1": line1, "line2": line2,"city": cityName, "region": region,"postcode": postcode,"country": country]
-                ]
-                
-            Firestore.firestore().collection("users").document(uid).collection("wallets").document(walletID).collection("cards").document(cardID).setData(addressData
-                // merge: true is IMPORTANT - prevents complete overwriting of a document if a user logs in for a second time, for example, which could wipe important data (including the balance..)
-                , merge: true) { (error) in
-                    // print(result!.user.uid)
-                    if error != nil {
-                        // Show error message
-                    } else {
-                    Firestore.firestore().collection("users").document(uid).setData(defaultAddressData
-                       // merge: true is IMPORTANT - prevents complete overwriting of a document if a user logs in for a second time, for example, which could wipe important data (including the balance..)
-                        , merge: true) { (error) in
-                           // print(result!.user.uid)
-                           if error != nil {
-                               // Show error message
-                           } else {
-                               
-                           }
+        if let uid = Auth.auth().currentUser?.uid {
+            
+            print("trying to add address")
+            
+            guard let line1 = self.line1TextField.text else { return }
+            // N.B. line2 is not required - if nothing entered then pass empty string
+            let line2 = self.line2TextField.text ?? ""
+            // "city" not key value coding-compliant - renamed to "cityName"
+            guard let cityName = self.cityTextField.text else { return }
+            guard let region = self.regionTextField.text else { return }
+            guard let postcode = self.postcodeTextField.text else { return }
+            // TODO country needs to be converted to appropriate format
+            guard let country = self.countryTextField.text else { return }
+            
+            let addressData : [String: [String: String]] = [
+                "billingAddress": ["line1": line1, "line2": line2,"city": cityName, "region": region,"postcode": postcode,"country": country]
+            ]
+            // separate variable name because that's how it shows up in Firestore
+            let defaultAddressData : [String: [String: String]] = [
+                "defaultBillingAddress": ["line1": line1, "line2": line2,"city": cityName, "region": region,"postcode": postcode,"country": country]
+            ]
+            
+            print("trying to add address2")
+            print(addressData)
+            
+        Firestore.firestore().collection("users").document(uid).collection("wallets").document(walletID).collection("cards").document(cardID).setData(addressData
+            // merge: true is IMPORTANT - prevents complete overwriting of a document if a user logs in for a second time, for example, which could wipe important data (including the balance..)
+            , merge: true) { (error) in
+                // print(result!.user.uid)
+                if error != nil {
+                    // Show error message
+                    print("address adding failed1")
+                } else {
+                Firestore.firestore().collection("users").document(uid).setData(defaultAddressData
+                   // merge: true is IMPORTANT - prevents complete overwriting of a document if a user logs in for a second time, for example, which could wipe important data (including the balance..)
+                    , merge: true) { (error) in
+                       // print(result!.user.uid)
+                       if error != nil {
+                           // Show error message
+                        print("address adding failed2")
+                       } else {
+                           print("address should have been added")
                        }
-                    }
+                   }
                 }
             }
         }
     }
+    
 
     func validateFields() -> String? {
         
