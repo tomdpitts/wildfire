@@ -10,6 +10,7 @@ import UIKit
 import FirebaseAuth
 import FirebaseStorage
 import Kingfisher
+import AlamofireImage
 
 
 class ProfilePicViewController: UIViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
@@ -78,9 +79,9 @@ class ProfilePicViewController: UIViewController, UINavigationControllerDelegate
             let profilePic = imageToUpload else { return }
         
         let size = CGSize(width: 200.0, height: 200.0)
-        let aspectScaledToFitImage = profilePic.af_
+        let aspectScaleImage = profilePic.af_imageAspectScaled(toFit: size)
         
-        let uploadData = profilePic.jpegData(compressionQuality: 0.4)
+        guard let uploadData = aspectScaleImage.jpegData(compressionQuality: 0.9) else { return }
         
         let storageRef = Storage.storage().reference().child("profilePictures").child(filename)
         let uploadTask = storageRef.putData(uploadData, metadata: nil) { (metadata, err) in

@@ -452,11 +452,11 @@
             <objects>
                 <viewController id="lOX-0Y-FSB" customClass="AddCardViewController" customModule="Wildfire1_1" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="OAg-sQ-0Sz">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="18" translatesAutoresizingMaskIntoConstraints="NO" id="CkK-RD-EqY">
-                                <rect key="frame" x="37" y="74" width="301" height="224.5"/>
+                                <rect key="frame" x="37" y="30" width="301" height="224.5"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="16 digit Card Number" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="wPz-vK-2Zs" userLabel="Card Number">
                                         <rect key="frame" x="0.0" y="0.0" width="301" height="34"/>
@@ -529,6 +529,7 @@
                         <outlet property="expiryDateField" destination="ukV-zT-Ptz" id="dtc-jZ-4Zz"/>
                         <outlet property="submitButton" destination="LaQ-x4-5JO" id="T9C-t3-qDU"/>
                         <segue destination="vyR-YY-5SN" kind="unwind" identifier="unwindToPrevious" unwindAction="unwindToPrevious:" id="gwb-Ak-nzR"/>
+                        <segue destination="daH-g4-ejv" kind="show" identifier="showAddCard2" id="IL2-7S-jhk"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5Kl-Tx-muu" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -541,7 +542,7 @@
             <objects>
                 <tableViewController id="daH-g4-ejv" customClass="AddCard2TableViewController" customModule="Wildfire1_1" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="G9J-WK-bT1">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <sections>
@@ -797,19 +798,88 @@
                             <outlet property="delegate" destination="daH-g4-ejv" id="ZFZ-Wa-Eww"/>
                         </connections>
                     </tableView>
+                    <navigationItem key="navigationItem" id="73a-Hy-fXl"/>
                     <connections>
                         <outlet property="city" destination="Rgp-Io-isB" id="oZO-Fx-BZ5"/>
+                        <outlet property="cityTextField" destination="Rgp-Io-isB" id="r0M-dA-i0q"/>
                         <outlet property="country" destination="RJu-ts-4yn" id="z8m-oA-44e"/>
+                        <outlet property="countryTextField" destination="RJu-ts-4yn" id="lw3-Ga-jSk"/>
                         <outlet property="errorLabel" destination="1Yb-Yf-DtG" id="ZYK-AI-Onq"/>
                         <outlet property="line1" destination="Yi0-Uc-Zmr" id="EgL-FC-pHE"/>
+                        <outlet property="line1TextField" destination="Yi0-Uc-Zmr" id="fxx-ly-qpd"/>
                         <outlet property="line2" destination="zuc-qY-zZo" id="xQI-f1-twE"/>
+                        <outlet property="line2TextField" destination="zuc-qY-zZo" id="Lv6-Ss-Lfx"/>
                         <outlet property="postcode" destination="lrT-Fo-axP" id="kTY-XS-1nW"/>
+                        <outlet property="postcodeTextField" destination="lrT-Fo-axP" id="9hc-Vr-gSf"/>
                         <outlet property="region" destination="CXL-IR-qsp" id="vTc-Vq-YNw"/>
+                        <outlet property="regionTextField" destination="CXL-IR-qsp" id="N4x-mV-kNM"/>
+                        <segue destination="C4f-WC-KXH" kind="showDetail" id="axP-bZ-1nd"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TEF-bh-xVK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="4860" y="2657"/>
+        </scene>
+        <!--Add Card Success View Controller-->
+        <scene sceneID="hgb-te-8cD">
+            <objects>
+                <viewController id="C4f-WC-KXH" customClass="AddCardSuccessViewController" customModule="Wildfire1_1" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="brd-L2-4l7">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="Crn-8f-BAR">
+                                <rect key="frame" x="50.5" y="105.5" width="274" height="436.5"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icons8-ok-480" translatesAutoresizingMaskIntoConstraints="NO" id="We2-ai-gvS">
+                                        <rect key="frame" x="17" y="0.0" width="240" height="240"/>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Great job!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ROW-4n-shG">
+                                        <rect key="frame" x="74" y="270" width="126" height="36"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your card has been securely added." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JBE-Xe-Dbm">
+                                        <rect key="frame" x="0.0" y="336" width="274" height="20.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Cdd-LV-sxI">
+                                        <rect key="frame" x="20" y="386.5" width="234" height="50"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="TUh-4b-9la"/>
+                                        </constraints>
+                                        <state key="normal" title="Done"/>
+                                        <connections>
+                                            <action selector="doneButtonTapped:" destination="C4f-WC-KXH" eventType="touchUpInside" id="eae-MF-Hy1"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="Cdd-LV-sxI" firstAttribute="leading" secondItem="Crn-8f-BAR" secondAttribute="leading" constant="20" symbolic="YES" id="WeI-3z-Wsw"/>
+                                    <constraint firstAttribute="trailing" secondItem="Cdd-LV-sxI" secondAttribute="trailing" constant="20" symbolic="YES" id="zDc-qm-eu6"/>
+                                </constraints>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="Crn-8f-BAR" firstAttribute="centerX" secondItem="brd-L2-4l7" secondAttribute="centerX" id="4Tb-RM-ays"/>
+                            <constraint firstItem="Crn-8f-BAR" firstAttribute="centerY" secondItem="brd-L2-4l7" secondAttribute="centerY" id="Kg3-bo-lSg"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="fQU-xQ-SSX"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="lt4-yb-caT"/>
+                    <connections>
+                        <outlet property="doneButton" destination="Cdd-LV-sxI" id="v5Z-Q4-NtC"/>
+                        <segue destination="K3E-ll-1zi" kind="unwind" unwindAction="unwindToPrevious:" id="vrq-jD-WZt"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="aVS-5E-VeL" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="K3E-ll-1zi" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="5740" y="2657.7211394302849"/>
         </scene>
         <!--Receive-->
         <scene sceneID="wg7-f3-ORb">
@@ -1326,11 +1396,11 @@
             <objects>
                 <viewController id="ng8-iT-cq6" customClass="SignUpViewController" customModule="Wildfire1_1" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="VnR-f8-gzF">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="Pxa-BL-KYV">
-                                <rect key="frame" x="20" y="44" width="335" height="412.5"/>
+                                <rect key="frame" x="20" y="0.0" width="335" height="412.5"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="First Name" textAlignment="natural" minimumFontSize="17" background="Ic_account_circle.png" translatesAutoresizingMaskIntoConstraints="NO" id="b0b-U5-UJ3">
                                         <rect key="frame" x="0.0" y="0.0" width="335" height="50"/>
@@ -1417,11 +1487,11 @@
             <objects>
                 <viewController title="formStep2 View Controller" id="9c5-q4-K87" customClass="formStep2ViewController" customModule="Wildfire1_1" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="yV2-V1-QPO">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="Gvj-1l-d7B">
-                                <rect key="frame" x="20" y="44" width="335" height="364.5"/>
+                                <rect key="frame" x="20" y="0.0" width="335" height="364.5"/>
                                 <subviews>
                                     <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" translatesAutoresizingMaskIntoConstraints="NO" id="nXz-78-P4r">
                                         <rect key="frame" x="0.0" y="0.0" width="335" height="216"/>
@@ -1479,11 +1549,11 @@
             <objects>
                 <viewController storyboardIdentifier="formStep3 View Controller" title="formStep3 View Controller" id="u4d-OO-6Kt" customClass="formStep3ViewController" customModule="Wildfire1_1" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Sk5-do-1yb">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="CnM-Cy-2rS">
-                                <rect key="frame" x="20" y="44" width="335" height="349.5"/>
+                                <rect key="frame" x="20" y="0.0" width="335" height="349.5"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Nationality" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UlA-sd-6aT">
                                         <rect key="frame" x="0.0" y="0.0" width="335" height="20.5"/>
@@ -2525,60 +2595,6 @@
             </objects>
             <point key="canvasLocation" x="5156" y="-322"/>
         </scene>
-        <!--View Controller-->
-        <scene sceneID="8jh-Qj-S1e">
-            <objects>
-                <viewController id="o5M-yb-Rtb" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="Q1d-OW-jFH">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="18" translatesAutoresizingMaskIntoConstraints="NO" id="KnD-89-b1e">
-                                <rect key="frame" x="37" y="30" width="301" height="68.5"/>
-                                <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fEu-PL-tT4">
-                                        <rect key="frame" x="0.0" y="0.0" width="301" height="30"/>
-                                        <state key="normal" title="Submit"/>
-                                        <connections>
-                                            <action selector="submitPressed:" destination="o5M-yb-Rtb" eventType="touchUpInside" id="bBr-g2-v9q"/>
-                                        </connections>
-                                    </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Error Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0iA-Ap-Efe">
-                                        <rect key="frame" x="0.0" y="48" width="301" height="20.5"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <color key="textColor" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                </subviews>
-                                <constraints>
-                                    <constraint firstItem="fEu-PL-tT4" firstAttribute="centerX" secondItem="KnD-89-b1e" secondAttribute="centerX" id="UMt-Xv-C9U"/>
-                                    <constraint firstItem="0iA-Ap-Efe" firstAttribute="centerX" secondItem="KnD-89-b1e" secondAttribute="centerX" id="UmQ-NT-hkf"/>
-                                </constraints>
-                            </stackView>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <constraints>
-                            <constraint firstItem="ncA-ym-ipB" firstAttribute="trailing" secondItem="KnD-89-b1e" secondAttribute="trailing" constant="37" id="6SA-E8-rmq"/>
-                            <constraint firstItem="KnD-89-b1e" firstAttribute="leading" secondItem="ncA-ym-ipB" secondAttribute="leading" constant="37" id="Yzz-YU-L9a"/>
-                            <constraint firstItem="KnD-89-b1e" firstAttribute="top" secondItem="ncA-ym-ipB" secondAttribute="top" constant="30" id="peX-sg-8cL"/>
-                        </constraints>
-                        <viewLayoutGuide key="safeArea" id="ncA-ym-ipB"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="Nuu-LS-4km"/>
-                    <connections>
-                        <outlet property="cardNumberField" destination="Yi0-Uc-Zmr" id="458-0s-h4M"/>
-                        <outlet property="csvField" destination="Rgp-Io-isB" id="7yL-st-gFF"/>
-                        <outlet property="errorLabel" destination="0iA-Ap-Efe" id="weo-ZK-Whm"/>
-                        <outlet property="expiryDateField" destination="zuc-qY-zZo" id="oaL-No-Lxv"/>
-                        <outlet property="submitButton" destination="fEu-PL-tT4" id="BBX-0L-upe"/>
-                        <segue destination="wvv-rJ-gJx" kind="unwind" identifier="unwindToPrevious" unwindAction="unwindToPrevious:" id="UXM-IT-mvS"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="RbE-az-qGY" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <exit id="wvv-rJ-gJx" userLabel="Exit" sceneMemberID="exit"/>
-            </objects>
-            <point key="canvasLocation" x="5735" y="2670"/>
-        </scene>
     </scenes>
     <resources>
         <image name="Ic_account_circle.png" width="16" height="16"/>
@@ -2593,6 +2609,7 @@
         <image name="icons8-headstone-50" width="25" height="25"/>
         <image name="icons8-mastercard-credit-card-50" width="25" height="25"/>
         <image name="icons8-money-50" width="25" height="25"/>
+        <image name="icons8-ok-480" width="240" height="240"/>
         <image name="icons8-paper-plane-50" width="25" height="25"/>
         <image name="icons8-receipt-approved-50" width="25" height="25"/>
         <image name="logo Wildfire vertical-1" width="1282" height="1247.5"/>
@@ -2600,8 +2617,8 @@
     <inferredMetricsTieBreakers>
         <segue reference="77W-hC-y4a"/>
         <segue reference="KNr-jR-5zd"/>
-        <segue reference="bGq-l6-Or3"/>
-        <segue reference="xSZ-MN-4qf"/>
+        <segue reference="ydr-lM-sQk"/>
+        <segue reference="JGW-hE-gdx"/>
         <segue reference="KC7-yY-zWV"/>
     </inferredMetricsTieBreakers>
 </document>

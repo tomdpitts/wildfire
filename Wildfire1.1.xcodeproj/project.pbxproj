@@ -10,6 +10,7 @@
 		02B40DBB5BA0E3ABDC608F79 /* Pods_Wildfire1_1.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4483B7785E5EA4F8EEDBA322 /* Pods_Wildfire1_1.framework */; };
 		BA5775FCEF6517559C1353DB /* Pods_Wildfire1_1Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 70977A2D67508CF8EB0AA3E3 /* Pods_Wildfire1_1Tests.framework */; };
 		E20104EC23E93D4F00441040 /* AddCard2TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E20104EB23E93D4F00441040 /* AddCard2TableViewController.swift */; };
+		E20104EE23EB994F00441040 /* AddCardSuccessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E20104ED23EB994F00441040 /* AddCardSuccessViewController.swift */; };
 		E2026709230ED8CF003C0AF4 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2026708230ED8CF003C0AF4 /* LoginViewController.swift */; };
 		E2149704231410240048D149 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2149703231410240048D149 /* HomeViewController.swift */; };
 		E21AC96321EA6BEF00D460A9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E21AC96221EA6BEF00D460A9 /* AppDelegate.swift */; };
@@ -65,6 +66,7 @@
 		70977A2D67508CF8EB0AA3E3 /* Pods_Wildfire1_1Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Wildfire1_1Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B1E15A2B9797B338CC0D02CA /* Pods-Wildfire1.1Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Wildfire1.1Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Wildfire1.1Tests/Pods-Wildfire1.1Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		E20104EB23E93D4F00441040 /* AddCard2TableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCard2TableViewController.swift; sourceTree = "<group>"; };
+		E20104ED23EB994F00441040 /* AddCardSuccessViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCardSuccessViewController.swift; sourceTree = "<group>"; };
 		E2026708230ED8CF003C0AF4 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		E2149703231410240048D149 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		E21AC95F21EA6BEF00D460A9 /* Wildfire1.1.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Wildfire1.1.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -222,7 +224,6 @@
 			children = (
 				E2149703231410240048D149 /* HomeViewController.swift */,
 				E2026708230ED8CF003C0AF4 /* LoginViewController.swift */,
-				E279717C231433AF00964F25 /* SignUpViewController.swift */,
 				E279717E231433D500964F25 /* ExistingUserViewController.swift */,
 				E21AC96421EA6BEF00D460A9 /* PayViewController.swift */,
 				E21AC99621EA850C00D460A9 /* ScanViewController.swift */,
@@ -232,6 +233,7 @@
 				E2FA9ED52333D70D0068792D /* PaymentSetupViewController.swift */,
 				E21AC98421EA6C9E00D460A9 /* AccountViewController.swift */,
 				E26039772350DABA0031C792 /* ProfilePicViewController.swift */,
+				E279717C231433AF00964F25 /* SignUpViewController.swift */,
 				E2676366235614DB00D079C6 /* formStep2ViewController.swift */,
 				E26763642355EE6B00D079C6 /* formStep3ViewController.swift */,
 				E29CF69523586AE700ADC0D0 /* ContactsViewController.swift */,
@@ -246,6 +248,7 @@
 				E20104EB23E93D4F00441040 /* AddCard2TableViewController.swift */,
 				E271C0CD23D81EED004245CC /* CardDetailsViewController.swift */,
 				E271C0D123D99E6F004245CC /* EditProfileTableViewController.swift */,
+				E20104ED23EB994F00441040 /* AddCardSuccessViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -450,6 +453,7 @@
 				E22D7E0523B04E8A00F86487 /* PaymentMethodsViewController.swift in Sources */,
 				E279717F231433D500964F25 /* ExistingUserViewController.swift in Sources */,
 				E24388A523154A5200948AD5 /* Utilities.swift in Sources */,
+				E20104EE23EB994F00441040 /* AddCardSuccessViewController.swift in Sources */,
 				E26763652355EE6B00D079C6 /* formStep3ViewController.swift in Sources */,
 				E2CDF4AB235F2126002E155D /* PhoneViewController.swift in Sources */,
 				E2149704231410240048D149 /* HomeViewController.swift in Sources */,

@@ -284,15 +284,18 @@ exports.createNewMangopayCustomer = functions.region('europe-west1').firestore.d
       console.log('Error saving to database', err);
     })
 
+    let cardID = cardObject.CardId
 
     // and save the important part of the response - the cardId - to the Firestore database
-    return admin.firestore().collection('users').doc(userID).collection('wallets').doc(walletID).collection('cards').doc(cardObject.CardId).set({
-      cardID: cardObject.CardId
+    admin.firestore().collection('users').doc(userID).collection('wallets').doc(walletID).collection('cards').doc(cardID).set({
+      cardID: cardID
       // merge (to prevent overwriting other fields) should never be needed, but just in case..
     }, {merge: true})
     .catch(err => {
       console.log('Error saving to database', err);
     })
+
+    return cardID
   })
 
   // the transact function is structured as follows: 1) receiving the call from client (payer) containing the recipient ID, the amount, and the currency 2) it fetches the MP wallet IDs of each party from Firestore 3) it checks the balance of each from the MP Wallet, 4) creates a MP Transfer, 5) logs a Transaction in the Firestore Transaction database (this automatically triggers updates to each party's Receipts), 6) update both payer/user and recipient balances - this may soon be deprecated in favour of calling the mangopay wallet balance directly - and 7) returns confirmation to client upon success. N.B. notification to the recipient happens elsewhere, and is triggered by the creation of a Transaction record (step 5 on this list)
@@ -634,7 +637,7 @@ exports.createNewMangopayCustomer = functions.region('europe-west1').firestore.d
 
 
 
-  }
+  })
 
   exports.deleteCard = functions.region('europe-west1').https.onCall( async (data, context) => {
 
