@@ -12,7 +12,7 @@ import FirebaseFirestore
 import FirebaseAuth
 import SwiftyJSON
 
-class AddCard2TableViewController: UITableViewController {
+class AddCard2TableViewController: UITableViewController, UITextFieldDelegate {
     
     private let networkingClient = NetworkingClient()
     lazy var functions = Functions.functions(region:"europe-west1")
@@ -21,6 +21,8 @@ class AddCard2TableViewController: UITableViewController {
     var expiryDateField = ""
     var csvField = ""
     
+    var countries: [String] = []
+    
     @IBOutlet weak var line1TextField: UITextField!
     @IBOutlet weak var line2TextField: UITextField!
     @IBOutlet weak var cityTextField: UITextField!
@@ -28,18 +30,34 @@ class AddCard2TableViewController: UITableViewController {
     @IBOutlet weak var postcodeTextField: UITextField!
     @IBOutlet weak var countryTextField: UITextField!
     
+    @IBOutlet weak var submitButton: UIButton!
     
     @IBOutlet weak var errorLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        navigationItem.title = "Card Address Details"
+        navigationItem.title = "Billing Address"
         navigationController?.navigationBar.prefersLargeTitles = true
         
         tableView.tableFooterView = UIView()
         tableView.backgroundColor = .groupTableViewBackground
+        
+        errorLabel.isHidden = true
+        
+        for code in NSLocale.isoCountryCodes  {
+            let id = NSLocale.localeIdentifier(fromComponents: [NSLocale.Key.countryCode.rawValue: code])
+            let name = NSLocale(localeIdentifier: "en_UK").displayName(forKey: NSLocale.Key.identifier, value: id) ?? "Country not found for code: \(code)"
+            self.countries.append(name)
+        }
+        countryTextField.delegate = self
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        line1TextField.becomeFirstResponder()
+    }
+    
 
     // TODO rewrite this using Promise
     @IBAction func submitPressed(_ sender: Any) {
@@ -170,29 +188,101 @@ class AddCard2TableViewController: UITableViewController {
             }
         }
     }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        return !autoCompleteText(in: textField, using: string, suggestions: self.countries)
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        // Try to find next responder
+        if let nextField = textField.superview?.viewWithTag(textField.tag + 1) as? UITextField {
+            nextField.becomeFirstResponder()
+        } else {
+            // Not found, so remove keyboard.
+            textField.resignFirstResponder()
+            submitPressed(self)
+        }
+        return true
+    }
+    
+    func autoCompleteText(in textField: UITextField, using string: String, suggestions: [String]) -> Bool {
+        if !string.isEmpty,
+            let selectedTextRange = textField.selectedTextRange, selectedTextRange.end == textField.endOfDocument,
+            let prefixRange = textField.textRange(from: textField.beginningOfDocument, to: selectedTextRange.start),
+            let text = textField.text(in: prefixRange) {
+            
+            let prefix = text + string
+            let lowercasePrefix = prefix.lowercased()
+            
+            var lowercasedCountries: [String] = []
+            for country in suggestions  {
+                let new = country.lowercased()
+                lowercasedCountries.append(new)
+            }
+            
+            let matches = lowercasedCountries.filter { $0.hasPrefix(lowercasePrefix) }
+            
+            var fixedCountries: [String] = []
+            for country in matches  {
+                let reverted = country.firstUppercased
+                fixedCountries.append(reverted)
+            }
+            
+            if (fixedCountries.count > 0) {
+                textField.text = fixedCountries[0]
+                
+                if let start = textField.position(from: textField.beginningOfDocument, offset: prefix.count) {
+                    textField.selectedTextRange = textField.textRange(from: start, to: textField.endOfDocument)
+                    
+                    return true
+                }
+            }
+        }
+        
+        return false
+    }
+    
+    private func localeFinder(for fullCountryName : String) -> String? {
+        
+        for localeCode in NSLocale.isoCountryCodes {
+            let identifier = NSLocale(localeIdentifier: "en_UK")
+            let countryName = identifier.displayName(forKey: NSLocale.Key.countryCode, value: localeCode)
+            
+            let countryNameClean = countryName!.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)
+            let fullCountryNameClean = fullCountryName.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)
+            
+            if fullCountryNameClean == countryNameClean {
+                return localeCode
+            }
+        }
+        return nil
+    }
 
     func addAddressToCard(walletID: String, cardID: String, makeDefault: Bool) {
-        let validated = validateFields()
+        let validationResult = validateFields()
         
-        if validated != "true" {
-            errorLabel.text = validated
+        if validationResult != "true" {
+            errorLabel.text = validationResult
+            errorLabel.isHidden = true
         } else {
             if let uid = Auth.auth().currentUser?.uid {
                 
                 guard let line1 = self.line1TextField.text else { return }
-                guard let line2 = self.line2TextField.text else { return }
-                guard let city = self.cityTextField.text else { return }
+                // N.B. line2 is not required - if nothing entered then pass empty string
+                let line2 = self.line2TextField.text ?? ""
+                // "city" not key value coding-compliant - renamed to "cityName"
+                guard let cityName = self.cityTextField.text else { return }
                 guard let region = self.regionTextField.text else { return }
                 guard let postcode = self.postcodeTextField.text else { return }
                 // TODO country needs to be converted to appropriate format
                 guard let country = self.countryTextField.text else { return }
                 
                 let addressData : [String: [String: String]] = [
-                    "billingAddress": ["line1": line1, "line2": line2,"city": city, "region": region,"postcode": postcode,"country": country]
+                    "billingAddress": ["line1": line1, "line2": line2,"city": cityName, "region": region,"postcode": postcode,"country": country]
                 ]
                 
                 let defaultAddressData : [String: [String: String]] = [
-                    "defaultBillingAddress": ["line1": line1, "line2": line2,"city": city, "region": region,"postcode": postcode,"country": country]
+                    "defaultBillingAddress": ["line1": line1, "line2": line2,"city": cityName, "region": region,"postcode": postcode,"country": country]
                 ]
                 
             Firestore.firestore().collection("users").document(uid).collection("wallets").document(walletID).collection("cards").document(cardID).setData(addressData
@@ -221,16 +311,16 @@ class AddCard2TableViewController: UITableViewController {
     func validateFields() -> String? {
         
         let line1 = line1TextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
-        let line2 = line2TextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
-        let city = cityTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
+        // N.B. line 2 is not required
+        let cityName = cityTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
         let region = regionTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
         let postcode = postcodeTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
         let country = countryTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
         
         // Check that all fields are filled in
         if line1 == "" ||
-            line2 == "" ||
-            city == "" ||
+            // N.B. line 2 is not required
+            cityName == "" ||
             region == "" ||
             postcode == "" ||
             country == ""
@@ -250,6 +340,11 @@ class AddCard2TableViewController: UITableViewController {
 //                    }
         }
     }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        // without this line, the cell remains (visually) selected after end of tap
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
             
     func showError(_ message:String) {
         
@@ -257,3 +352,4 @@ class AddCard2TableViewController: UITableViewController {
         errorLabel.isHidden = false
     }
 }
+

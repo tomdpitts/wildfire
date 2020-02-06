@@ -47,6 +47,10 @@ class AddCardViewController: UIViewController, UITextFieldDelegate {
     
     // watch out: theoretically the user can submit card details before this async function returns its values, which are required for the submitPressed func below. Leaving for time being as testing suggests it's practically impossible for user to fill in their card info that fast, but good to be aware
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        cardNumberField.becomeFirstResponder()
+    }
     
     @IBAction func submitPressed(_ sender: Any) {
         

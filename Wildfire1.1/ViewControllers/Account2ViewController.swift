@@ -222,7 +222,7 @@ class Account2ViewController: UITableViewController {
                     // using Kingfisher library for tidy handling of image download
                     self.profilePicView.kf.setImage(
                         with: url,
-                        placeholder: UIImage(named: "icons8-user-50"),
+                        placeholder: self.genericProfilePic,
                         options: [
                             .scaleFactor(UIScreen.main.scale),
                             .transition(.fade(1)),
@@ -235,6 +235,7 @@ class Account2ViewController: UITableViewController {
                         case .success(let value):
                            
                             self.profilePic = value.image
+                            self.genericProfilePic = value.image
                         case .failure(let error):
                             print("Job failed: \(error.localizedDescription)")
                         }

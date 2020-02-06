@@ -13,7 +13,8 @@ import CryptoSwift
 
 class ReceiveViewController: UIViewController {
     
-    
+    // TODO prevent users from generating QR codes when no account (and crucially, no MangoPay wallet) exists yet
+    // TODO in future, would be nice to add functionality to handle pending payments, so users can receive payments quickly upon first download, and add account info after the fact
 
     @IBOutlet weak var textField: UITextField!
     

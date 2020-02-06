@@ -48,7 +48,11 @@ class ProfilePicViewController: UIViewController, UINavigationControllerDelegate
     
     @IBAction func editProfilePicButton(_ sender: Any) {
         ImagePickerManager().pickImage(self){ image in
-            self.pictureView.image = image
+            
+            let size = CGSize(width: 200.0, height: 200.0)
+            let aspectScaleImage = image.af_imageAspectScaled(toFill: size)
+            let circleImage = aspectScaleImage.af_imageRoundedIntoCircle()
+            self.pictureView.image = circleImage
             
             self.confirmButton.isHidden = false
             self.confirmButton.isEnabled = true
@@ -78,10 +82,8 @@ class ProfilePicViewController: UIViewController, UINavigationControllerDelegate
         guard let filename = Auth.auth().currentUser?.uid,
             let profilePic = imageToUpload else { return }
         
-        let size = CGSize(width: 200.0, height: 200.0)
-        let aspectScaleImage = profilePic.af_imageAspectScaled(toFit: size)
         
-        guard let uploadData = aspectScaleImage.jpegData(compressionQuality: 0.9) else { return }
+        guard let uploadData = profilePic.jpegData(compressionQuality: 0.9) else { return }
         
         let storageRef = Storage.storage().reference().child("profilePictures").child(filename)
         let uploadTask = storageRef.putData(uploadData, metadata: nil) { (metadata, err) in

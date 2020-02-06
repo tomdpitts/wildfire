@@ -16,6 +16,7 @@ import LocalAuthentication
 import Kingfisher
 
 class ConfirmViewController: UIViewController {
+    // TODO this VC is not super well structured - could do with some refactoring in future
     
     let db = Firestore.firestore()
     var handle: AuthStateDidChangeListenerHandle?
@@ -150,6 +151,10 @@ class ConfirmViewController: UIViewController {
         let docRef = self.db.collection("users").document(uid)
         // TODO replace this with a call to MP Wallet to fetch balance
         docRef.getDocument { (document, error) in
+            
+            if error != nil {
+                self.showAlert(title: "Hmm..", message: "Apologies - we're having connectivity issues. Please try again.", segue: nil, cancel: false)
+            }
             if let document = document, document.exists {
                 
                 let userData = document.data()
@@ -184,7 +189,16 @@ class ConfirmViewController: UIViewController {
                 self.confirmButton.isEnabled = true
                 
             } else {
-                // didn't get that document..
+                // user hasn't added account info yet
+                //
+                
+                self.dynamicLabel.text = "Please provide some quick details to complete payment"
+                
+                self.confirmButton.setTitle("Continue", for: .normal)
+                
+                self.dynamicLabel.isHidden = false
+                self.confirmButton.isEnabled = true
+                
                 return
             }
         }

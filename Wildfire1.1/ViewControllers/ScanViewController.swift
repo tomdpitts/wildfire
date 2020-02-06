@@ -69,6 +69,27 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        if #available(iOS 13.0, *) {
+            let appearance = UINavigationBarAppearance()
+            
+            appearance.configureWithDefaultBackground()
+            
+            UINavigationBar.appearance().scrollEdgeAppearance = appearance
+        } else {
+            self.navigationController?.navigationBar.tintColor = .white
+            self.navigationController?.navigationBar.isTranslucent = true
+        }
+        
+        
+        navigationItem.title = "Scan"
+        navigationController?.navigationBar.prefersLargeTitles = true
+//        self.navigationController!.navigationBar.setBackgroundImage(UIImage(), for: .default)
+//        self.navigationController!.navigationBar.shadowImage = UIImage()
+       
+//        self.navigationController?.navigationBar.backgroundColor = .clear
+
+        
+        
         // this func triggers Firestore balance to update from MangoPay - useful for the next screen when balance will be fetched
         self.functions.httpsCallable("getCurrentBalance").call(["foo": "bar"]) { (result, error) in
             if error != nil {

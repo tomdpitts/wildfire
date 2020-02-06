@@ -61,18 +61,19 @@ class HomeViewController: UIViewController {
                     if success {
                         self.performSegue(withIdentifier: "goToPay", sender: self)
                     } else {
-                        
-                        do {
-                            try Auth.auth().signOut()
-                        } catch let err {
-                            print(err)
-                        }
-                        
-                        let ac = UIAlertController(title: "Continue", message: "Login didn't work - you'll need to verify your phone number", preferredStyle: .alert)
-                        
-                        ac.addAction(UIAlertAction(title: "OK", style: .default, handler: {(alert: UIAlertAction!) in self.performSegue(withIdentifier: "goToPhoneVerification", sender: self)}
-                        ))
-                        self.present(ac, animated: true)
+                        // just try again. Previously failure to auth triggered signOut which is just a terrible UX cos it happens more often than you might think
+                        self.authenticateUser()
+//                        do {
+//                            try Auth.auth().signOut()
+//                        } catch let err {
+//                            print(err)
+//                        }
+//
+//                        let ac = UIAlertController(title: "Continue", message: "Login didn't work - you'll need to verify your phone number", preferredStyle: .alert)
+//
+//                        ac.addAction(UIAlertAction(title: "OK", style: .default, handler: {(alert: UIAlertAction!) in self.performSegue(withIdentifier: "goToPhoneVerification", sender: self)}
+//                        ))
+//                        self.present(ac, animated: true)
                     }
                 }
             }
