@@ -35,6 +35,8 @@ class ConfirmViewController: UIViewController {
     var enoughCredit = false
     var existingPaymentMethod = false
     var shouldReloadView = false
+    
+    var confirmedTransaction: Transaction?
 
     @IBOutlet weak var amountLabel: UILabel!
     
@@ -239,7 +241,7 @@ class ConfirmViewController: UIViewController {
                 }
             } else {
                 if existingPaymentMethod == true {
-                    print("initiate topup")
+                    
                     // initiate topup (ideally with ApplePay & touchID)
                     transact(recipientUID: self.recipientUID, amount: self.sendAmount, topup: true, topupAmount: self.topupAmount) { result in
                         let trunc = result.prefix(7)
@@ -337,6 +339,19 @@ class ConfirmViewController: UIViewController {
                     //                                }
                             // ...
                         } else {
+                            
+                            if let transactionData = result?.data as? [String: Any] {
+                                let amount = transactionData["amount"] as! Int
+                                let currency = transactionData["currency"] as! Int
+                                let datetime = transactionData["datetime"] as! Date
+                                let payerID = transactionData["payerID"] as! String
+                                let recipientID = transactionData["recipientID"] as! String
+                                let payerName = transactionData["payerName"] as! String
+                                let recipientName = transactionData["recipientName"] as! String
+                                let userIsPayer = transactionData["userIsPayer"] as! Bool
+                            }
+                           // TODO turn this into a Transaction and pass to following view in prepareForSegue
+                            print(self.confirmedTransaction)
                             completion("success (no topup required")
                         }
                     }
@@ -483,7 +498,7 @@ class ConfirmViewController: UIViewController {
             
             // TODO replace this with the actual transaction
             
-            let transaction = Transaction(amount: self.sendAmount, datetime: date2, payerID: "testPayer", recipientID: "testRecipient", payerName: "Jim", recipientName: "Sally", userIsPayer: true)
+            let transaction = Transaction(amount: self.sendAmount, currency: "GBP", datetime: date2, payerID: "testPayer", recipientID: "testRecipient", payerName: "Jim", recipientName: "Sally", userIsPayer: true)
             
             
             

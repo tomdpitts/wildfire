@@ -129,6 +129,8 @@ class ReceiptsViewController: UITableViewController {
                     let datetime = Date(timeIntervalSince1970: TimeInterval(datetimeUNIX))
                     let formattedDatetime = formatter.string(from: datetime)
                     
+                    let currency = data["currency"] as! String
+                    
                     let payerID = data["payerID"] as! String
                     let recipientID = data["recipientID"] as! String
                     
@@ -138,7 +140,7 @@ class ReceiptsViewController: UITableViewController {
                     let userIsPayer = data["userIsPayer"] as! Bool
                     
                     
-                    let transactionData = Transaction(amount: amount, datetime: datetime, payerID: payerID, recipientID: recipientID, payerName: payerName, recipientName: recipientName, userIsPayer: userIsPayer)
+                    let transactionData = Transaction(amount: amount, currency: currency, datetime: datetime, payerID: payerID, recipientID: recipientID, payerName: payerName, recipientName: recipientName, userIsPayer: userIsPayer)
                     
                     transactionsList.append(transactionData)
                     

@@ -322,6 +322,9 @@ exports.createNewMangopayCustomer = functions.region('europe-west1').firestore.d
     var recipientWalletID = ''
     var recipientMangoPayID = ''
 
+    var userFullname = ''
+    var recipientFullname = ''
+
     // boolean flag to check the balances have been correctly fetched
     var balanceFail = false
 
@@ -417,7 +420,19 @@ exports.createNewMangopayCustomer = functions.region('europe-west1').firestore.d
         recipientRef.set({balance: newRecipientBalance}, {merge: true})
 
         // 7: return success to Client
-        return { text: "success" }
+
+        const receiptData = {
+          "amount": amount,
+          "currency": currency,
+          "datetime": Math.round(Date.now()/1000),
+          "payerID": userID,
+          "recipientID": recipientID,
+          "payerName": userFullname,
+          "recipientName": recipientFullname,
+          "userIsPayer": "true"
+        }
+
+        return receiptData
       } else {
         console.log("user does not have sufficient funds")
         return { text: "user does not have sufficient funds"}

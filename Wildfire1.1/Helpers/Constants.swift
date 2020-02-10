@@ -32,14 +32,26 @@ struct Contact {
     var uid: String?
 }
 
-struct Transaction {
+struct Transaction: Codable {
     let amount: Int
+    let currency: String?
     let datetime: Date
     let payerID: String
     let recipientID: String
     let payerName: String?
     let recipientName: String?
     let userIsPayer: Bool
+    
+    enum CodingKeys: String, CodingKey {
+        case amount
+        case currency
+        case datetime
+        case payerID
+        case recipientID
+        case payerName
+        case recipientName
+        case userIsPayer
+    }
 }
 
 struct PaymentCard: Codable {
