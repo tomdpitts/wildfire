@@ -16,6 +16,13 @@ class BankDetails2TableViewController: UITableViewController, UITextFieldDelegat
     var name = ""
     var swiftCode = ""
     var accountNumber = ""
+    
+    var line1 = ""
+    var line2 = ""
+    var cityName = ""
+    var region = ""
+    var postcode = ""
+    var country = ""
 
     lazy var functions = Functions.functions(region:"europe-west1")
     
@@ -44,6 +51,15 @@ class BankDetails2TableViewController: UITableViewController, UITextFieldDelegat
         
         errorLabel.isHidden = true
         Utilities.styleFilledButton(submitButton)
+        
+        // prefill text fields
+        line1TextField.text = line1
+        line2TextField.text = line2
+        cityTextField.text = cityName
+        regionTextField.text = region
+        postcodeTextField.text = postcode
+        // prefill country name (it arrives from the db as a country code, so needs to be converted)
+        countryTextField.text = Utilities.countryName(from: self.country)
         
         for code in NSLocale.isoCountryCodes  {
             let id = NSLocale.localeIdentifier(fromComponents: [NSLocale.Key.countryCode.rawValue: code])
@@ -87,9 +103,13 @@ class BankDetails2TableViewController: UITableViewController, UITextFieldDelegat
                 let cityName = self.cityTextField.text,
                 let region = self.regionTextField.text,
                 let postcode = self.postcodeTextField.text,
-                let countryCode = self.countryTextField.text else { return }
+                let country = self.countryTextField.text else { return }
             
-            // TODO translate country back to code
+            // translate country back to code
+            guard let countryCode = Utilities.localeFinder(for: country) else {
+                print("countryCode couldn't be generated")
+                return
+            }
             
             let bankAccountData: [String: String] = [
                 "name": self.name,
@@ -105,10 +125,12 @@ class BankDetails2TableViewController: UITableViewController, UITextFieldDelegat
                 "countryCode": countryCode
             ]
             
+            print(bankAccountData)
+            
             // fields have passed validation - so continue
-            functions.httpsCallable("addBankAccount").call([bankAccountData]) { (result, error) in
+            functions.httpsCallable("addBankAccount").call(bankAccountData) { (result, error) in
                 
-                
+                print(result)
                 
             }
         }
@@ -167,22 +189,6 @@ class BankDetails2TableViewController: UITableViewController, UITextFieldDelegat
         return false
     }
     
-    private func localeFinder(for fullCountryName : String) -> String? {
-        
-        for localeCode in NSLocale.isoCountryCodes {
-            let identifier = NSLocale(localeIdentifier: "en_UK")
-            let countryName = identifier.displayName(forKey: NSLocale.Key.countryCode, value: localeCode)
-            
-            let countryNameClean = countryName!.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)
-            let fullCountryNameClean = fullCountryName.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)
-            
-            if fullCountryNameClean == countryNameClean {
-                return localeCode
-            }
-        }
-        return nil
-    }
-
     func addAddressToCard(walletID: String, cardID: String, makeDefault: Bool) {
         if let uid = Auth.auth().currentUser?.uid {
             
@@ -241,7 +247,8 @@ class BankDetails2TableViewController: UITableViewController, UITextFieldDelegat
         let cityName = cityTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
         let region = regionTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
         let postcode = postcodeTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
-        let country = countryTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
+        let country = Utilities.localeFinder(for: countryTextField.text!)
+//        let country = countryTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
         
         // Check that all fields are filled in
         if line1 == "" ||
@@ -252,9 +259,13 @@ class BankDetails2TableViewController: UITableViewController, UITextFieldDelegat
             country == ""
             {
             return "Please fill in all fields."
+        }
+        
+        if country == nil {
+            showError("Please enter a valid Nationality")
+        }
             
-        } else {
-            return nil
+        return nil
 //                if cardNumber.count != 16 {
 //                    return "Card Number must be 16 digits long"
 //                    }
@@ -264,7 +275,7 @@ class BankDetails2TableViewController: UITableViewController, UITextFieldDelegat
 //                if csv.count != 3 {
 //                    return "CSV number must be exactly 3 digits"
 //                    }
-        }
+        
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

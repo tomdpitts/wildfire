@@ -103,32 +103,57 @@ class Utilities {
 
     static func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
 
-    let inverseSet = NSCharacterSet(charactersIn:"0123456789").inverted
+        let inverseSet = NSCharacterSet(charactersIn:"0123456789").inverted
 
-    let components = string.components(separatedBy: inverseSet)
+        let components = string.components(separatedBy: inverseSet)
 
-    let filtered = components.joined(separator: "")
+        let filtered = components.joined(separator: "")
 
-    if filtered == string {
-        return true
-    } else {
-        if string == "." {
-            let countdots = textField.text!.components(separatedBy:".").count - 1
-            if countdots == 0 {
-                return true
-            }else{
-                if countdots > 0 && string == "." {
-                    return false
-                } else {
+        if filtered == string {
+            return true
+        } else {
+            if string == "." {
+                let countdots = textField.text!.components(separatedBy:".").count - 1
+                if countdots == 0 {
                     return true
+                } else {
+                    if countdots > 0 && string == "." {
+                        return false
+                    } else {
+                        return true
+                    }
                 }
+            } else {
+                return false
             }
-        }else{
-            return false
         }
     }
-}
     
+    static func localeFinder(for fullCountryName : String) -> String? {
+        
+        for localeCode in NSLocale.isoCountryCodes {
+            let identifier = NSLocale(localeIdentifier: "en_UK")
+            let countryName = identifier.displayName(forKey: NSLocale.Key.countryCode, value: localeCode)
+            
+            let countryNameClean = countryName!.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)
+            let fullCountryNameClean = fullCountryName.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)
+            
+            if fullCountryNameClean == countryNameClean {
+                return localeCode
+            }
+        }
+        return nil
+    }
+    
+    static func countryName(from countryCode: String) -> String {
+        if let name = (Locale.current as NSLocale).displayName(forKey: .countryCode, value: countryCode) {
+            // Country name was found
+            return name
+        } else {
+            // Country name cannot be found
+            return countryCode
+        }
+    }
 }
 
 private var __maxLengths = [UITextField: Int]()

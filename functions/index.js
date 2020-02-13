@@ -704,7 +704,7 @@ exports.createNewMangopayCustomer = functions.region('europe-west1').firestore.d
     const swiftCode = data.swiftCode
     const accountNumber = data.accountNumber
 
-    const line1 = data.line1
+    const line1 = "5 spencer road"
     const line2 = data.line2
     const city = data.city
     const region = data.region
@@ -723,18 +723,18 @@ exports.createNewMangopayCustomer = functions.region('europe-west1').firestore.d
       console.log('Error getting mangopayID from Firestore database', err);
     });
 
-    let bankAccountData = {
-      "Type": "OTHER",
-      "OwnerName": name,
+    const bankAccountData = {
+      Type: 'OTHER',
+      OwnerName: name,
       "Country": countryCode,
       // N.B. BIC is equivalent to SWIFT code
       "BIC": swiftCode,
       "AccountNumber": accountNumber,
 
-      "OwnerAddress" : {
+      "OwnerAddress": {
         "AddressLine1": line1,
         "AddressLine2": line2,
-        "City": cityName,
+        City: city,
         "Region": region,
         "PostalCode": postcode,
         "Country": countryCode
@@ -742,7 +742,7 @@ exports.createNewMangopayCustomer = functions.region('europe-west1').firestore.d
       
     }
 
-    return bankAccountMP = await mpAPI.Users.createBankAccount(bankAccountData)
+    return bankAccountMP = await mpAPI.Users.createBankAccount(mangopayID, bankAccountData)
   })
 
   exports.triggerPayout = functions.region('europe-west1').https.onCall( async (data, context) => {

@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import FirebaseAuth
+import FirebaseFirestore
 
 class BankDetails1TableViewController: UITableViewController {
     
@@ -19,6 +21,14 @@ class BankDetails1TableViewController: UITableViewController {
     @IBOutlet weak var errorLabel: UILabel!
     
     @IBOutlet weak var nextButton: UIButton!
+    
+    
+    var line1 = ""
+    var line2 = ""
+    var cityName = ""
+    var region = ""
+    var postcode = ""
+    var country = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,6 +46,8 @@ class BankDetails1TableViewController: UITableViewController {
         
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(DismissKeyboard))
         view.addGestureRecognizer(tap)
+        
+        getUserAddress()
     }
 
     @IBAction func submitPressed(_ sender: Any) {
@@ -53,6 +65,49 @@ class BankDetails1TableViewController: UITableViewController {
             performSegue(withIdentifier: "goToStep2", sender: self)
         }
     }
+    
+    func getUserAddress() {
+            if let uid = Auth.auth().currentUser?.uid {
+                let docRef = Firestore.firestore().collection("users").document(uid)
+
+    //
+    //            docRef.getDocument { (document, error) in
+    //
+    //                if let err = error {
+    //                    print(err)
+    //                }
+    //                if let document = document, document.exists {
+    //                    let data = document.data()
+    //                    print(data)
+    //                } else {
+    //                    print("Document does not exist")
+    //                }
+    //            }
+                
+                docRef.addSnapshotListener { documentSnapshot, error in
+                    guard let document = documentSnapshot else {
+
+                        print("Error fetching document: \(error!)")
+                        return
+                    }
+                    
+                    guard let data = document.data() else {
+                        print("Document data was empty.")
+                        return
+                    }
+                    
+                    if let address = data["defaultBillingAddress"] as? [String: String] {
+                        self.line1 = address["line1"] as? String ?? ""
+                        self.line2 = address["line2"] as? String ?? ""
+                        self.cityName = address["city"] as? String ?? ""
+                        self.region = address["region"] as? String ?? ""
+                        self.postcode = address["postcode"] as? String ?? ""
+                        self.country = address["country"] as? String ?? ""
+                        
+                    } else { return }
+                }
+            }
+        }
 
     func validateFields() -> String? {
         
@@ -71,7 +126,7 @@ class BankDetails1TableViewController: UITableViewController {
         } else {
     
             if swiftCode.count != 6 {
-                return "Expiry Date should be in format MMYY"
+                return "SWIFT/BIC code should be 6 digits"
                 }
             if accountNumber.count > 9 || accountNumber.count < 8 {
                 return "Account number must be either 8 or 9 digits"
@@ -93,6 +148,14 @@ class BankDetails1TableViewController: UITableViewController {
             vc.name = nameField.text!
             vc.swiftCode = swiftField.text!
             vc.accountNumber = accountField.text!
+            
+            vc.line1 = self.line1
+            vc.line2 = self.line2
+            vc.cityName = self.cityName
+            vc.region = self.region
+            vc.postcode = self.postcode
+            // this shouldn't be passed straight to the text field as it needs to be translated from country code to country name i.e. in the database it's "GB", not "United kingdom" - this is because that's how mangopay APIs require country 
+            vc.country = self.country
         }
     }
         
