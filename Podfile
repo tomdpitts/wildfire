@@ -24,6 +24,7 @@ pod 'FacebookCore'
 pod 'FacebookLogin'
 pod 'Kingfisher'
 pod 'libPhoneNumber-iOS'
+pod 'BATabBarController'
 
 
   target 'Wildfire1.1Tests' do

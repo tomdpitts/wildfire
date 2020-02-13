@@ -342,15 +342,22 @@ class ConfirmViewController: UIViewController {
                             
                             if let transactionData = result?.data as? [String: Any] {
                                 let amount = transactionData["amount"] as! Int
-                                let currency = transactionData["currency"] as! Int
-                                let datetime = transactionData["datetime"] as! Date
+                                let currency = transactionData["currency"] as! String
+                                
+                                let datetimeUNIX = transactionData["datetime"] as! Int
+                                let datetime = Date(timeIntervalSince1970: TimeInterval(datetimeUNIX))
+                                
                                 let payerID = transactionData["payerID"] as! String
                                 let recipientID = transactionData["recipientID"] as! String
                                 let payerName = transactionData["payerName"] as! String
                                 let recipientName = transactionData["recipientName"] as! String
                                 let userIsPayer = transactionData["userIsPayer"] as! Bool
+                                
+                                
+                                self.confirmedTransaction = Transaction(amount: amount, currency: currency, datetime: datetime, payerID: payerID, recipientID: recipientID, payerName: payerName, recipientName: recipientName, userIsPayer: userIsPayer)
                             }
-                           // TODO turn this into a Transaction and pass to following view in prepareForSegue
+                            
+                            
                             print(self.confirmedTransaction)
                             completion("success (no topup required")
                         }
@@ -491,19 +498,8 @@ class ConfirmViewController: UIViewController {
             vc.userIsInPaymentFlow = true
         } else if segue.destination is DisplayReceiptViewController {
             
-            let isoDate = "2019-04-14T10:44:00+0000"
-
-            let dateFormatter = ISO8601DateFormatter()
-            let date2 = dateFormatter.date(from:isoDate)!
-            
-            // TODO replace this with the actual transaction
-            
-            let transaction = Transaction(amount: self.sendAmount, currency: "GBP", datetime: date2, payerID: "testPayer", recipientID: "testRecipient", payerName: "Jim", recipientName: "Sally", userIsPayer: true)
-            
-            
-            
             let vc = segue.destination as! DisplayReceiptViewController
-            vc.transaction = transaction
+            vc.transaction = self.confirmedTransaction
         }
     }
     

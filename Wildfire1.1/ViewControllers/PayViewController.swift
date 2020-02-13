@@ -44,8 +44,9 @@ class PayViewController: UIViewController {
 //
     
     func setUpElements() {
-        Utilities.styleFilledButton(sendButton)
-        Utilities.styleFilledButton(scanButton)
+        
+        Utilities.styleHollowButton(sendButton)
+        Utilities.styleHollowButton(scanButton)
         
         
     }

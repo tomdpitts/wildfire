@@ -45,7 +45,7 @@ class ReceiveViewController: UIViewController {
         navigationItem.title = "Receive"
         navigationController?.navigationBar.prefersLargeTitles = true
         
-        Utilities.styleFilledButton(btnAction)
+        Utilities.styleHollowButton(btnAction)
         
         textField.delegate = self as? UITextFieldDelegate
         textField.keyboardType = .decimalPad

@@ -26,19 +26,6 @@ admin.initializeApp(functions.config().firebase);
 
 // Each function requires its own exports.customFunction
 
-
-// the thinking behind having this function here rather than on client is that any functionality concerned with transactions should be a Cloud Function so that any necessary fixes can be applied immediately in realtime
-exports.addZeroBalanceOnCreation = functions.region('europe-west1').firestore
-  .document('users/{userId}')
-  .onCreate((snap, context) => {
-    // get a ref to the doc
-    const docRef = context.params.userId
-
-    // add a field called 'balance' and set it to 0
-    // this func is only called onCreate i.e. the very first time a user logs in with this phone number
-    return admin.firestore().collection('users').doc(docRef).update({balance: 0})
-  });
-
 exports.addTransactionsToUsers = functions.region('europe-west1').firestore
   .document('transactions/{transactionID}')
   .onCreate( async (snap, context) => {
@@ -85,7 +72,7 @@ exports.addTransactionsToUsers = functions.region('europe-west1').firestore
       recipientID: data.to,
       recipientName: recipientName,
       datetime: data.datetime,
-      //currency: data.currency,
+      currency: data.currency,
       amount: data.amount,
 
       userIsPayer: true
@@ -98,7 +85,7 @@ exports.addTransactionsToUsers = functions.region('europe-west1').firestore
       recipientID: data.to,
       recipientName: recipientName,
       datetime: data.datetime,
-      //currency: data.currency,
+      currency: data.currency,
       amount: data.amount,
 
       userIsPayer: false
@@ -130,44 +117,6 @@ exports.createNewMangopayCustomer = functions.region('europe-west1').firestore.d
 
 })
 
-// // When a user is created, register them with MangoPay and add an empty PaymentMethods collection
-// exports.createNewMangopayCustomerONCALL = functions.region('europe-west1').https.onCall( async (data, context) => {
-
-//   // TODO if this func fails for whatever reason, it should be retried (data is already in Firestore database)
-  
-//   const userID = context.auth.uid
-
-//   await admin.firestore().collection('users').doc(userID).get().then(doc => {
-
-//     userData = doc.data()
-//     console.log(userData)
-   
-//     const firstname = userData.firstname
-//     const lastname = userData.lastname
-//     const email = userData.email
-//     const birthday = userData.dob
-//     const nationality = userData.nationality
-//     const residence = userData.residence
-
-//     // this call to MangoPay includes a response, saved as customer - we take the ID contained therein and write to Firestore database in the next step
-//     const customer = await mpAPI.Users.create({PersonType: 'NATURAL', FirstName: firstname, LastName: lastname, Birthday: birthday, Nationality: nationality, CountryOfResidence: residence, Email: email}).then(docco => {
-
-//     });
-
-//     return admin.firestore().collection('users').doc(context.params.id).update({mangopayID: customer.Id})
-
-//     )
-
-    
-//   })
-//   .catch(err => {
-//     console.log('Error getting userID', err);
-//   });
-
-
-
-// })
-
 // TODO rename this function!
 
   // When user adds a new payment method, a) create a MangoPay wallet, b) create a Card Registration Object, and c) save the card token
@@ -187,7 +136,7 @@ exports.createNewMangopayCustomer = functions.region('europe-west1').firestore.d
       return
     })
     .catch(err => {
-      console.log('Error getting userID', err);
+      console.log('Error getting mangopayID from Firestore database', err);
     });
 
     var walletExists = false
@@ -207,7 +156,7 @@ exports.createNewMangopayCustomer = functions.region('europe-west1').firestore.d
       }
       return
     }).catch(err => {
-      console.log('Error getting userID', err);
+      console.log('Error getting wallet info', err);
     });
 
     if (walletExists === false) {
@@ -268,7 +217,7 @@ exports.createNewMangopayCustomer = functions.region('europe-west1').firestore.d
       return
     })
     .catch(err => {
-      console.log('Error getting userID', err);
+      console.log('Error getting mangopayID from Firestore database', err);
     });
 
     // update the CardRegistration object with the Registration data and cardRegID sent as the argument for this function.
@@ -333,6 +282,7 @@ exports.createNewMangopayCustomer = functions.region('europe-west1').firestore.d
     await userRef.get().then(doc => {
       let data = doc.data()
       userMangoPayID = data.mangopayID
+      userFullname = data.fullname
       return userWalletID = data.defaultWalletID
       // return oldUserBalance = data.balance;
     })
@@ -343,6 +293,7 @@ exports.createNewMangopayCustomer = functions.region('europe-west1').firestore.d
     await recipientRef.get().then(doc => {
       let data = doc.data()
       recipientMangoPayID = data.mangopayID
+      recipientFullname = data.fullname
       return recipientWalletID = data.defaultWalletID
     })
     .catch(err => {
@@ -371,7 +322,6 @@ exports.createNewMangopayCustomer = functions.region('europe-west1').firestore.d
 
       if (amount <= oldUserBalance && amount > 0) {
 
-        console.log('transact is going as planned')
         const MPTransferData =
           {
           "AuthorId": userMangoPayID,
@@ -402,6 +352,7 @@ exports.createNewMangopayCustomer = functions.region('europe-west1').firestore.d
         const transactionData = {
           from: userID,
           to: recipientID,
+          datetimeHR: admin.firestore.FieldValue.serverTimestamp(),
           datetime: Math.round(Date.now()/1000),
           currency: currency,
           amount: amount
@@ -429,7 +380,7 @@ exports.createNewMangopayCustomer = functions.region('europe-west1').firestore.d
           "recipientID": recipientID,
           "payerName": userFullname,
           "recipientName": recipientFullname,
-          "userIsPayer": "true"
+          "userIsPayer": true
         }
 
         return receiptData
@@ -488,7 +439,7 @@ exports.createNewMangopayCustomer = functions.region('europe-west1').firestore.d
       return
     })
     .catch(err => {
-      console.log('Error getting userID', err);
+      console.log('Error getting mangopayID from Firestore database', err);
     });
     return cardsList = mpAPI.Users.getCards(mangopayID, JSON)
 
@@ -533,7 +484,94 @@ exports.createNewMangopayCustomer = functions.region('europe-west1').firestore.d
       return
     })
     .catch(err => {
-      console.log('Error getting userID', err);
+      console.log('Error getting user info for credit topup', err);
+    });
+
+    // for reference: 
+    // "Billing": {
+    //   "Address": {
+    //   "AddressLine1": "1 Mangopay Street",
+    //   "AddressLine2": "The Loop",
+    //   "City": "Paris",
+    //   "Region": "Ile de France",
+    //   "PostalCode": "75001",
+    //   "Country": "FR"
+    //   }
+    // },
+
+    const payinData = {
+        "AuthorId": mangopayID,
+        "CreditedWalletId": walletID,
+        "DebitedFunds": {
+          "Currency": currencyType,
+          "Amount": amount
+          },
+        "Fees": {
+          // TODO: what currency should fees be taken in? 
+          "Currency": currencyType,
+          "Amount": fee
+          },
+        // if 3DSecure or some other flow is triggered, the user is redirected to this URL on completion (which should redirect them back to the app, I guess?)
+        "SecureModeReturnURL": "http://www.my-site.com/returnURL",
+        "CardId": cardID,
+        // Secure3D flow can be triggered manually if required, but is mandatory for all payins over 50 EUR regardless. Leaving as default for now
+        "CardType": "CB_VISA_MASTERCARD",
+        "SecureMode": "DEFAULT",
+        "StatementDescriptor": "WILDFIRE",
+        "Billing": {
+          "Address": billingAddress
+        },
+        "Culture": culture,
+        "PaymentType": "CARD",
+        "ExecutionType": "DIRECT"
+        }
+
+    const payin = mpAPI.PayIns.create(payinData)
+
+    return payin
+  })
+
+  // TODO
+  exports.createPayout = functions.region('europe-west1').https.onCall( async (data, context) => {
+    const userID = context.auth.uid
+
+    var mangopayID = ''
+    var walletID = ''
+    var cardID = ''
+    var billingAddress = {
+      "AddressLine1": '',
+      "AddressLine2": '',
+      "City": '',
+      "Region": '',
+      "PostalCode": '',
+      "Country": ''
+    }
+    var culture = ''
+
+    const currencyType = data.currency
+    const amount = data.amount
+    // the fee to be taken should be an integer, since the amount is in cents/pence
+    const fee = Math.round(amount/100*1.8)
+
+    // using the Firebase userID (supplied via 'context' of the request), get the data we need for the payin 
+    await admin.firestore().collection('users').doc(userID).get().then(doc => {
+      userData = doc.data();
+      mangopayID = userData.mangopayID
+      walletID = userData.defaultWalletID
+      cardID = userData.defaultCardID
+
+      billingAddress["AddressLine1"] = userData.defaultBillingAddress.line1
+      billingAddress["AddressLine2"] = userData.defaultBillingAddress.line2
+      billingAddress["City"] = userData.defaultBillingAddress.city
+      billingAddress["Region"] = userData.defaultBillingAddress.region
+      billingAddress["PostalCode"] = userData.defaultBillingAddress.postcode
+      billingAddress["Country"] = userData.defaultBillingAddress.country
+
+      culture = userData.culture
+      return
+    })
+    .catch(err => {
+      console.log('Error getting user info for payout', err);
     });
 
     // for reference: 
@@ -596,7 +634,7 @@ exports.createNewMangopayCustomer = functions.region('europe-west1').firestore.d
       return
     })
     .catch(err => {
-      console.log('Error getting userID', err);
+      console.log('Error getting defaultWalletID', err);
     });
 
     
@@ -606,6 +644,106 @@ exports.createNewMangopayCustomer = functions.region('europe-west1').firestore.d
     return db.set({balance: currentBalance}, {merge: true})
 
   });
+
+  exports.addCardRegistration = functions.region('europe-west1').https.onCall( async (data, context) => {
+
+    const userID = context.auth.uid
+
+    var mangopayID = ''
+    const rd = data.regData
+    const cardRegID = String(data.cardRegID)
+    const walletID = data.walletID
+
+    // using the Firebase userID (supplied via 'context' of the request), get the mangopayID 
+    await admin.firestore().collection('users').doc(userID).get().then(doc => {
+      userData = doc.data();
+      mangopayID = userData.mangopayID
+      return
+    })
+    .catch(err => {
+      console.log('Error getting userID', err);
+    });
+
+    // update the CardRegistration object with the Registration data and cardRegID sent as the argument for this function.
+    // see https://docs.mangopay.com/endpoints/v2.01/cards#e1042_post-card-info 
+    // "Update a Card Registration"
+    const cardObject = await mpAPI.CardRegistrations.update({RegistrationData: rd, Id: cardRegID})
+
+    admin.firestore().collection('users').doc(userID).set({
+      defaultCardID: cardObject.CardId
+      // merge (to prevent overwriting other fields) should never be needed, but just in case..
+    }, {merge: true})
+    .catch(err => {
+      console.log('Error saving to database', err);
+    })
+
+    let cardID = cardObject.CardId
+
+    // and save the important part of the response - the cardId - to the Firestore database
+    admin.firestore().collection('users').doc(userID).collection('wallets').doc(walletID).collection('cards').doc(cardID).set({
+      cardID: cardID
+      // merge (to prevent overwriting other fields) should never be needed, but just in case..
+    }, {merge: true})
+    .catch(err => {
+      console.log('Error saving to database', err);
+    })
+
+    return cardID
+  })
+
+
+  // TODO complete this function
+  exports.addBankAccount = functions.region('europe-west1').https.onCall( async (data, context) => {
+
+    const userID = context.auth.uid
+    const db = admin.firestore().collection('users').doc(userID)
+
+    var mangopayID = ""
+
+    const name = data.name
+    const swiftCode = data.swiftCode
+    const accountNumber = data.accountNumber
+
+    const line1 = data.line1
+    const line2 = data.line2
+    const city = data.city
+    const region = data.region
+    const postcode = data.postcode
+    const countryCode = data.countryCode
+    
+    // using the Firebase userID (supplied via 'context' of the request), get the wallet ID
+    await db.get().then(doc => {
+      userData = doc.data();
+      
+      mangopayID = userData.mangopayID
+      
+      return
+    })
+    .catch(err => {
+      console.log('Error getting mangopayID from Firestore database', err);
+    });
+
+    let bankAccountData = {
+      "Type": "OTHER",
+      "OwnerName": name,
+      "Country": countryCode,
+      // N.B. BIC is equivalent to SWIFT code
+      "BIC": swiftCode,
+      "AccountNumber": accountNumber,
+
+      "OwnerAddress" : {
+        "AddressLine1": line1,
+        "AddressLine2": line2,
+        "City": cityName,
+        "Region": region,
+        "PostalCode": postcode,
+        "Country": countryCode
+      }
+      
+    }
+
+    return bankAccountMP = await mpAPI.Users.createBankAccount(bankAccountData)
+  })
 
   exports.triggerPayout = functions.region('europe-west1').https.onCall( async (data, context) => {
 
@@ -631,7 +769,7 @@ exports.createNewMangopayCustomer = functions.region('europe-west1').firestore.d
       return
     })
     .catch(err => {
-      console.log('Error getting userID', err);
+      console.log('Error getting mangopayID from Firestore database', err);
     });
 
     const payoutData = 
@@ -666,7 +804,7 @@ exports.createNewMangopayCustomer = functions.region('europe-west1').firestore.d
     //   return
     // })
     // .catch(err => {
-    //   console.log('Error getting userID', err);
+    //   console.log('Error getting mangopayID from Firestore database', err);
     // })
 
     // TODO add MangoPay Card Deactivation (useful code above)

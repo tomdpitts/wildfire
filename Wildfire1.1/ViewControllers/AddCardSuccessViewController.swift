@@ -30,13 +30,4 @@ class AddCardSuccessViewController: UIViewController {
         
         performSegue(withIdentifier: "unwindToPrevious", sender: self)
     }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // in the case that user is adding their card while in payment flow i.e. they came from ConfirmVC
-        if segue.destination is ConfirmViewController {
-            let vc = segue.destination as! ConfirmViewController
-            vc.shouldReloadView = true
-        }
-    }
-
 }

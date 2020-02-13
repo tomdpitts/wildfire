@@ -31,6 +31,8 @@
 		E24388AD2315A5AC00948AD5 /* WildfireLogin.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = E24388AC2315A5AC00948AD5 /* WildfireLogin.mp4 */; };
 		E2444DF823A0A7930035674D /* ReceiptsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2444DF723A0A7930035674D /* ReceiptsViewController.swift */; };
 		E25213B9234E4375003B2160 /* FirebaseAuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25213B8234E4375003B2160 /* FirebaseAuthManager.swift */; };
+		E252A5E923F3BD0D0023AEDC /* BankDetails1TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E252A5E823F3BD0D0023AEDC /* BankDetails1TableViewController.swift */; };
+		E252A5EC23F3BD220023AEDC /* BankDetails2TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E252A5EB23F3BD220023AEDC /* BankDetails2TableViewController.swift */; };
 		E26039782350DABA0031C792 /* ProfilePicViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E26039772350DABA0031C792 /* ProfilePicViewController.swift */; };
 		E26763652355EE6B00D079C6 /* formStep3ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E26763642355EE6B00D079C6 /* formStep3ViewController.swift */; };
 		E2676367235614DB00D079C6 /* formStep2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2676366235614DB00D079C6 /* formStep2ViewController.swift */; };
@@ -92,6 +94,8 @@
 		E24388AC2315A5AC00948AD5 /* WildfireLogin.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = WildfireLogin.mp4; sourceTree = "<group>"; };
 		E2444DF723A0A7930035674D /* ReceiptsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiptsViewController.swift; sourceTree = "<group>"; };
 		E25213B8234E4375003B2160 /* FirebaseAuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseAuthManager.swift; sourceTree = "<group>"; };
+		E252A5E823F3BD0D0023AEDC /* BankDetails1TableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankDetails1TableViewController.swift; sourceTree = "<group>"; };
+		E252A5EB23F3BD220023AEDC /* BankDetails2TableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankDetails2TableViewController.swift; sourceTree = "<group>"; };
 		E26039772350DABA0031C792 /* ProfilePicViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePicViewController.swift; sourceTree = "<group>"; };
 		E26763642355EE6B00D079C6 /* formStep3ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = formStep3ViewController.swift; sourceTree = "<group>"; };
 		E2676366235614DB00D079C6 /* formStep2ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = formStep2ViewController.swift; sourceTree = "<group>"; };
@@ -249,6 +253,8 @@
 				E271C0CD23D81EED004245CC /* CardDetailsViewController.swift */,
 				E271C0D123D99E6F004245CC /* EditProfileTableViewController.swift */,
 				E20104ED23EB994F00441040 /* AddCardSuccessViewController.swift */,
+				E252A5E823F3BD0D0023AEDC /* BankDetails1TableViewController.swift */,
+				E252A5EB23F3BD220023AEDC /* BankDetails2TableViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -442,6 +448,7 @@
 				E21AC96321EA6BEF00D460A9 /* AppDelegate.swift in Sources */,
 				E2FA9ED82334E6130068792D /* NetworkingClient.swift in Sources */,
 				E29CF6982359BECD00ADC0D0 /* Send2ViewController.swift in Sources */,
+				E252A5EC23F3BD220023AEDC /* BankDetails2TableViewController.swift in Sources */,
 				E24388AA231575DA00948AD5 /* CustomSegues.swift in Sources */,
 				E23331D323328C630039E6A2 /* SuccessViewController.swift in Sources */,
 				E21AC98521EA6C9E00D460A9 /* AccountViewController.swift in Sources */,
@@ -451,6 +458,7 @@
 				E21AC96521EA6BEF00D460A9 /* PayViewController.swift in Sources */,
 				E222732A23420BBE006D8326 /* AddCardViewController.swift in Sources */,
 				E22D7E0523B04E8A00F86487 /* PaymentMethodsViewController.swift in Sources */,
+				E252A5E923F3BD0D0023AEDC /* BankDetails1TableViewController.swift in Sources */,
 				E279717F231433D500964F25 /* ExistingUserViewController.swift in Sources */,
 				E24388A523154A5200948AD5 /* Utilities.swift in Sources */,
 				E20104EE23EB994F00441040 /* AddCardSuccessViewController.swift in Sources */,

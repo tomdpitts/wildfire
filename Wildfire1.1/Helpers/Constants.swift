@@ -34,7 +34,7 @@ struct Contact {
 
 struct Transaction: Codable {
     let amount: Int
-    let currency: String?
+    let currency: String
     let datetime: Date
     let payerID: String
     let recipientID: String
