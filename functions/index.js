@@ -704,7 +704,7 @@ exports.createNewMangopayCustomer = functions.region('europe-west1').firestore.d
     const swiftCode = data.swiftCode
     const accountNumber = data.accountNumber
 
-    const line1 = "5 spencer road"
+    const line1 = data.line1
     const line2 = data.line2
     const city = data.city
     const region = data.region
@@ -725,7 +725,7 @@ exports.createNewMangopayCustomer = functions.region('europe-west1').firestore.d
 
     const bankAccountData = {
       Type: 'OTHER',
-      OwnerName: name,
+      "OwnerName": name,
       "Country": countryCode,
       // N.B. BIC is equivalent to SWIFT code
       "BIC": swiftCode,
@@ -734,7 +734,7 @@ exports.createNewMangopayCustomer = functions.region('europe-west1').firestore.d
       "OwnerAddress": {
         "AddressLine1": line1,
         "AddressLine2": line2,
-        City: city,
+        "City": city,
         "Region": region,
         "PostalCode": postcode,
         "Country": countryCode
