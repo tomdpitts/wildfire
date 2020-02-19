@@ -87,6 +87,9 @@ class Utilities {
         button.layer.borderColor = UIColor(hexString: "#C63C39").cgColor
         button.layer.cornerRadius = 25.0
         button.tintColor = UIColor.black
+        
+        let red = UIColor(hexString: "#C63C39")
+        button.setTitleColor(red, for: UIControl.State.normal)
     }
     
     static func isPasswordValid(_ password : String) -> Bool {

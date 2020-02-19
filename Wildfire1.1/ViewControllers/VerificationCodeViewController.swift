@@ -57,9 +57,10 @@ class VerificationCodeViewController: UIViewController {
                 
                 // User is signed in
                 
-                // update credit cards list
+                // update credit cards and bank accounts list
                 let appDelegate = AppDelegate()
                 appDelegate.fetchPaymentMethodsListFromMangopay()
+                appDelegate.fetchBankAccountsListFromMangopay()
                 
                 // check whether the user has completed signup flow
                 if UserDefaults.standard.bool(forKey: "userAccountExists") != true {

@@ -427,6 +427,7 @@ exports.createNewMangopayCustomer = functions.region('europe-west1').firestore.d
     // }
   })
 
+  // TODO this func doesn't really need to go through cloud functions, could be moved to client
   exports.listCards = functions.region('europe-west1').https.onCall( async (data, context) => {
 
     const userID = context.auth.uid
@@ -533,40 +534,25 @@ exports.createNewMangopayCustomer = functions.region('europe-west1').firestore.d
 
   // TODO
   exports.createPayout = functions.region('europe-west1').https.onCall( async (data, context) => {
+
     const userID = context.auth.uid
-
-    var mangopayID = ''
-    var walletID = ''
-    var cardID = ''
-    var billingAddress = {
-      "AddressLine1": '',
-      "AddressLine2": '',
-      "City": '',
-      "Region": '',
-      "PostalCode": '',
-      "Country": ''
-    }
-    var culture = ''
-
     const currencyType = data.currency
     const amount = data.amount
     // the fee to be taken should be an integer, since the amount is in cents/pence
     const fee = Math.round(amount/100*1.8)
+
+    var mangopayID = ''
+    var walletID = ''
+    var bankAccountID = ''
+    var culture = ''
 
     // using the Firebase userID (supplied via 'context' of the request), get the data we need for the payin 
     await admin.firestore().collection('users').doc(userID).get().then(doc => {
       userData = doc.data();
       mangopayID = userData.mangopayID
       walletID = userData.defaultWalletID
-      cardID = userData.defaultCardID
-
-      billingAddress["AddressLine1"] = userData.defaultBillingAddress.line1
-      billingAddress["AddressLine2"] = userData.defaultBillingAddress.line2
-      billingAddress["City"] = userData.defaultBillingAddress.city
-      billingAddress["Region"] = userData.defaultBillingAddress.region
-      billingAddress["PostalCode"] = userData.defaultBillingAddress.postcode
-      billingAddress["Country"] = userData.defaultBillingAddress.country
-
+      bankAccountID = userData.defaultBankAccountID
+      
       culture = userData.culture
       return
     })
@@ -574,48 +560,23 @@ exports.createNewMangopayCustomer = functions.region('europe-west1').firestore.d
       console.log('Error getting user info for payout', err);
     });
 
-    // for reference: 
-    // "Billing": {
-    //   "Address": {
-    //   "AddressLine1": "1 Mangopay Street",
-    //   "AddressLine2": "The Loop",
-    //   "City": "Paris",
-    //   "Region": "Ile de France",
-    //   "PostalCode": "75001",
-    //   "Country": "FR"
-    //   }
-    // },
-
-    const payinData = {
-        "AuthorId": mangopayID,
-        "CreditedWalletId": walletID,
-        "DebitedFunds": {
-          "Currency": currencyType,
-          "Amount": amount
-          },
-        "Fees": {
-          // TODO: what currency should fees be taken in? 
-          "Currency": currencyType,
-          "Amount": fee
-          },
-        // if 3DSecure or some other flow is triggered, the user is redirected to this URL on completion (which should redirect them back to the app, I guess?)
-        "SecureModeReturnURL": "http://www.my-site.com/returnURL",
-        "CardId": cardID,
-        // Secure3D flow can be triggered manually if required, but is mandatory for all payins over 50 EUR regardless. Leaving as default for now
-        "CardType": "CB_VISA_MASTERCARD",
-        "SecureMode": "DEFAULT",
-        "StatementDescriptor": "WILDFIRE",
-        "Billing": {
-          "Address": billingAddress
+    const payoutData = {
+      "AuthorId": mangopayID,
+      "DebitedFunds": {
+        "Currency": currencyType,
+        "Amount": amount
         },
-        "Culture": culture,
-        "PaymentType": "CARD",
-        "ExecutionType": "DIRECT"
-        }
+      "Fees": {
+        "Currency": currencyType,
+        "Amount": fee
+        },
+      "BankAccountId": "14213351",
+      "DebitedWalletId": "8519987",
+      "BankWireRef": "invoice 7282"
+      }
 
-    const payin = mpAPI.PayIns.create(payinData)
-
-    return payin
+    const payout = mpAPI.PayOuts.create(payoutData)
+    return payout
   })
 
   exports.getCurrentBalance = functions.region('europe-west1').https.onCall( async (data, context) => {
@@ -692,7 +653,6 @@ exports.createNewMangopayCustomer = functions.region('europe-west1').firestore.d
   })
 
 
-  // TODO complete this function
   exports.addBankAccount = functions.region('europe-west1').https.onCall( async (data, context) => {
 
     const userID = context.auth.uid
@@ -745,6 +705,25 @@ exports.createNewMangopayCustomer = functions.region('europe-west1').firestore.d
     return bankAccountMP = await mpAPI.Users.createBankAccount(mangopayID, bankAccountData)
   })
 
+  // TODO this func doesn't really need to go through cloud functions, could be moved to client
+  exports.listBankAccounts = functions.region('europe-west1').https.onCall( async (data, context) => {
+
+    const userID = context.auth.uid
+    var mangopayID = ""
+
+    // using the Firebase userID (supplied via 'context' of the request), get the mangopayID 
+    await admin.firestore().collection('users').doc(userID).get().then(doc => {
+      userData = doc.data();
+      mangopayID = userData.mangopayID
+      return
+    })
+    .catch(err => {
+      console.log('Error getting mangopayID from Firestore database', err);
+    });
+    return cardsList = mpAPI.Users.getBankAccounts(mangopayID)
+
+  })
+
   exports.triggerPayout = functions.region('europe-west1').https.onCall( async (data, context) => {
 
     const userID = context.auth.uid
@@ -771,6 +750,13 @@ exports.createNewMangopayCustomer = functions.region('europe-west1').firestore.d
     .catch(err => {
       console.log('Error getting mangopayID from Firestore database', err);
     });
+
+    let bankAccounts = mpAPI.Users.getBankAccount(mangopayID)
+    console.log('bankAccounts')
+    let primaryBankAccount = bankAccounts[1]
+    console.log('primaryBankAccount')
+    let bankAccountID = primaryBankAccount["Id"]
+    console.log('bankAccountID')
 
     const payoutData = 
       {

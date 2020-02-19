@@ -68,6 +68,25 @@ struct PaymentCard: Codable {
     }
 }
 
+struct BankAccount: Codable {
+    let accountHolderName: String
+    let type: String
+    let IBAN: String?
+    let SWIFTBIC: String?
+    let accountNumber: String?
+    let country: String?
+    
+    // this simply translates MangoPay's naming system to our (clearer) system
+    enum CodingKeys: String, CodingKey {
+        case accountHolderName = "OwnerName"
+        case type = "Type"
+        case IBAN
+        case SWIFTBIC = "BIC"
+        case accountNumber = "AccountNumber"
+        case country = "Country"
+    }
+}
+
 //
 //class Service {
 //    static let baseColour = UIColor(r: 233, g: 233, b: 233)

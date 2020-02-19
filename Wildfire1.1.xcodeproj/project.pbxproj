@@ -33,6 +33,9 @@
 		E25213B9234E4375003B2160 /* FirebaseAuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25213B8234E4375003B2160 /* FirebaseAuthManager.swift */; };
 		E252A5E923F3BD0D0023AEDC /* BankDetails1TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E252A5E823F3BD0D0023AEDC /* BankDetails1TableViewController.swift */; };
 		E252A5EC23F3BD220023AEDC /* BankDetails2TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E252A5EB23F3BD220023AEDC /* BankDetails2TableViewController.swift */; };
+		E254470623FB7646005A37A1 /* BankDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E254470523FB7646005A37A1 /* BankDetailViewController.swift */; };
+		E254470823FCC58F005A37A1 /* DepositViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E254470723FCC58F005A37A1 /* DepositViewController.swift */; };
+		E254470A23FCCF63005A37A1 /* ConfirmDepositViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E254470923FCCF63005A37A1 /* ConfirmDepositViewController.swift */; };
 		E26039782350DABA0031C792 /* ProfilePicViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E26039772350DABA0031C792 /* ProfilePicViewController.swift */; };
 		E26763652355EE6B00D079C6 /* formStep3ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E26763642355EE6B00D079C6 /* formStep3ViewController.swift */; };
 		E2676367235614DB00D079C6 /* formStep2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2676366235614DB00D079C6 /* formStep2ViewController.swift */; };
@@ -41,6 +44,7 @@
 		E278AE0621FCEFDF00A65309 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E278AE0521FCEFDF00A65309 /* GoogleService-Info.plist */; };
 		E279717D231433AF00964F25 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E279717C231433AF00964F25 /* SignUpViewController.swift */; };
 		E279717F231433D500964F25 /* ExistingUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E279717E231433D500964F25 /* ExistingUserViewController.swift */; };
+		E284815D23FA53D500D51462 /* BankAccountsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E284815C23FA53D500D51462 /* BankAccountsViewController.swift */; };
 		E29CF69623586AE700ADC0D0 /* ContactsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29CF69523586AE700ADC0D0 /* ContactsViewController.swift */; };
 		E29CF6982359BECD00ADC0D0 /* Send2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29CF6972359BECD00ADC0D0 /* Send2ViewController.swift */; };
 		E2AD346821F384430030FA2E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E2AD346721F384430030FA2E /* Assets.xcassets */; };
@@ -96,6 +100,9 @@
 		E25213B8234E4375003B2160 /* FirebaseAuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseAuthManager.swift; sourceTree = "<group>"; };
 		E252A5E823F3BD0D0023AEDC /* BankDetails1TableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankDetails1TableViewController.swift; sourceTree = "<group>"; };
 		E252A5EB23F3BD220023AEDC /* BankDetails2TableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankDetails2TableViewController.swift; sourceTree = "<group>"; };
+		E254470523FB7646005A37A1 /* BankDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankDetailViewController.swift; sourceTree = "<group>"; };
+		E254470723FCC58F005A37A1 /* DepositViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DepositViewController.swift; sourceTree = "<group>"; };
+		E254470923FCCF63005A37A1 /* ConfirmDepositViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmDepositViewController.swift; sourceTree = "<group>"; };
 		E26039772350DABA0031C792 /* ProfilePicViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePicViewController.swift; sourceTree = "<group>"; };
 		E26763642355EE6B00D079C6 /* formStep3ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = formStep3ViewController.swift; sourceTree = "<group>"; };
 		E2676366235614DB00D079C6 /* formStep2ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = formStep2ViewController.swift; sourceTree = "<group>"; };
@@ -104,6 +111,7 @@
 		E278AE0521FCEFDF00A65309 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		E279717C231433AF00964F25 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		E279717E231433D500964F25 /* ExistingUserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExistingUserViewController.swift; sourceTree = "<group>"; };
+		E284815C23FA53D500D51462 /* BankAccountsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BankAccountsViewController.swift; sourceTree = "<group>"; };
 		E29CF69523586AE700ADC0D0 /* ContactsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsViewController.swift; sourceTree = "<group>"; };
 		E29CF6972359BECD00ADC0D0 /* Send2ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Send2ViewController.swift; sourceTree = "<group>"; };
 		E2AD346721F384430030FA2E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -182,8 +190,8 @@
 			isa = PBXGroup;
 			children = (
 				E21AC96221EA6BEF00D460A9 /* AppDelegate.swift */,
-				E24388A623154A5800948AD5 /* Helpers */,
 				E21AC96821EA6BEF00D460A9 /* Main.storyboard */,
+				E24388A623154A5800948AD5 /* Helpers */,
 				E257EA28230D8A9F003E2A32 /* ViewControllers */,
 				E24388AB2315824D00948AD5 /* Media */,
 				E2AD346721F384430030FA2E /* Assets.xcassets */,
@@ -253,8 +261,12 @@
 				E271C0CD23D81EED004245CC /* CardDetailsViewController.swift */,
 				E271C0D123D99E6F004245CC /* EditProfileTableViewController.swift */,
 				E20104ED23EB994F00441040 /* AddCardSuccessViewController.swift */,
+				E284815C23FA53D500D51462 /* BankAccountsViewController.swift */,
 				E252A5E823F3BD0D0023AEDC /* BankDetails1TableViewController.swift */,
 				E252A5EB23F3BD220023AEDC /* BankDetails2TableViewController.swift */,
+				E254470523FB7646005A37A1 /* BankDetailViewController.swift */,
+				E254470723FCC58F005A37A1 /* DepositViewController.swift */,
+				E254470923FCCF63005A37A1 /* ConfirmDepositViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -440,6 +452,8 @@
 				E21AC96721EA6BEF00D460A9 /* ReceiveViewController.swift in Sources */,
 				E2B979E3232960B000194E75 /* ConfirmViewController.swift in Sources */,
 				E20104EC23E93D4F00441040 /* AddCard2TableViewController.swift in Sources */,
+				E254470823FCC58F005A37A1 /* DepositViewController.swift in Sources */,
+				E254470623FB7646005A37A1 /* BankDetailViewController.swift in Sources */,
 				E2B979E12329609E00194E75 /* ScanViewController.swift in Sources */,
 				E2CDF4AD235F2859002E155D /* VerificationCodeViewController.swift in Sources */,
 				E279717D231433AF00964F25 /* SignUpViewController.swift in Sources */,
@@ -447,6 +461,8 @@
 				E2444DF823A0A7930035674D /* ReceiptsViewController.swift in Sources */,
 				E21AC96321EA6BEF00D460A9 /* AppDelegate.swift in Sources */,
 				E2FA9ED82334E6130068792D /* NetworkingClient.swift in Sources */,
+				E284815D23FA53D500D51462 /* BankAccountsViewController.swift in Sources */,
+				E254470A23FCCF63005A37A1 /* ConfirmDepositViewController.swift in Sources */,
 				E29CF6982359BECD00ADC0D0 /* Send2ViewController.swift in Sources */,
 				E252A5EC23F3BD220023AEDC /* BankDetails2TableViewController.swift in Sources */,
 				E24388AA231575DA00948AD5 /* CustomSegues.swift in Sources */,

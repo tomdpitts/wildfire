@@ -43,6 +43,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             Utilities().checkForUserAccount()
         }
         fetchPaymentMethodsListFromMangopay()
+        fetchBankAccountsListFromMangopay()
         redirect()
         return true
     }
@@ -131,7 +132,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func fetchPaymentMethodsListFromMangopay() {
-        print("trying to fetch cards")
+        
         functions.httpsCallable("listCards").call() { (result, error) in
 
             if let cardList = result?.data as? [[String: Any]] {
@@ -163,6 +164,68 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             } else {
                 print("nope")
             }
+        }
+    }
+    
+    func fetchBankAccountsListFromMangopay() {
+        functions.httpsCallable("listBankAccounts").call() { (result, error) in
+
+        if let bankAccountList = result?.data as? [[String: Any]] {
+            let defaults = UserDefaults.standard
+
+            defaults.set(bankAccountList.count, forKey: "numberOfBankAccounts")
+
+            let count = bankAccountList.count
+
+            print(bankAccountList)
+
+            if count > 0 {
+                for i in 1...count {
+                    var cardNumber = ""
+                    var cardProvider = ""
+                    var expiryDate = ""
+                    
+                    var accountHolderName = ""
+                    var type = ""
+                    var IBAN = ""
+                    var SWIFTBIC = ""
+                    var accountNumber = ""
+                    var country = ""
+
+                    let blob1 = bankAccountList[i-1]
+                    
+                    if let nm = blob1["OwnerName"] as? String, let tp = blob1["Type"] as? String {
+                        accountHolderName = nm
+                        type = tp
+                    }
+                    
+                    if let ib = blob1["IBAN"] as? String {
+                        IBAN = ib
+                    }
+                    
+                    if let sb = blob1["BIC"] as? String {
+                        SWIFTBIC = sb
+                    }
+                    
+                    if let an = blob1["AccountNumber"] as? String {
+                        accountNumber = an
+                    }
+                    
+                    if let cn = blob1["Country"] as? String {
+                        country = cn
+                    }
+                    
+                    
+                    let bankAccount = BankAccount(accountHolderName: accountHolderName, type: type, IBAN: IBAN, SWIFTBIC: SWIFTBIC, accountNumber: accountNumber, country: country)
+
+                    // save BankAccount object to User Defaults
+                    defaults.set(try? PropertyListEncoder().encode(bankAccount), forKey: "bankAccount\(i)")
+                }
+            }
+
+        } else {
+        print("nope")
+        }
         }
     }
 }
