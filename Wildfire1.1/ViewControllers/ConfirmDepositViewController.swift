@@ -15,8 +15,9 @@ class ConfirmDepositViewController: UIViewController {
     
     var bankAccount: BankAccount?
     var depositAmount: Float?
+    
     // TODO define currency according to user settings
-    let currency: String?
+    var currency: String? = "EUR"
     
     @IBOutlet weak var accountOwnerLabel: UILabel!
     @IBOutlet weak var IBANLabel: UILabel!
@@ -39,7 +40,7 @@ class ConfirmDepositViewController: UIViewController {
         displayBankInfo()
         
         if let n = depositAmount {
-            amountLabel.text = String(n)
+            amountLabel.text = String(format: "%.2f", n)
         } else {
             amountLabel.text = "not found"
         }
@@ -54,14 +55,22 @@ class ConfirmDepositViewController: UIViewController {
     // TODO finish this func
     @IBAction func confirmDepositTapped(_ sender: Any) {
         
+        // prevent double taps!
+        confirmDepositButton.isEnabled = false
+        
         if let amount = depositAmount, let currency = currency {
             
-            self.functions.httpsCallable("").call(["amount": amount, "currency": currency]) { (result, error) in
-                                    if error != nil {
-                                        // TODO
-            //                            self.showAuthenticationError(title: "Oops!", message: "We couldn't top up your account. Please try again.")
-                                        print("We couldn't top up your account. Please try again.")
-                                    } else {
+            let amountInCents = Int(amount*100)
+            
+            self.functions.httpsCallable("triggerPayout").call(["amount": amountInCents, "currency": currency]) { (result, error) in
+                if error != nil {
+                    // TODO
+//                            self.showAuthenticationError(title: "Oops!", message: "We couldn't top up your account. Please try again.")
+                    print("There was an issue in processing your deposit, please try again")
+                    self.confirmDepositButton.isEnabled = true
+                } else {
+                    self.performSegue(withIdentifier: "showSuccessScreen", sender: self)
+                    
                 }
             }
         }

@@ -210,11 +210,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     if let an = blob1["AccountNumber"] as? String {
                         accountNumber = an
                     }
-                    
+
                     if let cn = blob1["Country"] as? String {
                         country = cn
                     }
-                    
                     
                     let bankAccount = BankAccount(accountHolderName: accountHolderName, type: type, IBAN: IBAN, SWIFTBIC: SWIFTBIC, accountNumber: accountNumber, country: country)
 

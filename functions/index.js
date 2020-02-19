@@ -570,9 +570,10 @@ exports.createNewMangopayCustomer = functions.region('europe-west1').firestore.d
         "Currency": currencyType,
         "Amount": fee
         },
-      "BankAccountId": "14213351",
-      "DebitedWalletId": "8519987",
-      "BankWireRef": "invoice 7282"
+      "BankAccountId": bankAccountID,
+      "DebitedWalletId": walletID,
+      "BankWireRef": "WILDFIRE",
+      "PaymentType": "BANK_WIRE"
       }
 
     const payout = mpAPI.PayOuts.create(payoutData)
@@ -711,6 +712,8 @@ exports.createNewMangopayCustomer = functions.region('europe-west1').firestore.d
     .catch(err => {
       console.log('Error saving to database', err);
     })
+
+    return
   })
 
   // TODO this func doesn't really need to go through cloud functions, could be moved to client
@@ -739,7 +742,9 @@ exports.createNewMangopayCustomer = functions.region('europe-west1').firestore.d
 
     var walletID = ""
     var mangopayID = ""
+    var bankAccountID = ""
 
+    // TODO currency likely to be an issue. At present it's defined in the initial call from client (reasoning: user can choose their currrency and later switch at will) but if the currency doesn't match the wallet currency, the payout won't succeed. Thought needed. 
     const currencyType = data.currency
     const amount = data.amount
     
@@ -752,6 +757,8 @@ exports.createNewMangopayCustomer = functions.region('europe-west1').firestore.d
       
       mangopayID = userData.mangopayID
       walletID = userData.defaultWalletID
+
+      bankAccountID = userData.defaultBankAccountID
       
       return
     })
@@ -759,31 +766,31 @@ exports.createNewMangopayCustomer = functions.region('europe-west1').firestore.d
       console.log('Error getting mangopayID from Firestore database', err);
     });
 
-    let bankAccounts = mpAPI.Users.getBankAccount(mangopayID)
-    console.log('bankAccounts')
-    let primaryBankAccount = bankAccounts[1]
-    console.log('primaryBankAccount')
-    let bankAccountID = primaryBankAccount["Id"]
-    console.log('bankAccountID')
+    // let bankAccounts = mpAPI.Users.getBankAccount(mangopayID)
+    // console.log(bankAccounts)
+    // let primaryBankAccount = bankAccounts[1]
+    // console.log('primaryBankAccount')
+    // let bankAccountID = primaryBankAccount["Id"]
+    // console.log('bankAccountID')
 
     const payoutData = 
       {
       "AuthorId": mangopayID,
       "DebitedFunds": {
-        "Currency": currency,
+        "Currency": currencyType,
         "Amount": amount
         },
       "Fees": {
-        "Currency": currency,
+        "Currency": currencyType,
         "Amount": fee
         },
-      "BankAccountId": "14213351",
-      "DebitedWalletId": "8519987",
-      "BankWireRef": "invoice 7282"
+      "BankAccountId": bankAccountID,
+      "DebitedWalletId": walletID,
+      "BankWireRef": "WILDFIRE",
+      "PaymentType": "BANK_WIRE"
       }
 
-
-
+      return payout = await mpAPI.PayOuts.create(payoutData)
   })
 
   exports.deleteCard = functions.region('europe-west1').https.onCall( async (data, context) => {

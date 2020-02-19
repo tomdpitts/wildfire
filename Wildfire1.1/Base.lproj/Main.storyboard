@@ -3550,7 +3550,7 @@
         <!--Deposit Amount-->
         <scene sceneID="A5p-2V-dwg">
             <objects>
-                <viewController storyboardIdentifier="Send2ViewController" id="dQG-hw-mYL" customClass="DepositViewController" customModule="Wildfire1_1" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="dQG-hw-mYL" customClass="DepositViewController" customModule="Wildfire1_1" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="JeK-1J-dWo">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -3564,10 +3564,15 @@
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="0.00" textAlignment="natural" adjustsFontForContentSizeCategory="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="AZu-pn-n5a">
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="0.00" adjustsFontForContentSizeCategory="YES" minimumFontSize="50" translatesAutoresizingMaskIntoConstraints="NO" id="AZu-pn-n5a">
                                         <rect key="frame" x="56.5" y="0.0" width="98" height="60"/>
                                         <fontDescription key="fontDescription" type="system" weight="thin" pointSize="50"/>
-                                        <textInputTraits key="textInputTraits" autocorrectionType="no"/>
+                                        <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="decimalPad"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="maxLength">
+                                                <integer key="value" value="6"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
                                     </textField>
                                 </subviews>
                             </stackView>
@@ -3630,12 +3635,10 @@
                         <outlet property="amountTextField" destination="AZu-pn-n5a" id="mGt-XH-fnL"/>
                         <outlet property="errorLabel" destination="6VJ-gD-5fC" id="b4n-tK-xad"/>
                         <outlet property="sendButton" destination="Bfy-rm-xuT" id="fG1-VA-OkZ"/>
-                        <segue destination="AV2-eI-zTB" kind="unwind" unwindAction="unwindToPrevious:" id="ge6-LG-8Ri"/>
                         <segue destination="Yt2-x3-537" kind="show" identifier="showConfirmDepositView" id="GQm-JS-YtK"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="p6o-PN-kwe" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <exit id="AV2-eI-zTB" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="6134" y="1126"/>
         </scene>
@@ -3758,8 +3761,8 @@
                                     <constraint firstAttribute="width" constant="50" id="wzg-MM-2V2"/>
                                 </constraints>
                             </imageView>
-                            <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="R8q-ci-ODC" userLabel="Amount Stack">
-                                <rect key="frame" x="79" y="144" width="217" height="60"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="R8q-ci-ODC" userLabel="Amount Stack">
+                                <rect key="frame" x="86.5" y="144" width="202" height="60"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="€" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LOX-9L-PVo">
                                         <rect key="frame" x="0.0" y="0.0" width="36.5" height="60"/>
@@ -3767,8 +3770,8 @@
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Amount" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rAx-IH-u7q">
-                                        <rect key="frame" x="56.5" y="0.0" width="160.5" height="60"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Amount" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rAx-IH-u7q">
+                                        <rect key="frame" x="41.5" y="0.0" width="160.5" height="60"/>
                                         <fontDescription key="fontDescription" type="system" weight="thin" pointSize="50"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -3828,13 +3831,78 @@
                         <outlet property="countryStack" destination="b2q-p7-P61" id="p8j-9O-K6C"/>
                         <outlet property="swiftLabel" destination="hq2-Zu-eAK" id="X4m-Yi-Q2t"/>
                         <outlet property="swiftStack" destination="ei1-Nh-ojw" id="BqG-aX-6JQ"/>
-                        <segue destination="fpz-fl-vQq" kind="unwind" unwindAction="unwindToPrevious:" id="RqX-Xy-MeS"/>
+                        <segue destination="Mem-b9-qwW" kind="show" id="ugf-7J-JoK"/>
+                        <segue destination="fpz-fl-vQq" kind="unwind" identifier="unwindToPrevious" unwindAction="unwindToPrevious:" id="lXS-Vs-njg"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KKm-ar-6qq" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="fpz-fl-vQq" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="6878" y="1126"/>
+        </scene>
+        <!--Account Added-->
+        <scene sceneID="mmd-Qy-coG">
+            <objects>
+                <viewController id="Mem-b9-qwW" customClass="AddCardSuccessViewController" customModule="Wildfire1_1" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="dZM-Lp-8PF">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="gU5-4V-6AX">
+                                <rect key="frame" x="67.5" y="81" width="240" height="505.5"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icons8-ok-480" translatesAutoresizingMaskIntoConstraints="NO" id="3sp-pQ-Hfg">
+                                        <rect key="frame" x="0.0" y="0.0" width="240" height="240"/>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your deposit is on its way!" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rsu-Vz-KyG">
+                                        <rect key="frame" x="8.5" y="270" width="223.5" height="24"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please allow up to 48 hours for the deposit to show up in your account, due to varying bank processing times." textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9sA-SF-1rU">
+                                        <rect key="frame" x="20" y="324" width="200" height="101.5"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="200" id="rAB-Nc-5E4"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="u6A-xF-dyy">
+                                        <rect key="frame" x="20" y="455.5" width="200" height="50"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="DpU-ld-UoZ"/>
+                                        </constraints>
+                                        <state key="normal" title="Done"/>
+                                        <connections>
+                                            <action selector="doneButtonTapped:" destination="Mem-b9-qwW" eventType="touchUpInside" id="SRH-aU-W5m"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="u6A-xF-dyy" secondAttribute="trailing" constant="20" symbolic="YES" id="Bc9-iy-EZz"/>
+                                    <constraint firstItem="u6A-xF-dyy" firstAttribute="leading" secondItem="gU5-4V-6AX" secondAttribute="leading" constant="20" symbolic="YES" id="iBZ-JG-l1b"/>
+                                </constraints>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="gU5-4V-6AX" firstAttribute="centerY" secondItem="dZM-Lp-8PF" secondAttribute="centerY" id="HP1-d8-wyd"/>
+                            <constraint firstItem="gU5-4V-6AX" firstAttribute="centerX" secondItem="dZM-Lp-8PF" secondAttribute="centerX" id="fgK-GN-J28"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="JqW-xv-nd1"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Account Added" largeTitleDisplayMode="always" id="KQH-5R-OYh"/>
+                    <connections>
+                        <outlet property="doneButton" destination="u6A-xF-dyy" id="c93-Cc-6Mk"/>
+                        <segue destination="c54-kM-eHo" kind="unwind" identifier="unwindToPrevious" unwindAction="unwindToPrevious:" id="x8E-Bk-Eb1"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="FFa-YO-plZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="c54-kM-eHo" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="7681" y="1126"/>
         </scene>
     </scenes>
     <resources>

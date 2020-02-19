@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DepositViewController: UIViewController {
+class DepositViewController: UIViewController, UITextFieldDelegate {
     
     var bankAccount: BankAccount?
     var depositAmount: Float?
@@ -22,15 +22,31 @@ class DepositViewController: UIViewController {
 
         errorLabel.isHidden = true
         Utilities.styleHollowButton(sendButton)
+        
+        amountTextField.delegate = self
     }
 
     override func viewWillAppear(_ animated: Bool) {
         amountTextField.becomeFirstResponder()
     }
-    
+
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        if string == "" {return true}
-        return string.rangeOfCharacter(from: CharacterSet(charactersIn: "1234567890.")) == nil ? false : true
+        guard let oldText = textField.text, let r = Range(range, in: oldText) else {
+            return true
+        }
+
+        let newText = oldText.replacingCharacters(in: r, with: string)
+        let isNumeric = newText.isEmpty || (Double(newText) != nil)
+        let numberOfDots = newText.components(separatedBy: ".").count - 1
+
+        let numberOfDecimalDigits: Int
+        if let dotIndex = newText.index(of: ".") {
+            numberOfDecimalDigits = newText.distance(from: dotIndex, to: newText.endIndex) - 1
+        } else {
+            numberOfDecimalDigits = 0
+        }
+
+        return isNumeric && numberOfDots <= 1 && numberOfDecimalDigits <= 2
     }
     
     func validateAmount() -> Bool {
