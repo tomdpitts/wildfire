@@ -8,6 +8,8 @@
 
 import UIKit
 
+// N.B. this class is used in multiple places
+// TODO might be worth renaming..? 
 class AddCardSuccessViewController: UIViewController {
 
     @IBOutlet weak var doneButton: UIButton!

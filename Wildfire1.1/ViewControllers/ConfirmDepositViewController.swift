@@ -7,11 +7,16 @@
 //
 
 import UIKit
+import FirebaseFunctions
 
 class ConfirmDepositViewController: UIViewController {
     
+    lazy var functions = Functions.functions(region:"europe-west1")
+    
     var bankAccount: BankAccount?
     var depositAmount: Float?
+    // TODO define currency according to user settings
+    let currency: String?
     
     @IBOutlet weak var accountOwnerLabel: UILabel!
     @IBOutlet weak var IBANLabel: UILabel!
@@ -46,18 +51,19 @@ class ConfirmDepositViewController: UIViewController {
         
     }
     
-    
+    // TODO finish this func
     @IBAction func confirmDepositTapped(_ sender: Any) {
         
-        if let bnk = bankAccount, let amount = depositAmount {
+        if let amount = depositAmount, let currency = currency {
             
-            self.functions.httpsCallable("").call(["amount": tpa, "currency": "EUR"]) { (result, error) in
+            self.functions.httpsCallable("").call(["amount": amount, "currency": currency]) { (result, error) in
                                     if error != nil {
                                         // TODO
             //                            self.showAuthenticationError(title: "Oops!", message: "We couldn't top up your account. Please try again.")
-                                        completion("We couldn't top up your account. Please try again.")
+                                        print("We couldn't top up your account. Please try again.")
                                     } else {
-            
+                }
+            }
         }
     }
     

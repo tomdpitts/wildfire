@@ -174,4 +174,9 @@ class BankDetails1TableViewController: UITableViewController {
     //Causes the view to resign from the status of first responder.
     view.endEditing(true)
     }
+    
+    @IBAction func unwindToPrevious(_ unwindSegue: UIStoryboardSegue) {
+        //        let sourceViewController = unwindSegue.source
+        // Use data from the view controller which initiated the unwind segue
+    }
 }

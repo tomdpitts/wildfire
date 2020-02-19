@@ -702,7 +702,15 @@ exports.createNewMangopayCustomer = functions.region('europe-west1').firestore.d
       
     }
 
-    return bankAccountMP = await mpAPI.Users.createBankAccount(mangopayID, bankAccountData)
+    const bankAccountMP = await mpAPI.Users.createBankAccount(mangopayID, bankAccountData)
+
+    admin.firestore().collection('users').doc(userID).set({
+      defaultBankAccountID: bankAccountMP.Id
+      // merge (to prevent overwriting other fields) should never be needed, but just in case..
+    }, {merge: true})
+    .catch(err => {
+      console.log('Error saving to database', err);
+    })
   })
 
   // TODO this func doesn't really need to go through cloud functions, could be moved to client

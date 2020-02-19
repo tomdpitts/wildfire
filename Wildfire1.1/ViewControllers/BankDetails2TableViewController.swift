@@ -130,8 +130,12 @@ class BankDetails2TableViewController: UITableViewController, UITextFieldDelegat
             // fields have passed validation - so continue
             functions.httpsCallable("addBankAccount").call(bankAccountData) { (result, error) in
                 
-                print(result)
-                
+                if let err = error {
+                    
+                } else {
+                    
+                    self.performSegue(withIdentifier: "showSuccessScreen", sender: self)
+                }
             }
         }
     }

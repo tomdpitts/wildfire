@@ -3238,14 +3238,14 @@
                         <outlet property="postcodeTextField" destination="tIx-fo-UJe" id="eSH-86-sTB"/>
                         <outlet property="regionTextField" destination="sWj-cj-Ud1" id="McR-Zt-6Kt"/>
                         <outlet property="submitButton" destination="Jk0-2a-A6E" id="S2x-H9-ZVF"/>
-                        <segue destination="mAW-s9-gPe" kind="show" id="GDX-LO-Qty"/>
+                        <segue destination="mAW-s9-gPe" kind="show" identifier="showSuccessScreen" id="GDX-LO-Qty"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ChW-tz-x3B" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="5345" y="400"/>
         </scene>
-        <!--Add Card Success View Controller-->
+        <!--Account Added-->
         <scene sceneID="z3o-eX-Jpq">
             <objects>
                 <viewController id="mAW-s9-gPe" customClass="AddCardSuccessViewController" customModule="Wildfire1_1" customModuleProvider="target" sceneMemberID="viewController">
@@ -3298,7 +3298,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Vy1-HR-VYD"/>
                     </view>
-                    <navigationItem key="navigationItem" id="Uz3-qx-N5n"/>
+                    <navigationItem key="navigationItem" title="Account Added" largeTitleDisplayMode="always" id="Uz3-qx-N5n"/>
                     <connections>
                         <outlet property="doneButton" destination="Uca-Ir-rNF" id="lea-32-1U7"/>
                         <segue destination="PF9-up-ht6" kind="unwind" identifier="unwindToPrevious" unwindAction="unwindToPrevious:" id="Wqb-K4-FFX"/>
