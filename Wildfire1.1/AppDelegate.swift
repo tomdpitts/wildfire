@@ -12,10 +12,10 @@ import LocalAuthentication
 import FirebaseAuth
 import FirebaseFunctions
 import SwiftyJSON
-import FBSDKCoreKit
-import FBSDKLoginKit
-import FacebookCore
-import FacebookLogin
+//import FBSDKCoreKit
+//import FBSDKLoginKit
+//import FacebookCore
+//import FacebookLogin
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -31,7 +31,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FirebaseApp.configure()
         // one for later
 //        let db = Firestore.firestore()
-        FBSDKApplicationDelegate.sharedInstance()?.application(application, didFinishLaunchingWithOptions: launchOptions)
+        
+//        ApplicationDelegate.sharedInstance()?.application(application, didFinishLaunchingWithOptions: launchOptions)
         
 //        // used to store profile pic cache key across sessions, to save from having to download it again from Storage
 //        let defaults = UserDefaults.standard
@@ -47,12 +48,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         redirect()
         return true
     }
-    
-    // this is a facebook-specific function required for compatibility with older iOS versions (<9.0 afaik)
-    func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
-        
-        return FBSDKApplicationDelegate.sharedInstance().application(application, open: url, sourceApplication: sourceApplication, annotation: annotation)
-    }
+    // Update: no longer using Facebook integration for time being so parking this
+//    // this is a facebook-specific function required for compatibility with older iOS versions (<9.0 afaik)
+//    func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
+//
+//        return ApplicationDelegate.sharedInstance().application(application, open: url, sourceApplication: sourceApplication, annotation: annotation)
+//    }
 
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

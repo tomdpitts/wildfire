@@ -14,35 +14,32 @@ FirebaseUI supports iOS 8.0+. We recommend using [CocoaPods](https://cocoapods.o
 the following to your `Podfile`:
 
 ```ruby
-pod 'FirebaseUI', '~> 5.0'       # Pull in all Firebase UI features
+pod 'FirebaseUI', '~> 8.0'       # Pull in all Firebase UI features
 ```
 
 If you don't want to use all of FirebaseUI, there are multiple subspecs which can selectively install subsets of the full feature set:
 
 ```ruby
-# Only pull in FirebaseUI Firestore features
-pod 'FirebaseUI/Firestore', '~> 5.0'
+# Only pull in Firestore features
+pod 'FirebaseUI/Firestore', '~> 8.0'
 
-# Only pull in FirebaseUI Database features
-pod 'FirebaseUI/Database', '~> 5.0'
+# Only pull in Database features
+pod 'FirebaseUI/Database', '~> 8.0'
 
-# Only pull in FirebaseUI Storage features
-pod 'FirebaseUI/Storage', '~> 5.0'
+# Only pull in Storage features
+pod 'FirebaseUI/Storage', '~> 8.0'
 
-# Only pull in FirebaseUI Auth features
-pod 'FirebaseUI/Auth', '~> 5.0'
+# Only pull in Auth features
+pod 'FirebaseUI/Auth', '~> 8.0'
 
 # Only pull in Facebook login features
-pod 'FirebaseUI/Facebook', '~> 5.0'
+pod 'FirebaseUI/Facebook', '~> 8.0'
 
 # Only pull in Google login features
-pod 'FirebaseUI/Google', '~> 5.0'
-
-# Only pull in Twitter login features
-pod 'FirebaseUI/Twitter', '~> 5.0'
+pod 'FirebaseUI/Google', '~> 8.0'
 
 # Only pull in Phone Auth login features
-pod 'FirebaseUI/Phone', '~> 5.0'
+pod 'FirebaseUI/Phone', '~> 8.0'
 ```
 
 If you're including FirebaseUI in a Swift project, make sure you also have:
@@ -52,10 +49,10 @@ platform :ios, '9.0'
 use_frameworks!
 ```
 
-Otherwise, you can download the latest version of the [FirebaseUI frameworks from the releases
-page](https://github.com/firebase/FirebaseUI-iOS/releases) or include the FirebaseUI
-Xcode project from this repo in your project. You also need to [add the Firebase
-framework](https://firebase.google.com/docs/ios/setup) to your project.
+Otherwise, you can include the FirebaseUI Xcode project from this repo in
+your project. You also need to 
+[add the Firebase framework](https://firebase.google.com/docs/ios/setup) 
+to your project.
 
 ## Documentation
 
@@ -76,6 +73,7 @@ following commands to get your environment set up:
 ```bash
 $ git clone https://github.com/firebase/FirebaseUI-iOS.git
 $ cd FirebaseUI-iOS
+$ cd Auth # or PhoneAuth, Database, etc
 $ pod install
 ```
 
@@ -92,7 +90,6 @@ Copy the `GoogleService-Info.plist` into the sample project folder (`samples/obj
 Go to `Project Settings -> Info tab -> Url Types` and update values for:
 	+ `REVERSED_CLIENT_ID` (get value from `GoogleService-Info.plist`)
 	+ `fb{your-app-id}` (put Facebook App Id)
-	+ `twitterkit-{consumer-key}` (put Twitter App Consumer key)
 
 1. Update `Info.plist` with Facebook configuration values
 	+ `FacebookAppID -> {your-app-id}` (put Facebook App Id)

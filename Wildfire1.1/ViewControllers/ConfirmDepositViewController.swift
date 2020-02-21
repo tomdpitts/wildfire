@@ -69,8 +69,16 @@ class ConfirmDepositViewController: UIViewController {
                     print("There was an issue in processing your deposit, please try again")
                     self.confirmDepositButton.isEnabled = true
                 } else {
+                    // update balance
+                    self.functions.httpsCallable("getCurrentBalance").call(["foo": "bar"]) { (result, error) in
+                        if error != nil {
+                            // TODO error handling?
+                        } else {
+                            // nothing - happy days
+                        }
+                    }
+                    // don't need to wait for anything to come back
                     self.performSegue(withIdentifier: "showSuccessScreen", sender: self)
-                    
                 }
             }
         }

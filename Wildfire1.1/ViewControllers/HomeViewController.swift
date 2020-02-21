@@ -10,7 +10,7 @@ import UIKit
 //import AVKit
 import LocalAuthentication
 import FirebaseAuth
-import FBSDKLoginKit
+//import FBSDKLoginKit
 
 class HomeViewController: UIViewController {
     

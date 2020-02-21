@@ -11,8 +11,8 @@ import AVKit
 import FirebaseAuth
 import FirebaseFirestore
 import FirebaseStorage
-import FacebookCore
-import FacebookLogin
+//import FacebookCore
+//import FacebookLogin
 import Alamofire
 
 class LoginViewController: UIViewController {
@@ -27,7 +27,7 @@ class LoginViewController: UIViewController {
         }
     }
     
-    private let readPermissions: [ReadPermission] = [ .publicProfile, .email]
+//    private let readPermissions: [ReadPermission] = [ .publicProfile, .email]
     
     @IBOutlet weak var logInButton: UIButton!
     
@@ -47,60 +47,60 @@ class LoginViewController: UIViewController {
         setUpVideo()
     }
     
-    @IBAction func didTapFacebookButton(_ sender: Any) {
-        let loginManager = LoginManager()
-        loginManager.logIn(readPermissions: readPermissions, viewController: self, completion: didReceiveFacebookLoginResult)
-    }
+//    @IBAction func didTapFacebookButton(_ sender: Any) {
+//        let loginManager = LoginManager()
+//        loginManager.logIn(readPermissions: readPermissions, viewController: self, completion: didReceiveFacebookLoginResult)
+//    }
     
-    private func didReceiveFacebookLoginResult(loginResult: LoginResult) {
-        switch loginResult {
-        case .success:
-            didLoginWithFacebook()
-        case .failed(_): break
-        default: break
-        }
-    }
-    
-    fileprivate func didLoginWithFacebook() {
-        // Successful log in with Facebook
-        if let accessToken = AccessToken.current {
-            // log the user into Firebase (if the user doesn't already exist, it is created automatically)
-            FirebaseAuthManager().login(credential: FacebookAuthProvider.credential(withAccessToken: accessToken.authenticationToken)) {[weak self] (success) in
-                
-                // this weird line is to prevent memory leak: https://benscheirman.com/2018/09/capturing-self-with-swift-4-2/
-                guard let self = self else { return }
-                
-                var message: String = ""
-                if (success) {
-                    message = "Sucessful Facebook integration."
-                } else {
-                    message = "There was an error. We're not sure what went wrong..."
-                }
-                
-                // pop up an alert to tell user the login was successful, or not
-                let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-                self.present(alert, animated: true)
-                
-                // user is already logged into Firebase, but we want to check if there's already a firestore doc for that user, and add one if not
-                if let uid = Auth.auth().currentUser?.uid {
-                    
-                    let docRef = Firestore.firestore().collection("users").document(uid)
-                    
-                    docRef.getDocument { (document, error) in
-                        // this if statement adds protection against accidentlly overwriting existing data
-                        if let document = document, document.exists {
-                            // user already exists so there's nothing further to do
-                            return
-                        } else {
-                            // user doesn't yet exist, so we need to get the Facebook data into Firestore
-                            self.getFacebookData()
-                        }
-                    }
-                }
-            }
-        }
-    }
+//    private func didReceiveFacebookLoginResult(loginResult: LoginResult) {
+//        switch loginResult {
+//        case .success:
+//            didLoginWithFacebook()
+//        case .failed(_): break
+//        default: break
+//        }
+//    }
+//
+//    fileprivate func didLoginWithFacebook() {
+//        // Successful log in with Facebook
+//        if let accessToken = AccessToken.current {
+//            // log the user into Firebase (if the user doesn't already exist, it is created automatically)
+//            FirebaseAuthManager().login(credential: FacebookAuthProvider.credential(withAccessToken: accessToken.authenticationToken)) {[weak self] (success) in
+//                
+//                // this weird line is to prevent memory leak: https://benscheirman.com/2018/09/capturing-self-with-swift-4-2/
+//                guard let self = self else { return }
+//                
+//                var message: String = ""
+//                if (success) {
+//                    message = "Sucessful Facebook integration."
+//                } else {
+//                    message = "There was an error. We're not sure what went wrong..."
+//                }
+//                
+//                // pop up an alert to tell user the login was successful, or not
+//                let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+//                alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+//                self.present(alert, animated: true)
+//                
+//                // user is already logged into Firebase, but we want to check if there's already a firestore doc for that user, and add one if not
+//                if let uid = Auth.auth().currentUser?.uid {
+//                    
+//                    let docRef = Firestore.firestore().collection("users").document(uid)
+//                    
+//                    docRef.getDocument { (document, error) in
+//                        // this if statement adds protection against accidentlly overwriting existing data
+//                        if let document = document, document.exists {
+//                            // user already exists so there's nothing further to do
+//                            return
+//                        } else {
+//                            // user doesn't yet exist, so we need to get the Facebook data into Firestore
+//                            self.getFacebookData()
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//    }
     
     fileprivate func uploadProfilePic(imageToUpload: UIImage?) {
         // let's give the filename as the user id for simplicity
@@ -145,46 +145,46 @@ class LoginViewController: UIViewController {
         }
     }
     
-    func getFacebookData() {
-        let connection = GraphRequestConnection()
-        connection.add(MyProfileRequest()) { response, result in
-            switch result {
-            case .success(let response):
-                
-                print("Custom Graph Request Succeeded: \(response)")
-                
-                let firstname = response.firstname
-                let lastname = response.lastname
-                let email = response.email
-                let facebookID = response.id
-                let photoURL = response.profilePictureURL
-                
-                print(photoURL as Any)
-                
-                if let photoURL = photoURL {
-                    Alamofire.request(photoURL).responseData(completionHandler: { (response) in
-                        if let data = response.value {
-                            let image = UIImage(data: data)
-                            // upload of the profilePic is handled automatically on change of the self.profilePic variable by uploadProfilePic func
-                            self.profilePic = image
-                        }
-                    })
-                }
-                
-                
-//                // old: this is the easiest way to access the Facebook profile pic (type options: small (50px), normal (100px), large (200px), square (?))
-//                if let fID = response.id {
-//                    photoURL = "http://graph.facebook.com/\(fID)/picture?type=large"
+//    func getFacebookData() {
+//        let connection = GraphRequestConnection()
+//        connection.add(MyProfileRequest()) { response, result in
+//            switch result {
+//            case .success(let response):
+//
+//                print("Custom Graph Request Succeeded: \(response)")
+//
+//                let firstname = response.firstname
+//                let lastname = response.lastname
+//                let email = response.email
+//                let facebookID = response.id
+//                let photoURL = response.profilePictureURL
+//
+//                print(photoURL as Any)
+//
+//                if let photoURL = photoURL {
+//                    Alamofire.request(photoURL).responseData(completionHandler: { (response) in
+//                        if let data = response.value {
+//                            let image = UIImage(data: data)
+//                            // upload of the profilePic is handled automatically on change of the self.profilePic variable by uploadProfilePic func
+//                            self.profilePic = image
+//                        }
+//                    })
 //                }
-                
-                self.addDataToFirebase(firstname: firstname, lastname: lastname, email: email, photoURL: photoURL, facebookID: facebookID)
-                
-            case .failed(let error):
-                print("Custom Graph Request Failed: \(error)")
-            }
-        }
-        connection.start()
-    }
+//
+//
+////                // old: this is the easiest way to access the Facebook profile pic (type options: small (50px), normal (100px), large (200px), square (?))
+////                if let fID = response.id {
+////                    photoURL = "http://graph.facebook.com/\(fID)/picture?type=large"
+////                }
+//
+//                self.addDataToFirebase(firstname: firstname, lastname: lastname, email: email, photoURL: photoURL, facebookID: facebookID)
+//
+//            case .failed(let error):
+//                print("Custom Graph Request Failed: \(error)")
+//            }
+//        }
+//        connection.start()
+//    }
     
     // this needs better error handling
     // note the merge: true parameter in the .setData as a safeguard against overwriting any existing data, although this func should only be called when there is no preexisting user record in Firestore
@@ -244,54 +244,54 @@ class LoginViewController: UIViewController {
     }
     
     // this struct is a handy way to access facebook's graph api for facebook data
-    struct MyProfileRequest: GraphRequestProtocol {
-        struct Response: GraphResponseProtocol {
-            var firstname: String?
-            var lastname: String?
-            var id: String?
-            var email: String?
-            var profilePictureURL: String?
-            
-            init(rawResponse: Any?) {
-                // Decode JSON from rawResponse into other properties here.
-                guard let response = rawResponse as? Dictionary<String, Any> else {
-                    return
-                }
-                
-                if let firstname = response["first_name"] as? String {
-                    self.firstname = firstname
-                }
-                
-                if let lastname = response["last_name"] as? String {
-                    self.lastname = lastname
-                }
-                
-                if let id = response["id"] as? String {
-                    self.id = id
-                }
-                
-                if let email = response["email"] as? String {
-                    self.email = email
-                }
-                
-                if let picture = response["picture"] as? Dictionary<String, Any> {
-
-                    if let data = picture["data"] as? Dictionary<String, Any> {
-                        if let url = data["url"] as? String {
-                            self.profilePictureURL = url
-                        }
-                    }
-                }
-            }
-        }
-        
-        var graphPath = "/me"
-        var parameters: [String : Any]? = ["fields": "id, first_name, last_name, email, picture.type(large)"]
-        var accessToken = AccessToken.current
-        var httpMethod: GraphRequestHTTPMethod = .GET
-        var apiVersion: GraphAPIVersion = .defaultVersion
-        
-    }
+//    struct MyProfileRequest: GraphRequestProtocol {
+//        struct Response: GraphResponseProtocol {
+//            var firstname: String?
+//            var lastname: String?
+//            var id: String?
+//            var email: String?
+//            var profilePictureURL: String?
+//
+//            init(rawResponse: Any?) {
+//                // Decode JSON from rawResponse into other properties here.
+//                guard let response = rawResponse as? Dictionary<String, Any> else {
+//                    return
+//                }
+//
+//                if let firstname = response["first_name"] as? String {
+//                    self.firstname = firstname
+//                }
+//
+//                if let lastname = response["last_name"] as? String {
+//                    self.lastname = lastname
+//                }
+//
+//                if let id = response["id"] as? String {
+//                    self.id = id
+//                }
+//
+//                if let email = response["email"] as? String {
+//                    self.email = email
+//                }
+//
+//                if let picture = response["picture"] as? Dictionary<String, Any> {
+//
+//                    if let data = picture["data"] as? Dictionary<String, Any> {
+//                        if let url = data["url"] as? String {
+//                            self.profilePictureURL = url
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//
+//        var graphPath = "/me"
+//        var parameters: [String : Any]? = ["fields": "id, first_name, last_name, email, picture.type(large)"]
+//        var accessToken = AccessToken.current
+//        var httpMethod: GraphRequestHTTPMethod = .GET
+//        var apiVersion: GraphAPIVersion = .defaultVersion
+//
+//    }
     
     func setUpElements() {
         
