@@ -74,6 +74,8 @@ class AddCard2TableViewController: UITableViewController, UITextFieldDelegate {
             showError(error!)
         } else {
             
+            self.showSpinner(onView: self.view)
+            
             // kill the button to prevent retries
             submitButton.isEnabled = false
             
@@ -99,12 +101,8 @@ class AddCard2TableViewController: UITableViewController, UITextFieldDelegate {
 //                }
                 semaphore.wait()
                 
-                print(result?.data)
-                
                 if let returnedArray = result?.data as? [[String: Any]] {
                 // the result includes the bits we need (this is the result of step 4 in the diagram found at the API doc link above)
-                    
-                    print(returnedArray)
                     
                     
                     let jsonCardReg = JSON(returnedArray[0])
@@ -132,8 +130,6 @@ class AddCard2TableViewController: UITableViewController, UITextFieldDelegate {
                     let walletIdData = JSON(returnedArray[1])
                     
                     if let walletID = walletIdData["walletID"].string {
-                        
-                        print(walletID)
                     
                         semaphore.signal()
                     
@@ -150,8 +146,13 @@ class AddCard2TableViewController: UITableViewController, UITextFieldDelegate {
                         // send card details to Mangopay's tokenization server, and get a RegistrationData object back as response
                         self.networkingClient.postCardInfo(url: cardRegURL, parameters: body) { (response, error) in
                             
+                            
+                            
                             if let err = error {
+                                
+                                // TODO error handling
                                 print(err)
+                                self.removeSpinner()
                             }
                             print(response)
                             
@@ -162,11 +163,13 @@ class AddCard2TableViewController: UITableViewController, UITextFieldDelegate {
                             
                             semaphore.signal()
                             
-                            print("checkpoint 1")
+                            
 
                             // now pass the RegistrationData object to callable Cloud Function which will complete the Card Registration and store the CardId in Firestore (this whole process is a secure way to store the user's card without having their sensitive info ever touch our server)
                             // N.B. we send the wallet ID received earlier so that the Cloud Function can store the final CardID under the user's Firestore wallet entry (the correct wallet - they could have multiple)
                             self.functions.httpsCallable("addCardRegistration").call(["regData": regData, "cardRegID": cardRegID, "walletID": walletID]) { (result, error) in
+                                
+                                self.removeSpinner()
 
                                 if let err = error {
                                     print(err)
@@ -181,7 +184,8 @@ class AddCard2TableViewController: UITableViewController, UITextFieldDelegate {
                                     // leaving makeDefault as true by default for now
                                     self.addAddressToCard(walletID: walletID, cardID: cardID, makeDefault: true)
                                     
-                                    print("done?")
+                                    
+                                    
                                     self.performSegue(withIdentifier: "showSuccessScreen", sender: self)
                                 }
                             }

@@ -37,7 +37,7 @@ class ConfirmViewController: UIViewController {
     var shouldReloadView = false
     
     var confirmedTransaction: Transaction?
-
+    
     @IBOutlet weak var amountLabel: UILabel!
     
     @IBOutlet weak var backButton: UIButton!
@@ -78,6 +78,8 @@ class ConfirmViewController: UIViewController {
                 utilities.checkForUserAccount()
             }
         }
+        
+        self.showSpinner(onView: self.view)
     }
     
 //    override func viewWillDisappear(_ animated: Bool) {
@@ -99,7 +101,7 @@ class ConfirmViewController: UIViewController {
         Utilities.styleFilledButton(self.backButton)
         Utilities.styleFilledButton(self.confirmButton)
         
-        recipientLabel.isHidden = true
+        
         currentBalance.isHidden = true
         dynamicLabel.isHidden = true
         
@@ -108,6 +110,7 @@ class ConfirmViewController: UIViewController {
 
         // format the profile pic image view nicely
 //        recipientImage.contentMode = .scaleAspectFill
+        
         recipientImage.clipsToBounds = true
         recipientImage.layer.cornerRadius = recipientImage.bounds.height/2
         
@@ -134,7 +137,6 @@ class ConfirmViewController: UIViewController {
                 
                 
                 self.recipientLabel.text = "to \(recipientFirstname) \(recipientLastname)"
-                self.recipientLabel.isHidden = false
                 
                 // important to update the class variable recipientName because at present, the getUserBalance function relies on it
                 // TODO: replace this clunky solution?
@@ -190,6 +192,8 @@ class ConfirmViewController: UIViewController {
                 
                 self.confirmButton.isEnabled = true
                 
+                self.removeSpinner()
+                
             } else {
                 // user hasn't added account info yet
                 //
@@ -200,6 +204,8 @@ class ConfirmViewController: UIViewController {
                 
                 self.dynamicLabel.isHidden = false
                 self.confirmButton.isEnabled = true
+                
+                self.removeSpinner()
                 
                 return
             }
@@ -225,8 +231,11 @@ class ConfirmViewController: UIViewController {
     
     // TODO: complete this func
     @IBAction func confirmButtonPressed(_ sender: UIButton) {
+        
         let userAccountExists = UserDefaults.standard.bool(forKey: "userAccountExists")
         if userAccountExists == true {
+            
+            self.showSpinner(onView: self.view)
             
             // notice user doesn't strictly need to add card details if they already have sufficient credit to complete payment - this is intentional
             if enoughCredit == true {
@@ -234,8 +243,17 @@ class ConfirmViewController: UIViewController {
                 // TODO add spinner
                 // TODO add semaphore or something to wait for result before continuing, with timeout
                 transact(recipientUID: self.recipientUID, amount: self.sendAmount, topup: false, topupAmount: nil) { result in
-                    // TODO add result (success or failure)
-                    self.performSegue(withIdentifier: "showSuccessScreen", sender: self)
+                    
+                    self.removeSpinner()
+                    
+                    let trunc = result.prefix(7)
+                    if trunc == "success" {
+                        
+                        self.performSegue(withIdentifier: "showSuccessScreen", sender: self)
+                    } else {
+                        
+                        self.showAlert(title: "Oops!", message: result, segue: nil, cancel: false)
+                    }
                     
 //                    self.performSegue(withIdentifier: "showSuccessScreen", sender: self)
                 }
@@ -244,15 +262,17 @@ class ConfirmViewController: UIViewController {
                     
                     // initiate topup (ideally with ApplePay & touchID)
                     transact(recipientUID: self.recipientUID, amount: self.sendAmount, topup: true, topupAmount: self.topupAmount) { result in
+                        
+                        self.removeSpinner()
+                        
                         let trunc = result.prefix(7)
                         if trunc == "success" {
                             
-                            // get updated balance
-                            
-                            // TODO wait for confirmation of transaction to come through, then:
-                            print("all sorted!")
+                            // TODO get updated balance
+
                             self.performSegue(withIdentifier: "showSuccessScreen", sender: self)
                         } else {
+                            
                             self.showAlert(title: "Oops!", message: result, segue: nil, cancel: false)
                         }
                     }
@@ -384,17 +404,12 @@ class ConfirmViewController: UIViewController {
             let reason = "Authenticate Payment"
             var successfullyAuthenticated = false
             
-            print("let's give it a go")
             DispatchQueue.main.async {
                 context.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: reason) {
                     [unowned self] success, authenticationError in
                     
-                    print("we had a response")
-                    
-                    
-                    
                     if success {
-                        print("success")
+                        
                         successfullyAuthenticated = true
                     } else {
     //                            let ac = UIAlertController(title: "Continue", message: "Authentication failed - please try again", preferredStyle: .alert)
@@ -402,7 +417,7 @@ class ConfirmViewController: UIViewController {
     //                            ac.addAction(UIAlertAction(title: "OK", style: .default, handler: {(alert: UIAlertAction!) in }
     //                            ))
     //                            self.present(ac, animated: true)
-                        print(authenticationError)
+                        
                         successfullyAuthenticated = false
                     }
                     

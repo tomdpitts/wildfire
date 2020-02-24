@@ -19,6 +19,8 @@ class PhoneViewController: UIViewController {
         super.viewDidLoad()
         navigationItem.title = "Confirm mobile number"
         navigationController?.navigationBar.prefersLargeTitles = true
+        
+        Utilities.styleHollowButton(verifyButton)
     }
     
     @IBAction func verifyTapped(_ sender: Any) {

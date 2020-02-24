@@ -55,6 +55,8 @@ class ConfirmDepositViewController: UIViewController {
     // TODO finish this func
     @IBAction func confirmDepositTapped(_ sender: Any) {
         
+        self.showSpinner(onView: self.view)
+        
         // prevent double taps!
         confirmDepositButton.isEnabled = false
         
@@ -63,12 +65,17 @@ class ConfirmDepositViewController: UIViewController {
             let amountInCents = Int(amount*100)
             
             self.functions.httpsCallable("triggerPayout").call(["amount": amountInCents, "currency": currency]) { (result, error) in
+                
+                self.removeSpinner()
+                
                 if error != nil {
+                    
                     // TODO
 //                            self.showAuthenticationError(title: "Oops!", message: "We couldn't top up your account. Please try again.")
                     print("There was an issue in processing your deposit, please try again")
                     self.confirmDepositButton.isEnabled = true
                 } else {
+                    
                     // update balance
                     self.functions.httpsCallable("getCurrentBalance").call(["foo": "bar"]) { (result, error) in
                         if error != nil {

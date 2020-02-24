@@ -69,20 +69,8 @@ class formStep3ViewController: UIViewController, UITextFieldDelegate {
             return
         } else {
             
-            // let's check the entered text is valid
-            
-            // (we can force unwrap these because if this code is only triggered if there is some text in both)
             let nationality = localeFinder(for: nationalityField.text!)
             let residence = localeFinder(for: residenceField.text!)
-            
-            if nationality == nil {
-                showError("Please enter a valid Nationality")
-                return
-            }
-            if residence == nil {
-                showError("Please enter a valid Country of Residence")
-                return
-            }
             
             addNewUserToDatabases(firstname: self.firstname, lastname: self.lastname, email: self.email, dob: self.dob!, nationality: nationality!, residence: residence!)
         }
@@ -144,10 +132,13 @@ class formStep3ViewController: UIViewController, UITextFieldDelegate {
     // not adding validation to check for existing doc as that should already be covered
     func addNewUserToDatabases(firstname: String, lastname: String, email: String, dob: Int64, nationality: String, residence: String) {
         
+        self.showSpinner(onView: self.view)
+        
         let fullname = firstname + " " + lastname
         
         if let uid = Auth.auth().currentUser?.uid {
-            Firestore.firestore().collection("users").document(uid).setData(["firstname": firstname,
+            
+            let newUserData: [String : Any] = ["firstname": firstname,
             "lastname": lastname,
             "fullname": fullname,
             "email": email,
@@ -157,17 +148,19 @@ class formStep3ViewController: UIViewController, UITextFieldDelegate {
             // I tried having the balance added via Cloud Function (onCreate for user in Firestore) but it's just too slow - frequent crashes in testing due to the Account Listener being too quick..
             "balance": 0,
             // TODO if facebook login, use profile pic here
-            "photoURL": "https://cdn.pixabay.com/photo/2014/05/21/20/17/icon-350228_1280.png" ]
-                // merge: true is IMPORTANT - prevents complete overwriting of a document if a user logs in for a second time, for example, which could wipe important data (including the balance..)
-                , merge: true) { (error) in
-             
+                "photoURL": "https://cdn.pixabay.com/photo/2014/05/21/20/17/icon-350228_1280.png" ]
+            
+            // merge: true is IMPORTANT - prevents complete overwriting of a document if a user logs in for a second time, for example, which could wipe important data (including the balance..)
+            Firestore.firestore().collection("users").document(uid).setData(newUserData, merge: true) { (error) in
+                
+                self.removeSpinner()
                  // print(result!.user.uid)
                  if error != nil {
                      // Show error message
                      self.showAlert(title: "Error saving user data", message: nil, progress: false)
                  } else {
                     
-                    // check whether the user has completed signup flow
+                    // update saved userAccountExists flag
                     if UserDefaults.standard.bool(forKey: "userAccountExists") != true {
                         let utilities = Utilities()
                         utilities.checkForUserAccount()
@@ -276,6 +269,20 @@ class formStep3ViewController: UIViewController, UITextFieldDelegate {
             
             return "Please fill in all fields."
         }
+        // let's check the entered text is valid
+        
+        // (we can force unwrap these because if this code is only triggered if there is some text in both)
+        let nationality = localeFinder(for: nationalityField.text!)
+        let residence = localeFinder(for: residenceField.text!)
+        
+        if nationality == nil {
+            return "Please enter a valid Nationality"
+            
+        }
+        if residence == nil {
+            return "Please enter a valid Country of Residence"
+        }
+        
         return nil
     }
     

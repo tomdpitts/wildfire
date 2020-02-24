@@ -92,6 +92,8 @@ class BankDetails2TableViewController: UITableViewController, UITextFieldDelegat
             showError(error!)
         } else {
             
+            self.showSpinner(onView: self.view)
+            
             // kill the button to prevent retries
             submitButton.isEnabled = false
             
@@ -133,7 +135,7 @@ class BankDetails2TableViewController: UITableViewController, UITextFieldDelegat
                 if let err = error {
                     
                 } else {
-                    
+                    self.removeSpinner()
                     self.performSegue(withIdentifier: "showSuccessScreen", sender: self)
                 }
             }

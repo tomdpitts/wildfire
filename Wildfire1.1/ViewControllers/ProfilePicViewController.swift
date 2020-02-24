@@ -34,6 +34,8 @@ class ProfilePicViewController: UIViewController, UINavigationControllerDelegate
         if let cpp = currentProfilePic {
             pictureView.image = cpp
         }
+        
+        Utilities.styleHollowButton(confirmButton)
 //        pictureView.layer.cornerRadius = pictureView.frame.height/3
     }
     

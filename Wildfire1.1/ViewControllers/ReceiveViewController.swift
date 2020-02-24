@@ -11,17 +11,21 @@ import FirebaseAuth
 import CryptoSwift
 
 
-class ReceiveViewController: UIViewController {
+class ReceiveViewController: UIViewController, UITextFieldDelegate {
     
     // TODO prevent users from generating QR codes when no account (and crucially, no MangoPay wallet) exists yet
     // TODO in future, would be nice to add functionality to handle pending payments, so users can receive payments quickly upon first download, and add account info after the fact
 
-    @IBOutlet weak var textField: UITextField!
+    @IBOutlet weak var amountTextField: UITextField!
     
-    @IBOutlet weak var imgQRCode: UIImageView!
+    @IBOutlet weak var QRCodeImageView: UIImageView!
     
     @IBOutlet weak var btnAction: UIButton!
     
+    @IBAction func swipeGestureRecognizer(_ sender: Any) {
+        // swipe down (and only down) hides keyboard
+        self.view.endEditing(true)
+    }
     override func viewWillAppear(_ animated: Bool) {
         Auth.auth().addStateDidChangeListener { (auth, user) in
             if let user = user {
@@ -34,10 +38,10 @@ class ReceiveViewController: UIViewController {
                 // ...
             }
         }
+        
+        amountTextField.becomeFirstResponder()
     }
-    
-    
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -47,15 +51,14 @@ class ReceiveViewController: UIViewController {
         
         Utilities.styleHollowButton(btnAction)
         
-        textField.delegate = self as? UITextFieldDelegate
-        textField.keyboardType = .decimalPad
+        amountTextField.delegate = self
+        amountTextField.keyboardType = .decimalPad
         // N.B. You need to make sure users can't copy and paste non numeric characters into field
         // which hasn't been added yet, only the textField type. If there's no actual field and
         // the numbers are all back end, I don't think there's any point adding it now.
         
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(DismissKeyboard))
         view.addGestureRecognizer(tap)
-
         
     }
     
@@ -66,7 +69,7 @@ class ReceiveViewController: UIViewController {
     @IBAction func pressedButton(_ sender: Any) {
         if qrcodeImage == nil {
             
-            if textField.text == "" {
+            if amountTextField.text == "" {
                 return
             }
             
@@ -81,30 +84,27 @@ class ReceiveViewController: UIViewController {
             
             displayQRCodeImage()
             
-            textField.resignFirstResponder()
+            amountTextField.resignFirstResponder()
             btnAction.setTitle("Clear",for: .normal)
             
         }
             
         else {
-            imgQRCode.image = nil
+            // revert to empty state
+            QRCodeImageView.image = nil
             qrcodeImage = nil
             btnAction.setTitle("Generate",for: .normal)
-            
-            
         }
-        
     }
+    
     func displayQRCodeImage() {
         
-        let scaleX = imgQRCode.frame.size.width / qrcodeImage.extent.size.width
-        let scaleY = imgQRCode.frame.size.height / qrcodeImage.extent.size.height
+        let scaleX = QRCodeImageView.frame.size.width / qrcodeImage.extent.size.width
+        let scaleY = QRCodeImageView.frame.size.height / qrcodeImage.extent.size.height
         
         let transformedImage = qrcodeImage.transformed(by: CGAffineTransform(scaleX: scaleX, y: scaleY))
         
-        imgQRCode.image = UIImage(ciImage: transformedImage)
-        
-        
+        QRCodeImageView.image = UIImage(ciImage: transformedImage)
     }
     
     func generateQRString() -> String {
@@ -116,7 +116,7 @@ class ReceiveViewController: UIViewController {
             Einstein, James Dean, Brooklyn's got a winning team, Bardot, Budapest, Alabama, Krushchev
             """
         
-        if let receiveAmount = textField.text {
+        if let receiveAmount = amountTextField.text {
             if let float = Float(receiveAmount) {
                 print("converted to float")
                 let receiveAmountCents = float*100
@@ -147,6 +147,23 @@ class ReceiveViewController: UIViewController {
     view.endEditing(true)
     }
     
-        
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        guard let oldText = textField.text, let r = Range(range, in: oldText) else {
+            return true
+        }
+
+        let newText = oldText.replacingCharacters(in: r, with: string)
+        let isNumeric = newText.isEmpty || (Double(newText) != nil)
+        let numberOfDots = newText.components(separatedBy: ".").count - 1
+
+        let numberOfDecimalDigits: Int
+        if let dotIndex = newText.index(of: ".") {
+            numberOfDecimalDigits = newText.distance(from: dotIndex, to: newText.endIndex) - 1
+        } else {
+            numberOfDecimalDigits = 0
+        }
+
+        return isNumeric && numberOfDots <= 1 && numberOfDecimalDigits <= 2
+    }  
 }
 

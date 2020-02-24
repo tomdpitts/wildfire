@@ -20,6 +20,8 @@ class VerificationCodeViewController: UIViewController {
 
         navigationItem.title = "Verify"
         navigationController?.navigationBar.prefersLargeTitles = true
+        
+        Utilities.styleHollowButton(verifyButton)
     }
     
     @IBAction func verifyTapped(_ sender: Any) {
