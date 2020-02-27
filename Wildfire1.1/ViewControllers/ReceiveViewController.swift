@@ -21,6 +21,8 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var QRCodeImageView: UIImageView!
     
     @IBOutlet weak var btnAction: UIButton!
+    @IBOutlet weak var saveToCameraRoll: UIButton!
+    @IBOutlet weak var scanToPayLabel: UILabel!
     
     @IBAction func swipeGestureRecognizer(_ sender: Any) {
         // swipe down (and only down) hides keyboard
@@ -50,6 +52,10 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
         navigationController?.navigationBar.prefersLargeTitles = true
         
         Utilities.styleHollowButton(btnAction)
+        Utilities.styleHollowButton(saveToCameraRoll)
+        
+        saveToCameraRoll.isHidden = true
+        scanToPayLabel.isHidden = true
         
         amountTextField.delegate = self
         amountTextField.keyboardType = .decimalPad
@@ -87,24 +93,38 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
             amountTextField.resignFirstResponder()
             btnAction.setTitle("Clear",for: .normal)
             
+            saveToCameraRoll.isHidden = false
+            scanToPayLabel.isHidden = false
+            
         }
             
         else {
             // revert to empty state
-            QRCodeImageView.image = nil
+            QRCodeImageView.image = UIImage(named: "QR Border3 TEAL")
             qrcodeImage = nil
             btnAction.setTitle("Generate",for: .normal)
+            saveToCameraRoll.isHidden = true
+            scanToPayLabel.isHidden = true
         }
     }
     
     func displayQRCodeImage() {
+
+        
+        let border = UIImage(named: "QR Border3 TEAL")!
+        let logo = UIImage(named: "Logo70pxTEALBORDER")!
         
         let scaleX = QRCodeImageView.frame.size.width / qrcodeImage.extent.size.width
+        
         let scaleY = QRCodeImageView.frame.size.height / qrcodeImage.extent.size.height
         
-        let transformedImage = qrcodeImage.transformed(by: CGAffineTransform(scaleX: scaleX, y: scaleY))
+        let transformedImage = UIImage(ciImage: qrcodeImage.transformed(by: CGAffineTransform(scaleX: scaleX, y: scaleY)))
         
-        QRCodeImageView.image = UIImage(ciImage: transformedImage)
+        let overlayQR = mergeImage(bottomImage: border, topImage: transformedImage, scalePercentage: 69)
+        
+        let overlayWildfireLogo = mergeImage(bottomImage: overlayQR, topImage: logo, scalePercentage: 23)
+        
+        QRCodeImageView.image = overlayWildfireLogo
     }
     
     func generateQRString() -> String {
@@ -118,7 +138,7 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
         
         if let receiveAmount = amountTextField.text {
             if let float = Float(receiveAmount) {
-                print("converted to float")
+                
                 let receiveAmountCents = float*100
                 let receiveAmount7 = Int(receiveAmountCents*7)
                 receiveAmountString = String(receiveAmount7)
@@ -140,6 +160,43 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
 
         
         return stringQR!
+    }
+    
+    func mergeImage(bottomImage: UIImage, topImage: UIImage, scalePercentage: Int) -> UIImage {
+        
+        let width = 300
+        let height = 300
+        
+        let scaledWidth = CGFloat(width*scalePercentage)/100
+        
+        let scaledHeight = CGFloat(height*scalePercentage)/100
+
+        
+        
+        let fullImageSize = CGSize(width: width, height: height)
+        UIGraphicsBeginImageContext(fullImageSize)
+
+        let areaSizeBottom = CGRect(x: 0, y: 0, width: fullImageSize.width, height: fullImageSize.height)
+        
+        // add bottom layer
+        bottomImage.draw(in: areaSizeBottom)
+        
+//        let sizeTop = CGSize(width: scaledWidth, height: scaledHeight)
+        
+        let centerX = (CGFloat(width) - scaledWidth) / 2.0
+        
+        let centerY = (CGFloat(height) - scaledHeight) / 2.0
+        
+        
+        let areaSizeTop = CGRect(x: centerX, y: centerY, width: scaledWidth, height: scaledHeight)
+
+        // add top layer
+        topImage.draw(in: areaSizeTop, blendMode: .normal, alpha: 1.0)
+
+        let newImage:UIImage = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        
+        return newImage
     }
     
     @objc func DismissKeyboard(){

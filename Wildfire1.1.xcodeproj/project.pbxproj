@@ -47,6 +47,7 @@
 		E284815D23FA53D500D51462 /* BankAccountsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E284815C23FA53D500D51462 /* BankAccountsViewController.swift */; };
 		E29CF69623586AE700ADC0D0 /* ContactsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29CF69523586AE700ADC0D0 /* ContactsViewController.swift */; };
 		E29CF6982359BECD00ADC0D0 /* Send2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29CF6972359BECD00ADC0D0 /* Send2ViewController.swift */; };
+		E29EA43524062DAA0059C7A4 /* Graphics in Resources */ = {isa = PBXBuildFile; fileRef = E29EA43424062DAA0059C7A4 /* Graphics */; };
 		E2AD346821F384430030FA2E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E2AD346721F384430030FA2E /* Assets.xcassets */; };
 		E2B979E12329609E00194E75 /* ScanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E21AC99621EA850C00D460A9 /* ScanViewController.swift */; };
 		E2B979E3232960B000194E75 /* ConfirmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2B979DE23295DB000194E75 /* ConfirmViewController.swift */; };
@@ -114,6 +115,7 @@
 		E284815C23FA53D500D51462 /* BankAccountsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BankAccountsViewController.swift; sourceTree = "<group>"; };
 		E29CF69523586AE700ADC0D0 /* ContactsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsViewController.swift; sourceTree = "<group>"; };
 		E29CF6972359BECD00ADC0D0 /* Send2ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Send2ViewController.swift; sourceTree = "<group>"; };
+		E29EA43424062DAA0059C7A4 /* Graphics */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Graphics; sourceTree = SOURCE_ROOT; };
 		E2AD346721F384430030FA2E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E2B979DB2329441900194E75 /* Playground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Playground.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		E2B979DE23295DB000194E75 /* ConfirmViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmViewController.swift; sourceTree = "<group>"; };
@@ -195,6 +197,7 @@
 				E257EA28230D8A9F003E2A32 /* ViewControllers */,
 				E24388AB2315824D00948AD5 /* Media */,
 				E2AD346721F384430030FA2E /* Assets.xcassets */,
+				E29EA43424062DAA0059C7A4 /* Graphics */,
 				E21AC96D21EA6BF000D460A9 /* LaunchScreen.storyboard */,
 				E278AE0521FCEFDF00A65309 /* GoogleService-Info.plist */,
 				E21AC97021EA6BF000D460A9 /* Info.plist */,
@@ -360,6 +363,7 @@
 				E21AC96F21EA6BF000D460A9 /* LaunchScreen.storyboard in Resources */,
 				E24388AD2315A5AC00948AD5 /* WildfireLogin.mp4 in Resources */,
 				E278AE0621FCEFDF00A65309 /* GoogleService-Info.plist in Resources */,
+				E29EA43524062DAA0059C7A4 /* Graphics in Resources */,
 				E2AD346821F384430030FA2E /* Assets.xcassets in Resources */,
 				E21AC96A21EA6BEF00D460A9 /* Main.storyboard in Resources */,
 			);

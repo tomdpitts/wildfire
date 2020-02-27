@@ -923,10 +923,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="fzz-fV-Ev3">
-                                <rect key="frame" x="57.5" y="74" width="260" height="402"/>
+                                <rect key="frame" x="57.5" y="74" width="260" height="514.5"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="p5q-f4-c0n">
-                                        <rect key="frame" x="20" y="0.0" width="220" height="60"/>
+                                        <rect key="frame" x="40" y="0.0" width="180" height="60"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="€" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VoW-uq-wt5">
                                                 <rect key="frame" x="0.0" y="0.0" width="36.5" height="60"/>
@@ -935,13 +935,13 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="0.00" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="lpJ-Ef-bAA">
-                                                <rect key="frame" x="41.5" y="0.0" width="178.5" height="60"/>
+                                                <rect key="frame" x="41.5" y="0.0" width="138.5" height="60"/>
                                                 <fontDescription key="fontDescription" type="system" weight="thin" pointSize="50"/>
                                                 <textInputTraits key="textInputTraits"/>
                                             </textField>
                                         </subviews>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="220" id="9Hw-Bh-3FD"/>
+                                            <constraint firstAttribute="width" constant="180" id="9Hw-Bh-3FD"/>
                                         </constraints>
                                     </stackView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="q1g-iR-LCA">
@@ -950,21 +950,34 @@
                                             <constraint firstAttribute="width" constant="220" id="rX5-H0-2mt"/>
                                             <constraint firstAttribute="height" constant="60" id="udC-oR-Von"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="27"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="27"/>
                                         <state key="normal" title="Generate"/>
                                         <connections>
                                             <action selector="pressedButton:" destination="8rJ-Kc-sve" eventType="touchUpInside" id="A4Y-0C-MXB"/>
                                         </connections>
                                     </button>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="CeM-U1-8D7">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="QR Border3 TEAL" translatesAutoresizingMaskIntoConstraints="NO" id="CeM-U1-8D7">
                                         <rect key="frame" x="5" y="152" width="250" height="250"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="250" id="FhG-8w-89B"/>
                                             <constraint firstAttribute="width" constant="250" id="TYP-lk-oWC"/>
                                         </constraints>
                                     </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Scan this code to pay" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ap8-Ru-ihz">
+                                        <rect key="frame" x="48" y="418" width="164.5" height="20.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eAt-sR-c9T">
+                                        <rect key="frame" x="20" y="454.5" width="220" height="60"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                        <state key="normal" title="Save to Camera Roll"/>
+                                    </button>
                                 </subviews>
                                 <constraints>
+                                    <constraint firstItem="eAt-sR-c9T" firstAttribute="width" secondItem="q1g-iR-LCA" secondAttribute="width" id="2Sx-I1-pwp"/>
+                                    <constraint firstItem="eAt-sR-c9T" firstAttribute="height" secondItem="q1g-iR-LCA" secondAttribute="height" id="JWn-AL-XXG"/>
                                     <constraint firstItem="q1g-iR-LCA" firstAttribute="leading" secondItem="fzz-fV-Ev3" secondAttribute="leading" constant="20" symbolic="YES" id="bwC-TR-NTd"/>
                                     <constraint firstAttribute="trailing" secondItem="q1g-iR-LCA" secondAttribute="trailing" constant="20" symbolic="YES" id="mUG-sU-ROK"/>
                                 </constraints>
@@ -986,6 +999,8 @@
                         <outlet property="QRCodeImageView" destination="CeM-U1-8D7" id="K7S-jG-KqU"/>
                         <outlet property="amountTextField" destination="lpJ-Ef-bAA" id="F6H-XS-P6K"/>
                         <outlet property="btnAction" destination="q1g-iR-LCA" id="bPl-6m-xTI"/>
+                        <outlet property="saveToCameraRoll" destination="eAt-sR-c9T" id="CLL-2s-7IE"/>
+                        <outlet property="scanToPayLabel" destination="Ap8-Ru-ihz" id="tZx-I1-fJg"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4Nw-L8-lE0" sceneMemberID="firstResponder"/>
@@ -3652,7 +3667,7 @@
                         <outlet property="countryStack" destination="b2q-p7-P61" id="p8j-9O-K6C"/>
                         <outlet property="swiftLabel" destination="hq2-Zu-eAK" id="X4m-Yi-Q2t"/>
                         <outlet property="swiftStack" destination="ei1-Nh-ojw" id="BqG-aX-6JQ"/>
-                        <segue destination="Mem-b9-qwW" kind="show" id="ugf-7J-JoK"/>
+                        <segue destination="Mem-b9-qwW" kind="show" identifier="showSuccessScreen" id="ugf-7J-JoK"/>
                         <segue destination="fpz-fl-vQq" kind="unwind" identifier="unwindToPrevious" unwindAction="unwindToPrevious:" id="lXS-Vs-njg"/>
                     </connections>
                 </viewController>
@@ -3727,6 +3742,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="QR Border3 TEAL" width="540" height="540"/>
         <image name="genericProfilePic" width="460" height="339"/>
         <image name="greenTick" width="25" height="25"/>
         <image name="icons8-bank-building-100" width="50" height="50"/>
