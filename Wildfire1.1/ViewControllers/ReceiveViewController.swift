@@ -57,8 +57,14 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
         saveToCameraRoll.isHidden = true
         scanToPayLabel.isHidden = true
         
+        saveToCameraRoll.tintColor = UIColor(hexString: "#39C3C6")
+        if #available(iOS 13.0, *) {
+            saveToCameraRoll.setImage(UIImage(systemName: "square.and.arrow.up"), for: .normal)
+        }
+        
         amountTextField.delegate = self
         amountTextField.keyboardType = .decimalPad
+
         // N.B. You need to make sure users can't copy and paste non numeric characters into field
         // which hasn't been added yet, only the textField type. If there's no actual field and
         // the numbers are all back end, I don't think there's any point adding it now.
@@ -68,6 +74,44 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
         
     }
     
+    @IBAction func amountChanged(_ sender: Any) {
+        // revert to empty state
+        QRCodeImageView.image = UIImage(named: "QR Border3 TEAL")
+        qrcodeImage = nil
+        btnAction.setTitle("Generate",for: .normal)
+        saveToCameraRoll.isHidden = true
+        scanToPayLabel.isHidden = true
+        
+        // reset Save to Camera Roll Button
+        saveToCameraRoll.setTitle("Save to Camera Roll", for: .normal)
+        Utilities.styleHollowButton(saveToCameraRoll)
+        if #available(iOS 13.0, *) {
+            saveToCameraRoll.setImage(UIImage(systemName: "square.and.arrow.up"), for: .normal)
+        }
+        saveToCameraRoll.isEnabled = true
+        
+    }
+    
+    @IBAction func amountFinishedEditing(_ sender: Any) {
+        
+        guard let amountString = amountTextField.text else { return }
+        
+        let numberOfDecimalDigits: Int
+        
+        if let dotIndex = amountString.firstIndex(of: ".") {
+            // prevent more than 2 digits after the decimal
+            numberOfDecimalDigits = amountString.distance(from: dotIndex, to: amountString.endIndex) - 1
+            
+            if numberOfDecimalDigits == 1 {
+                let replacementString = amountString + "0"
+                amountTextField.text = replacementString
+                
+            } else if numberOfDecimalDigits == 0 {
+                let replacementString = String(amountString.dropLast())
+                amountTextField.text = replacementString
+            }
+        }
+    }
     
     
     var qrcodeImage: CIImage!;
@@ -105,6 +149,14 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
             btnAction.setTitle("Generate",for: .normal)
             saveToCameraRoll.isHidden = true
             scanToPayLabel.isHidden = true
+            
+            // reset Save to Camera Roll Button (currently hidden)
+            saveToCameraRoll.setTitle("Save to Camera Roll", for: .normal)
+            Utilities.styleHollowButton(saveToCameraRoll)
+            if #available(iOS 13.0, *) {
+                saveToCameraRoll.setImage(UIImage(systemName: "square.and.arrow.up"), for: .normal)
+            }
+            saveToCameraRoll.isEnabled = true
         }
     }
     
@@ -120,7 +172,7 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
         
         let transformedImage = UIImage(ciImage: qrcodeImage.transformed(by: CGAffineTransform(scaleX: scaleX, y: scaleY)))
         
-        let overlayQR = mergeImage(bottomImage: border, topImage: transformedImage, scalePercentage: 69)
+        let overlayQR = mergeImage(bottomImage: border, topImage: transformedImage, scalePercentage: 71)
         
         let overlayWildfireLogo = mergeImage(bottomImage: overlayQR, topImage: logo, scalePercentage: 23)
         
@@ -174,7 +226,8 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
         
         
         let fullImageSize = CGSize(width: width, height: height)
-        UIGraphicsBeginImageContext(fullImageSize)
+        
+        UIGraphicsBeginImageContextWithOptions(fullImageSize, true, 0.0)
 
         let areaSizeBottom = CGRect(x: 0, y: 0, width: fullImageSize.width, height: fullImageSize.height)
         
@@ -199,6 +252,20 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
         return newImage
     }
     
+    @IBAction func saveToCameraRollTapped(_ sender: Any) {
+        UIImageWriteToSavedPhotosAlbum(QRCodeImageView.image!, nil, nil, nil)
+        
+        saveToCameraRoll.isEnabled = false
+        
+        // change the look to show it has been selected and is now disabled as a button
+        Utilities.styleHollowButtonSELECTED(saveToCameraRoll)
+        
+        saveToCameraRoll.setTitle("Done!", for: .normal)
+        if #available(iOS 13.0, *) {
+            saveToCameraRoll.setImage(UIImage(systemName: "checkmark.circle"), for: .normal)
+        }
+    }
+    
     @objc func DismissKeyboard(){
     //Causes the view to resign from the status of first responder.
     view.endEditing(true)
@@ -214,7 +281,8 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
         let numberOfDots = newText.components(separatedBy: ".").count - 1
 
         let numberOfDecimalDigits: Int
-        if let dotIndex = newText.index(of: ".") {
+        if let dotIndex = newText.firstIndex(of: ".") {
+            // prevent more than 2 digits after the decimal
             numberOfDecimalDigits = newText.distance(from: dotIndex, to: newText.endIndex) - 1
         } else {
             numberOfDecimalDigits = 0
