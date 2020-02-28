@@ -39,11 +39,19 @@ class BankDetailViewController: UIViewController {
         navigationItem.title = "Account Details"
         navigationController?.navigationBar.prefersLargeTitles = true
     }
-    
-    @IBAction func makeDeposit(_ sender: Any) {
+
+    @IBAction func makeDepositTapped(_ sender: Any) {
         
+        let KYCVerified = UserDefaults.standard.bool(forKey: "KYCVerified")
         
+        // KYCVerfied could conceivably be nil
+        if KYCVerified != true {
+            performSegue(withIdentifier: "showKYCView", sender: self)
+        } else {
+            performSegue(withIdentifier: "showDepositAmountView", sender: self)
+        }
     }
+    
     
     @IBAction func deleteBankAccount(_ sender: Any) {
     }

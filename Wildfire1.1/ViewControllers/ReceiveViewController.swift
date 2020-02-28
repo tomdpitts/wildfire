@@ -51,7 +51,6 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
         navigationItem.title = "Receive"
         navigationController?.navigationBar.prefersLargeTitles = true
         
-        Utilities.styleHollowButton(btnAction)
         Utilities.styleHollowButton(saveToCameraRoll)
         
         saveToCameraRoll.isHidden = true
@@ -59,7 +58,7 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
         
         saveToCameraRoll.tintColor = UIColor(hexString: "#39C3C6")
         if #available(iOS 13.0, *) {
-            saveToCameraRoll.setImage(UIImage(systemName: "square.and.arrow.up"), for: .normal)
+            saveToCameraRoll.setImage(UIImage(systemName: "square.and.arrow.up")?.withTintColor(UIColor(hexString: "#39C3C6")) , for: .normal)
         }
         
         amountTextField.delegate = self
@@ -78,7 +77,8 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
         // revert to empty state
         QRCodeImageView.image = UIImage(named: "QR Border3 TEAL")
         qrcodeImage = nil
-        btnAction.setTitle("Generate",for: .normal)
+//        btnAction.setTitle("Show code",for: .normal)
+        btnAction.isHidden = false
         saveToCameraRoll.isHidden = true
         scanToPayLabel.isHidden = true
         
@@ -135,18 +135,21 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
             displayQRCodeImage()
             
             amountTextField.resignFirstResponder()
-            btnAction.setTitle("Clear",for: .normal)
+//            btnAction.setTitle("Clear",for: .normal)
+            btnAction.isHidden = true
             
             saveToCameraRoll.isHidden = false
             scanToPayLabel.isHidden = false
             
         }
             
+        // old code, redundant now that the 'go' button disappears upon submission, and retries are handled by text field changed function
         else {
             // revert to empty state
             QRCodeImageView.image = UIImage(named: "QR Border3 TEAL")
             qrcodeImage = nil
-            btnAction.setTitle("Generate",for: .normal)
+//            btnAction.setTitle("Show code",for: .normal)
+            btnAction.isHidden = false
             saveToCameraRoll.isHidden = true
             scanToPayLabel.isHidden = true
             

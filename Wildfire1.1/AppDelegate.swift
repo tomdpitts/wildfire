@@ -98,13 +98,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         if uid != nil {
             if let checkoutTime = self.timestamp {
-                if checkoutTime > Date().toSeconds() - 2 {
+                if checkoutTime > Date().toSeconds() - 60 {
                     
                     
-                    let initialViewController: UIViewController = mainStoryboard.instantiateViewController(withIdentifier: "mainMenu") as UIViewController
-                    self.window = UIWindow(frame: UIScreen.main.bounds)
-                    self.window?.rootViewController = initialViewController
-                    self.window?.makeKeyAndVisible()
+//                    let initialViewController: UIViewController = mainStoryboard.instantiateViewController(withIdentifier: "mainMenu") as UIViewController
+//                    self.window = UIWindow(frame: UIScreen.main.bounds)
+//                    self.window?.rootViewController = initialViewController
+//                    self.window?.makeKeyAndVisible()
                     
                 } else {
                     
