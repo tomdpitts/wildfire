@@ -66,6 +66,7 @@ class ProfilePicViewController: UIViewController, UINavigationControllerDelegate
         })
     }
     
+    // is this func required?
     func resizeImage(image: UIImage, newWidth: CGFloat) -> UIImage? {
 
         let scale = newWidth / image.size.width
