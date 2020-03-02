@@ -8,6 +8,7 @@
 
 import UIKit
 import FirebaseFunctions
+import Alamofire
 
 class PassportUploadViewController: UIViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
     lazy var functions = Functions.functions(region:"europe-west1")
@@ -68,6 +69,68 @@ class PassportUploadViewController: UIViewController, UINavigationControllerDele
 //
 //        return newImage
 //    }
+    
+    func uploadDocument(pages: Int) {
+        
+        guard let mangopayID = UserDefaults.standard.string(forKey: "mangopayID") else { return }
+        
+        let url = "https://api.sandbox.mangopay.com/v2.01/wildfirewallet/users/\(mangopayID)/kyc/documents"
+        
+        guard let selectedImage = fullResImage else { return }
+        let imageToUpload = convertImageToBase64(selectedImage)
+    
+        print(imageToUpload)
+        
+        let parameters = [
+            "Type": "IDENTITY_PROOF"
+        ]
+        
+        Alamofire.request(url, method: .post, parameters: parameters).validate().responseString(completionHandler: { response in
+            if let error = response.error {
+//                completion("nil", error)
+                print(error)
+            } else if let dataString = response.result.value {
+//                completion(dataString, nil)
+                guard let kycDocID = dataString["Id"] else { return }
+                
+            }
+        })
+        return
+    }
+    
+    func convertImageToBase64(_ image: UIImage) -> String {
+        
+        //Use image to create into NSData format
+        let imageData = image.pngData()!
+        
+        let strBase64 = imageData.base64EncodedString(options: .lineLength64Characters)
+        
+        return strBase64
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     func uploadProfilePic(imageToUpload: UIImage?) {
         

@@ -53,6 +53,7 @@
 		E2B979E3232960B000194E75 /* ConfirmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2B979DE23295DB000194E75 /* ConfirmViewController.swift */; };
 		E2CDF4AB235F2126002E155D /* PhoneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2CDF4AA235F2126002E155D /* PhoneViewController.swift */; };
 		E2CDF4AD235F2859002E155D /* VerificationCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2CDF4AC235F2859002E155D /* VerificationCodeViewController.swift */; };
+		E2DEF201240D0610006A6106 /* DocumentTypeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2DEF200240D0610006A6106 /* DocumentTypeViewController.swift */; };
 		E2E283FD240CDDA200D97DDF /* PassportUploadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E283FC240CDDA200D97DDF /* PassportUploadViewController.swift */; };
 		E2E283FF240CDDD400D97DDF /* DriverLicenceFrontUploadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E283FE240CDDD400D97DDF /* DriverLicenceFrontUploadViewController.swift */; };
 		E2E28401240CDDE600D97DDF /* DriverLicenceBackUploadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E28400240CDDE600D97DDF /* DriverLicenceBackUploadViewController.swift */; };
@@ -124,6 +125,7 @@
 		E2B979DE23295DB000194E75 /* ConfirmViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmViewController.swift; sourceTree = "<group>"; };
 		E2CDF4AA235F2126002E155D /* PhoneViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneViewController.swift; sourceTree = "<group>"; };
 		E2CDF4AC235F2859002E155D /* VerificationCodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationCodeViewController.swift; sourceTree = "<group>"; };
+		E2DEF200240D0610006A6106 /* DocumentTypeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentTypeViewController.swift; sourceTree = "<group>"; };
 		E2E283FC240CDDA200D97DDF /* PassportUploadViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassportUploadViewController.swift; sourceTree = "<group>"; };
 		E2E283FE240CDDD400D97DDF /* DriverLicenceFrontUploadViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DriverLicenceFrontUploadViewController.swift; sourceTree = "<group>"; };
 		E2E28400240CDDE600D97DDF /* DriverLicenceBackUploadViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DriverLicenceBackUploadViewController.swift; sourceTree = "<group>"; };
@@ -279,6 +281,7 @@
 				E2E283FC240CDDA200D97DDF /* PassportUploadViewController.swift */,
 				E2E283FE240CDDD400D97DDF /* DriverLicenceFrontUploadViewController.swift */,
 				E2E28400240CDDE600D97DDF /* DriverLicenceBackUploadViewController.swift */,
+				E2DEF200240D0610006A6106 /* DocumentTypeViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -456,6 +459,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E2DEF201240D0610006A6106 /* DocumentTypeViewController.swift in Sources */,
 				E2026709230ED8CF003C0AF4 /* LoginViewController.swift in Sources */,
 				E271C0CE23D81EED004245CC /* CardDetailsViewController.swift in Sources */,
 				E29CF69623586AE700ADC0D0 /* ContactsViewController.swift in Sources */,
