@@ -2084,7 +2084,7 @@
                                         <rect key="frame" x="0.0" y="495" width="320" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="4yj-I1-lH0" id="OzT-eh-736">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Delete Account" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="kTK-NB-VKb">
@@ -3237,7 +3237,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="548"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" axis="vertical" spacing="27" translatesAutoresizingMaskIntoConstraints="NO" id="AP8-TF-75b">
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="27" translatesAutoresizingMaskIntoConstraints="NO" id="AP8-TF-75b">
                                 <rect key="frame" x="40" y="100" width="240" height="348"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icons8-bank-building-100" translatesAutoresizingMaskIntoConstraints="NO" id="D9U-yS-64F">
@@ -3249,7 +3249,7 @@
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="XVR-cC-kAk">
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="XVR-cC-kAk">
                                         <rect key="frame" x="0.0" y="128" width="240" height="133"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                         <string key="text">To send deposits to your bank account, we are legally required to verify your identity.  Apologies for the hassle, but this helps us keep your money safe. You'll only need to do this once.</string>
@@ -3257,13 +3257,16 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                     </textView>
-                                    <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AWv-S1-VVD">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AWv-S1-VVD">
                                         <rect key="frame" x="0.0" y="288" width="240" height="60"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="60" id="ANQ-0y-vEy"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <state key="normal" title="Continue"/>
+                                        <connections>
+                                            <segue destination="pub-UR-8Gm" kind="show" id="Mo7-R3-Sev"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                             </stackView>
@@ -3272,13 +3275,11 @@
                         <constraints>
                             <constraint firstItem="AP8-TF-75b" firstAttribute="centerY" secondItem="QIC-M1-rBE" secondAttribute="centerY" id="1eK-el-paw"/>
                             <constraint firstItem="AP8-TF-75b" firstAttribute="centerX" secondItem="QIC-M1-rBE" secondAttribute="centerX" id="Uua-xs-son"/>
+                            <constraint firstItem="AP8-TF-75b" firstAttribute="top" secondItem="mWw-FT-vHb" secondAttribute="top" constant="44" id="lKM-5T-kw4"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="mWw-FT-vHb"/>
                     </view>
                     <navigationItem key="navigationItem" title="ID Verification" largeTitleDisplayMode="always" id="FDB-2q-vwi"/>
-                    <connections>
-                        <segue destination="pub-UR-8Gm" kind="show" id="CHb-eM-SWj"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FVr-Tb-Zid" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -3646,7 +3647,7 @@
                         <outlet property="swiftLabel" destination="rjx-uJ-zoF" id="vr8-Wb-WDW"/>
                         <outlet property="swiftStack" destination="Jli-ht-P6v" id="Mvi-f3-2oM"/>
                         <segue destination="dQG-hw-mYL" kind="show" identifier="showDepositAmountView" id="HLW-Ze-66T"/>
-                        <segue destination="IyM-7T-zf0" kind="show" id="OZf-bg-5YQ"/>
+                        <segue destination="IyM-7T-zf0" kind="show" identifier="showKYCView" id="OZf-bg-5YQ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hLQ-Xl-DWC" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
