@@ -36,6 +36,23 @@ class Utilities {
         }
     }
     
+    func getMangopayID() {
+        let db = Firestore.firestore()
+        
+        if let uid = Auth.auth().currentUser?.uid {
+            let docRef = db.collection("users").document(uid)
+
+            docRef.getDocument { (document, error) in
+                
+                if let document = document {
+                    let ID = document["mangopayID"]
+                    UserDefaults.standard.set(ID, forKey: "mangopayID")
+                    print(ID)
+                }
+            }
+        }
+    }
+    
     
     static func styleTextField(_ textfield:UITextField) {
         

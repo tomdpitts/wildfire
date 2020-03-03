@@ -111,8 +111,6 @@ exports.createNewMangopayCustomer = functions.region('europe-west1').firestore.d
 
   const customer = await mpAPI.Users.create({PersonType: 'NATURAL', FirstName: firstname, LastName: lastname, Birthday: birthday, Nationality: nationality, CountryOfResidence: residence, Email: email});
 
-  console.log(customer.Id)
-
   return admin.firestore().collection('users').doc(context.params.id).update({mangopayID: customer.Id});
 
 })
@@ -532,7 +530,6 @@ exports.createNewMangopayCustomer = functions.region('europe-west1').firestore.d
     return payin
   })
 
-  // TODO
   exports.createPayout = functions.region('europe-west1').https.onCall( async (data, context) => {
 
     const userID = context.auth.uid
@@ -791,6 +788,70 @@ exports.createNewMangopayCustomer = functions.region('europe-west1').firestore.d
       }
 
       return payout = await mpAPI.PayOuts.create(payoutData)
+  })
+
+  exports.addKYCDocument = functions.region('europe-west1').https.onCall( async (data, context) => {
+
+    const userID = context.auth.uid
+
+    const pages = data.pages
+    
+    const mangopayID = data.mangopayID
+
+    // // using the Firebase userID (supplied via 'context' of the request), get the data we need for the payin 
+    // await admin.firestore().collection('users').doc(userID).get().then(doc => {
+    //   userData = doc.data();
+    //   mangopayID = userData.mangopayID
+    //   return
+    // })
+    // .catch(err => {
+    //   console.log('Error getting user info for payout', err);
+    // });
+
+    const parameters = {
+      "Type": "IDENTITY_PROOF"
+    }
+
+
+    // KYC docs: https://docs.mangopay.com/endpoints/v2.01/kyc-documents#e204_the-kyc-document-object
+    
+    // step 1: create the kyc doc for the user (status: "CREATED")
+    const kycDoc = await mpAPI.Users.createKycDocument(mangopayID, parameters)
+
+    const kycDocID = kycDoc.Id
+    console.log(kycDocID)
+
+    // step 2: create a 'page' for each image to upload. Passports only require 1 image, but Driver's licences, for example, require 2: Front and Back
+
+
+    if (pages === 1) {
+      console.log('there is one page')
+      const base64Image = data.base64Image
+
+      const file = {
+        "File": base64Image
+      }
+      const onePageDoc = await mpAPI.Users.createKycPage(mangopayID, kycDocID, file)
+      console.log(onePageDoc)
+    } else {
+      const firstBase64Image = data.firstBase64Image
+      const secondBase64Image = data.secondBase64Image
+
+      console.log('there are two pages')
+      const firstPage = await mpAPI.Users.createKycPage(mangopayID, kycDoc.Id, firstBase64Image)
+      const secondPage = await mpAPI.Users.createKycPage(mangopayID, kycDoc.Id, secondBase64Image)
+    }
+
+
+    // step 3: upon successful creation of kyc page(s) i.e. upload of images in base64 format, update kyc document status to 'Validation Asked'
+    const requestValidationStatus = {
+      "Id": kycDocID,
+      "Status": "VALIDATION_ASKED"
+    }
+
+    const updatedDoc = await mpAPI.Users.updateKycDocument(mangopayID, requestValidationStatus)
+
+    return updatedDoc
   })
 
   exports.deleteCard = functions.region('europe-west1').https.onCall( async (data, context) => {

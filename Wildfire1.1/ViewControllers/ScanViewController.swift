@@ -58,8 +58,7 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
             let vc = segue.destination as! ConfirmViewController
 //            vc.finalString2 = finalString
             if let uid = recipientUID, let send = sendAmount {
-                print(uid)
-                print(send)
+                
                 vc.recipientUID = uid
                 vc.sendAmount = send
             }

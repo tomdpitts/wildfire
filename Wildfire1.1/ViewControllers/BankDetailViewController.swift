@@ -43,12 +43,17 @@ class BankDetailViewController: UIViewController {
     @IBAction func makeDepositTapped(_ sender: Any) {
         
         let KYCVerified = UserDefaults.standard.bool(forKey: "KYCVerified")
+        let KYCPending = UserDefaults.standard.bool(forKey: "KYCPending")
         
-        // KYCVerfied could conceivably be nil
-        if KYCVerified != true {
-            performSegue(withIdentifier: "showKYCView", sender: self)
+        
+        if KYCPending == true {
+            performSegue(withIdentifier: "showPendingView", sender: self)
         } else {
-            performSegue(withIdentifier: "showDepositAmountView", sender: self)
+            if KYCVerified == true {
+                performSegue(withIdentifier: "showDepositAmountView", sender: self)
+            } else {
+                performSegue(withIdentifier: "showKYCView", sender: self)
+            }
         }
     }
     

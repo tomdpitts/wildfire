@@ -290,4 +290,6 @@ class Account2ViewController: UITableViewController {
     
     @IBAction func unwindToPrevious(_ unwindSegue: UIStoryboardSegue) {
     }
+    @IBAction func unwindToAccountView(_ unwindSegue: UIStoryboardSegue) {
+    }
 }

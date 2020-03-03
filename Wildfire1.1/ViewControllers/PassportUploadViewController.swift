@@ -24,31 +24,35 @@ class PassportUploadViewController: UIViewController, UINavigationControllerDele
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
         confirmButton.isHidden = true
         
+        Utilities.styleHollowButton(editImageButton)
         Utilities.styleHollowButton(confirmButton)
-//        pictureView.layer.cornerRadius = pictureView.frame.height/3
+        pictureView.clipsToBounds = true
+        pictureView.layer.cornerRadius = pictureView.frame.width/40
+        pictureView.layer.borderWidth = 5.0 //Or some other value
+        pictureView.layer.borderColor = UIColor(hexString: "#39C3C6").cgColor
     }
     
     @IBAction func editImageButton(_ sender: Any) {
         ImagePickerManager().pickImage(self){ image in
             
-            // store a full resolution image, ready for upload
-            self.fullResImage = image
-            
             // and scale a version to display (possibly not strictly necessary)
-            let size = CGSize(width: 200.0, height: 200.0)
+            let size = CGSize(width: self.pictureView.frame.width, height: self.pictureView.frame.height)
             let aspectScaleImage = image.af_imageAspectScaled(toFill: size)
             
             self.pictureView.image = aspectScaleImage
-            
+            // contentMode needs to be updated from "center" (which ensures the icons8 'rescan'icon doesn't look stretched or blurry) to scaleAspectFill to best render the image
+            self.pictureView.contentMode = .scaleAspectFill
+            self.editImageButton.setTitle("Change Image", for: .normal)
             self.confirmButton.isHidden = false
         }
     }
 
     @IBAction func confirmButtonTapped(_ sender: Any) {
-        let image = self.pictureView.image
-        uploadDocument(pages: 1)
+        guard let image = self.pictureView.image else { return }
+        uploadDocument(pages: 1, image: image)
         
     }
     
@@ -70,32 +74,28 @@ class PassportUploadViewController: UIViewController, UINavigationControllerDele
 //        return newImage
 //    }
     
-    func uploadDocument(pages: Int) {
+    func uploadDocument(pages: Int, image: UIImage) {
+        editImageButton.isEnabled = false
+        confirmButton.isEnabled = false
         
         guard let mangopayID = UserDefaults.standard.string(forKey: "mangopayID") else { return }
-        
-        let url = "https://api.sandbox.mangopay.com/v2.01/wildfirewallet/users/\(mangopayID)/kyc/documents"
-        
-        guard let selectedImage = fullResImage else { return }
-        
-        let imageToUpload = convertImageToBase64(selectedImage)
     
-        print(imageToUpload)
+        self.showSpinner(onView: self.view)
         
-        let parameters = [
-            "Type": "IDENTITY_PROOF"
-        ]
+        let imageToUpload = convertImageToBase64(image)
         
-        Alamofire.request(url, method: .post, parameters: parameters).validate().responseString(completionHandler: { response in
-            if let error = response.error {
-//                completion("nil", error)
-                print(error)
-            } else if let dataString = response.data {
-//                completion(dataString, nil)
-                print(dataString)
-                
+        functions.httpsCallable("addKYCDocument").call(["mangopayID": mangopayID, "pages": pages, "base64Image": imageToUpload]) { (result, error) in
+
+            self.removeSpinner()
+            if let err = error?.localizedDescription{
+                print(err)
+                self.editImageButton.isEnabled = true
+                self.confirmButton.isEnabled = true
+            } else {
+                UserDefaults.standard.set(true, forKey: "KYCPending")
+                self.performSegue(withIdentifier: "showKYCSuccessScreen", sender: self)
             }
-        })
+        }
         return
     }
     
@@ -132,53 +132,53 @@ class PassportUploadViewController: UIViewController, UINavigationControllerDele
     
     
     
-//    
+//
 //    func uploadProfilePic(imageToUpload: UIImage?) {
-//        
+//
 //        if let scan = fullResImage {
 //            functions.httpsCallable("listCards").call() { (result, error) in
 //
 //                if let cardList = result?.data as? [[String: Any]] {
 //                    let defaults = UserDefaults.standard
-//                    
+//
 //                    defaults.set(cardList.count, forKey: "numberOfCards")
-//                    
+//
 //                    let count = cardList.count
-//                    
+//
 //                    if count > 0 {
 //                        for i in 1...count {
 //                            var cardNumber = ""
 //                            var cardProvider = ""
 //                            var expiryDate = ""
-//                            
+//
 //                            let blob1 = cardList[i-1]
 //                            if let cn = blob1["Alias"] as? String, let cp = blob1["CardProvider"] as? String, let ed = blob1["ExpirationDate"] as? String {
-//                                
+//
 //                                cardNumber = String(cn.suffix(8))
 //                                cardProvider = cp
 //                                expiryDate = ed
 //                            }
 //                            let card = PaymentCard(cardNumber: cardNumber, cardProvider: cardProvider, expiryDate: expiryDate)
-//                            
+//
 //                            defaults.set(try? PropertyListEncoder().encode(card), forKey: "card\(i)")
 //                        }
 //                    }
-//                    
+//
 //                } else {
 //                    print("nope")
 //                }
 //            }
 //        }
-//        
-//        
-//        
+//
+//
+//
 //        // let's give the filename as the user id for simplicity
 //        guard let filename = Auth.auth().currentUser?.uid,
 //            let profilePic = imageToUpload else { return }
-//        
-//        
+//
+//
 //        guard let uploadData = profilePic.jpegData(compressionQuality: 0.9) else { return }
-//        
+//
 //        let storageRef = Storage.storage().reference().child("profilePictures").child(filename)
 //        let uploadTask = storageRef.putData(uploadData, metadata: nil) { (metadata, err) in
 //            if let err = err {
@@ -186,8 +186,8 @@ class PassportUploadViewController: UIViewController, UINavigationControllerDele
 //                return
 //            }
 //        }
-//        
-//        
+//
+//
 //        // template for deeper error handling TODO: complete this
 //        uploadTask.observe(.failure) { snapshot in
 //            if let error = snapshot.error as NSError? {
@@ -201,9 +201,9 @@ class PassportUploadViewController: UIViewController, UINavigationControllerDele
 //                case .cancelled:
 //                    // User canceled the upload
 //                    break
-//                    
+//
 //                    /* ... */
-//                    
+//
 //                case .unknown:
 //                    // Unknown error occurred, inspect the server response
 //                    break

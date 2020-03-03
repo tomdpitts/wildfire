@@ -2,10 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>Permission required to save Payment Code</string>
-	<key>NSFaceIDUsageDescription</key>
-	<string>Securely access your Wildfire account</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
@@ -56,6 +52,10 @@
 	<string>Camera to scan QR codes</string>
 	<key>NSContactsUsageDescription</key>
 	<string>Access required to pay contacts</string>
+	<key>NSFaceIDUsageDescription</key>
+	<string>Securely access your Wildfire account</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Permission required to save Payment Code</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Access to photos required to change proflie picture</string>
 	<key>UILaunchStoryboardName</key>
@@ -79,8 +79,6 @@
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>
