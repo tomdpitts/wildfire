@@ -18,10 +18,15 @@ pod 'FirebaseUI/Storage'
 pod 'mangopay'
 pod 'CryptoSwift'
 pod 'Alamofire'
+pod 'AlamofireImage'
 pod 'SwiftyJSON'
-pod 'FacebookCore'
-pod 'FacebookLogin'
+# pod 'FacebookCore'
+# pod 'FacebookLogin'
+pod 'ParticlesLoadingView'
 pod 'Kingfisher'
+pod 'libPhoneNumber-iOS'
+pod 'BATabBarController'
+
 
   target 'Wildfire1.1Tests' do
     inherit! :search_paths

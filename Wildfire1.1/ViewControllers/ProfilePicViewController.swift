@@ -10,9 +10,16 @@ import UIKit
 import FirebaseAuth
 import FirebaseStorage
 import Kingfisher
+import AlamofireImage
 
 
 class ProfilePicViewController: UIViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+    
+    var currentProfilePic: UIImage?
+    
+    @IBOutlet weak var pictureView: UIImageView!
+    
+    @IBOutlet weak var confirmButton: UIButton!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,16 +27,17 @@ class ProfilePicViewController: UIViewController, UINavigationControllerDelegate
         confirmButton.isHidden = true
         confirmButton.isEnabled = false
         
-        pictureView.image = currentProfilePic
-        pictureView.layer.cornerRadius = pictureView.frame.height/3
+        navigationItem.title = "Profile Picture"
+        navigationController?.navigationBar.prefersLargeTitles = true
         
+        // set the profile pic, if it exists
+        if let cpp = currentProfilePic {
+            pictureView.image = cpp
+        }
+        
+        Utilities.styleHollowButton(confirmButton)
+//        pictureView.layer.cornerRadius = pictureView.frame.height/3
     }
-
-    var currentProfilePic = UIImage(named: "genericProfilePic")
-    
-    @IBOutlet weak var pictureView: UIImageView!
-    
-    @IBOutlet weak var confirmButton: UIButton!
     
 
     @IBAction func confirmButtonTapped(_ sender: Any) {
@@ -42,7 +50,11 @@ class ProfilePicViewController: UIViewController, UINavigationControllerDelegate
     
     @IBAction func editProfilePicButton(_ sender: Any) {
         ImagePickerManager().pickImage(self){ image in
-            self.pictureView.image = image
+            
+            let size = CGSize(width: 200.0, height: 200.0)
+            let aspectScaleImage = image.af_imageAspectScaled(toFill: size)
+            let circleImage = aspectScaleImage.af_imageRoundedIntoCircle()
+            self.pictureView.image = circleImage
             
             self.confirmButton.isHidden = false
             self.confirmButton.isEnabled = true
@@ -54,11 +66,27 @@ class ProfilePicViewController: UIViewController, UINavigationControllerDelegate
         })
     }
     
+    // is this func required?
+    func resizeImage(image: UIImage, newWidth: CGFloat) -> UIImage? {
+
+        let scale = newWidth / image.size.width
+        let newHeight = image.size.height * scale
+        UIGraphicsBeginImageContext(CGSize(width: newWidth, height: newHeight))
+        image.draw(in: CGRect(x: 0, y: 0, width: newWidth, height: newHeight))
+
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+
+        return newImage
+    }
+    
     fileprivate func uploadProfilePic(imageToUpload: UIImage?) {
         // let's give the filename as the user id for simplicity
         guard let filename = Auth.auth().currentUser?.uid,
-            let profilePic = imageToUpload,
-            let uploadData = profilePic.jpegData(compressionQuality: 0.4) else { return }
+            let profilePic = imageToUpload else { return }
+        
+        
+        guard let uploadData = profilePic.jpegData(compressionQuality: 0.9) else { return }
         
         let storageRef = Storage.storage().reference().child("profilePictures").child(filename)
         let uploadTask = storageRef.putData(uploadData, metadata: nil) { (metadata, err) in
@@ -67,6 +95,8 @@ class ProfilePicViewController: UIViewController, UINavigationControllerDelegate
                 return
             }
         }
+        
+        
         // template for deeper error handling TODO: complete this
         uploadTask.observe(.failure) { snapshot in
             if let error = snapshot.error as NSError? {

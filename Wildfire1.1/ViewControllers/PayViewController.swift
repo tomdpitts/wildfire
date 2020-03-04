@@ -10,9 +10,27 @@ import UIKit
 
 class PayViewController: UIViewController {
     
+    @IBOutlet weak var sendButton: UIButton!
+    
+    @IBOutlet weak var scanButton: UIButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
+        navigationItem.title = "Pay"
+        navigationController?.navigationBar.prefersLargeTitles = true
+        
+        setUpElements()
+    }
+    
+//    override func viewWillAppear(_ animated: Bool) {
+//        super.viewWillAppear(animated)
+//        navigationController?.setNavigationBarHidden(true, animated: animated)
+//    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.setNavigationBarHidden(false, animated: animated)
     }
     
     @IBAction func unwindToPay(_ unwindSegue: UIStoryboardSegue) {
@@ -24,10 +42,18 @@ class PayViewController: UIViewController {
 //        return false
 //    }
 //
-    @IBAction func launchQRReader(_ sender: UIButton) {
-
-    // the QR code needs to go here?
+    
+    func setUpElements() {
+        
+        Utilities.styleHollowButton(sendButton)
+        Utilities.styleHollowButton(scanButton)
+        
+        
     }
+//    @IBAction func launchQRReader(_ sender: UIButton) {
+//
+//    // the QR code needs to go here?
+//    }
 
 //    @IBAction func unwindToPayViewController(segue: UIStoryboardSegue) {
 //    }

@@ -19,12 +19,9 @@ class PaymentSetupViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-    }
-    
-
-    @IBAction func unwindToPaymentSetup(_ unwindSegue: UIStoryboardSegue) {
-//        let sourceViewController = unwindSegue.source
-        // Use data from the view controller which initiated the unwind segue
+        performSegue(withIdentifier: "sendToAddCard", sender: self)
+        
+        // this screen might be useful in future when multiple payment types are supported, but for now we can pretend it's not there
     }
 
 }

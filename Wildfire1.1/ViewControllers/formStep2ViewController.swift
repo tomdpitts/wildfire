@@ -15,20 +15,24 @@ class formStep2ViewController: UIViewController {
     var firstname = ""
     var lastname = ""
     var email = ""
-    var password = ""
+//    var password = ""
     
     @IBOutlet weak var dobPicker: UIDatePicker!
     var dob: Int64?
     
+    @IBOutlet weak var nextButton: UIButton!
     @IBOutlet weak var errorLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        errorLabel.isHidden = true
+        navigationController?.interactivePopGestureRecognizer?.delegate = nil
         
-        dobPicker.minimumDate = Calendar.current.date(byAdding: .year, value: -150, to: Date())
-        dobPicker.maximumDate = Calendar.current.date(byAdding: .year, value: -18, to: Date())
+        navigationItem.title = "Date of Birth"
+        navigationController?.navigationBar.prefersLargeTitles = true
+        
+
+        setUpElements()
 
     }
     
@@ -39,7 +43,7 @@ class formStep2ViewController: UIViewController {
             vc.firstname = firstname
             vc.lastname = lastname
             vc.email = email
-            vc.password = password
+//            vc.password = password
             vc.dob = dob
         }
     }
@@ -53,12 +57,21 @@ class formStep2ViewController: UIViewController {
         }
     }
     
+    func setUpElements() {
+            
+        // Hide the error label
+        errorLabel.isHidden = true
+        
+        dobPicker.minimumDate = Calendar.current.date(byAdding: .year, value: -150, to: Date())
+        dobPicker.maximumDate = Calendar.current.date(byAdding: .year, value: -18, to: Date())
+        
+        // Style the elements
+        Utilities.styleFilledButton(nextButton)
+        }
+    
     func showError(_ message:String) {
         
         errorLabel.text = message
         errorLabel.isHidden = false
-    }
-    
-    @IBAction func unwindToPrevious(_ unwindSegue: UIStoryboardSegue) {
     }
 }

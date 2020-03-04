@@ -8,8 +8,51 @@
 
 import Foundation
 import UIKit
+import FirebaseAuth
+import FirebaseFirestore
 
 class Utilities {
+    
+    // run check to see if user has set up their account i.e. completed the signup flow
+    // this should run everytime user opens app while the value for key userAccountExists is false - thereafter we can ignore the func
+    func checkForUserAccount() {
+        
+        let db = Firestore.firestore()
+        
+        if let uid = Auth.auth().currentUser?.uid {
+            let docRef = db.collection("users").document(uid)
+
+            docRef.getDocument { (document, error) in
+                if let document = document, document.exists {
+                    UserDefaults.standard.set(true, forKey: "userAccountExists")
+                    
+                } else {
+                    UserDefaults.standard.set(false, forKey: "userAccountExists")
+                }
+            }
+        } else {
+            // perhaps overkill
+            UserDefaults.standard.set(false, forKey: "userAccountExists")
+        }
+    }
+    
+    func getMangopayID() {
+        let db = Firestore.firestore()
+        
+        if let uid = Auth.auth().currentUser?.uid {
+            let docRef = db.collection("users").document(uid)
+
+            docRef.getDocument { (document, error) in
+                
+                if let document = document {
+                    let ID = document["mangopayID"]
+                    UserDefaults.standard.set(ID, forKey: "mangopayID")
+                    print(ID)
+                }
+            }
+        }
+    }
+    
     
     static func styleTextField(_ textfield:UITextField) {
         
@@ -31,7 +74,17 @@ class Utilities {
     static func styleFilledButton(_ button:UIButton) {
         
         // Filled rounded corner style
-        button.backgroundColor = UIColor.init(red: 57/255, green: 195/255, blue: 198/255, alpha: 1)
+        button.backgroundColor = UIColor(hexString: "#39C3C6")
+        button.layer.cornerRadius = 20.0
+        button.tintColor = UIColor.white
+    }
+    
+    
+    static func styleFilledButtonRED(_ button:UIButton) {
+        
+        // Filled rounded corner style
+        // hex code for this colour is #39c3c6
+        button.backgroundColor = UIColor(hexString: "#C63C39")
         button.layer.cornerRadius = 20.0
         button.tintColor = UIColor.white
     }
@@ -39,10 +92,31 @@ class Utilities {
     static func styleHollowButton(_ button:UIButton) {
         
         // Hollow rounded corner style
-        button.layer.borderWidth = 2
-        button.layer.borderColor = UIColor.black.cgColor
+        button.layer.borderWidth = 3
+        button.layer.borderColor = UIColor(hexString: "#39C3C6").cgColor
         button.layer.cornerRadius = 25.0
         button.tintColor = UIColor.black
+    }
+    
+    static func styleHollowButtonSELECTED(_ button:UIButton) {
+        
+        // Hollow rounded corner style
+        button.layer.borderWidth = 3
+        button.layer.borderColor = UIColor(hexString: "#aae5e7").cgColor
+        button.layer.cornerRadius = 25.0
+        button.tintColor = UIColor.black
+    }
+    
+    static func styleHollowButtonRED(_ button:UIButton) {
+        
+        // Hollow rounded corner style
+        button.layer.borderWidth = 2
+        button.layer.borderColor = UIColor(hexString: "#C63C39").cgColor
+        button.layer.cornerRadius = 25.0
+        button.tintColor = UIColor.black
+        
+        let red = UIColor(hexString: "#C63C39")
+        button.setTitleColor(red, for: UIControl.State.normal)
     }
     
     static func isPasswordValid(_ password : String) -> Bool {
@@ -59,32 +133,57 @@ class Utilities {
 
     static func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
 
-    let inverseSet = NSCharacterSet(charactersIn:"0123456789").inverted
+        let inverseSet = NSCharacterSet(charactersIn:"0123456789").inverted
 
-    let components = string.components(separatedBy: inverseSet)
+        let components = string.components(separatedBy: inverseSet)
 
-    let filtered = components.joined(separator: "")
+        let filtered = components.joined(separator: "")
 
-    if filtered == string {
-        return true
-    } else {
-        if string == "." {
-            let countdots = textField.text!.components(separatedBy:".").count - 1
-            if countdots == 0 {
-                return true
-            }else{
-                if countdots > 0 && string == "." {
-                    return false
-                } else {
+        if filtered == string {
+            return true
+        } else {
+            if string == "." {
+                let countdots = textField.text!.components(separatedBy:".").count - 1
+                if countdots == 0 {
                     return true
+                } else {
+                    if countdots > 0 && string == "." {
+                        return false
+                    } else {
+                        return true
+                    }
                 }
+            } else {
+                return false
             }
-        }else{
-            return false
         }
     }
-}
     
+    static func localeFinder(for fullCountryName : String) -> String? {
+        
+        for localeCode in NSLocale.isoCountryCodes {
+            let identifier = NSLocale(localeIdentifier: "en_UK")
+            let countryName = identifier.displayName(forKey: NSLocale.Key.countryCode, value: localeCode)
+            
+            let countryNameClean = countryName!.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)
+            let fullCountryNameClean = fullCountryName.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)
+            
+            if fullCountryNameClean == countryNameClean {
+                return localeCode
+            }
+        }
+        return nil
+    }
+    
+    static func countryName(from countryCode: String) -> String {
+        if let name = (Locale.current as NSLocale).displayName(forKey: .countryCode, value: countryCode) {
+            // Country name was found
+            return name
+        } else {
+            // Country name cannot be found
+            return countryCode
+        }
+    }
 }
 
 private var __maxLengths = [UITextField: Int]()
@@ -202,5 +301,59 @@ class ImagePickerManager: NSObject, UIImagePickerControllerDelegate, UINavigatio
     
     @objc func imagePickerController(_ picker: UIImagePickerController, pickedImage: UIImage?) {
     }
+}
+
+extension UIColor {
+    convenience init(hexString: String) {
+        let hex = hexString.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
+        var int = UInt64()
+        Scanner(string: hex).scanHexInt64(&int)
+        let a, r, g, b: UInt64
+        switch hex.count {
+        case 3: // RGB (12-bit)
+            (a, r, g, b) = (255, (int >> 8) * 17, (int >> 4 & 0xF) * 17, (int & 0xF) * 17)
+        case 6: // RGB (24-bit)
+            (a, r, g, b) = (255, int >> 16, int >> 8 & 0xFF, int & 0xFF)
+        case 8: // ARGB (32-bit)
+            (a, r, g, b) = (int >> 24, int >> 16 & 0xFF, int >> 8 & 0xFF, int & 0xFF)
+        default:
+            (a, r, g, b) = (255, 0, 0, 0)
+        }
+        self.init(red: CGFloat(r) / 255, green: CGFloat(g) / 255, blue: CGFloat(b) / 255, alpha: CGFloat(a) / 255)
+    }
+}
+
+var vSpinner : UIView?
+
+extension UIViewController {
+    func showSpinner(onView : UIView) {
+        let spinnerView = UIView.init(frame: onView.bounds)
+        spinnerView.backgroundColor = UIColor.init(red: 0.5, green: 0.5, blue: 0.5, alpha: 0.5)
+        let ai = UIActivityIndicatorView.init(style: .whiteLarge)
+        ai.startAnimating()
+        ai.center = spinnerView.center
+        
+        DispatchQueue.main.async {
+            spinnerView.addSubview(ai)
+            onView.addSubview(spinnerView)
+        }
+        
+        vSpinner = spinnerView
+    }
     
+    func removeSpinner() {
+        DispatchQueue.main.async {
+            vSpinner?.removeFromSuperview()
+            vSpinner = nil
+        }
+    }
+}
+
+// this extension helps with debugging layout conflicts and issues
+extension NSLayoutConstraint {
+
+    override public var description: String {
+        let id = identifier ?? ""
+        return "id: \(id), constant: \(constant)" //you may print whatever you want here
+    }
 }
