@@ -837,9 +837,18 @@ exports.createNewMangopayCustomer = functions.region('europe-west1').firestore.d
       const firstBase64Image = data.firstBase64Image
       const secondBase64Image = data.secondBase64Image
 
+      const frontFile = {
+        "File": firstBase64Image
+      }
+
+      const backFile = {
+        "File": secondBase64Image
+      }
+
       console.log('there are two pages')
-      const firstPage = await mpAPI.Users.createKycPage(mangopayID, kycDoc.Id, firstBase64Image)
-      const secondPage = await mpAPI.Users.createKycPage(mangopayID, kycDoc.Id, secondBase64Image)
+      // await on the second, not the first, in an attempt to save time..
+      const firstPage = mpAPI.Users.createKycPage(mangopayID, kycDoc.Id, frontFile)
+      const secondPage = await mpAPI.Users.createKycPage(mangopayID, kycDoc.Id, backFile)
     }
 
 
@@ -874,6 +883,18 @@ exports.createNewMangopayCustomer = functions.region('europe-west1').firestore.d
 
     return cardsList = mpAPI.Users.getCards(mangopayID, JSON)
 
+  })
+
+  exports.events = functions.region('europe-west1').https.onRequest((request, response) => {
+
+    console.log(request.query.EventType)
+    console.log(request.query.RessourceId)
+
+    let eventType = request.query.EventType
+    let resourceID =request.query.RessourceId
+
+
+    response.send("Endpoint for Stripe Webhooks!");
   })
 
 

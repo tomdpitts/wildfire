@@ -858,7 +858,7 @@
                                 <rect key="frame" x="10" y="98.5" width="300" height="371.5"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icons8-ok-480" translatesAutoresizingMaskIntoConstraints="NO" id="We2-ai-gvS">
-                                        <rect key="frame" x="30" y="0.0" width="240" height="175"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="300" height="175"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="175" id="w9q-iX-Le2"/>
                                         </constraints>
@@ -1517,10 +1517,10 @@
             </objects>
             <point key="canvasLocation" x="8300" y="109"/>
         </scene>
-        <!--Pending Verfication-->
+        <!--Pending Verification-->
         <scene sceneID="N7I-5B-09i">
             <objects>
-                <viewController id="3fx-NT-pZ7" customClass="KYCSuccessViewController" customModule="Wildfire1_1" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="3fx-NT-pZ7" customClass="ButtonStyleViewController" customModule="Wildfire1_1" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="e1Z-vd-HKY">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1567,9 +1567,9 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="30v-RT-7fm"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Pending Verfication" largeTitleDisplayMode="always" id="jwy-hf-Q8D"/>
+                    <navigationItem key="navigationItem" title="Pending Verification" largeTitleDisplayMode="always" id="jwy-hf-Q8D"/>
                     <connections>
-                        <outlet property="alrightButton" destination="9nF-Pa-pH4" id="0IO-fa-PKP"/>
+                        <outlet property="alrightButton" destination="9nF-Pa-pH4" id="9xC-qg-qVU"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Dgh-Ok-x9V" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -3167,7 +3167,7 @@
                                 <rect key="frame" x="10" y="88" width="300" height="392"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icons8-ok-480" translatesAutoresizingMaskIntoConstraints="NO" id="Xcx-i4-ODz">
-                                        <rect key="frame" x="30" y="0.0" width="240" height="175"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="300" height="175"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="175" id="Eaf-Hy-f2C"/>
                                         </constraints>
@@ -3298,7 +3298,7 @@
         <!--ID Verification-->
         <scene sceneID="ODZ-od-DJ3">
             <objects>
-                <viewController id="IyM-7T-zf0" customClass="KYCSuccessViewController" customModule="Wildfire1_1" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="IyM-7T-zf0" customClass="ButtonStyleViewController" customModule="Wildfire1_1" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="QIC-M1-rBE">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -3353,7 +3353,7 @@
                     </view>
                     <navigationItem key="navigationItem" title="ID Verification" largeTitleDisplayMode="always" id="FDB-2q-vwi"/>
                     <connections>
-                        <outlet property="continueButton" destination="AWv-S1-VVD" id="L1x-a6-Sqg"/>
+                        <outlet property="continueButton" destination="AWv-S1-VVD" id="rOJ-oM-BY5"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FVr-Tb-Zid" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -3579,7 +3579,7 @@
             </objects>
             <point key="canvasLocation" x="8526" y="888"/>
         </scene>
-        <!--Bank Detail View Controller-->
+        <!--Bank Account Info-->
         <scene sceneID="xci-f2-AP9">
             <objects>
                 <viewController id="Qgo-Fg-rxz" customClass="BankDetailViewController" customModule="Wildfire1_1" customModuleProvider="target" sceneMemberID="viewController">
@@ -3587,149 +3587,190 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="7" translatesAutoresizingMaskIntoConstraints="NO" id="f6U-t9-EBc" userLabel="Bank Info Stack">
-                                <rect key="frame" x="18.5" y="134" width="283" height="130.5"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ha1-25-z9u" userLabel="KYC Pending View">
+                                <rect key="frame" x="-5" y="44" width="330" height="46"/>
                                 <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="WXl-Oh-gVF" userLabel="Account Owner Stack">
-                                        <rect key="frame" x="0.0" y="0.0" width="283" height="20.5"/>
+                                    <stackView opaque="NO" contentMode="center" distribution="fillProportionally" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="17i-UP-jzo" userLabel="KYC Pending Stack">
+                                        <rect key="frame" x="15" y="8" width="300" height="30"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Account Owner:" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="23W-3N-oNj">
-                                                <rect key="frame" x="0.0" y="0.0" width="131.5" height="20.5"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Igw-pe-VbJ">
-                                                <rect key="frame" x="151.5" y="0.0" width="131.5" height="20.5"/>
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" verticalHuggingPriority="251" image="icons8-order-history-100" translatesAutoresizingMaskIntoConstraints="NO" id="JSQ-U2-WQL">
+                                                <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" secondItem="JSQ-U2-WQL" secondAttribute="height" multiplier="1:1" id="cRg-mD-WWv"/>
+                                                </constraints>
+                                            </imageView>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ID Verification pending" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yAE-Yb-65o">
+                                                <rect key="frame" x="40" y="5" width="260" height="20.5"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                         </subviews>
-                                    </stackView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="MNh-Aq-0OV" userLabel="IBAN Stack">
-                                        <rect key="frame" x="0.0" y="27.5" width="283" height="20.5"/>
-                                        <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="IBAN:" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qE1-A7-dX4">
-                                                <rect key="frame" x="0.0" y="0.0" width="131.5" height="20.5"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7OI-rt-mtK">
-                                                <rect key="frame" x="151.5" y="0.0" width="131.5" height="20.5"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                        </subviews>
-                                    </stackView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="Jli-ht-P6v" userLabel="Swift Stack">
-                                        <rect key="frame" x="0.0" y="55" width="283" height="20.5"/>
-                                        <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="SWIFT/BIC Code:" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="C3T-V4-bz5">
-                                                <rect key="frame" x="0.0" y="0.0" width="131.5" height="20.5"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rjx-uJ-zoF">
-                                                <rect key="frame" x="151.5" y="0.0" width="131.5" height="20.5"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                        </subviews>
-                                    </stackView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="8Xf-Dp-W68" userLabel="Account Number Stack">
-                                        <rect key="frame" x="0.0" y="82.5" width="283" height="20.5"/>
-                                        <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Account number:" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m8B-RL-Mq8">
-                                                <rect key="frame" x="0.0" y="0.0" width="131.5" height="20.5"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2FW-H0-tDC">
-                                                <rect key="frame" x="151.5" y="0.0" width="131.5" height="20.5"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                        </subviews>
-                                    </stackView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="YsH-8I-kd3" userLabel="Country Stack">
-                                        <rect key="frame" x="0.0" y="110" width="283" height="20.5"/>
-                                        <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Country:" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lcH-u8-LTa">
-                                                <rect key="frame" x="0.0" y="0.0" width="131.5" height="20.5"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KZV-R4-iZj">
-                                                <rect key="frame" x="151.5" y="0.0" width="131.5" height="20.5"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                        </subviews>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="30" id="LdC-GK-4zE"/>
+                                        </constraints>
                                     </stackView>
                                 </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <constraints>
+                                    <constraint firstItem="17i-UP-jzo" firstAttribute="leading" secondItem="Ha1-25-z9u" secondAttribute="leading" constant="15" id="UHd-OW-yco"/>
+                                    <constraint firstAttribute="bottomMargin" secondItem="17i-UP-jzo" secondAttribute="bottom" id="bc6-KT-Dl0"/>
+                                    <constraint firstItem="17i-UP-jzo" firstAttribute="top" secondItem="Ha1-25-z9u" secondAttribute="topMargin" id="hPG-ns-duD"/>
+                                    <constraint firstItem="17i-UP-jzo" firstAttribute="centerX" secondItem="Ha1-25-z9u" secondAttribute="centerX" id="nNC-Vy-l7I"/>
+                                </constraints>
+                            </view>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="33" translatesAutoresizingMaskIntoConstraints="NO" id="gzV-IM-7zM">
+                                <rect key="frame" x="10" y="110" width="300" height="379.5"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icons8-bank-building-100" translatesAutoresizingMaskIntoConstraints="NO" id="cmQ-gN-H58">
+                                        <rect key="frame" x="125" y="0.0" width="50" height="50"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="50" id="9pk-JE-b8q"/>
+                                            <constraint firstAttribute="width" constant="50" id="lYJ-Zz-4xp"/>
+                                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="50" id="s8d-0a-7De"/>
+                                            <constraint firstAttribute="height" constant="50" id="ytt-PI-1IB"/>
+                                        </constraints>
+                                    </imageView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="7" translatesAutoresizingMaskIntoConstraints="NO" id="f6U-t9-EBc" userLabel="Bank Info Stack">
+                                        <rect key="frame" x="8.5" y="83" width="283" height="130.5"/>
+                                        <subviews>
+                                            <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="WXl-Oh-gVF" userLabel="Account Owner Stack">
+                                                <rect key="frame" x="0.0" y="0.0" width="283" height="20.5"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Account Owner:" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="23W-3N-oNj">
+                                                        <rect key="frame" x="0.0" y="0.0" width="131.5" height="20.5"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Igw-pe-VbJ">
+                                                        <rect key="frame" x="151.5" y="0.0" width="131.5" height="20.5"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                </subviews>
+                                            </stackView>
+                                            <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="MNh-Aq-0OV" userLabel="IBAN Stack">
+                                                <rect key="frame" x="0.0" y="27.5" width="283" height="20.5"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="IBAN:" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qE1-A7-dX4">
+                                                        <rect key="frame" x="0.0" y="0.0" width="131.5" height="20.5"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7OI-rt-mtK">
+                                                        <rect key="frame" x="151.5" y="0.0" width="131.5" height="20.5"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                </subviews>
+                                            </stackView>
+                                            <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="Jli-ht-P6v" userLabel="Swift Stack">
+                                                <rect key="frame" x="0.0" y="55" width="283" height="20.5"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="SWIFT/BIC Code:" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="C3T-V4-bz5">
+                                                        <rect key="frame" x="0.0" y="0.0" width="131.5" height="20.5"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rjx-uJ-zoF">
+                                                        <rect key="frame" x="151.5" y="0.0" width="131.5" height="20.5"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                </subviews>
+                                            </stackView>
+                                            <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="8Xf-Dp-W68" userLabel="Account Number Stack">
+                                                <rect key="frame" x="0.0" y="82.5" width="283" height="20.5"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Account number:" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m8B-RL-Mq8">
+                                                        <rect key="frame" x="0.0" y="0.0" width="131.5" height="20.5"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2FW-H0-tDC">
+                                                        <rect key="frame" x="151.5" y="0.0" width="131.5" height="20.5"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                </subviews>
+                                            </stackView>
+                                            <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="YsH-8I-kd3" userLabel="Country Stack">
+                                                <rect key="frame" x="0.0" y="110" width="283" height="20.5"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Country:" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lcH-u8-LTa">
+                                                        <rect key="frame" x="0.0" y="0.0" width="131.5" height="20.5"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KZV-R4-iZj">
+                                                        <rect key="frame" x="151.5" y="0.0" width="131.5" height="20.5"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                </subviews>
+                                            </stackView>
+                                        </subviews>
+                                    </stackView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PSM-sA-35j">
+                                        <rect key="frame" x="50" y="246.5" width="200" height="50"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="QPV-7y-bH3"/>
+                                        </constraints>
+                                        <state key="normal" title="Make Deposit">
+                                            <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="makeDepositTapped:" destination="Qgo-Fg-rxz" eventType="touchUpInside" id="IFN-kb-fqJ"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HBi-1L-kL1">
+                                        <rect key="frame" x="50" y="329.5" width="200" height="50"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="jIF-gK-9Re"/>
+                                        </constraints>
+                                        <state key="normal" title="Delete Account Details">
+                                            <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="deleteCard:" destination="Qgo-Fg-rxz" eventType="touchUpInside" id="RC0-bV-e6D"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="HBi-1L-kL1" firstAttribute="width" secondItem="PSM-sA-35j" secondAttribute="width" id="GK0-jr-ST8"/>
+                                    <constraint firstItem="PSM-sA-35j" firstAttribute="leading" secondItem="gzV-IM-7zM" secondAttribute="leading" constant="50" id="GZX-SU-1HR"/>
+                                    <constraint firstItem="HBi-1L-kL1" firstAttribute="height" secondItem="PSM-sA-35j" secondAttribute="height" id="MMk-Lx-W9U"/>
+                                    <constraint firstAttribute="trailing" secondItem="PSM-sA-35j" secondAttribute="trailing" constant="50" id="iXp-lk-fIP"/>
+                                </constraints>
                             </stackView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PSM-sA-35j">
-                                <rect key="frame" x="18.5" y="294.5" width="283" height="50"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="50" id="QPV-7y-bH3"/>
-                                </constraints>
-                                <state key="normal" title="Make Deposit">
-                                    <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
-                                </state>
-                                <connections>
-                                    <action selector="makeDepositTapped:" destination="Qgo-Fg-rxz" eventType="touchUpInside" id="IFN-kb-fqJ"/>
-                                </connections>
-                            </button>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icons8-bank-building-100" translatesAutoresizingMaskIntoConstraints="NO" id="cmQ-gN-H58">
-                                <rect key="frame" x="135" y="64" width="50" height="50"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="50" id="9pk-JE-b8q"/>
-                                    <constraint firstAttribute="width" constant="50" id="lYJ-Zz-4xp"/>
-                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="50" id="s8d-0a-7De"/>
-                                    <constraint firstAttribute="height" constant="50" id="ytt-PI-1IB"/>
-                                </constraints>
-                            </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HBi-1L-kL1">
-                                <rect key="frame" x="18.5" y="414.5" width="283" height="50"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="50" id="jIF-gK-9Re"/>
-                                </constraints>
-                                <state key="normal" title="Delete Account Details">
-                                    <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
-                                </state>
-                                <connections>
-                                    <action selector="deleteCard:" destination="Qgo-Fg-rxz" eventType="touchUpInside" id="RC0-bV-e6D"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="PSM-sA-35j" firstAttribute="top" secondItem="f6U-t9-EBc" secondAttribute="bottom" constant="30" id="3VO-HG-rfl"/>
-                            <constraint firstItem="HBi-1L-kL1" firstAttribute="centerX" secondItem="t2G-rw-58c" secondAttribute="centerX" id="6LA-Gq-aFQ"/>
-                            <constraint firstItem="f6U-t9-EBc" firstAttribute="top" secondItem="cmQ-gN-H58" secondAttribute="bottom" constant="20" id="LnY-mE-Ruv"/>
-                            <constraint firstItem="HBi-1L-kL1" firstAttribute="width" secondItem="f6U-t9-EBc" secondAttribute="width" id="RGm-CO-9Wl"/>
-                            <constraint firstItem="PSM-sA-35j" firstAttribute="centerX" secondItem="t2G-rw-58c" secondAttribute="centerX" id="bo7-qI-yRw"/>
-                            <constraint firstItem="cmQ-gN-H58" firstAttribute="top" secondItem="hbU-RM-JDN" secondAttribute="top" constant="20" id="kSa-Vf-fvV"/>
-                            <constraint firstItem="cmQ-gN-H58" firstAttribute="centerX" secondItem="t2G-rw-58c" secondAttribute="centerX" id="lPV-33-bzZ"/>
-                            <constraint firstItem="HBi-1L-kL1" firstAttribute="width" secondItem="PSM-sA-35j" secondAttribute="width" id="p9p-Ol-JsS"/>
-                            <constraint firstItem="f6U-t9-EBc" firstAttribute="centerX" secondItem="t2G-rw-58c" secondAttribute="centerX" id="q9y-4G-irQ"/>
-                            <constraint firstItem="HBi-1L-kL1" firstAttribute="top" secondItem="PSM-sA-35j" secondAttribute="bottom" constant="70" id="zVs-EK-tAf"/>
+                            <constraint firstItem="gzV-IM-7zM" firstAttribute="top" secondItem="Ha1-25-z9u" secondAttribute="bottom" constant="20" id="6Jw-f0-SlR"/>
+                            <constraint firstItem="Ha1-25-z9u" firstAttribute="top" secondItem="hbU-RM-JDN" secondAttribute="top" id="79I-td-d5D"/>
+                            <constraint firstItem="Ha1-25-z9u" firstAttribute="trailing" secondItem="hbU-RM-JDN" secondAttribute="trailing" constant="5" id="CWq-w0-af7"/>
+                            <constraint firstItem="gzV-IM-7zM" firstAttribute="leading" secondItem="hbU-RM-JDN" secondAttribute="leading" constant="10" id="MMJ-7T-Qna"/>
+                            <constraint firstItem="Ha1-25-z9u" firstAttribute="leading" secondItem="hbU-RM-JDN" secondAttribute="leading" constant="-5" id="POf-GO-5Hc"/>
+                            <constraint firstItem="hbU-RM-JDN" firstAttribute="trailing" secondItem="gzV-IM-7zM" secondAttribute="trailing" constant="10" id="gwH-Lj-GmY"/>
+                            <constraint firstItem="gzV-IM-7zM" firstAttribute="centerX" secondItem="t2G-rw-58c" secondAttribute="centerX" id="uqZ-Zk-dyW"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="hbU-RM-JDN"/>
                     </view>
-                    <navigationItem key="navigationItem" id="O5b-0B-stw"/>
+                    <navigationItem key="navigationItem" title="Bank Account Info" largeTitleDisplayMode="always" id="O5b-0B-stw"/>
                     <connections>
                         <outlet property="IBANLabel" destination="7OI-rt-mtK" id="bIz-cs-J4C"/>
                         <outlet property="IBANStack" destination="MNh-Aq-0OV" id="TDY-Ap-zT9"/>
+                        <outlet property="KYCPendingView" destination="Ha1-25-z9u" id="pBc-sx-Fi1"/>
                         <outlet property="accountNumberLabel" destination="2FW-H0-tDC" id="GgX-yw-0sa"/>
                         <outlet property="accountNumberStack" destination="8Xf-Dp-W68" id="MbX-xO-iYM"/>
                         <outlet property="accountOwnerLabel" destination="Igw-pe-VbJ" id="T6c-pd-CEi"/>
@@ -4280,6 +4321,7 @@
         <image name="icons8-mastercard-credit-card-100" width="100" height="100"/>
         <image name="icons8-money-50" width="25" height="25"/>
         <image name="icons8-ok-480" width="240" height="240"/>
+        <image name="icons8-order-history-100" width="50" height="50"/>
         <image name="icons8-order-history-100.png" width="100" height="100"/>
         <image name="icons8-paper-plane-50" width="25" height="25"/>
         <image name="icons8-passport-100 (1)" width="50" height="50"/>

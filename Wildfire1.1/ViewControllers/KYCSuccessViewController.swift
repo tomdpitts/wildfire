@@ -11,25 +11,19 @@ import UIKit
 class KYCSuccessViewController: UIViewController {
     @IBOutlet weak var doneButton: UIButton!
     
-    @IBOutlet weak var continueButton: UIButton!
-    
-    @IBOutlet weak var alrightButton: UIButton!
-    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // this screen should be loaded in the stack as usual so that unwindToPrevious works correctly i.e. the exit segue is context-dependant as we want it to be. But we don't want the user to go back to the last screen having just successfully submitted their billing address and card details etc.
+        self.navigationItem.leftBarButtonItem = nil;
+        self.navigationItem.hidesBackButton = true;
+    self.navigationController?.navigationItem.backBarButtonItem?.isEnabled = false;
+    self.navigationController!.interactivePopGestureRecognizer!.isEnabled = false;
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        if let done = self.doneButton {
+        if self.doneButton != nil {
             Utilities.styleHollowButton(doneButton)
-        }
-        
-        if let cont = self.continueButton {
-            Utilities.styleHollowButton(continueButton)
-        }
-        
-        if let alright = self.alrightButton {
-            Utilities.styleHollowButton(alrightButton)
         }
     }
 }

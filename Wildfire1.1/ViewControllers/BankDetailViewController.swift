@@ -12,6 +12,8 @@ class BankDetailViewController: UIViewController {
     
     var bankAccount: BankAccount?
 
+    @IBOutlet weak var KYCPendingView: UIView!
+    
     @IBOutlet weak var accountOwnerLabel: UILabel!
     @IBOutlet weak var IBANLabel: UILabel!
     @IBOutlet weak var swiftLabel: UILabel!
@@ -32,12 +34,20 @@ class BankDetailViewController: UIViewController {
         super.viewDidLoad()
         
         displayBankInfo()
+        
+        KYCPendingView.clipsToBounds = true
+        KYCPendingView.layer.borderWidth = 2 //Or some other value
+        KYCPendingView.layer.borderColor = UIColor(hexString: "#39C3C6").cgColor
 
         Utilities.styleHollowButton(makeDepositButton)
         Utilities.styleHollowButtonRED(deleteButton)
         
         navigationItem.title = "Account Details"
         navigationController?.navigationBar.prefersLargeTitles = true
+        
+        if UserDefaults.standard.bool(forKey: "KYCPending") != true {
+            KYCPendingView.isHidden = true
+        }
     }
 
     @IBAction func makeDepositTapped(_ sender: Any) {
