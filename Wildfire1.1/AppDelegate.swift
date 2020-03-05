@@ -22,6 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     var timestamp: Int64?
+
     
     lazy var functions = Functions.functions(region:"europe-west1")
 
@@ -50,6 +51,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        fetchPaymentMethodsListFromMangopay()
 //        fetchBankAccountsListFromMangopay()
         redirect()
+        setupNavigationBarAppearance()
         return true
     }
     // Update: no longer using Facebook integration for time being so parking this
@@ -230,6 +232,37 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         } else {
         print("nope")
         }
+        }
+    }
+    
+
+    func setupNavigationBarAppearance() {
+////        UINavigationBar.appearance().barTintColor = .blue
+////        UINavigationBar.appearance().tintColor = .white
+////        UINavigationBar.appearance().isTranslucent = false
+//
+//        UINavigationBar.appearance().backgroundColor = .green
+//        UINavigationBar.appearance().tintColor = .white
+//
+//
+////        let font: UIFont = UIFont(name: "Helvetica", size: 18.0)!
+//        let navbarTitleAtt = [
+////            NSAttributedString.Key.font:font,
+//            NSAttributedString.Key.foregroundColor: UIColor.white
+//        ]
+//        UINavigationBar.appearance().titleTextAttributes = navbarTitleAtt
+        
+        if #available(iOS 13.0, *) {
+            let navBarAppearance = UINavigationBarAppearance()
+            navBarAppearance.configureWithTransparentBackground()
+            navBarAppearance.titleTextAttributes = [.foregroundColor: UIColor.white]
+            navBarAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
+//            navBarAppearance.backgroundColor = .black
+            
+            UINavigationBar.appearance().standardAppearance = navBarAppearance
+            UINavigationBar.appearance().scrollEdgeAppearance = navBarAppearance
+            
+            
         }
     }
 }

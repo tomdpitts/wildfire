@@ -10,11 +10,37 @@ import Foundation
 import UIKit
 //import LBTAComponents
 
-//class GlobalVariables {
-//    var userAccountExists = false
-//    var enoughCredit = false
-//    var existingPaymentMethod = false
-//}
+struct Style {
+    
+    // default values
+    static var primaryThemeColour = UIColor(hexString: "#39C3C6")
+    static var primaryThemeColourHighlighted = UIColor(hexString: "#39C3C6")
+    
+    static var secondaryThemeColour = UIColor(hexString: "#C63C39")
+    static var secondaryThemeColourHighlighted = UIColor(hexString: "#C63C39")
+    
+    static var headerColour = UIColor(hexString: "#250B0B")
+    static var bodyColour = UIColor(hexString: "#F1FBFB")
+    
+    static var sectionHeaderTitleColour = UIColor(hexString: "#F1FBFB")
+    static var sectionHeaderTitleFont = UIFont(name: "System", size: 17)
+    static var sectionHeaderAlpha: CGFloat = 1.0
+    
+    // not in use now, but leaving for future reference
+    static func alternativeTheme1() {
+        
+        primaryThemeColour = UIColor(hexString: "#39C3C6")
+        primaryThemeColourHighlighted = UIColor(hexString: "#39C3C6")
+        
+        secondaryThemeColour = UIColor(hexString: "#C63C39")
+        secondaryThemeColourHighlighted = UIColor(hexString: "#C63C39")
+        
+        sectionHeaderTitleColour = UIColor(hexString: "#F1FBFB")
+        sectionHeaderTitleFont = UIFont(name: "System", size: 17)
+        sectionHeaderAlpha = 1.0
+        
+    }
+}
 
 struct Constants {
     

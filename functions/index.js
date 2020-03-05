@@ -903,10 +903,23 @@ exports.createNewMangopayCustomer = functions.region('europe-west1').firestore.d
       }
 
     } else if (eventType === "KYC_FAILED") {
-      
+
       const kyc = await mpAPI.KycDocuments.get(resourceID)
       const status = kyc.Status
+      const refusedType = kyc.RefusedReasonType
+      const refusedMessage = kyc.RefusedReasonMessage
+
+      // send notification to client with refusedMessage (or translation)
+
       
+    } else if (eventType === "TRANSFER_NORMAL_SUCCEEDED") {
+
+
+    } else if (eventType === "PAYIN_NORMAL_SUCCEEDED") {
+
+
+    } else if (eventType === "PAYOUT_NORMAL_SUCCEEDED") {
+
     }
 
     response.send("success");

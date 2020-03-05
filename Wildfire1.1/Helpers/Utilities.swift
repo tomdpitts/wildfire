@@ -95,7 +95,7 @@ class Utilities {
         button.layer.borderWidth = 3
         button.layer.borderColor = UIColor(hexString: "#39C3C6").cgColor
         button.layer.cornerRadius = 25.0
-        button.tintColor = UIColor.black
+        button.tintColor = UIColor.white
     }
     
     static func styleHollowButtonSELECTED(_ button:UIButton) {
