@@ -885,16 +885,31 @@ exports.createNewMangopayCustomer = functions.region('europe-west1').firestore.d
 
   })
 
-  exports.events = functions.region('europe-west1').https.onRequest((request, response) => {
-
-    console.log(request.query.EventType)
-    console.log(request.query.RessourceId)
+  // messy name is a little extra security by obscurity - this endpoint has no authentication
+  exports.events = functions.region('europe-west1').https.onRequest(async (request, response) => {
 
     let eventType = request.query.EventType
     let resourceID =request.query.RessourceId
 
+    if (eventType === "KYC_SUCCEEDED") {
 
-    response.send("Endpoint for Stripe Webhooks!");
+      const kyc = await mpAPI.KycDocuments.get(resourceID)
+      const status = kyc.Status
+
+      if (status === "VALIDATED") {
+
+        // send notification to client (also need the mangopay userID for this)
+
+      }
+
+    } else if (eventType === "KYC_FAILED") {
+      
+      const kyc = await mpAPI.KycDocuments.get(resourceID)
+      const status = kyc.Status
+      
+    }
+
+    response.send("success");
   })
 
 
