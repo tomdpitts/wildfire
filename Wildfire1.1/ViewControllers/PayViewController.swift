@@ -56,18 +56,16 @@ class PayViewController: UIViewController {
     
     
     func gradientBackground() {
-         // Create a gradient layer.
-         let gradientLayer = CAGradientLayer()
-         // Set the size of the layer to be equal to size of the display.
-         gradientLayer.frame = view.bounds
-         // Set an array of Core Graphics colors (.cgColor) to create the gradient.
-         // This example uses a Color Literal and a UIColor from RGB values.
-         gradientLayer.colors = [UIColor(hexString:"#092c80").cgColor, UIColor(hexString: "#3f7fc0").cgColor]
-         // Rasterize this static layer to improve app performance.
-         gradientLayer.shouldRasterize = true
-         // Apply the gradient to the backgroundGradientView.
-        
-         self.view.layer.insertSublayer(gradientLayer, at: 0)
+        // Create a gradient layer
+        let gradientLayer = CAGradientLayer()
+        // Set the size of the layer to be equal to size of the display
+        gradientLayer.frame = view.bounds
+        // Set an array of Core Graphics colors (.cgColor) to create the gradient
+        gradientLayer.colors = [Style.secondaryThemeColour.cgColor, Style.secondaryThemeColourHighlighted.cgColor]
+        // Rasterize this static layer to improve app performance
+        gradientLayer.shouldRasterize = true
+        // Apply the gradient to the backgroundGradientView
+        self.view.layer.insertSublayer(gradientLayer, at: 0)
     }
     
 //    @IBAction func launchQRReader(_ sender: UIButton) {

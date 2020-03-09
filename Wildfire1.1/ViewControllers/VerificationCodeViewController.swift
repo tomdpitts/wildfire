@@ -8,6 +8,8 @@
 
 import UIKit
 import FirebaseAuth
+import FirebaseInstanceID
+import FirebaseFirestore
 
 class VerificationCodeViewController: UIViewController {
 
@@ -50,7 +52,8 @@ class VerificationCodeViewController: UIViewController {
                 withVerificationID: verificationID,
                 verificationCode: code)
             
-            Auth.auth().signInAndRetrieveData(with: credential) { (authResult, error) in
+            Auth.auth().signIn(with: credential) { (authResult, error) in
+            
                 if let error = error {
                     // TODO error handling..
                     print(error)
@@ -64,10 +67,12 @@ class VerificationCodeViewController: UIViewController {
                 appDelegate.fetchPaymentMethodsListFromMangopay()
                 appDelegate.fetchBankAccountsListFromMangopay()
                 
-                // check whether the user has completed signup flow
+                // check whether the user has previously completed signup flow
                 if UserDefaults.standard.bool(forKey: "userAccountExists") != true {
                     Utilities().checkForUserAccount()
                 }
+                
+                Utilities.getCurrentRegistrationToken()
                 
                 // segue to main screens
                 self.performSegue(withIdentifier: "goToMainMenu", sender: self)

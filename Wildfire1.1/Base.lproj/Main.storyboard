@@ -858,7 +858,7 @@
                                 <rect key="frame" x="10" y="98.5" width="300" height="371.5"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icons8-ok-480" translatesAutoresizingMaskIntoConstraints="NO" id="We2-ai-gvS">
-                                        <rect key="frame" x="30" y="0.0" width="240" height="175"/>
+                                        <rect key="frame" x="149.5" y="0.0" width="1" height="175"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="175" id="w9q-iX-Le2"/>
                                         </constraints>
@@ -2428,11 +2428,11 @@
             <objects>
                 <viewController modalPresentationStyle="fullScreen" id="xal-Cf-0cP" customClass="PhoneViewController" customModule="Wildfire1_1" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="IQk-SR-yQZ">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="548"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Mobile number" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="GZT-gZ-ufH">
-                                <rect key="frame" x="50" y="64" width="220" height="50"/>
+                                <rect key="frame" x="50" y="76" width="220" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="nAp-fL-csJ"/>
                                 </constraints>
@@ -2445,7 +2445,7 @@
                                 </userDefinedRuntimeAttributes>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J6X-9D-j2g">
-                                <rect key="frame" x="60" y="174" width="200" height="50"/>
+                                <rect key="frame" x="60" y="186" width="200" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="200" id="8yA-MU-JE4"/>
                                     <constraint firstAttribute="height" constant="50" id="F3x-K5-1h6"/>
@@ -2484,11 +2484,11 @@
             <objects>
                 <viewController modalPresentationStyle="fullScreen" id="ulI-eW-qCk" customClass="VerificationCodeViewController" customModule="Wildfire1_1" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="FY8-Zg-YSQ">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="548"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6RR-Up-5I0">
-                                <rect key="frame" x="60" y="174" width="200" height="50"/>
+                                <rect key="frame" x="60" y="186" width="200" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="50" id="DA7-KT-X6t"/>
                                     <constraint firstAttribute="height" constant="50" id="TaJ-mW-Dw0"/>
@@ -2500,7 +2500,7 @@
                                 </connections>
                             </button>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Verification code" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="RhF-xj-I3r">
-                                <rect key="frame" x="34.5" y="64" width="251" height="50"/>
+                                <rect key="frame" x="34.5" y="76" width="251" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="wfu-yx-fFD"/>
                                 </constraints>
@@ -3167,7 +3167,7 @@
                                 <rect key="frame" x="10" y="88" width="300" height="392"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icons8-ok-480" translatesAutoresizingMaskIntoConstraints="NO" id="Xcx-i4-ODz">
-                                        <rect key="frame" x="30" y="0.0" width="240" height="175"/>
+                                        <rect key="frame" x="149.5" y="0.0" width="1" height="175"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="175" id="Eaf-Hy-f2C"/>
                                         </constraints>
@@ -3524,7 +3524,7 @@
                                 <rect key="frame" x="10" y="55" width="300" height="458"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icons8-ok-480" translatesAutoresizingMaskIntoConstraints="NO" id="lfX-ee-Tt9">
-                                        <rect key="frame" x="30" y="0.0" width="240" height="175"/>
+                                        <rect key="frame" x="149.5" y="0.0" width="1" height="175"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="175" id="5UO-bu-Rp2"/>
                                         </constraints>
@@ -3594,13 +3594,13 @@
                                         <rect key="frame" x="15" y="8" width="300" height="30"/>
                                         <subviews>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" verticalHuggingPriority="251" image="icons8-order-history-100" translatesAutoresizingMaskIntoConstraints="NO" id="JSQ-U2-WQL">
-                                                <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
+                                                <rect key="frame" x="0.0" y="14" width="1.5" height="2"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="JSQ-U2-WQL" secondAttribute="height" multiplier="1:1" id="cRg-mD-WWv"/>
                                                 </constraints>
                                             </imageView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ID Verification pending" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yAE-Yb-65o">
-                                                <rect key="frame" x="40" y="5" width="260" height="20.5"/>
+                                                <rect key="frame" x="11.5" y="5" width="288.5" height="20.5"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
@@ -4094,7 +4094,7 @@
                                 <rect key="frame" x="10" y="79" width="300" height="410.5"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icons8-ok-480" translatesAutoresizingMaskIntoConstraints="NO" id="3sp-pQ-Hfg">
-                                        <rect key="frame" x="30" y="0.0" width="240" height="175"/>
+                                        <rect key="frame" x="149.5" y="0.0" width="1" height="175"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="175" id="xUQ-td-jbD"/>
                                         </constraints>
@@ -4333,7 +4333,7 @@
     <inferredMetricsTieBreakers>
         <segue reference="hWh-Xd-ZQz"/>
         <segue reference="Huo-pa-P2i"/>
-        <segue reference="77W-hC-y4a"/>
+        <segue reference="Ew7-LD-xpa"/>
         <segue reference="KNr-jR-5zd"/>
         <segue reference="bGq-l6-Or3"/>
         <segue reference="Vbf-Fn-Yes"/>

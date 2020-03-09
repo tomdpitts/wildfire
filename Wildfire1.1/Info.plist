@@ -58,6 +58,10 @@
 	<string>Permission required to save Payment Code</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Access to photos required to change proflie picture</string>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>remote-notification</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 import FirebaseAuth
 import FirebaseFirestore
+import FirebaseInstanceID
 
 class Utilities {
     
@@ -47,12 +48,34 @@ class Utilities {
                 if let document = document {
                     let ID = document["mangopayID"]
                     UserDefaults.standard.set(ID, forKey: "mangopayID")
-                    print(ID)
                 }
             }
         }
     }
     
+    static func getCurrentRegistrationToken() {
+        InstanceID.instanceID().instanceID { (result, error) in
+            if let error = error {
+                print("Error fetching remote instance ID: \(error)")
+            } else if let result = result {
+
+                // don't have time to test whether the rest of this func is required, or whether the didReceiveRegistrationToken method in AppDelegate is fired automatically. At worst, this process runs twice which shouldn't break anything.
+
+                let fcmToken = result.token
+
+                // update current saved token
+                UserDefaults.standard.set(fcmToken, forKey: "fcmToken")
+
+                guard let uid = Auth.auth().currentUser?.uid else { return }
+
+                let tokenData = [
+                    "fcmToken": fcmToken
+                ]
+                
+                Firestore.firestore().collection("users").document(uid).setData(tokenData, merge: true)
+            }
+        }
+    }
     
     static func styleTextField(_ textfield:UITextField) {
         

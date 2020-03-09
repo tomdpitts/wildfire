@@ -888,20 +888,72 @@ exports.createNewMangopayCustomer = functions.region('europe-west1').firestore.d
   // messy name is a little extra security by obscurity - this endpoint has no authentication
   exports.events = functions.region('europe-west1').https.onRequest(async (request, response) => {
 
+    const db = admin.firestore().collection('users')
+    
     let eventType = request.query.EventType
     let resourceID =request.query.RessourceId
+
+    
+
+    console.log(request.query)
 
     if (eventType === "KYC_SUCCEEDED") {
 
       const kyc = await mpAPI.KycDocuments.get(resourceID)
+
+      // we need two things - the status (to check that the doc is validated and also to ensure the request didn't come from a 3rd party), and the mangopayID to send a notification to the correct device and user
       const status = kyc.Status
+      const mangopayID = kyc.UserId
+
+      console.log(kyc)
 
       if (status === "VALIDATED") {
 
-        // send notification to client (also need the mangopay userID for this)
+        var fcmToken = ""
+
+        await db.where('mangopayID', '==', mangopayID).get().then(snapshot => {
+
+          if (snapshot.empty) {
+            console.log('No matching documents.') 
+          } else {
+            // there should only be one user returned by the .where() function
+            const data = snapshot[0].data()
+            fcmToken = data.fcmToken
+          }
+
+          return 
+        }).catch(err => {
+          console.log('Error getting documents', err);
+        }) 
+
+        // Notification details.
+        const payload = {
+          notification: {
+            title: 'Your ID has been verified!',
+            body: 'You can now deposit funds to your bank account',
+            // icon: photoURL
+          },
+          token: fcmToken
+        }
+        
+        // Send a message to the device corresponding to the provided
+        // registration token.
+        admin.messaging().send(payload)
+          .then((response) => {
+            // Response is a message ID string.
+            console.log('Successfully sent message:', response);
+            return
+        })
+        .catch((error) => {
+          console.log('Error sending message:', error);
+        })
+      } else {
+
+        // this means we received a ping to tell us validation was successful, but upon closer inspection, the status of the KYC doc is not validated. Hopefully this will never happen.
+
+        console.log('KYC_SUCCESSFUL hook triggered but KYC doc is not VALIDATED')
 
       }
-
     } else if (eventType === "KYC_FAILED") {
 
       const kyc = await mpAPI.KycDocuments.get(resourceID)
@@ -911,18 +963,17 @@ exports.createNewMangopayCustomer = functions.region('europe-west1').firestore.d
 
       // send notification to client with refusedMessage (or translation)
 
-      
-    } else if (eventType === "TRANSFER_NORMAL_SUCCEEDED") {
-
-
-    } else if (eventType === "PAYIN_NORMAL_SUCCEEDED") {
-
-
-    } else if (eventType === "PAYOUT_NORMAL_SUCCEEDED") {
-
     }
+    // } else if (eventType === "TRANSFER_NORMAL_SUCCEEDED") {
 
-    response.send("success");
+
+    // } else if (eventType === "PAYIN_NORMAL_SUCCEEDED") {
+
+
+    // } else if (eventType === "PAYOUT_NORMAL_SUCCEEDED") {
+
+    // }
+
   })
 
 

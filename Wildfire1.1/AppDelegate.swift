@@ -8,17 +8,19 @@
 
 import UIKit
 import FirebaseCore
+import Firebase
 import LocalAuthentication
 import FirebaseAuth
 import FirebaseFunctions
 import SwiftyJSON
+import UserNotifications
 //import FBSDKCoreKit
 //import FBSDKLoginKit
 //import FacebookCore
 //import FacebookLogin
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate, MessagingDelegate {
 
     var window: UIWindow?
     var timestamp: Int64?
@@ -29,9 +31,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
         FirebaseApp.configure()
-        // one for later
-//        let db = Firestore.firestore()
+        
+        if #available(iOS 10.0, *) {
+            // For iOS 10 display notification (sent via APNS)
+            UNUserNotificationCenter.current().delegate = self
+
+            let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
+            UNUserNotificationCenter.current().requestAuthorization(
+            options: authOptions,
+            completionHandler: {_, _ in })
+        } else {
+            let settings: UIUserNotificationSettings =
+            UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
+            application.registerUserNotificationSettings(settings)
+        }
+        application.registerForRemoteNotifications()
+        Messaging.messaging().delegate = self
+        
         
 //        ApplicationDelegate.sharedInstance()?.application(application, didFinishLaunchingWithOptions: launchOptions)
         
@@ -91,6 +109,68 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    }
+    
+//
+//    // probably don't need the following 2 funcs
+//    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+//        let tokenParts = deviceToken.map { data in String(format: "%02.2hhx", data) }
+//        let token = tokenParts.joined()
+//        print("Device Token: \(token)")
+//
+//    }
+//
+//    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+//      print("Failed to register: \(error)")
+//    }
+
+    
+    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String) {
+        print("Firebase registration token: \(fcmToken)")
+
+        let dataDict:[String: String] = ["token": fcmToken]
+        NotificationCenter.default.post(name: Notification.Name("FCMToken"), object: nil, userInfo: dataDict)
+
+        // Note: This callback is fired at each app startup and whenever a new token is generated.
+        
+        let savedToken = UserDefaults.standard.string(forKey: "fcmToken")
+        
+        if savedToken != fcmToken {
+        
+            // replace current saved token
+            UserDefaults.standard.set(fcmToken, forKey: "fcmToken")
+            
+            guard let uid = Auth.auth().currentUser?.uid else { return }
+            
+            let tokenData = [
+                "fcmToken": fcmToken
+            ]
+//            print("didReceiveRegistrationToken was FIRED: " + fcmToken)
+            
+            Firestore.firestore().collection("users").document(uid).setData(tokenData
+            // merge: true is IMPORTANT - prevents complete overwriting of a document if a user logs in for a second time, for example, which could wipe important data
+             , merge: true) { (error) in
+            }
+        }
+    }
+    
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any],
+                     fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        // If you are receiving a notification message while your app is in the background,
+        // this callback will not be fired till the user taps on the notification launching the application.
+        // TODO: Handle data of notification
+
+        // With swizzling disabled you must let Messaging know about the message, for Analytics
+        // Messaging.messaging().appDidReceiveMessage(userInfo)
+
+
+        // Print full message.
+        print(userInfo)
+
+        
+
+
+        completionHandler(UIBackgroundFetchResult.newData)
     }
     
     func redirect() {

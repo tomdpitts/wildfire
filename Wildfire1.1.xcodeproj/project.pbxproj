@@ -123,6 +123,7 @@
 		E29CF6972359BECD00ADC0D0 /* Send2ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Send2ViewController.swift; sourceTree = "<group>"; };
 		E29EA43424062DAA0059C7A4 /* Graphics */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Graphics; sourceTree = SOURCE_ROOT; };
 		E2A45D3E240F789D00EC7975 /* ButtonStyleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonStyleViewController.swift; sourceTree = "<group>"; };
+		E2A45D402415D0F100EC7975 /* Wildfire1.1.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Wildfire1.1.entitlements; sourceTree = "<group>"; };
 		E2AD346721F384430030FA2E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E2B979DB2329441900194E75 /* Playground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Playground.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		E2B979DE23295DB000194E75 /* ConfirmViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmViewController.swift; sourceTree = "<group>"; };
@@ -203,6 +204,7 @@
 		E21AC96121EA6BEF00D460A9 /* Wildfire1.1 */ = {
 			isa = PBXGroup;
 			children = (
+				E2A45D402415D0F100EC7975 /* Wildfire1.1.entitlements */,
 				E21AC96221EA6BEF00D460A9 /* AppDelegate.swift */,
 				E21AC96821EA6BEF00D460A9 /* Main.storyboard */,
 				E24388A623154A5800948AD5 /* Helpers */,
@@ -672,6 +674,7 @@
 			baseConfigurationReference = F9AA015D5574A5F3F757AF97 /* Pods-Wildfire1.1.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Wildfire1.1/Wildfire1.1.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = D52N54SYXN;
 				INFOPLIST_FILE = Wildfire1.1/Info.plist;
@@ -691,6 +694,7 @@
 			baseConfigurationReference = 2E74D15B5FC7AC373C8CDDA2 /* Pods-Wildfire1.1.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Wildfire1.1/Wildfire1.1.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = D52N54SYXN;
 				INFOPLIST_FILE = Wildfire1.1/Info.plist;
