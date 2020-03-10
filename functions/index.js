@@ -604,51 +604,51 @@ exports.createNewMangopayCustomer = functions.region('europe-west1').firestore.d
 
   });
 
-  exports.addCardRegistration = functions.region('europe-west1').https.onCall( async (data, context) => {
+  // exports.addCardRegistration = functions.region('europe-west1').https.onCall( async (data, context) => {
 
-    const userID = context.auth.uid
+  //   const userID = context.auth.uid
 
-    var mangopayID = ''
-    const rd = data.regData
-    const cardRegID = String(data.cardRegID)
-    const walletID = data.walletID
+  //   var mangopayID = ''
+  //   const rd = data.regData
+  //   const cardRegID = String(data.cardRegID)
+  //   const walletID = data.walletID
 
-    // using the Firebase userID (supplied via 'context' of the request), get the mangopayID 
-    await admin.firestore().collection('users').doc(userID).get().then(doc => {
-      userData = doc.data();
-      mangopayID = userData.mangopayID
-      return
-    })
-    .catch(err => {
-      console.log('Error getting userID', err);
-    });
+  //   // using the Firebase userID (supplied via 'context' of the request), get the mangopayID 
+  //   await admin.firestore().collection('users').doc(userID).get().then(doc => {
+  //     userData = doc.data();
+  //     mangopayID = userData.mangopayID
+  //     return
+  //   })
+  //   .catch(err => {
+  //     console.log('Error getting userID', err);
+  //   });
 
-    // update the CardRegistration object with the Registration data and cardRegID sent as the argument for this function.
-    // see https://docs.mangopay.com/endpoints/v2.01/cards#e1042_post-card-info 
-    // "Update a Card Registration"
-    const cardObject = await mpAPI.CardRegistrations.update({RegistrationData: rd, Id: cardRegID})
+  //   // update the CardRegistration object with the Registration data and cardRegID sent as the argument for this function.
+  //   // see https://docs.mangopay.com/endpoints/v2.01/cards#e1042_post-card-info 
+  //   // "Update a Card Registration"
+  //   const cardObject = await mpAPI.CardRegistrations.update({RegistrationData: rd, Id: cardRegID})
 
-    admin.firestore().collection('users').doc(userID).set({
-      defaultCardID: cardObject.CardId
-      // merge (to prevent overwriting other fields) should never be needed, but just in case..
-    }, {merge: true})
-    .catch(err => {
-      console.log('Error saving to database', err);
-    })
+  //   admin.firestore().collection('users').doc(userID).set({
+  //     defaultCardID: cardObject.CardId
+  //     // merge (to prevent overwriting other fields) should never be needed, but just in case..
+  //   }, {merge: true})
+  //   .catch(err => {
+  //     console.log('Error saving to database', err);
+  //   })
 
-    let cardID = cardObject.CardId
+  //   let cardID = cardObject.CardId
 
-    // and save the important part of the response - the cardId - to the Firestore database
-    admin.firestore().collection('users').doc(userID).collection('wallets').doc(walletID).collection('cards').doc(cardID).set({
-      cardID: cardID
-      // merge (to prevent overwriting other fields) should never be needed, but just in case..
-    }, {merge: true})
-    .catch(err => {
-      console.log('Error saving to database', err);
-    })
+  //   // and save the important part of the response - the cardId - to the Firestore database
+  //   admin.firestore().collection('users').doc(userID).collection('wallets').doc(walletID).collection('cards').doc(cardID).set({
+  //     cardID: cardID
+  //     // merge (to prevent overwriting other fields) should never be needed, but just in case..
+  //   }, {merge: true})
+  //   .catch(err => {
+  //     console.log('Error saving to database', err);
+  //   })
 
-    return cardID
-  })
+  //   return cardID
+  // })
 
 
   exports.addBankAccount = functions.region('europe-west1').https.onCall( async (data, context) => {
@@ -888,39 +888,110 @@ exports.createNewMangopayCustomer = functions.region('europe-west1').firestore.d
   // messy name is a little extra security by obscurity - this endpoint has no authentication
   exports.events = functions.region('europe-west1').https.onRequest(async (request, response) => {
 
-    const db = admin.firestore().collection('users')
+    const db = admin.firestore().collection('events')
     
+    // key info received is here
     let eventType = request.query.EventType
-    let resourceID =request.query.RessourceId
+    let resourceID = request.query.RessourceId
 
-    
 
-    console.log(request.query)
+    // let's differentiate between the types of triggers that can be received
+    if (eventType === "KYC_SUCCEEDED") {
+      db.doc('KYC_SUCCEEDED').collection('events').add({
+        eventType: eventType,
+        resourceID: resourceID
+      }).then(ref => {
+        response.send('success')
+        return
+      }).catch(err => {
+        console.log('Error saving KYC_SUCCEEDED event', err);
+      })
+
+    } else if (eventType === "KYC_FAILED") {
+
+      db.doc('KYC_FAILED').collection('events').add({
+        eventType: eventType,
+        resourceID: resourceID
+      }).then(ref => {
+        response.send('success')
+        return
+      }).catch(err => {
+        console.log('Error saving KYC_FAILED event', err);
+      })
+
+    } else if (eventType === "TRANSFER_NORMAL_SUCCEEDED") {
+
+      db.doc('TRANSFER_NORMAL_SUCCEEDED').collection('events').add({
+        eventType: eventType,
+        resourceID: resourceID
+      }).then(ref => {
+        response.send('success')
+        return
+      }).catch(err => {
+        console.log('Error saving TRANSFER_NORMAL_SUCCEEDED event', err);
+      })
+
+    } else if (eventType === "PAYIN_NORMAL_SUCCEEDED") {
+
+      db.doc('PAYIN_NORMAL_SUCCEEDED').collection('events').add({
+        eventType: eventType,
+        resourceID: resourceID
+      }).then(ref => {
+        response.send('success')
+        return
+      }).catch(err => {
+        console.log('Error saving PAYIN_NORMAL_SUCCEEDED event', err);
+      })
+
+    } else if (eventType === "PAYOUT_NORMAL_SUCCEEDED") {
+
+      db.doc('PAYOUT_NORMAL_SUCCEEDED').collection('events').add({
+        eventType: eventType,
+        resourceID: resourceID
+      }).then(ref => {
+        response.send('success')
+        return
+      }).catch(err => {
+        console.log('Error saving PAYOUT_NORMAL_SUCCEEDED event', err);
+      })
+    }
+  })
+
+  // messy name is a little extra security by obscurity - this endpoint has no authentication
+  exports.respondToEvent = functions.region('europe-west1').firestore.document('events/{type}/{event}').onCreate(async (snap, context) => {
+
+    const db = admin.firestore().collection('users')
+
+    const eventType = context.params.type
+    const resourceID = snap.data().resourceID
 
     if (eventType === "KYC_SUCCEEDED") {
-
+      // use the resourceID to get the relevant object
       const kyc = await mpAPI.KycDocuments.get(resourceID)
 
       // we need two things - the status (to check that the doc is validated and also to ensure the request didn't come from a 3rd party), and the mangopayID to send a notification to the correct device and user
       const status = kyc.Status
       const mangopayID = kyc.UserId
 
-      console.log(kyc)
 
       if (status === "VALIDATED") {
 
+        // this will hold the correct token for the user, once it's found in the database
         var fcmToken = ""
 
+        // search for the user with that mangopayID
         await db.where('mangopayID', '==', mangopayID).get().then(snapshot => {
 
           if (snapshot.empty) {
-            console.log('No matching documents.') 
+            console.log('No matching documents for this mangopayID.') 
           } else {
             // there should only be one user returned by the .where() function
-            const data = snapshot[0].data()
-            fcmToken = data.fcmToken
+            snapshot.forEach(doc => {
+              const data = doc.data()
+              fcmToken = data.fcmToken
+              console.log('fcmToken is: ' + fcmToken)
+            })
           }
-
           return 
         }).catch(err => {
           console.log('Error getting documents', err);
@@ -935,45 +1006,84 @@ exports.createNewMangopayCustomer = functions.region('europe-west1').firestore.d
           },
           token: fcmToken
         }
-        
+
         // Send a message to the device corresponding to the provided
         // registration token.
         admin.messaging().send(payload)
           .then((response) => {
-            // Response is a message ID string.
-            console.log('Successfully sent message:', response);
             return
         })
         .catch((error) => {
-          console.log('Error sending message:', error);
+          console.log('Error sending message:', error)
         })
       } else {
 
         // this means we received a ping to tell us validation was successful, but upon closer inspection, the status of the KYC doc is not validated. Hopefully this will never happen.
 
         console.log('KYC_SUCCESSFUL hook triggered but KYC doc is not VALIDATED')
-
       }
     } else if (eventType === "KYC_FAILED") {
-
+      // use the resourceID to get the relevant object
       const kyc = await mpAPI.KycDocuments.get(resourceID)
+
+      // we need two things - the status (to check that the doc is validated and also to ensure the request didn't come from a 3rd party), and the mangopayID to send a notification to the correct device and user
       const status = kyc.Status
+      const mangopayID = kyc.UserId
       const refusedType = kyc.RefusedReasonType
       const refusedMessage = kyc.RefusedReasonMessage
 
-      // send notification to client with refusedMessage (or translation)
 
+      if (status === "REFUSED") {
+
+        // this will hold the correct token for the user, once it's found in the database
+        var fcmTokenRefused = ""
+
+        // search for the user with that mangopayID
+        await db.where('mangopayID', '==', mangopayID).get().then(snapshot => {
+
+          if (snapshot.empty) {
+            console.log('No matching documents for this mangopayID.') 
+          } else {
+            // there should only be one user returned by the .where() function
+            snapshot.forEach(doc => {
+              const data = doc.data()
+              fcmTokenRefused = data.fcmToken
+              console.log('fcmToken is: ' + fcmToken)
+            })
+          }
+          return 
+        }).catch(err => {
+          console.log('Error getting documents', err);
+        }) 
+
+        // Notification details.
+        const payload = {
+          notification: {
+            title: 'Your ID verification has been refused',
+            body: 'TODO',
+            // icon: photoURL
+            refusedType: refusedType,
+            refusedMessage: refusedMessage
+          },
+          token: fcmTokenRefused
+        }
+
+        // Send a message to the device corresponding to the provided
+        // registration token.
+        admin.messaging().send(payload)
+          .then((response) => {
+            return
+        })
+        .catch((error) => {
+          console.log('Error sending message:', error)
+        })
+      } else {
+
+        // this means we received a ping to tell us validation was successful, but upon closer inspection, the status of the KYC doc is not validated. Hopefully this will never happen.
+
+        console.log('KYC_FAILED hook triggered but KYC doc is not REFUSED')
+      }
     }
-    // } else if (eventType === "TRANSFER_NORMAL_SUCCEEDED") {
-
-
-    // } else if (eventType === "PAYIN_NORMAL_SUCCEEDED") {
-
-
-    // } else if (eventType === "PAYOUT_NORMAL_SUCCEEDED") {
-
-    // }
-
   })
 
 
