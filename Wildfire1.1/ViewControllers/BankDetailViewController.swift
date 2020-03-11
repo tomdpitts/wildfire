@@ -42,8 +42,12 @@ class BankDetailViewController: UIViewController {
         Utilities.styleHollowButton(makeDepositButton)
         Utilities.styleHollowButtonRED(deleteButton)
         
-        navigationItem.title = "Account Details"
-        navigationController?.navigationBar.prefersLargeTitles = true
+        // TODO - TAKE THIS OUT! FOR TESTING ONLY
+//        navigationItem.title = "Account Details"
+//        navigationController?.navigationBar.prefersLargeTitles = true
+        
+        UserDefaults.standard.set(false, forKey: "KYCPending")
+        UserDefaults.standard.set(false, forKey: "KYCVerified")
         
         if UserDefaults.standard.bool(forKey: "KYCPending") != true {
             KYCPendingView.isHidden = true

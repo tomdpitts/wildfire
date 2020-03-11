@@ -1926,7 +1926,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aMG-Uy-CHU" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="ivJ-f1-pSg" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="4444" y="1846"/>
+            <point key="canvasLocation" x="4391" y="1982"/>
         </scene>
         <!--Account2 View Controller-->
         <scene sceneID="uzV-4S-pAA">
@@ -3787,7 +3787,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hLQ-Xl-DWC" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5238" y="1845"/>
+            <point key="canvasLocation" x="5181" y="1844"/>
         </scene>
         <!--Deposit Amount-->
         <scene sceneID="A5p-2V-dwg">
