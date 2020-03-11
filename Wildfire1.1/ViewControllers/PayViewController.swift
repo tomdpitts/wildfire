@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import BATabBarController
 
 class PayViewController: UIViewController {
     
@@ -61,7 +62,9 @@ class PayViewController: UIViewController {
         // Set the size of the layer to be equal to size of the display
         gradientLayer.frame = view.bounds
         // Set an array of Core Graphics colors (.cgColor) to create the gradient
-        gradientLayer.colors = [Style.secondaryThemeColour.cgColor, Style.secondaryThemeColourHighlighted.cgColor]
+        gradientLayer.colors = [UIColor(hexString: "#000C40").cgColor, UIColor(hexString: "#F0F2F0").cgColor]
+
+//        gradientLayer.locations = [0.0, 0.35]
         // Rasterize this static layer to improve app performance
         gradientLayer.shouldRasterize = true
         // Apply the gradient to the backgroundGradientView

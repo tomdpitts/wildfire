@@ -1004,8 +1004,11 @@ exports.respondToEventRecord = functions.region('europe-west1').firestore.docume
       const payload = {
         notification: {
           title: 'Your ID has been verified!',
-          body: 'You can now deposit funds to your bank account',
+          body: 'You can now deposit funds to your bank account'
           // icon: photoURL
+        },
+        data: {
+          eventType: eventType
         },
         token: fcmToken
       }
@@ -1062,7 +1065,7 @@ exports.respondToEventRecord = functions.region('europe-west1').firestore.docume
     // we need two things - the status (to check that the doc is validated and also to ensure the request didn't come from a 3rd party), and the mangopayID to send a notification to the correct device and user
     const status = kyc.Status
     const mangopayID = kyc.UserId
-    const refusedType = kyc.RefusedReasonType
+    const refusedType = kyc.RefusedReasonType.toString()
     const refusedMessage = kyc.RefusedReasonMessage
 
 
@@ -1092,10 +1095,13 @@ exports.respondToEventRecord = functions.region('europe-west1').firestore.docume
       const payload = {
         notification: {
           title: 'Your ID verification could not be accepted',
-          body: 'Sorry about this. More details in the app.',
+          body: 'Sorry about this. More details in the app.'
           // icon: photoURL
-          // refusedType: refusedType,
-          // refusedMessage: refusedMessage
+        },
+        data: {
+          eventType: eventType,
+          refusedType: refusedTypeString,
+          refusedMessage: refusedMessageString
         },
         token: fcmTokenRefused
       }

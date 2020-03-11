@@ -49,7 +49,7 @@ class BankDetailViewController: UIViewController {
         UserDefaults.standard.set(false, forKey: "KYCPending")
         UserDefaults.standard.set(false, forKey: "KYCVerified")
         
-        if UserDefaults.standard.bool(forKey: "KYCPending") != true {
+        if UserDefaults.standard.bool(forKey: "KYCPending") != true { 
             KYCPendingView.isHidden = true
         }
     }

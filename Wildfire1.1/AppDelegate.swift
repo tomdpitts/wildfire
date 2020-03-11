@@ -165,10 +165,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
 
         // Print full message.
-        print(userInfo)
-
+//        print(userInfo)
         
-
+        if let refusedType = userInfo["refusedType"] as? String {
+            print(refusedType)
+        }
 
         completionHandler(UIBackgroundFetchResult.newData)
     }
@@ -334,11 +335,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         if #available(iOS 13.0, *) {
             let navBarAppearance = UINavigationBarAppearance()
-//            navBarAppearance.configureWithTransparentBackground()
+            navBarAppearance.configureWithTransparentBackground()
             navBarAppearance.titleTextAttributes = [.foregroundColor: UIColor.white]
             navBarAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
-            navBarAppearance.backgroundColor = .black
-            
+//            navBarAppearance.backgroundColor = Style.secondaryThemeColour
+
             UINavigationBar.appearance().standardAppearance = navBarAppearance
             UINavigationBar.appearance().scrollEdgeAppearance = navBarAppearance
             

@@ -16,8 +16,11 @@ struct Style {
     static var primaryThemeColour = UIColor(hexString: "#39C3C6")
     static var primaryThemeColourHighlighted = UIColor(hexString: "#39C3C6")
     
-    static var secondaryThemeColour = UIColor(hexString: "#C63C39")
-    static var secondaryThemeColourHighlighted = UIColor(hexString: "#C63C39")
+    static var black = UIColor(hexString: "#000000")
+    static var secondaryThemeColour = UIColor(hexString: "#000242")
+    static var secondaryThemeColourHighlighted = UIColor(hexString: "#00c8ff")
+    
+    
     
     static var headerColour = UIColor(hexString: "#250B0B")
     static var bodyColour = UIColor(hexString: "#F1FBFB")
