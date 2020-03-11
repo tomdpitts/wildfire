@@ -1849,10 +1849,10 @@
             </objects>
             <point key="canvasLocation" x="-626" y="0.0"/>
         </scene>
-        <!--Tab Bar View Controller-->
+        <!--Tab Bar Controller-->
         <scene sceneID="yl2-sM-qoP">
             <objects>
-                <tabBarController storyboardIdentifier="mainMenu" modalPresentationStyle="fullScreen" id="49e-Tb-3d3" customClass="TabBarViewController" customModule="Wildfire1_1" customModuleProvider="target" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="mainMenu" modalPresentationStyle="fullScreen" id="49e-Tb-3d3" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="Cli-F2-Rwb"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" id="W28-zg-YXA">
                         <rect key="frame" x="0.0" y="975" width="768" height="49"/>
