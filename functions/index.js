@@ -1066,7 +1066,7 @@ exports.respondToEventRecord = functions.region('europe-west1').firestore.docume
     const status = kyc.Status
     const mangopayID = kyc.UserId
     const refusedType = kyc.RefusedReasonType.toString()
-    const refusedMessage = kyc.RefusedReasonMessage
+    const refusedMessage = kyc.RefusedReasonMessage.toString()
 
 
     if (status === "REFUSED") {
@@ -1100,12 +1100,13 @@ exports.respondToEventRecord = functions.region('europe-west1').firestore.docume
         },
         data: {
           eventType: eventType,
-          refusedType: refusedTypeString,
-          refusedMessage: refusedMessageString
+          refusedType: refusedType,
+          refusedMessage: refusedMessage
         },
         token: fcmTokenRefused
       }
 
+      console.log(payload)
       // Send a message to the device corresponding to the provided
       // registration token.
       admin.messaging().send(payload)

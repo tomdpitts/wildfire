@@ -1932,7 +1932,7 @@
         <!--Account2 View Controller-->
         <scene sceneID="uzV-4S-pAA">
             <objects>
-                <tableViewController id="4T3-Q5-YEd" userLabel="Account2 View Controller" customClass="Account2ViewController" customModule="Wildfire1_1" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="accountVC" id="4T3-Q5-YEd" userLabel="Account2 View Controller" customClass="Account2ViewController" customModule="Wildfire1_1" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="Wfq-4C-l1H">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -2429,11 +2429,11 @@
             <objects>
                 <viewController modalPresentationStyle="fullScreen" id="xal-Cf-0cP" customClass="PhoneViewController" customModule="Wildfire1_1" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="IQk-SR-yQZ">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="548"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Mobile number" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="GZT-gZ-ufH">
-                                <rect key="frame" x="50" y="76" width="220" height="50"/>
+                                <rect key="frame" x="50" y="64" width="220" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="nAp-fL-csJ"/>
                                 </constraints>
@@ -2446,7 +2446,7 @@
                                 </userDefinedRuntimeAttributes>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J6X-9D-j2g">
-                                <rect key="frame" x="60" y="186" width="200" height="50"/>
+                                <rect key="frame" x="60" y="174" width="200" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="200" id="8yA-MU-JE4"/>
                                     <constraint firstAttribute="height" constant="50" id="F3x-K5-1h6"/>
@@ -2485,11 +2485,11 @@
             <objects>
                 <viewController modalPresentationStyle="fullScreen" id="ulI-eW-qCk" customClass="VerificationCodeViewController" customModule="Wildfire1_1" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="FY8-Zg-YSQ">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="548"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6RR-Up-5I0">
-                                <rect key="frame" x="60" y="186" width="200" height="50"/>
+                                <rect key="frame" x="60" y="174" width="200" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="50" id="DA7-KT-X6t"/>
                                     <constraint firstAttribute="height" constant="50" id="TaJ-mW-Dw0"/>
@@ -2501,7 +2501,7 @@
                                 </connections>
                             </button>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Verification code" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="RhF-xj-I3r">
-                                <rect key="frame" x="34.5" y="76" width="251" height="50"/>
+                                <rect key="frame" x="34.5" y="64" width="251" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="wfu-yx-fFD"/>
                                 </constraints>
@@ -4320,7 +4320,7 @@
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your ID has been accepted and you can now deposit funds to your bank account" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6W8-qQ-31O">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your ID has been accepted and you can now deposit funds to your bank account." textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6W8-qQ-31O">
                                         <rect key="frame" x="11.5" y="196" width="277.5" height="61"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="textColor"/>
@@ -4333,7 +4333,6 @@
                                         </constraints>
                                         <state key="normal" title="Ok"/>
                                         <connections>
-                                            <action selector="doneButtonTapped:" destination="ESv-KW-pJ8" eventType="touchUpInside" id="1Zu-mZ-5kZ"/>
                                             <action selector="okTapped:" destination="ESv-KW-pJ8" eventType="touchUpInside" id="rwD-vH-wrT"/>
                                         </connections>
                                     </button>
@@ -4354,7 +4353,6 @@
                     </view>
                     <navigationItem key="navigationItem" title="Account Added" largeTitleDisplayMode="always" id="dG2-LK-4Xy"/>
                     <connections>
-                        <outlet property="doneButton" destination="XNu-F4-DMX" id="MHm-wv-Ieq"/>
                         <outlet property="okButton" destination="XNu-F4-DMX" id="qWf-Y4-lL9"/>
                         <segue destination="zYr-Sb-YkS" kind="unwind" identifier="unwindToPrevious" unwindAction="unwindToPrevious:" id="uEW-dR-aoa"/>
                     </connections>
@@ -4443,6 +4441,7 @@
                         <outlet property="backToHomeButton" destination="iKr-pz-Vtf" id="R0a-10-6hd"/>
                         <outlet property="newImageButton" destination="LWi-TF-9Uy" id="Ihl-c8-lqd"/>
                         <outlet property="refusedReasonTextView" destination="mu5-rs-Dto" id="tO4-Sd-mjl"/>
+                        <outlet property="titleLabel" destination="qcN-WX-wjO" id="vFY-Ke-w8p"/>
                         <segue destination="b3n-2K-Q49" kind="unwind" identifier="unwindToPrevious" unwindAction="unwindToPrevious:" id="2pj-jh-GGe"/>
                     </connections>
                 </viewController>
@@ -4498,13 +4497,13 @@
         <image name="icons8-right-button-100" width="50" height="50"/>
         <image name="logo Wildfire vertical-1" width="1282" height="1247.5"/>
         <namedColor name="tealPrimary">
-            <color red="0.18068996070000001" green="0.76580256219999998" blue="0.78049224620000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.1809999942779541" green="0.76599997282028198" blue="0.77999997138977051" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="hWh-Xd-ZQz"/>
         <segue reference="Huo-pa-P2i"/>
-        <segue reference="Ew7-LD-xpa"/>
+        <segue reference="77W-hC-y4a"/>
         <segue reference="KNr-jR-5zd"/>
         <segue reference="bGq-l6-Or3"/>
         <segue reference="Vbf-Fn-Yes"/>

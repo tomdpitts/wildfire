@@ -167,6 +167,50 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         // Print full message.
 //        print(userInfo)
         
+        guard let eventType = userInfo["eventType"] as? String else { return }
+        
+        let mainStoryboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        
+        if eventType == "KYC_SUCCEEDED" {
+            if let controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "IDVerified") as? OutcomeIDVerifiedViewController {
+                if let window = self.window, let rootViewController = window.rootViewController {
+                    var currentController = rootViewController
+                    while let presentedController = currentController.presentedViewController {
+                        currentController = presentedController
+                    }
+                    currentController.present(controller, animated: true, completion: nil)
+                }
+            }
+            
+        } else if eventType == "KYC_FAILED" {
+            
+            guard let refusedMessage = userInfo["refusedMessage"] as? String else {
+                print("no message")
+                return
+                
+            }
+            guard let refusedType = userInfo["refusedType"] as? String else {
+                print("no type")
+                return
+                
+            }
+            
+            UserDefaults.standard.set(refusedMessage, forKey: "refusedMessage")
+            UserDefaults.standard.set(refusedType, forKey: "refusedType")
+            
+            
+            if let controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "IDRefused") as? OutcomeIDRefusedViewController {
+                if let window = self.window, let rootViewController = window.rootViewController {
+                    var currentController = rootViewController
+                    while let presentedController = currentController.presentedViewController {
+                        currentController = presentedController
+                    }
+                    currentController.present(controller, animated: true, completion: nil)
+                }
+            }
+            
+        }
+        
         if let refusedType = userInfo["refusedType"] as? String {
             print(refusedType)
         }
