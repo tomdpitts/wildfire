@@ -2556,7 +2556,7 @@
         <!--Account-->
         <scene sceneID="vKr-hU-IfU">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="PyJ-Ps-24F" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="accountNavController" automaticallyAdjustsScrollViewInsets="NO" id="PyJ-Ps-24F" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Account" image="icons8-encrypt-50" id="4H4-bh-m9b"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="jGA-If-hG9">
@@ -3332,7 +3332,7 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <state key="normal" title="Continue"/>
                                         <connections>
-                                            <segue destination="pub-UR-8Gm" kind="show" id="Mo7-R3-Sev"/>
+                                            <segue destination="0Qh-MV-h5V" kind="show" id="Mo7-R3-Sev"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -3434,7 +3434,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oN7-0v-WAK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5973.6000000000004" y="1125.7871064467768"/>
+            <point key="canvasLocation" x="6769" y="1125"/>
         </scene>
         <!--Passport Image-->
         <scene sceneID="AOA-0o-NDf">
@@ -3522,22 +3522,19 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="25" translatesAutoresizingMaskIntoConstraints="NO" id="fiJ-OH-VcC">
-                                <rect key="frame" x="10" y="55" width="300" height="458"/>
+                                <rect key="frame" x="10" y="92.5" width="300" height="383"/>
                                 <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icons8-ok-480" translatesAutoresizingMaskIntoConstraints="NO" id="lfX-ee-Tt9">
-                                        <rect key="frame" x="30" y="0.0" width="240" height="175"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="175" id="5UO-bu-Rp2"/>
-                                        </constraints>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icons8-order-history-100.png" translatesAutoresizingMaskIntoConstraints="NO" id="lfX-ee-Tt9">
+                                        <rect key="frame" x="100" y="0.0" width="100" height="100"/>
                                     </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Success!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ML7-lT-nZO">
-                                        <rect key="frame" x="91" y="200" width="118" height="36"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Upload success" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ML7-lT-nZO">
+                                        <rect key="frame" x="47.5" y="125" width="205.5" height="36"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your document has been submitted for verification.  Please allow up to 2 business days. You'll be notified when this is done." textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mle-LI-cmV">
-                                        <rect key="frame" x="50" y="261" width="200" height="122"/>
+                                        <rect key="frame" x="50" y="186" width="200" height="122"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="200" id="Vks-Jf-gWS"/>
                                         </constraints>
@@ -3546,13 +3543,13 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="f4w-jU-lMI">
-                                        <rect key="frame" x="20" y="408" width="260" height="50"/>
+                                        <rect key="frame" x="20" y="333" width="260" height="50"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="tHT-QN-wl9"/>
                                         </constraints>
                                         <state key="normal" title="Done"/>
                                         <connections>
-                                            <segue destination="STr-am-w1Y" kind="unwind" unwindAction="unwindToAccountView:" id="hDM-xe-8IA"/>
+                                            <action selector="doneTapped:" destination="Nfh-Rr-8gB" eventType="touchUpInside" id="DXK-VO-KfL"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -3576,9 +3573,8 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uJP-ZC-kfe" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-                <exit id="STr-am-w1Y" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="8526" y="888"/>
+            <point key="canvasLocation" x="9523.125" y="887.32394366197184"/>
         </scene>
         <!--Bank Account Info-->
         <scene sceneID="xci-f2-AP9">
@@ -4225,7 +4221,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="slT-BE-Gqm" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="6838" y="1125"/>
+            <point key="canvasLocation" x="7534" y="1125"/>
         </scene>
         <!--Back-->
         <scene sceneID="bG5-CU-QLQ">
@@ -4302,7 +4298,177 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XTs-Bq-9Ox" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="7682" y="1125"/>
+            <point key="canvasLocation" x="8334" y="1125"/>
+        </scene>
+        <!--Account Added-->
+        <scene sceneID="QEg-QB-s2h">
+            <objects>
+                <viewController storyboardIdentifier="IDVerified" id="ESv-KW-pJ8" customClass="OutcomeIDVerifiedViewController" customModule="Wildfire1_1" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="sUi-rD-pwF">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="WsD-kS-WPn">
+                                <rect key="frame" x="10" y="115.5" width="300" height="337"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icons8-checked-identification-documents-100 (1).png" translatesAutoresizingMaskIntoConstraints="NO" id="sQg-pP-Ufm">
+                                        <rect key="frame" x="100" y="0.0" width="100" height="100"/>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ID Verified!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qzV-2t-mGr">
+                                        <rect key="frame" x="80" y="130" width="140.5" height="36"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your ID has been accepted and you can now deposit funds to your bank account" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6W8-qQ-31O">
+                                        <rect key="frame" x="11.5" y="196" width="277.5" height="61"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XNu-F4-DMX">
+                                        <rect key="frame" x="20" y="287" width="260" height="50"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="Xhj-cQ-pDu"/>
+                                        </constraints>
+                                        <state key="normal" title="Ok"/>
+                                        <connections>
+                                            <action selector="doneButtonTapped:" destination="ESv-KW-pJ8" eventType="touchUpInside" id="1Zu-mZ-5kZ"/>
+                                            <action selector="okTapped:" destination="ESv-KW-pJ8" eventType="touchUpInside" id="rwD-vH-wrT"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="XNu-F4-DMX" firstAttribute="leading" secondItem="WsD-kS-WPn" secondAttribute="leading" constant="20" symbolic="YES" id="Qmn-td-uXk"/>
+                                    <constraint firstAttribute="trailing" secondItem="XNu-F4-DMX" secondAttribute="trailing" constant="20" symbolic="YES" id="bSD-Ij-7Tu"/>
+                                    <constraint firstAttribute="width" constant="300" id="eiG-7V-N4e"/>
+                                </constraints>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="WsD-kS-WPn" firstAttribute="centerX" secondItem="sUi-rD-pwF" secondAttribute="centerX" id="F9R-8t-EXD"/>
+                            <constraint firstItem="WsD-kS-WPn" firstAttribute="centerY" secondItem="sUi-rD-pwF" secondAttribute="centerY" id="qmk-sH-kzX"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="XW5-45-XF4"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Account Added" largeTitleDisplayMode="always" id="dG2-LK-4Xy"/>
+                    <connections>
+                        <outlet property="doneButton" destination="XNu-F4-DMX" id="MHm-wv-Ieq"/>
+                        <outlet property="okButton" destination="XNu-F4-DMX" id="qWf-Y4-lL9"/>
+                        <segue destination="zYr-Sb-YkS" kind="unwind" identifier="unwindToPrevious" unwindAction="unwindToPrevious:" id="uEW-dR-aoa"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="1fp-V1-2ed" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="zYr-Sb-YkS" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="9521" y="125"/>
+        </scene>
+        <!--Account Added-->
+        <scene sceneID="oXn-Qr-VTF">
+            <objects>
+                <viewController storyboardIdentifier="IDRefused" id="cfh-Mg-Ju6" customClass="OutcomeIDRefusedViewController" customModule="Wildfire1_1" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="gnO-EF-MoN">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="xAI-Q6-S9h">
+                                <rect key="frame" x="10" y="54" width="300" height="460"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icons8-identification-documents-error-100" translatesAutoresizingMaskIntoConstraints="NO" id="Grw-X0-dbG">
+                                        <rect key="frame" x="100" y="0.0" width="100" height="100"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="100" id="i4C-UT-twj"/>
+                                            <constraint firstAttribute="width" constant="100" id="sVC-qI-dGy"/>
+                                        </constraints>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ID Verification" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qcN-WX-wjO">
+                                        <rect key="frame" x="60.5" y="130" width="179" height="36"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Unfortunately your ID could not be accepted." textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HQU-PF-zvN">
+                                        <rect key="frame" x="28" y="196" width="244.5" height="41"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" scrollEnabled="NO" text="Refused Reason" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="mu5-rs-Dto">
+                                        <rect key="frame" x="93" y="267" width="114.5" height="33"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                        <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    </textView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LWi-TF-9Uy">
+                                        <rect key="frame" x="20" y="330" width="260" height="50"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="nB7-Gv-Tc4"/>
+                                        </constraints>
+                                        <state key="normal" title="Try a new image"/>
+                                        <connections>
+                                            <action selector="newImageButtonTapped:" destination="cfh-Mg-Ju6" eventType="touchUpInside" id="9qS-Qv-7tT"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iKr-pz-Vtf">
+                                        <rect key="frame" x="20" y="410" width="260" height="50"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="CEw-SW-r2e"/>
+                                        </constraints>
+                                        <state key="normal" title="Back to home"/>
+                                        <connections>
+                                            <action selector="backToHomeButtonTapped:" destination="cfh-Mg-Ju6" eventType="touchUpInside" id="i6l-SQ-c7w"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="LWi-TF-9Uy" firstAttribute="leading" secondItem="xAI-Q6-S9h" secondAttribute="leading" constant="20" symbolic="YES" id="G6r-zl-uhz"/>
+                                    <constraint firstItem="iKr-pz-Vtf" firstAttribute="height" secondItem="LWi-TF-9Uy" secondAttribute="height" id="Hdk-QE-5ag"/>
+                                    <constraint firstAttribute="width" constant="300" id="QLf-lp-J23"/>
+                                    <constraint firstItem="iKr-pz-Vtf" firstAttribute="width" secondItem="LWi-TF-9Uy" secondAttribute="width" id="Zai-0v-cn2"/>
+                                    <constraint firstAttribute="trailing" secondItem="LWi-TF-9Uy" secondAttribute="trailing" constant="20" symbolic="YES" id="vh1-nz-Zbq"/>
+                                </constraints>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="xAI-Q6-S9h" firstAttribute="centerX" secondItem="gnO-EF-MoN" secondAttribute="centerX" id="erS-t7-dTO"/>
+                            <constraint firstItem="xAI-Q6-S9h" firstAttribute="centerY" secondItem="gnO-EF-MoN" secondAttribute="centerY" id="z6F-3C-qe2"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="OC2-lc-po3"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Account Added" largeTitleDisplayMode="always" id="MLU-cP-80S"/>
+                    <connections>
+                        <outlet property="backToHomeButton" destination="iKr-pz-Vtf" id="R0a-10-6hd"/>
+                        <outlet property="newImageButton" destination="LWi-TF-9Uy" id="Ihl-c8-lqd"/>
+                        <outlet property="refusedReasonTextView" destination="mu5-rs-Dto" id="tO4-Sd-mjl"/>
+                        <segue destination="b3n-2K-Q49" kind="unwind" identifier="unwindToPrevious" unwindAction="unwindToPrevious:" id="2pj-jh-GGe"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="uoA-yO-CXJ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="b3n-2K-Q49" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="9523" y="1638"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="ehl-T0-rKq">
+            <objects>
+                <navigationController storyboardIdentifier="KYCNavController" automaticallyAdjustsScrollViewInsets="NO" id="0Qh-MV-h5V" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" id="Fzc-4s-6h0"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="v9M-NV-2Ab">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="pub-UR-8Gm" kind="relationship" relationship="rootViewController" id="2hz-Ta-zr3"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="OVX-aY-pZA" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="6004" y="1125"/>
         </scene>
     </scenes>
     <resources>
@@ -4319,6 +4485,7 @@
         <image name="icons8-hand-peace-50" width="25" height="25"/>
         <image name="icons8-headstone-50" width="25" height="25"/>
         <image name="icons8-identification-documents-100 (1)" width="50" height="50"/>
+        <image name="icons8-identification-documents-error-100" width="50" height="50"/>
         <image name="icons8-mastercard-credit-card-100" width="100" height="100"/>
         <image name="icons8-money-50" width="25" height="25"/>
         <image name="icons8-ok-480" width="240" height="240"/>
