@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import BATabBarController
 
 class PayViewController: UIViewController {
     
@@ -22,6 +21,7 @@ class PayViewController: UIViewController {
         navigationController?.navigationBar.prefersLargeTitles = true
         
         setUpElements()
+
         
     }
     
@@ -30,20 +30,16 @@ class PayViewController: UIViewController {
 //        navigationController?.setNavigationBarHidden(true, animated: animated)
 //    }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        navigationController?.setNavigationBarHidden(false, animated: animated)
-    }
+//    override func viewWillDisappear(_ animated: Bool) {
+//        super.viewWillDisappear(animated)
+//        navigationController?.setNavigationBarHidden(false, animated: animated)
+//    }
     
     @IBAction func unwindToPay(_ unwindSegue: UIStoryboardSegue) {
 //        let sourceViewController = unwindSegue.source
         // Use data from the view controller which initiated the unwind segue
     }
-//    // This next bit is supposed to stop the dang thing rotating in landscape mode, but doesn't seem to work
-//    override open var shouldAutorotate: Bool {
-//        return false
-//    }
-//
+
     
     func setUpElements() {
         
@@ -53,6 +49,12 @@ class PayViewController: UIViewController {
 
         gradientBackground()
 //        backgroundGradientView.layer.addSublayer(gradientLayer)
+        
+//        guard let icon = UIImage(named: "icons8-paper-plane-50") else { return }
+//        sendButton.setImage(icon, for: .normal)
+//        sendButton.imageView?.contentMode = .scaleAspectFit
+////        sendButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: 40, bottom: 0, right: 0)
+//        sendButton.
     }
     
     
@@ -62,7 +64,7 @@ class PayViewController: UIViewController {
         // Set the size of the layer to be equal to size of the display
         gradientLayer.frame = view.bounds
         // Set an array of Core Graphics colors (.cgColor) to create the gradient
-        gradientLayer.colors = [UIColor(hexString: "#000C40").cgColor, UIColor(hexString: "#F0F2F0").cgColor]
+        gradientLayer.colors = [Style.secondaryThemeColour.cgColor, Style.secondaryThemeColourHighlighted.cgColor]
 
 //        gradientLayer.locations = [0.0, 0.35]
         // Rasterize this static layer to improve app performance

@@ -1066,7 +1066,11 @@ exports.respondToEventRecord = functions.region('europe-west1').firestore.docume
     const status = kyc.Status
     const mangopayID = kyc.UserId
     const refusedType = kyc.RefusedReasonType.toString()
-    const refusedMessage = kyc.RefusedReasonMessage.toString()
+    var refusedMessage = ""
+    if (kyc.RefusedReasonMessage !== null) {
+      refusedMessage = kyc.RefusedReasonMessage.toString()
+    }
+
 
 
     if (status === "REFUSED") {

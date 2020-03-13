@@ -69,7 +69,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 //        fetchPaymentMethodsListFromMangopay()
 //        fetchBankAccountsListFromMangopay()
         redirect()
-        setupNavigationBarAppearance()
+//        setupNavigationBarAppearance()
         return true
     }
     // Update: no longer using Facebook integration for time being so parking this
@@ -169,9 +169,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         guard let eventType = userInfo["eventType"] as? String else { return }
         
-        let mainStoryboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+//        let mainStoryboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         
         if eventType == "KYC_SUCCEEDED" {
+            
+            UserDefaults.standard.set(false, forKey: "KYCWasRefused")
+            UserDefaults.standard.set(false, forKey: "KYCPending")
+            UserDefaults.standard.set(true, forKey: "KYCVerified")
+            
+            
             if let controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "IDVerified") as? OutcomeIDVerifiedViewController {
                 if let window = self.window, let rootViewController = window.rootViewController {
                     var currentController = rootViewController
@@ -183,6 +189,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             }
             
         } else if eventType == "KYC_FAILED" {
+            
+            UserDefaults.standard.set(true, forKey: "KYCWasRefused")
+            UserDefaults.standard.set(false, forKey: "KYCPending")
+            UserDefaults.standard.set(false, forKey: "KYCVerified")
             
             guard let refusedMessage = userInfo["refusedMessage"] as? String else {
                 print("no message")
@@ -199,7 +209,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             UserDefaults.standard.set(refusedType, forKey: "refusedType")
             
             
-            if let controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "IDRefused") as? OutcomeIDRefusedViewController {
+            if let controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "IDRefused") as? UIViewController {
                 if let window = self.window, let rootViewController = window.rootViewController {
                     var currentController = rootViewController
                     while let presentedController = currentController.presentedViewController {
@@ -377,18 +387,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 //        ]
 //        UINavigationBar.appearance().titleTextAttributes = navbarTitleAtt
         
-        if #available(iOS 13.0, *) {
-            let navBarAppearance = UINavigationBarAppearance()
-            navBarAppearance.configureWithTransparentBackground()
-            navBarAppearance.titleTextAttributes = [.foregroundColor: UIColor.white]
-            navBarAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
-//            navBarAppearance.backgroundColor = Style.secondaryThemeColour
-
-            UINavigationBar.appearance().standardAppearance = navBarAppearance
-            UINavigationBar.appearance().scrollEdgeAppearance = navBarAppearance
-            
-            
-        }
+//        if #available(iOS 13.0, *) {
+//            let navBarAppearance = UINavigationBarAppearance()
+//            navBarAppearance.configureWithDefaultBackground()
+////            navBarAppearance.configureWithTransparentBackground()
+//            navBarAppearance.titleTextAttributes = [.foregroundColor: UIColor.white]
+//            navBarAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
+////            navBarAppearance.backgroundColor = Style.secondaryThemeColour
+//
+//            UINavigationBar.appearance().standardAppearance = navBarAppearance
+//            UINavigationBar.appearance().scrollEdgeAppearance = navBarAppearance
+//            
+//            
+//        }
     }
 }
 

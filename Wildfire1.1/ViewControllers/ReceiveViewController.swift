@@ -71,6 +71,8 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(DismissKeyboard))
         view.addGestureRecognizer(tap)
         
+        gradientBackground()
+        
     }
     
     @IBAction func amountChanged(_ sender: Any) {
@@ -292,6 +294,21 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
         }
 
         return isNumeric && numberOfDots <= 1 && numberOfDecimalDigits <= 2
-    }  
+    }
+    
+    func gradientBackground() {
+        // Create a gradient layer
+        let gradientLayer = CAGradientLayer()
+        // Set the size of the layer to be equal to size of the display
+        gradientLayer.frame = view.bounds
+        // Set an array of Core Graphics colors (.cgColor) to create the gradient
+        gradientLayer.colors = [Style.secondaryThemeColour.cgColor, Style.secondaryThemeColourHighlighted.cgColor]
+
+//        gradientLayer.locations = [0.0, 0.35]
+        // Rasterize this static layer to improve app performance
+        gradientLayer.shouldRasterize = true
+        // Apply the gradient to the backgroundGradientView
+        self.view.layer.insertSublayer(gradientLayer, at: 0)
+    }
 }
 

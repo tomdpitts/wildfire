@@ -26,10 +26,16 @@ class KYCSuccessViewController: UIViewController {
             Utilities.styleHollowButton(doneButton)
         }
     }
+    
     @IBAction func doneTapped(_ sender: Any) {
         
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyboard.instantiateViewController(withIdentifier: "accountNavController") as! UINavigationController
-        self.present(vc, animated: true, completion: nil)
+        if self.isBeingPresented {
+            self.dismiss(animated: true, completion: nil)
+        
+        } else {
+            self.performSegue(withIdentifier: "unwindToAccountView", sender: self)
+        }
+        
+        
     }
 }

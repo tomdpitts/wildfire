@@ -50,7 +50,7 @@ class Account2ViewController: UITableViewController {
             noAccountYetCell.isHidden = true
         }
         
-
+        
     }
     
 //    override func viewWillDisappear(_ animated: Bool) {
@@ -286,6 +286,22 @@ class Account2ViewController: UITableViewController {
         UserDefaults.standard.removePersistentDomain(forName: domain)
         UserDefaults.standard.synchronize()
         print(Array(UserDefaults.standard.dictionaryRepresentation().keys).count)
+    }
+    
+    
+    func gradientBackground() {
+        // Create a gradient layer
+        let gradientLayer = CAGradientLayer()
+        // Set the size of the layer to be equal to size of the display
+        gradientLayer.frame = view.bounds
+        // Set an array of Core Graphics colors (.cgColor) to create the gradient
+        gradientLayer.colors = [Style.secondaryThemeColour.cgColor, Style.secondaryThemeColourHighlighted.cgColor]
+
+//        gradientLayer.locations = [0.0, 0.35]
+        // Rasterize this static layer to improve app performance
+        gradientLayer.shouldRasterize = true
+        // Apply the gradient to the backgroundGradientView
+        self.view.layer.insertSublayer(gradientLayer, at: 0)
     }
     
     @IBAction func unwindToPrevious(_ unwindSegue: UIStoryboardSegue) {

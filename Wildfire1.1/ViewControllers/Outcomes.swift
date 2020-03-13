@@ -15,6 +15,9 @@ class OutcomeIDVerifiedViewController: UIViewController {
     @IBOutlet weak var okButton: UIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        navigationItem.title = "Profile Picture"
+        navigationController?.navigationBar.prefersLargeTitles = false
 
         Utilities.styleHollowButton(okButton)
     }
@@ -36,6 +39,9 @@ class OutcomeIDRefusedViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        navigationItem.title = "Profile Picture"
+        navigationController?.navigationBar.prefersLargeTitles = false
         
         Utilities.styleHollowButton(newImageButton)
         Utilities.styleHollowButton(backToHomeButton)
@@ -78,9 +84,10 @@ class OutcomeIDRefusedViewController: UIViewController {
     }
     
     @IBAction func newImageButtonTapped(_ sender: Any) {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyboard.instantiateViewController(withIdentifier: "KYCNavController") as! UINavigationController
-        self.present(vc, animated: true, completion: nil)
+        self.performSegue(withIdentifier: "retryKYC", sender: self)
+//        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+//        let vc = storyboard.instantiateViewController(withIdentifier: "KYCNavController") as! UINavigationController
+//        self.present(vc, animated: true, completion: nil)
     }
     
     @IBAction func backToHomeButtonTapped(_ sender: Any) {

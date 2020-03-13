@@ -42,10 +42,11 @@ class BankDetailViewController: UIViewController {
         Utilities.styleHollowButton(makeDepositButton)
         Utilities.styleHollowButtonRED(deleteButton)
         
-        // TODO - TAKE THIS OUT! FOR TESTING ONLY
-//        navigationItem.title = "Account Details"
-//        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationItem.title = "Account Details"
+        navigationController?.navigationBar.prefersLargeTitles = true
         
+        // TODO - TAKE THIS OUT! FOR TESTING ONLY
+
         UserDefaults.standard.set(false, forKey: "KYCPending")
         UserDefaults.standard.set(false, forKey: "KYCVerified")
         
