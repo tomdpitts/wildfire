@@ -386,19 +386,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 //            NSAttributedString.Key.foregroundColor: UIColor.white
 //        ]
 //        UINavigationBar.appearance().titleTextAttributes = navbarTitleAtt
-        
+//
 //        if #available(iOS 13.0, *) {
 //            let navBarAppearance = UINavigationBarAppearance()
-//            navBarAppearance.configureWithDefaultBackground()
+//            navBarAppearance.
 ////            navBarAppearance.configureWithTransparentBackground()
 //            navBarAppearance.titleTextAttributes = [.foregroundColor: UIColor.white]
 //            navBarAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
 ////            navBarAppearance.backgroundColor = Style.secondaryThemeColour
 //
+//            UINavigationBar.appearance().s
 //            UINavigationBar.appearance().standardAppearance = navBarAppearance
 //            UINavigationBar.appearance().scrollEdgeAppearance = navBarAppearance
-//            
-//            
+//
+//
 //        }
     }
 }

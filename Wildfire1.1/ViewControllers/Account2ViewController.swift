@@ -42,13 +42,18 @@ class Account2ViewController: UITableViewController {
         navigationItem.title = "Account"
         navigationController?.navigationBar.prefersLargeTitles = true
         
-        tableView.tableFooterView = UIView()
-        tableView.backgroundColor = .groupTableViewBackground
+        // TODO roll this out across the board?
+        tableView.backgroundView = GradientView()
+        tableView.tableFooterView = GradientView()
+        
+//        tableView.backgroundColor = .groupTableViewBackground
         
         // we only need this cell if there's no account yet
         if UserDefaults.standard.bool(forKey: "userAccountExists") == true {
             noAccountYetCell.isHidden = true
         }
+        
+//        gradientBackground()
         
         
     }
