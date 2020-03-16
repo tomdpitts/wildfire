@@ -71,7 +71,7 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(DismissKeyboard))
         view.addGestureRecognizer(tap)
         
-        gradientBackground()
+//        gradientBackground()
         
     }
     

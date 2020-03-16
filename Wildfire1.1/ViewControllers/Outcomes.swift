@@ -16,7 +16,7 @@ class OutcomeIDVerifiedViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationItem.title = "Profile Picture"
+        navigationItem.title = "Verification Outcome"
         navigationController?.navigationBar.prefersLargeTitles = false
 
         Utilities.styleHollowButton(okButton)
@@ -39,9 +39,6 @@ class OutcomeIDRefusedViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        navigationItem.title = "Profile Picture"
-        navigationController?.navigationBar.prefersLargeTitles = false
         
         Utilities.styleHollowButton(newImageButton)
         Utilities.styleHollowButton(backToHomeButton)

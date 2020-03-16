@@ -47,7 +47,8 @@ class PayViewController: UIViewController {
         Utilities.styleHollowButton(scanButton)
         
 
-        gradientBackground()
+//        gradientBackground()
+        
 //        backgroundGradientView.layer.addSublayer(gradientLayer)
         
 //        guard let icon = UIImage(named: "icons8-paper-plane-50") else { return }

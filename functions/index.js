@@ -1129,6 +1129,99 @@ exports.respondToEventRecord = functions.region('europe-west1').firestore.docume
       helpers.moveEventRecordTo(eventType, 'KYCWasNotRefused', eventRecord, resourceID, true)
 
     }
+  } else if (eventType === "TRANSFER_NORMAL_SUCCEEDED") {
+
+    // use the resourceID to get the relevant object
+    const kyc = await mpAPI.Transfers.get(resourceID)
+    console.log(kyc)
+
+    // // we need two things - the status (to check that the doc is validated and also to ensure the request didn't come from a 3rd party), and the mangopayID to send a notification to the correct device and user
+    // const status = kyc.Status
+    // const mangopayID = kyc.UserId
+
+
+    // if (status === "VALIDATED") {
+
+    //   // this will hold the correct token for the user, once it's found in the database
+    //   var fcmTokenX = ""
+
+    //   // search for the user with that mangopayID
+    //   await db.collection('users').where('mangopayID', '==', mangopayID).get().then(snapshot => {
+
+    //     if (snapshot.empty) {
+
+    //       helpers.moveEventRecordTo(eventType, 'couldNotFindMangopayID', eventRecord, resourceID)
+
+    //     } else {
+    //       // there should only be one user returned by the .where() function
+    //       snapshot.forEach(doc => {
+    //         const data = doc.data()
+    //         fcmToken = data.fcmToken
+    //       })
+    //     }
+    //     return 
+    //   }).catch(err => {
+
+    //     helpers.moveEventRecordTo(eventType, 'couldNotFetchUsers', eventRecord, resourceID, false, err)
+
+    //   }) 
+
+    //   // Notification details.
+    //   const payload = {
+    //     notification: {
+    //       title: 'Your ID has been verified!',
+    //       body: 'You can now deposit funds to your bank account'
+    //       // icon: photoURL
+    //     },
+    //     data: {
+    //       eventType: eventType
+    //     },
+    //     token: fcmToken
+    //   }
+
+    //   // Send a message to the device corresponding to the provided
+    //   // registration token.
+    //   admin.messaging().send(payload)
+    //     .then((response) => {
+    //       // let deleteDoc = db.collection('events').doc(eventType).collection('eventQueue').doc(eventRecord).delete()
+    //       helpers.moveEventRecordTo(eventType,'successful',eventRecord,resourceID, false,'testing')
+    //       return
+    //   })
+    //   .catch((err) => {
+
+    //     helpers.moveEventRecordTo(eventType, 'failedToSendNotification', eventRecord, resourceID, false, err)
+
+    //     // // add the eventRecord to the failedToSend log
+    //     // db.collection('events').doc(eventType).collection('failedToSend').doc(eventRecord).set({
+    //     //   eventType: eventType,
+    //     //   resourceID: resourceID
+    //     // })
+
+    //     // // and delete it from the eventQueue
+    //     // db.collection('events').doc(eventType).collection('eventQueue').doc(eventRecord).delete()
+
+    //   })
+    // } else {
+
+    //   // this means we received a ping to tell us validation was successful, but upon closer inspection, the status of the KYC doc is not VALIDATED. Hopefully this will never happen.
+
+    //   helpers.moveEventRecordTo(eventType, 'KYCWasNotValidated', eventRecord, resourceID, true)
+
+    //   // // add the eventRecord to the KYCWasNotValidated log
+    //   // db.collection('events').doc(eventType).collection('KYCWasNotValidated').doc(eventRecord).set({
+    //   //   eventType: eventType,
+    //   //   resourceID: resourceID
+    //   // })
+
+    //   // // add the eventRecord to the strangerThings log
+    //   // db.collection('strangerThings').doc(eventType).collection('KYCWasNotValidated').doc(eventRecord).set({
+    //   //   eventType: eventType,
+    //   //   resourceID: resourceID
+    //   // })
+
+    //   // // and delete it from the eventQueue
+    //   // db.collection('events').doc(eventType).collection('eventQueue').doc(eventRecord).delete()
+    // }
   }
 })
 

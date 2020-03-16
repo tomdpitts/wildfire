@@ -11,8 +11,14 @@ import UIKit
 class BankDetailViewController: UIViewController {
     
     var bankAccount: BankAccount?
+    
+    let KYCVerified = UserDefaults.standard.bool(forKey: "KYCVerified")
+    let KYCPending = UserDefaults.standard.bool(forKey: "KYCPending")
+    let KYCRefused = UserDefaults.standard.bool(forKey: "KYCRefused")
 
     @IBOutlet weak var KYCPendingView: UIView!
+    @IBOutlet weak var KYCPendingImage: UIImageView!
+    @IBOutlet weak var KYCPendingButton: UIButton!
     
     @IBOutlet weak var accountOwnerLabel: UILabel!
     @IBOutlet weak var IBANLabel: UILabel!
@@ -45,24 +51,37 @@ class BankDetailViewController: UIViewController {
         navigationItem.title = "Account Details"
         navigationController?.navigationBar.prefersLargeTitles = true
         
+        KYCPendingView.isHidden = true
+        
         // TODO - TAKE THIS OUT! FOR TESTING ONLY
 
-        UserDefaults.standard.set(false, forKey: "KYCPending")
-        UserDefaults.standard.set(false, forKey: "KYCVerified")
+//        UserDefaults.standard.set(false, forKey: "KYCPending")
+//        UserDefaults.standard.set(false, forKey: "KYCVerified")
+//        UserDefaults.standard.set(true, forKey: "KYCRefused")
         
-        if UserDefaults.standard.bool(forKey: "KYCPending") != true { 
-            KYCPendingView.isHidden = true
+        if KYCPending == true {
+            KYCPendingView.isHidden = false
+        } else if KYCRefused == true {
+            KYCPendingImage.image = UIImage(named: "icons8-identification-documents-error-100")
+            KYCPendingButton.setTitle("ID was refused - please try again", for: .normal)
+            KYCPendingView.isHidden = false
         }
     }
-
-    @IBAction func makeDepositTapped(_ sender: Any) {
-        
-        let KYCVerified = UserDefaults.standard.bool(forKey: "KYCVerified")
-        let KYCPending = UserDefaults.standard.bool(forKey: "KYCPending")
-        
+    @IBAction func KYCPendingButtonTapped(_ sender: Any) {
         
         if KYCPending == true {
             performSegue(withIdentifier: "showPendingView", sender: self)
+        } else if KYCRefused == true {
+                performSegue(withIdentifier: "showKYCRefused", sender: self)
+        }
+    }
+    
+    @IBAction func makeDepositTapped(_ sender: Any) {
+        
+        if KYCPending == true {
+            performSegue(withIdentifier: "showPendingView", sender: self)
+        } else if KYCRefused == true {
+            performSegue(withIdentifier: "showKYCRefused", sender: self)
         } else {
             if KYCVerified == true {
                 performSegue(withIdentifier: "showDepositAmountView", sender: self)
