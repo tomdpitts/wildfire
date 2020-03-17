@@ -27,7 +27,8 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
     var videoPreviewLayer:AVCaptureVideoPreviewLayer?
     var qrCodeFrameView:UIView?
     
-//    var ref:DatabaseReference?
+    @IBOutlet weak var cancelButton: UIButton!
+    //    var ref:DatabaseReference?
     
     //setup variable to retrieve and display account balance at all times
     var receivable: Int = 0
@@ -67,6 +68,8 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        Utilities.styleHollowButton(cancelButton)
         
         if #available(iOS 13.0, *) {
             let appearance = UINavigationBarAppearance()
@@ -130,6 +133,7 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
             videoPreviewLayer = AVCaptureVideoPreviewLayer(session: captureSession!)
             videoPreviewLayer?.videoGravity = AVLayerVideoGravity.resizeAspectFill
             videoPreviewLayer?.frame = view.layer.bounds
+            videoPreviewLayer?.zPosition = -1
             view.layer.addSublayer(videoPreviewLayer!)
             
             
@@ -255,6 +259,9 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
         } else {
             return false
         }
+    }
+    @IBAction func cancelButtonTapped(_ sender: Any) {
+        self.dismiss(animated: true, completion: nil)
     }
     
     @IBAction func unwindToPrevious(_ unwindSegue: UIStoryboardSegue) {

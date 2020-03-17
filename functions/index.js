@@ -460,7 +460,8 @@ exports.addCredit = functions.region('europe-west1').https.onCall( async (data, 
   const currencyType = data.currency
   const amount = data.amount
   // the fee to be taken should be an integer, since the amount is in cents/pence
-  const fee = Math.round(amount/100*1.8)
+  const fee = 20
+  // const fee = Math.round(amount/100*1.8)
 
   // using the Firebase userID (supplied via 'context' of the request), get the data we need for the payin 
   await admin.firestore().collection('users').doc(userID).get().then(doc => {
@@ -955,7 +956,7 @@ exports.events_FCHK4JM41QgvlwAqzUGHmD89JiH2f0
   }
 })
 
-// logic to handle what happens when a new eventRecord is created
+// function to handle what happens when a new eventRecord is created
 exports.respondToEventRecord = functions.region('europe-west1').firestore.document('events/{type}/eventQueue/{record}').onCreate(async (snap, context) => {
 
   const db = admin.firestore()
@@ -977,7 +978,7 @@ exports.respondToEventRecord = functions.region('europe-west1').firestore.docume
     if (status === "VALIDATED") {
 
       // this will hold the correct token for the user, once it's found in the database
-      var fcmToken = ""
+      var KYCValidatedNotificationToken = ""
 
       // search for the user with that mangopayID
       await db.collection('users').where('mangopayID', '==', mangopayID).get().then(snapshot => {
@@ -990,7 +991,7 @@ exports.respondToEventRecord = functions.region('europe-west1').firestore.docume
           // there should only be one user returned by the .where() function
           snapshot.forEach(doc => {
             const data = doc.data()
-            fcmToken = data.fcmToken
+            KYCValidatedNotificationToken = data.fcmToken
           })
         }
         return 
@@ -1010,13 +1011,15 @@ exports.respondToEventRecord = functions.region('europe-west1').firestore.docume
         data: {
           eventType: eventType
         },
-        token: fcmToken
+        token: KYCValidatedNotificationToken
       }
 
       // Send a message to the device corresponding to the provided
       // registration token.
       admin.messaging().send(payload)
         .then((response) => {
+          // TEMPORARILY MOVING RECORD INSTEAD OF DELETION - this can probably be switched back at some point
+
           // let deleteDoc = db.collection('events').doc(eventType).collection('eventQueue').doc(eventRecord).delete()
           helpers.moveEventRecordTo(eventType,'successful',eventRecord,resourceID, false,'testing')
           return
@@ -1025,15 +1028,6 @@ exports.respondToEventRecord = functions.region('europe-west1').firestore.docume
 
         helpers.moveEventRecordTo(eventType, 'failedToSendNotification', eventRecord, resourceID, false, err)
 
-        // // add the eventRecord to the failedToSend log
-        // db.collection('events').doc(eventType).collection('failedToSend').doc(eventRecord).set({
-        //   eventType: eventType,
-        //   resourceID: resourceID
-        // })
-
-        // // and delete it from the eventQueue
-        // db.collection('events').doc(eventType).collection('eventQueue').doc(eventRecord).delete()
-
       })
     } else {
 
@@ -1041,20 +1035,6 @@ exports.respondToEventRecord = functions.region('europe-west1').firestore.docume
 
       helpers.moveEventRecordTo(eventType, 'KYCWasNotValidated', eventRecord, resourceID, true)
 
-      // // add the eventRecord to the KYCWasNotValidated log
-      // db.collection('events').doc(eventType).collection('KYCWasNotValidated').doc(eventRecord).set({
-      //   eventType: eventType,
-      //   resourceID: resourceID
-      // })
-
-      // // add the eventRecord to the strangerThings log
-      // db.collection('strangerThings').doc(eventType).collection('KYCWasNotValidated').doc(eventRecord).set({
-      //   eventType: eventType,
-      //   resourceID: resourceID
-      // })
-
-      // // and delete it from the eventQueue
-      // db.collection('events').doc(eventType).collection('eventQueue').doc(eventRecord).delete()
     }
 
 
@@ -1076,7 +1056,7 @@ exports.respondToEventRecord = functions.region('europe-west1').firestore.docume
     if (status === "REFUSED") {
 
       // this will hold the correct token for the user, once it's found in the database
-      var fcmTokenRefused = ""
+      var KYCRefusedNotificationToken = ""
 
       // search for the user with that mangopayID
       await db.collection('users').where('mangopayID', '==', mangopayID).get().then(snapshot => {
@@ -1087,7 +1067,7 @@ exports.respondToEventRecord = functions.region('europe-west1').firestore.docume
           // there should only be one user returned by the .where() function
           snapshot.forEach(doc => {
             const data = doc.data()
-            fcmTokenRefused = data.fcmToken
+            KYCRefusedNotificationToken = data.fcmToken
           })
         }
         return 
@@ -1107,7 +1087,7 @@ exports.respondToEventRecord = functions.region('europe-west1').firestore.docume
           refusedType: refusedType,
           refusedMessage: refusedMessage
         },
-        token: fcmTokenRefused
+        token: KYCRefusedNotificationToken
       }
 
       console.log(payload)
@@ -1139,41 +1119,68 @@ exports.respondToEventRecord = functions.region('europe-west1').firestore.docume
     const creditorID = kyc.CreditorId
     const creditedFunds = kyc.CreditedFunds
     const currency = creditedFunds["Currency"]
-    const amount = creditedFunds["Amount"]
+    // amount is stored in cents/pence, so needs to be divided by 100
+    const centsAmount = parseFloat(creditedFunds["Amount"])
+    const amount = amount/100
 
-    //TODO FINISH THE TRANSFER_NORMAL_SUCCESSFUL FLOW
+    var authorName = ""
+    var creditorToken = ""
+
+    
+    // finding the authorID name
     // search for the user with that mangopayID
-    await db.collection('users').where('mangopayID', '==', mangopayID).get().then(snapshot => {
+    await db.collection('users').where('mangopayID', '==', authorID).get().then(snapshot => {
 
       if (snapshot.empty) {
 
-        helpers.moveEventRecordTo(eventType, 'couldNotFindMangopayID', eventRecord, resourceID)
+        helpers.moveEventRecordTo(eventType, 'couldNotFindAuthorID', eventRecord, resourceID)
 
       } else {
         // there should only be one user returned by the .where() function
         snapshot.forEach(doc => {
           const data = doc.data()
-          fcmToken = data.fcmToken
+          authorName = data.fullname
         })
       }
       return 
     }).catch(err => {
 
-      helpers.moveEventRecordTo(eventType, 'couldNotFetchUsers', eventRecord, resourceID, false, err)
+      helpers.moveEventRecordTo(eventType, 'couldNotFetchUsersToFindAuthorID', eventRecord, resourceID, false, err)
+
+    }) 
+    // finding the creditorID token
+    // search for the user with that mangopayID
+    await db.collection('users').where('mangopayID', '==', creditorID).get().then(snapshot => {
+
+      if (snapshot.empty) {
+
+        helpers.moveEventRecordTo(eventType, 'couldNotFindCreditorID', eventRecord, resourceID)
+
+      } else {
+        // there should only be one user returned by the .where() function
+        snapshot.forEach(doc => {
+          const data = doc.data()
+          creditorToken = data.fcmToken
+        })
+      }
+      return 
+    }).catch(err => {
+
+      helpers.moveEventRecordTo(eventType, 'couldNotFetchUsersToFindCreditorToken', eventRecord, resourceID, false, err)
 
     }) 
 
-    // Notification details.
+    // Notification details to be sent to the Creditor (not the author, who already knows about it)
     const payload = {
       notification: {
-        title: 'Your ID has been verified!',
-        body: 'You can now deposit funds to your bank account'
+        title: `You received ${currency}${amount} from ${authorName}!`,
+        body: 'Open the app to view receipt.'
         // icon: photoURL
       },
       data: {
         eventType: eventType
       },
-      token: fcmToken
+      token: creditorToken
     }
 
     // Send a message to the device corresponding to the provided
@@ -1188,45 +1195,7 @@ exports.respondToEventRecord = functions.region('europe-west1').firestore.docume
 
       helpers.moveEventRecordTo(eventType, 'failedToSendNotification', eventRecord, resourceID, false, err)
 
-      // // add the eventRecord to the failedToSend log
-      // db.collection('events').doc(eventType).collection('failedToSend').doc(eventRecord).set({
-      //   eventType: eventType,
-      //   resourceID: resourceID
-      // })
-
-      // // and delete it from the eventQueue
-      // db.collection('events').doc(eventType).collection('eventQueue').doc(eventRecord).delete()
-
     })
-
-
-    // if (status === "VALIDATED") {
-
-    //   // this will hold the correct token for the user, once it's found in the database
-    //   var fcmTokenX = ""
-
-    
-    // } else {
-
-    //   // this means we received a ping to tell us validation was successful, but upon closer inspection, the status of the KYC doc is not VALIDATED. Hopefully this will never happen.
-
-    //   helpers.moveEventRecordTo(eventType, 'KYCWasNotValidated', eventRecord, resourceID, true)
-
-    //   // // add the eventRecord to the KYCWasNotValidated log
-    //   // db.collection('events').doc(eventType).collection('KYCWasNotValidated').doc(eventRecord).set({
-    //   //   eventType: eventType,
-    //   //   resourceID: resourceID
-    //   // })
-
-    //   // // add the eventRecord to the strangerThings log
-    //   // db.collection('strangerThings').doc(eventType).collection('KYCWasNotValidated').doc(eventRecord).set({
-    //   //   eventType: eventType,
-    //   //   resourceID: resourceID
-    //   // })
-
-    //   // // and delete it from the eventQueue
-    //   // db.collection('events').doc(eventType).collection('eventQueue').doc(eventRecord).delete()
-    // }
   }
 })
 
