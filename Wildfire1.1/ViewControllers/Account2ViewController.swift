@@ -14,6 +14,8 @@ import Kingfisher
 
 class Account2ViewController: UITableViewController {
     
+    var justCompletedSignUp = false
+    
     var genericProfilePic = UIImage(named: "icons8-user-50")
     var balance: Int?
     var fullname: String?
@@ -31,7 +33,7 @@ class Account2ViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+                
         tableView.delegate = self
         
         if UserDefaults.standard.bool(forKey: "userAccountExists") == true {
@@ -44,8 +46,8 @@ class Account2ViewController: UITableViewController {
         
 //        // TODO roll this out across the board?
 //        tableView.backgroundView = GradientView()
-//        tableView.tableFooterView = GradientView()
         
+        tableView.tableFooterView = UIView()
         tableView.backgroundColor = .groupTableViewBackground
         
         // we only need this cell if there's no account yet
@@ -57,6 +59,17 @@ class Account2ViewController: UITableViewController {
         
         
     }
+    
+    // this exists only for the case where user has just completed sign up flow, and we want to refresh the account view. Without this code, user still only sees the 'set up account' tableview cell. In all other cases, justCompletedSignUp is false
+    override func viewWillAppear(_ animated: Bool) {
+        if justCompletedSignUp == true {
+            self.tableView.reloadData()
+            getUserInfo()
+            noAccountYetCell.isHidden = true
+            justCompletedSignUp = false
+        }
+    }
+
     
 //    override func viewWillDisappear(_ animated: Bool) {
 //        listener.remove()

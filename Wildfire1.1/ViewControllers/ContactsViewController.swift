@@ -45,7 +45,7 @@ class ContactsViewController: UITableViewController {
         let label = UILabel()
         label.backgroundColor = UIColor.lightGray
         if let startsWith = contactsGrouped[section].first?.givenName.prefix(1) {
-            label.text = String(startsWith)
+            label.text = String(" " + startsWith)
         }
         return label
     }
@@ -202,6 +202,8 @@ class ContactsViewController: UITableViewController {
                     }
                     self.contactsGrouped.append(group)
                 }
+                
+                self.tableView.reloadData()
             } else {
                 // denied access
             }

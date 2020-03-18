@@ -437,8 +437,14 @@ exports.listCards = functions.region('europe-west1').https.onCall( async (data, 
   .catch(err => {
     console.log('Error getting mangopayID from Firestore database', err);
   });
-  return cardsList = mpAPI.Users.getCards(mangopayID, JSON)
 
+  if (mangopayID !== "") {
+    const cardsList = await mpAPI.Users.getCards(mangopayID, JSON)
+
+    return cardsList
+  } else {
+    return null
+  }
 })
 
 exports.addCredit = functions.region('europe-west1').https.onCall( async (data, context) => {

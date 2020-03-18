@@ -36,6 +36,8 @@ class AddCardViewController: UIViewController, UITextFieldDelegate {
         navigationItem.title = "Add Card"
         navigationController?.navigationBar.prefersLargeTitles = true
         
+        Utilities.styleHollowButton(submitButton)
+        
         // this is required for the limiting of text fields such as Card Number to only numeric values
         cardNumberField.delegate = self
         
@@ -65,124 +67,6 @@ class AddCardViewController: UIViewController, UITextFieldDelegate {
             showError(error!)
         } else {
             performSegue(withIdentifier: "showAddCard2", sender: self)
-//            var accessKey = ""
-//            var preregistrationData = ""
-//            var cardRegURL: URL!
-//            var cardRegID = ""
-//            var regData = ""
-//
-//            // Semaphore is used to ensure async API calls aren't triggered before all the relevant data is ready - they have to be sequential
-//            let semaphore = DispatchSemaphore(value: 1)
-//
-//            // fields have passed validation - so continue
-//            functions.httpsCallable("createPaymentMethodHTTPS").call(["text": "Euros"]) { (result, error) in
-////                if let error = error as NSError? {
-////                    if error.domain == FunctionsErrorDomain {
-////                        let code = FunctionsErrorCode(rawValue: error.code)
-////                        let message = error.localizedDescription
-////                        let details = error.userInfo[FunctionsErrorDetailsKey]
-////                    }
-////                    // ...
-////                }
-//                semaphore.wait()
-//
-//                print(result?.data)
-//
-//                if let returnedArray = result?.data as? [[String: Any]] {
-//                // the result includes the bits we need (this is the result of step 4 in the diagram found at the API doc link above)
-//
-//                    print(returnedArray)
-//
-//
-//                    let jsonCardReg = JSON(returnedArray[0])
-//
-//
-//
-//                    // extract the following values from the returned CardRegistration object
-//                    if let ak = jsonCardReg["AccessKey"].string {
-//                        accessKey = ak
-//                    }
-//
-//                    if let prd = jsonCardReg["PreregistrationData"].string {
-//                        preregistrationData = prd
-//                    }
-//
-//                    if let crurl = jsonCardReg["CardRegistrationURL"].string {
-//                        cardRegURL = URL(string: crurl)
-//                    }
-//
-//                    if let crd = jsonCardReg["Id"].string {
-//                        cardRegID = crd
-//                    }
-//
-//
-//                    // json
-//                    let walletIdData = JSON(returnedArray[1])
-//
-//                    if let walletID = walletIdData["walletID"].string {
-//
-//                        print(walletID)
-//
-//                        semaphore.signal()
-//
-//                        let body = [
-//                            "accessKeyRef": accessKey,
-//                            "data": preregistrationData,
-//                            "cardNumber": self.cardNumberField.text!,
-//                            "cardExpirationDate": self.expiryDateField.text!,
-//                            "cardCvx": self.csvField.text!
-//                            ]
-//
-//                        print(body)
-//
-//                        // send card details to Mangopay's tokenization server, and get a RegistrationData object back as response
-//                        self.networkingClient.postCardInfo(url: cardRegURL, parameters: body) { (response, error) in
-//
-//                            if let err = error {
-//                                print(err)
-//                            }
-//                            print(response)
-//
-//
-//                            semaphore.wait()
-//
-//                            regData = String(response)
-//
-//                            semaphore.signal()
-//
-//                            print("checkpoint 1")
-//
-//                            // now pass the RegistrationData object to callable Cloud Function which will complete the Card Registration and store the CardId in Firestore (this whole process is a secure way to store the user's card without having their sensitive info ever touch our server)
-//                            // N.B. we send the wallet ID received earlier so that the Cloud Function can store the final CardID under the user's Firestore wallet entry (the correct wallet - they could have multiple)
-//                            self.functions.httpsCallable("addCardRegistration").call(["regData": regData, "cardRegID": cardRegID, "walletID": walletID]) { (result, error) in
-//
-//                                semaphore.wait()
-//                                //                if let error = error as NSError? {
-//                                //                    if error.domain == FunctionsErrorDomain {
-//                                //                        let code = FunctionsErrorCode(rawValue: error.code)
-//                                //                        let message = error.localizedDescription
-//                                //                        let details = error.userInfo[FunctionsErrorDetailsKey]
-//                                //                    }
-//                                // ...
-//                                //                }
-//
-//
-//
-//                                semaphore.signal()
-//
-//                                // When the card has been added, trigger the API call to MangoPay to update UserDefaults with the card data (so that it shows up in the PaymentMethods View)
-//                                // N.B. one benefit of NOT saving it directly is that MangoPay can handle any validation - this way, we only save it when it's definitely been correctly added to their MP account
-//                                let appDelegate = AppDelegate()
-//                                appDelegate.fetchPaymentMethodsListFromMangopay()
-//                                print("done?")
-//                                self.performSegue(withIdentifier: "unwindToPrevious", sender: self)
-//
-//                            }
-//                            // TODO add loading spinner to wait for responseURL
-//                        }
-//                    }
-//                }
-//            }
         }
     }
 

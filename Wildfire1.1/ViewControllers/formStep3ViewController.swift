@@ -136,6 +136,12 @@ class formStep3ViewController: UIViewController, UITextFieldDelegate {
         
         let fullname = firstname + " " + lastname
         
+        var fcmToken = ""
+        
+        if let token = UserDefaults.standard.string(forKey: "fcmToken") {
+            fcmToken = token
+        }
+        
         if let uid = Auth.auth().currentUser?.uid {
             
             let newUserData: [String : Any] = ["firstname": firstname,
@@ -147,6 +153,7 @@ class formStep3ViewController: UIViewController, UITextFieldDelegate {
             "residence": residence,
             // I tried having the balance added via Cloud Function (onCreate for user in Firestore) but it's just too slow - frequent crashes in testing due to the Account Listener being too quick..
             "balance": 0,
+            "fcmToken": fcmToken,
             // TODO if facebook login, use profile pic here
                 "photoURL": "https://cdn.pixabay.com/photo/2014/05/21/20/17/icon-350228_1280.png" ]
             
@@ -295,6 +302,13 @@ class formStep3ViewController: UIViewController, UITextFieldDelegate {
         Utilities.styleTextField(nationalityField)
         Utilities.styleTextField(residenceField)
         Utilities.styleFilledButton(confirmButton)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.destination is Account2ViewController {
+            let vc = segue.destination as! Account2ViewController
+            vc.justCompletedSignUp = true
+        }
     }
     
 }

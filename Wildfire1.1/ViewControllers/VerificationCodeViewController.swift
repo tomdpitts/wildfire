@@ -28,12 +28,17 @@ class VerificationCodeViewController: UIViewController {
     
     @IBAction func verifyTapped(_ sender: Any) {
         
+        self.showSpinner(onView: self.view)
+        
         let check = validateField()
         guard let code = verificationField.text else { return }
         
         if check == true {
             signInWithVerificationCode(code: code)
-        } else { return }
+        } else {
+            self.removeSpinner()
+            return
+        }
     }
     
     func validateField() -> Bool {
@@ -62,7 +67,7 @@ class VerificationCodeViewController: UIViewController {
                 
                 // User is signed in
                 
-                // update credit cards and bank accounts list
+                // update credit cards and bank accounts list (user may be returning)
                 let appDelegate = AppDelegate()
                 appDelegate.fetchPaymentMethodsListFromMangopay()
                 appDelegate.fetchBankAccountsListFromMangopay()
@@ -73,6 +78,8 @@ class VerificationCodeViewController: UIViewController {
                 }
                 
                 Utilities.getCurrentRegistrationToken()
+                
+                self.removeSpinner()
                 
                 // segue to main screens
                 self.performSegue(withIdentifier: "goToMainMenu", sender: self)

@@ -31,6 +31,8 @@ class PhoneViewController: UIViewController {
     func triggerPhoneCheck() {
         guard let phoneNumber = phoneField.text else { return }
         
+        self.showSpinner(onView: self.view)
+        
 //        if phoneNumber.count < 11 || phoneNumber.count > 12 {
 //            // TODO return error "please enter 11 digit number"..
 //            print("please enter 11 digit number")
@@ -40,6 +42,7 @@ class PhoneViewController: UIViewController {
         let phoneUtil = NBPhoneNumberUtil()
         
         PhoneAuthProvider.provider().verifyPhoneNumber(phoneNumber, uiDelegate: nil) { (verificationID, error) in
+            self.removeSpinner()
             if let err = error {
                 print(err)
                 //                self.showMessagePrompt(error.localizedDescription)

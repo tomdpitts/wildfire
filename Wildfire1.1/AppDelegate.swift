@@ -66,10 +66,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             print("did not find mangopay ID")
             Utilities().getMangopayID()
         }
-//        fetchPaymentMethodsListFromMangopay()
-//        fetchBankAccountsListFromMangopay()
+
         redirect()
 //        setupNavigationBarAppearance()
+        
+        print(UserDefaults.standard.dictionaryRepresentation())
         return true
     }
     // Update: no longer using Facebook integration for time being so parking this
@@ -98,8 +99,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func applicationWillEnterForeground(_ application: UIApplication) {
         
         // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
-        fetchPaymentMethodsListFromMangopay()
-        redirect()
+//        fetchPaymentMethodsListFromMangopay()
+//        redirect()
         
     }
 
@@ -133,25 +134,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
         // Note: This callback is fired at each app startup and whenever a new token is generated.
         
-        let savedToken = UserDefaults.standard.string(forKey: "fcmToken")
-        
-        if savedToken != fcmToken {
-        
-            // replace current saved token
-            UserDefaults.standard.set(fcmToken, forKey: "fcmToken")
-            
-            guard let uid = Auth.auth().currentUser?.uid else { return }
-            
-            let tokenData = [
-                "fcmToken": fcmToken
-            ]
-//            print("didReceiveRegistrationToken was FIRED: " + fcmToken)
-            
-            Firestore.firestore().collection("users").document(uid).setData(tokenData
-            // merge: true is IMPORTANT - prevents complete overwriting of a document if a user logs in for a second time, for example, which could wipe important data
-             , merge: true) { (error) in
-            }
-        }
+        UserDefaults.standard.set(fcmToken, forKey: "fcmToken")
     }
     
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any],
@@ -304,6 +287,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 }
                 
             } else {
+                
+                // this (probably) means no cards have been added
                 print("nope")
             }
         }

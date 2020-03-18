@@ -18,22 +18,29 @@ class Utilities {
     // this should run everytime user opens app while the value for key userAccountExists is false - thereafter we can ignore the func
     func checkForUserAccount() {
         
+        
         let db = Firestore.firestore()
         
         if let uid = Auth.auth().currentUser?.uid {
             let docRef = db.collection("users").document(uid)
 
             docRef.getDocument { (document, error) in
-                if let document = document, document.exists {
-                    UserDefaults.standard.set(true, forKey: "userAccountExists")
+                if let doc = document {
+                    let userData = doc.data()
                     
+                    // somewhat hacky, but fcmToken is now written to the user record in firebase, so can no longer use the document.exists test to determine whether or not the user has completed the signup flow
+                    if (userData?["email"]) != nil {
+                        UserDefaults.standard.set(true, forKey: "userAccountExists")
+                    } else {
+                        UserDefaults.standard.set(false, forKey: "userAccountExists")
+                    }
                 } else {
                     UserDefaults.standard.set(false, forKey: "userAccountExists")
                 }
             }
         } else {
-            // perhaps overkill
             UserDefaults.standard.set(false, forKey: "userAccountExists")
+            print("user Account does NOT exist")
         }
     }
     
