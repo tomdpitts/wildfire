@@ -97,12 +97,12 @@ class BankDetails1TableViewController: UITableViewController {
                     }
                     
                     if let address = data["defaultBillingAddress"] as? [String: String] {
-                        self.line1 = address["line1"] as? String ?? ""
-                        self.line2 = address["line2"] as? String ?? ""
-                        self.cityName = address["city"] as? String ?? ""
-                        self.region = address["region"] as? String ?? ""
-                        self.postcode = address["postcode"] as? String ?? ""
-                        self.country = address["country"] as? String ?? ""
+                        self.line1 = address["line1"] ?? ""
+                        self.line2 = address["line2"] ?? ""
+                        self.cityName = address["city"] ?? ""
+                        self.region = address["region"] ?? ""
+                        self.postcode = address["postcode"] ?? ""
+                        self.country = address["country"] ?? ""
                         
                     } else { return }
                 }

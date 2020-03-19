@@ -17,6 +17,8 @@ class VerificationCodeViewController: UIViewController {
     
     @IBOutlet weak var verifyButton: UIButton!
     
+    @IBOutlet weak var errorLabel: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -24,6 +26,8 @@ class VerificationCodeViewController: UIViewController {
         navigationController?.navigationBar.prefersLargeTitles = true
         
         Utilities.styleHollowButton(verifyButton)
+        
+        errorLabel.isHidden = true
     }
     
     @IBAction func verifyTapped(_ sender: Any) {
@@ -47,8 +51,12 @@ class VerificationCodeViewController: UIViewController {
         
         if code.count == 6 && numerical == true {
             return true
+        } else {
+            self.errorLabel.text = "Code must be 6 numerical digits"
+            self.errorLabel.isHidden = false
+            return false
         }
-        return false
+        
     }
     
     func signInWithVerificationCode(code: String) {
@@ -58,10 +66,14 @@ class VerificationCodeViewController: UIViewController {
                 verificationCode: code)
             
             Auth.auth().signIn(with: credential) { (authResult, error) in
+                
+                print(authResult)
             
-                if let error = error {
-                    // TODO error handling..
+                if error != nil {
+                    self.removeSpinner()
                     print(error)
+                    self.errorLabel.text = "Code doesn't match for some reason. Please check it, or go back and submit your phone number again."
+                    self.errorLabel.isHidden = false
                     return
                 }
                 
@@ -81,8 +93,11 @@ class VerificationCodeViewController: UIViewController {
                 
                 self.removeSpinner()
                 
-                // segue to main screens
-                self.performSegue(withIdentifier: "goToMainMenu", sender: self)
+                print("will try to segue")
+                // segue to welcome
+                self.performSegue(withIdentifier: "unwindToWelcome", sender: self)
+                
+                print("tried..")
             }
         }
     }

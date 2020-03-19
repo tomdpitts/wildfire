@@ -98,7 +98,7 @@ class ConfirmViewController: UIViewController {
     func setUpElements() {
 
         // Style the elements
-        Utilities.styleFilledButton(self.backButton)
+        Utilities.styleHollowButtonRED(self.backButton)
         Utilities.styleFilledButton(self.confirmButton)
         
         
@@ -235,10 +235,12 @@ class ConfirmViewController: UIViewController {
         let userAccountExists = UserDefaults.standard.bool(forKey: "userAccountExists")
         if userAccountExists == true {
             
-            self.showSpinner(onView: self.view)
+            
             
             // notice user doesn't strictly need to add card details if they already have sufficient credit to complete payment - this is intentional
             if enoughCredit == true {
+                self.showSpinner(onView: self.view)
+                
                 // initiate transaction
                 // TODO add spinner
                 // TODO add semaphore or something to wait for result before continuing, with timeout
@@ -259,6 +261,8 @@ class ConfirmViewController: UIViewController {
                 }
             } else {
                 if existingPaymentMethod == true {
+                    
+                    self.showSpinner(onView: self.view)
                     
                     // initiate topup (ideally with ApplePay & touchID)
                     transact(recipientUID: self.recipientUID, amount: self.sendAmount, topup: true, topupAmount: self.topupAmount) { result in
@@ -310,7 +314,7 @@ class ConfirmViewController: UIViewController {
                     self.functions.httpsCallable("addCredit").call(["amount": tpa, "currency": "EUR"]) { (result, error) in
                         if error != nil {
                             // TODO
-//                            self.showAuthenticationError(title: "Oops!", message: "We couldn't top up your account. Please try again.")
+                            
                             completion("We couldn't top up your account. Please try again.")
                         } else {
                             
@@ -459,7 +463,7 @@ class ConfirmViewController: UIViewController {
                 // using Kingfisher library for tidy handling of image download
                 self.recipientImage.kf.setImage(
                     with: url,
-                    placeholder: UIImage(named: "icons8-user-50"),
+                    placeholder: UIImage(named: "Logo200px"),
                     options: [
                         .scaleFactor(UIScreen.main.scale),
                         .transition(.fade(1)),

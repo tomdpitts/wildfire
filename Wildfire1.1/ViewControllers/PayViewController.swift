@@ -20,6 +20,8 @@ class PayViewController: UIViewController {
         navigationItem.title = "Pay"
         navigationController?.navigationBar.prefersLargeTitles = true
         
+//        navigationController?.navigationBar.setGradientBackground(colors: [Style.secondaryThemeColourHighlighted, Style.secondaryThemeColour], startPoint: .top, endPoint: .bottom)
+
         setUpElements()
 
         

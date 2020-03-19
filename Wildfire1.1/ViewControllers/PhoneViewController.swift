@@ -14,13 +14,22 @@ class PhoneViewController: UIViewController {
     
     @IBOutlet weak var phoneField: UITextField!
     @IBOutlet weak var verifyButton: UIButton!
+    @IBOutlet weak var errorLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.title = "Confirm mobile number"
+        navigationItem.title = "Confirm number"
         navigationController?.navigationBar.prefersLargeTitles = true
         
+            // we don't want the user to go back to the welcome screen
+            self.navigationItem.leftBarButtonItem = nil;
+            self.navigationItem.hidesBackButton = true;
+        self.navigationController?.navigationItem.backBarButtonItem?.isEnabled = false;
+        self.navigationController!.interactivePopGestureRecognizer!.isEnabled = false;
+        
         Utilities.styleHollowButton(verifyButton)
+        
+        errorLabel.isHidden = true
     }
     
     @IBAction func verifyTapped(_ sender: Any) {
@@ -33,18 +42,21 @@ class PhoneViewController: UIViewController {
         
         self.showSpinner(onView: self.view)
         
-//        if phoneNumber.count < 11 || phoneNumber.count > 12 {
-//            // TODO return error "please enter 11 digit number"..
-//            print("please enter 11 digit number")
-//            return
-//        }
+        if phoneNumber.count < 11 || phoneNumber.count > 12 {
+            // TODO return error "please enter 11 digit number"..
+            errorLabel.text = "Please enter a valid 11 or 12 digit number"
+            errorLabel.isHidden = false
+            return
+        }
         
-        let phoneUtil = NBPhoneNumberUtil()
+//        let phoneUtil = NBPhoneNumberUtil()
         
         PhoneAuthProvider.provider().verifyPhoneNumber(phoneNumber, uiDelegate: nil) { (verificationID, error) in
             self.removeSpinner()
-            if let err = error {
-                print(err)
+            if error != nil {
+                self.errorLabel.text = "Could not validate phone number - please check it begins with the country code (e.g. +44)"
+                self.errorLabel.isHidden = false
+                
                 //                self.showMessagePrompt(error.localizedDescription)
                 return
             }

@@ -269,8 +269,6 @@ class AddCard2TableViewController: UITableViewController, UITextFieldDelegate {
     func addAddressToCard(walletID: String, cardID: String, makeDefault: Bool) {
         if let uid = Auth.auth().currentUser?.uid {
             
-            print("trying to add address")
-            
             guard let line1 = self.line1TextField.text else { return }
             // N.B. line2 is not required - if nothing entered then pass empty string
             let line2 = self.line2TextField.text ?? ""
@@ -280,17 +278,15 @@ class AddCard2TableViewController: UITableViewController, UITextFieldDelegate {
             guard let postcode = self.postcodeTextField.text else { return }
             // TODO country needs to be converted to appropriate format
             guard let country = self.countryTextField.text else { return }
+            let countryCode = localeFinder(for: country)
             
             let addressData : [String: [String: String]] = [
-                "billingAddress": ["line1": line1, "line2": line2,"city": cityName, "region": region,"postcode": postcode,"country": country]
+                "billingAddress": ["line1": line1, "line2": line2,"city": cityName, "region": region,"postcode": postcode,"country": countryCode!]
             ]
             // separate variable name because that's how it shows up in Firestore
             let defaultAddressData : [String: [String: String]] = [
-                "defaultBillingAddress": ["line1": line1, "line2": line2,"city": cityName, "region": region,"postcode": postcode,"country": country]
+                "defaultBillingAddress": ["line1": line1, "line2": line2,"city": cityName, "region": region,"postcode": postcode,"country": countryCode!]
             ]
-            
-            print("trying to add address2")
-            print(addressData)
             
         Firestore.firestore().collection("users").document(uid).collection("wallets").document(walletID).collection("cards").document(cardID).setData(addressData
             // merge: true is IMPORTANT - prevents complete overwriting of a document if a user logs in for a second time, for example, which could wipe important data (including the balance..)
@@ -335,7 +331,8 @@ class AddCard2TableViewController: UITableViewController, UITextFieldDelegate {
             country == ""
             {
             return "Please fill in all fields."
-            
+        } else if localeFinder(for: country) == nil {
+            return "Country was not recognised - please re-enter country until autocorrect completes it"
         } else {
             return nil
 //                if cardNumber.count != 16 {

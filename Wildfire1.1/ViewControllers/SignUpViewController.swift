@@ -22,7 +22,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var email: UITextField!
     
-    @IBOutlet weak var password: UITextField!
+//    @IBOutlet weak var password: UITextField!
     
     @IBOutlet weak var signUpButton: UIButton!
     
@@ -48,6 +48,9 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         lastName.delegate = self
         email.delegate = self
 //        password.delegate = self
+        
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(DismissKeyboard))
+        view.addGestureRecognizer(tap)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -170,5 +173,10 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         
         errorLabel.text = message
         errorLabel.isHidden = false
+    }
+    
+    @objc func DismissKeyboard(){
+    //Causes the view to resign from the status of first responder.
+    view.endEditing(true)
     }
 }

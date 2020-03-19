@@ -63,7 +63,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             Utilities().checkForUserAccount()
         }
         if UserDefaults.standard.string(forKey: "mangopayID") == nil {
-            print("did not find mangopay ID")
             Utilities().getMangopayID()
         }
 

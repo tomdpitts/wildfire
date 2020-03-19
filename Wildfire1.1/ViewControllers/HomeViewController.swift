@@ -39,7 +39,7 @@ class HomeViewController: UIViewController {
         if loggedInUser == true {
             authenticateUser()
         } else {
-            self.performSegue(withIdentifier: "goToPay", sender: self)
+            self.performSegue(withIdentifier: "goToPhoneVerification", sender: self)
         }
     }
     
@@ -87,6 +87,11 @@ class HomeViewController: UIViewController {
     @IBAction func progressToMainApp(_ sender: UIButton) {
         
         performSegue(withIdentifier: "goToPay", sender: self)
+    }
+    
+    @IBAction func unwindToWelcome(_ unwindSegue: UIStoryboardSegue) {
+        //        let sourceViewController = unwindSegue.source
+        // Use data from the view controller which initiated the unwind segue
     }
 
 }

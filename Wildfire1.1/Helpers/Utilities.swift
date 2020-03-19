@@ -72,14 +72,16 @@ class Utilities {
 
                 // update current saved token
                 UserDefaults.standard.set(fcmToken, forKey: "fcmToken")
-
-                guard let uid = Auth.auth().currentUser?.uid else { return }
-
-                let tokenData = [
-                    "fcmToken": fcmToken
-                ]
                 
-                Firestore.firestore().collection("users").document(uid).setData(tokenData, merge: true)
+                // we don't want to save the token to cloud just yet as it would trigger mangopay user creation before the required data is available. The fcmToken will be added to the user profile when user account is created
+
+//                guard let uid = Auth.auth().currentUser?.uid else { return }
+//
+//                let tokenData = [
+//                    "fcmToken": fcmToken
+//                ]
+//
+//                Firestore.firestore().collection("users").document(uid).setData(tokenData, merge: true)
             }
         }
     }
@@ -388,47 +390,121 @@ extension NSLayoutConstraint {
     }
 }
 
-class GradientView: UIView {
+//class GradientView: UIView {
+//
+//    /* Overriding default layer class to use CAGradientLayer */
+//    override class var layerClass: AnyClass {
+//        return CAGradientLayer.self
+//    }
+//
+//    /* Handy accessor to avoid unnecessary casting */
+//    private var gradientLayer: CAGradientLayer {
+//        return layer as! CAGradientLayer
+//    }
+//
+//    /* Public properties to manipulate colors */
+//    public var fromColor: UIColor = UIColor.red {
+//        didSet {
+//            var currentColors = gradientLayer.colors
+//            currentColors![0] = fromColor.cgColor
+//            gradientLayer.colors = currentColors
+//        }
+//    }
+//
+//    public var toColor: UIColor = UIColor.blue {
+//        didSet {
+//            var currentColors = gradientLayer.colors
+//            currentColors![1] = toColor.cgColor
+//            gradientLayer.colors = currentColors
+//        }
+//    }
+//
+//    /* Initializers overriding to have appropriately configured layer after creation */
+//    override init(frame: CGRect) {
+//        super.init(frame: frame)
+//        gradientLayer.colors = [fromColor.cgColor, toColor.cgColor]
+//        gradientLayer.startPoint = CGPoint(x: 0, y: 0.5)
+//        gradientLayer.endPoint = CGPoint(x: 1.0, y: 0.5)
+//    }
+//
+//    required init?(coder aDecoder: NSCoder) {
+//        super.init(coder: aDecoder)
+//        gradientLayer.colors = [fromColor.cgColor, toColor.cgColor]
+//        gradientLayer.startPoint = CGPoint(x: 0, y: 0.5)
+//        gradientLayer.endPoint = CGPoint(x: 1.0, y: 0.5)
+//    }
+//}
 
-    /* Overriding default layer class to use CAGradientLayer */
-    override class var layerClass: AnyClass {
-        return CAGradientLayer.self
-    }
-
-    /* Handy accessor to avoid unnecessary casting */
-    private var gradientLayer: CAGradientLayer {
-        return layer as! CAGradientLayer
-    }
-
-    /* Public properties to manipulate colors */
-    public var fromColor: UIColor = UIColor.red {
-        didSet {
-            var currentColors = gradientLayer.colors
-            currentColors![0] = fromColor.cgColor
-            gradientLayer.colors = currentColors
-        }
-    }
-
-    public var toColor: UIColor = UIColor.blue {
-        didSet {
-            var currentColors = gradientLayer.colors
-            currentColors![1] = toColor.cgColor
-            gradientLayer.colors = currentColors
-        }
-    }
-
-    /* Initializers overriding to have appropriately configured layer after creation */
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        gradientLayer.colors = [fromColor.cgColor, toColor.cgColor]
-        gradientLayer.startPoint = CGPoint(x: 0, y: 0.5)
-        gradientLayer.endPoint = CGPoint(x: 1.0, y: 0.5)
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        gradientLayer.colors = [fromColor.cgColor, toColor.cgColor]
-        gradientLayer.startPoint = CGPoint(x: 0, y: 0.5)
-        gradientLayer.endPoint = CGPoint(x: 1.0, y: 0.5)
-    }
-}
+//class UINavigationBarGradientView: UIView {
+//
+//    enum Point {
+//        case topRight, topLeft, top
+//        case bottomRight, bottomLeft, bottom
+//        case custion(point: CGPoint)
+//
+//        var point: CGPoint {
+//            switch self {
+//                case .topRight: return CGPoint(x: 1, y: 0)
+//                case .topLeft: return CGPoint(x: 0, y: 0)
+//                case .top: return CGPoint(x: 0.5, y: 0)
+//                case .bottomRight: return CGPoint(x: 1, y: 1)
+//                case .bottomLeft: return CGPoint(x: 0, y: 1)
+//                case .bottom: return CGPoint(x:0.5, y: 1)
+//                case .custion(let point): return point
+//            }
+//        }
+//    }
+//
+//    private weak var gradientLayer: CAGradientLayer!
+//    convenience init(colors: [UIColor], startPoint: Point = .topLeft,
+//                     endPoint: Point = .bottomLeft, locations: [NSNumber] = [0, 1]) {
+//        self.init(frame: .zero)
+//        let gradientLayer = CAGradientLayer()
+//        gradientLayer.frame = frame
+//        layer.addSublayer(gradientLayer)
+//        self.gradientLayer = gradientLayer
+//        set(colors: colors, startPoint: startPoint, endPoint: endPoint, locations: locations)
+//        backgroundColor = .clear
+//    }
+//
+//    func set(colors: [UIColor], startPoint: Point = .topLeft,
+//             endPoint: Point = .bottomLeft, locations: [NSNumber] = [0, 1]) {
+//        gradientLayer.colors = colors.map { $0.cgColor }
+//        gradientLayer.startPoint = startPoint.point
+//        gradientLayer.endPoint = endPoint.point
+//        gradientLayer.locations = locations
+//    }
+//
+//    func setupConstraints() {
+//        guard let parentView = superview else { return }
+//        translatesAutoresizingMaskIntoConstraints = false
+//        topAnchor.constraint(equalTo: parentView.topAnchor).isActive = true
+//        leftAnchor.constraint(equalTo: parentView.leftAnchor).isActive = true
+//        parentView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+//        parentView.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
+//    }
+//
+//    override func layoutSubviews() {
+//        super.layoutSubviews()
+//        guard let gradientLayer = gradientLayer else { return }
+//        gradientLayer.frame = frame
+//        superview?.addSubview(self)
+//    }
+//}
+//
+//extension UINavigationBar {
+//    func setGradientBackground(colors: [UIColor],
+//                               startPoint: UINavigationBarGradientView.Point = .topLeft,
+//                               endPoint: UINavigationBarGradientView.Point = .bottomLeft,
+//                               locations: [NSNumber] = [0, 1]) {
+//        guard let backgroundView = value(forKey: "backgroundView") as? UIView else { return }
+//        guard let gradientView = backgroundView.subviews.first(where: { $0 is UINavigationBarGradientView }) as? UINavigationBarGradientView else {
+//            let gradientView = UINavigationBarGradientView(colors: colors, startPoint: startPoint,
+//                                                           endPoint: endPoint, locations: locations)
+//            backgroundView.addSubview(gradientView)
+//            gradientView.setupConstraints()
+//            return
+//        }
+//        gradientView.set(colors: colors, startPoint: startPoint, endPoint: endPoint, locations: locations)
+//    }
+//}

@@ -16,7 +16,7 @@ class Account2ViewController: UITableViewController {
     
     var justCompletedSignUp = false
     
-    var genericProfilePic = UIImage(named: "icons8-user-50")
+    var genericProfilePic = UIImage(named: "Logo70px")
     var balance: Int?
     var fullname: String?
     var email: String?
@@ -44,6 +44,7 @@ class Account2ViewController: UITableViewController {
         navigationItem.title = "Account"
         navigationController?.navigationBar.prefersLargeTitles = true
         
+        
 //        // TODO roll this out across the board?
 //        tableView.backgroundView = GradientView()
         
@@ -65,6 +66,7 @@ class Account2ViewController: UITableViewController {
         if justCompletedSignUp == true {
             self.tableView.reloadData()
             getUserInfo()
+            setUpProfilePic()
             noAccountYetCell.isHidden = true
             justCompletedSignUp = false
         }
@@ -93,13 +95,13 @@ class Account2ViewController: UITableViewController {
             let title = "Are you sure you want to Log Out?"
             // TODO a really nice user friendly feature would be to check whether balance is >0, and show a helpful hint to deposit if it is
             let message = "You can log back in at any time, and your credit will still be here. Alternatively, you can deposit your credit to your back account before you go."
-            let segue = "goToPhoneVerify"
+            let segue = "unwindToWelcome"
             showLogOutAlert(title: title, message: message, segueIdentifier: segue)
         } else if indexPath.row == 10 {
             // aka Delete Account selected
             let title = "Are you sure you want to delete your account?"
             let message = "Any remaining credit will be deposited to your bank account, less the standard transaction charge."
-            let segue = "goToPhoneVerify"
+            let segue = "unwindToWelcome"
             // TODO add deposit to Bank Account functionality
             // TODO add delete account functionality (in the showLogOutAlert func below (and consider renaming it..) 
             showLogOutAlert(title: title, message: message, segueIdentifier: segue)

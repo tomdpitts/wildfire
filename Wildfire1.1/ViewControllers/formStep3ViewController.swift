@@ -55,6 +55,9 @@ class formStep3ViewController: UIViewController, UITextFieldDelegate {
         residenceField.delegate = self
         
         setUpElements()
+        
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(DismissKeyboard))
+        view.addGestureRecognizer(tap)
     }
     
     @IBAction func confirmButtonTapped(_ sender: Any) {
@@ -87,7 +90,6 @@ class formStep3ViewController: UIViewController, UITextFieldDelegate {
         } else {
             // Not found, so remove keyboard.
             textField.resignFirstResponder()
-            confirmButtonTapped(self)
         }
         return true
     }
@@ -311,6 +313,10 @@ class formStep3ViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
+    @objc func DismissKeyboard(){
+        // Causes the view to resign from the status of first responder.
+        view.endEditing(true)
+    }
 }
 
 extension StringProtocol {
