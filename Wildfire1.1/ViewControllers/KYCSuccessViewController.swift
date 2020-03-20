@@ -35,7 +35,5 @@ class KYCSuccessViewController: UIViewController {
         } else {
             self.performSegue(withIdentifier: "unwindToAccountView", sender: self)
         }
-        
-        
     }
 }

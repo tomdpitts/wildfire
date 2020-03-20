@@ -23,6 +23,7 @@ class Send2ViewController: UIViewController, MFMessageComposeViewControllerDeleg
     @IBOutlet weak var errorLabel: UILabel!
     @IBOutlet weak var confirmationTick: UIImageView!
     @IBOutlet weak var searchStatus: UILabel!
+    
     @IBOutlet weak var sendButton: UIButton!
     
     let phoneUtil = NBPhoneNumberUtil()
@@ -40,11 +41,17 @@ class Send2ViewController: UIViewController, MFMessageComposeViewControllerDeleg
         
         
         if let number = contact?.phoneNumber {
-            if let name = contact?.givenName {
-                isRegistered(phoneNumber: number, name: name)
-            }
+            
+            print(number)
+
+            
+            guard let name = contact?.givenName else { return }
+            
+            isRegistered(phoneNumber: number, name: name)
+            
         }
         
+        Utilities.styleHollowButton(sendButton)
         
         errorLabel.isHidden = true
         
@@ -75,20 +82,20 @@ class Send2ViewController: UIViewController, MFMessageComposeViewControllerDeleg
 //                // ...
             }
             
-            let json = JSON(result?.data ?? "no data returned")
-            
-            if let uid = json["uid"].string {
+            guard let data = result?.data else { return }
+                        
+            if let recipientID = data as? String {
                 self.confirmationTick.isHidden = false
                 self.searchStatus.text = "\(name) is registered"
                 self.searchStatus.isHidden = false
                 
                 // check the recipient isn't the user themself! If they are, we should go back to the previous screen and display an error message
                 
-                if uid != Auth.auth().currentUser?.uid {
-                    self.contact?.uid = uid
+                if recipientID != Auth.auth().currentUser?.uid {
+                    self.contact?.uid = recipientID
                     self.isRegistered = true
                 } else {
-                    self.showAlert(title: "Oops", message: "Please select a recipient that isn't yourself")
+                    self.showAlert(title: "Oops", message: "Please select a recipient that doesn't have the same phone number as you")
                 }
                 
             } else {
@@ -148,7 +155,7 @@ class Send2ViewController: UIViewController, MFMessageComposeViewControllerDeleg
            
             if let uid = recipientUID {
                 vc.recipientUID = uid
-                vc.sendAmount = sendAmount
+                vc.sendAmount = sendAmount*100
             }
         }
     }

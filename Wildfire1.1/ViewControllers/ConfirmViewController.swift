@@ -153,7 +153,7 @@ class ConfirmViewController: UIViewController {
         let uid = Auth.auth().currentUser!.uid
         
         let docRef = self.db.collection("users").document(uid)
-        // TODO replace this with a call to MP Wallet to fetch balance
+        // this balance should be up to date as the 
         docRef.getDocument { (document, error) in
             
             if error != nil {
@@ -334,6 +334,24 @@ class ConfirmViewController: UIViewController {
                                             self.getUserBalance()
                                             
                                         } else {
+                                            
+                                            if let transactionData = result?.data as? [String: Any] {
+                                                let amount = transactionData["amount"] as! Int
+                                                let currency = transactionData["currency"] as! String
+                                                
+                                                let datetimeUNIX = transactionData["datetime"] as! Int
+                                                let datetime = Date(timeIntervalSince1970: TimeInterval(datetimeUNIX))
+                                                
+                                                let payerID = transactionData["payerID"] as! String
+                                                let recipientID = transactionData["recipientID"] as! String
+                                                let payerName = transactionData["payerName"] as! String
+                                                let recipientName = transactionData["recipientName"] as! String
+                                                let userIsPayer = transactionData["userIsPayer"] as! Bool
+                                                
+                                                
+                                                self.confirmedTransaction = Transaction(amount: amount, currency: currency, datetime: datetime, payerID: payerID, recipientID: recipientID, payerName: payerName, recipientName: recipientName, userIsPayer: userIsPayer)
+                                            }
+                                            
                                             completion("success (topped up)")
                                         }
                                     }
@@ -354,7 +372,7 @@ class ConfirmViewController: UIViewController {
                     self.functions.httpsCallable("transact").call(["recipientUID": recipientUID,  "amount": amount, "currency": "EUR"]) { (result, error) in
                         // TODO error handling!
                         if error != nil {
-                            completion("error in transaction function")
+                            completion("Error in transaction function")
                             print(error)
                     //                                if error.domain == FunctionsErrorDomain {
                     //                                    let code = FunctionsErrorCode(rawValue: error.code)
@@ -383,13 +401,13 @@ class ConfirmViewController: UIViewController {
                             
                             
                             print(self.confirmedTransaction)
-                            completion("success (no topup required")
+                            completion("success (no topup required)")
                         }
                     }
                 } else {
                     print("auth failed bro")
 //                    self.showAuthenticationError(title: "Oops", message: "Apologies - we couldn't authenticate this transaction. Please try again. ")
-                    completion("Apologies - we couldn't authenticate this transaction. Please try again. ")
+                    completion("Apologies - we couldn't authenticate this transaction. Please try again.")
                 }
             }
         }
@@ -515,9 +533,9 @@ class ConfirmViewController: UIViewController {
         if segue.destination is SignUpViewController {
             let vc = segue.destination as! SignUpViewController
             vc.userIsInPaymentFlow = true
-        } else if segue.destination is DisplayReceiptViewController {
+        } else if segue.destination is DisplayReceiptAfterPaymentViewController {
             
-            let vc = segue.destination as! DisplayReceiptViewController
+            let vc = segue.destination as! DisplayReceiptAfterPaymentViewController
             vc.transaction = self.confirmedTransaction
         }
     }

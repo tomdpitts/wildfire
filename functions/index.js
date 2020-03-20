@@ -112,7 +112,20 @@ exports.createNewMangopayCustomer = functions.region('europe-west1').firestore.d
 
 })
 
-// TODO rename this function!
+exports.isRegistered = functions.region('europe-west1').https.onCall( async (data, context) => {
+
+  const phoneNumber = data.phone
+
+  const recipient = await admin.auth().getUserByPhoneNumber(phoneNumber)
+  .catch(error => {
+    return null
+  })
+
+  const uid = recipient.uid
+
+  return uid
+})
+
 
 // When user adds a new payment method, a) create a MangoPay wallet, b) create a Card Registration Object, and c) save the card token
 exports.createPaymentMethodHTTPS = functions.region('europe-west1').https.onCall( async (data, context) => {
@@ -334,14 +347,11 @@ exports.transact = functions.region('europe-west1').https.onCall( async (data, c
         "CreditedWalletId": recipientWalletID
         }
 
-      console.log(MPTransferData)
-
       const transfer = await mpAPI.Transfers.create(MPTransferData)
       .catch(err => {
         console.log(err)
         return err
       })
-      console.log(transfer)
 
       // 5: Add a new document to FS transaction database with a generated id
       const transactionData = {
@@ -464,7 +474,7 @@ exports.addCredit = functions.region('europe-west1').https.onCall( async (data, 
   var culture = ''
 
   const currencyType = data.currency
-  const amount = data.amount
+  const amount = data.amount + 20
   // the fee to be taken should be an integer, since the amount is in cents/pence
   const fee = 20
   // const fee = Math.round(amount/100*1.8)
@@ -899,7 +909,6 @@ exports.events_FCHK4JM41QgvlwAqzUGHmD89JiH2f0
   let eventType = request.query.EventType
   let resourceID = request.query.RessourceId
 
-
   // let's differentiate between the types of triggers that can be received
   if (eventType === "KYC_SUCCEEDED") {
     db.doc('KYC_SUCCEEDED').collection('eventQueue').add({
@@ -967,7 +976,7 @@ exports.respondToEventRecord = functions.region('europe-west1').firestore.docume
 
   const db = admin.firestore()
 
-  const eventType = context.params.type
+  const eventType = String(context.params.type)
   const resourceID = snap.data().resourceID
   
   const eventRecord = context.params.record
@@ -1096,9 +1105,8 @@ exports.respondToEventRecord = functions.region('europe-west1').firestore.docume
         token: KYCRefusedNotificationToken
       }
 
-      console.log(payload)
-      // Send a message to the device corresponding to the provided
-      // registration token.
+      
+      // Send a message to the device corresponding to the provided registration token
       admin.messaging().send(payload)
         .then((response) => {
           return
@@ -1122,12 +1130,24 @@ exports.respondToEventRecord = functions.region('europe-west1').firestore.docume
 
     // we need two things - the status (to check that the doc is validated and also to ensure the request didn't come from a 3rd party), and the mangopayID to send a notification to the correct device and user
     const authorID = kyc.AuthorId
-    const creditorID = kyc.CreditorId
+    const creditorID = kyc.CreditedUserId
     const creditedFunds = kyc.CreditedFunds
-    const currency = creditedFunds["Currency"]
+    const currencyCode = creditedFunds["Currency"]
+    var currency = ""
+
+    if (currencyCode === "EUR") {
+      currency = "€"
+    } else if (currencyCode === "GBP") {
+      currency = "£"
+    } else if (currencyCode === "USD" || currencyCode === "CAD" || currencyCode === "AUD" || currencyCode === "NZD") {
+      currency = "$"
+    } else {
+      currency = currencyCode
+    }
+
     // amount is stored in cents/pence, so needs to be divided by 100
     const centsAmount = parseFloat(creditedFunds["Amount"])
-    const amount = amount/100
+    const amount = String(centsAmount/100)
 
     var authorName = ""
     var creditorToken = ""
@@ -1180,11 +1200,14 @@ exports.respondToEventRecord = functions.region('europe-west1').firestore.docume
     const payload = {
       notification: {
         title: `You received ${currency}${amount} from ${authorName}!`,
-        body: 'Open the app to view receipt.'
+        body: 'Open the app to view receipt.',
         // icon: photoURL
       },
       data: {
-        eventType: eventType
+        eventType: eventType,
+        authorName: authorName,
+        currency: currency,
+        amount: amount
       },
       token: creditorToken
     }
@@ -1198,8 +1221,10 @@ exports.respondToEventRecord = functions.region('europe-west1').firestore.docume
         return
     })
     .catch((err) => {
+  
+      console.log(err)
 
-      helpers.moveEventRecordTo(eventType, 'failedToSendNotification', eventRecord, resourceID, false, err)
+      helpers.moveEventRecordTo(eventType, 'failedToSendNotification', eventRecord, resourceID, false)
 
     })
   }

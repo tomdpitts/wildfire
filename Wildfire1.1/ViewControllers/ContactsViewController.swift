@@ -35,6 +35,16 @@ class ContactsViewController: UITableViewController {
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellID)
         
         fetchContacts()
+        
+        let searchBar = UISearchBar(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 44))
+        self.tableView.tableHeaderView = searchBar
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        var contentOffset: CGPoint = self.tableView.contentOffset
+        contentOffset.y += (self.tableView.tableHeaderView?.frame)!.height
+        self.tableView.contentOffset = contentOffset
     }
     
     func backAction() -> Void {
@@ -98,12 +108,12 @@ class ContactsViewController: UITableViewController {
                                     mobile = n.value.stringValue
                                 }
                             }
-                            let allowedCharset = CharacterSet
-                                .decimalDigits
-                            let mobileClean = String(mobile.unicodeScalars.filter(allowedCharset.contains))
+//                            let allowedCharset = CharacterSet
+//                                .decimalDigits
+//                            let mobileClean = String(mobile.unicodeScalars.filter(allowedCharset.contains))
                             
                             
-                            let person = Contact(givenName: contact.givenName, familyName: contact.familyName, fullName: name, phoneNumber: mobileClean, uid: nil)
+                            let person = Contact(givenName: contact.givenName, familyName: contact.familyName, fullName: name, phoneNumber: mobile, uid: nil)
                             
                             
                             self.contactsList.append(person)

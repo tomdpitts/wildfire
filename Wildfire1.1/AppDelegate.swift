@@ -179,12 +179,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             guard let refusedMessage = userInfo["refusedMessage"] as? String else {
                 print("no message")
                 return
-                
             }
             guard let refusedType = userInfo["refusedType"] as? String else {
                 print("no type")
                 return
-                
             }
             
             UserDefaults.standard.set(refusedMessage, forKey: "refusedMessage")
@@ -200,6 +198,35 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                     currentController.present(controller, animated: true, completion: nil)
                 }
             }
+        } else if eventType == "TRANSFER_NORMAL_SUCCEEDED" {
+            guard let authorName = userInfo["authorName"] as? String else {
+                print("no name")
+                return
+            }
+            guard let currency = userInfo["currency"] as? String else {
+                print("no currency")
+                return
+            }
+            guard let amount = userInfo["amount"] as? String else {
+                print("no currency")
+                return
+            }
+            
+            if let controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "NotificationPaymentReceived") as? NotificationPaymentReceivedViewController {
+                
+                controller.authorName = authorName
+                controller.currency = currency
+                controller.amount = amount
+                
+                if let window = self.window, let rootViewController = window.rootViewController {
+                    var currentController = rootViewController
+                    while let presentedController = currentController.presentedViewController {
+                        currentController = presentedController
+                    }
+                    currentController.present(controller, animated: true, completion: nil)
+                }
+            }
+            
             
         }
         

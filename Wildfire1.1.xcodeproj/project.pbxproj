@@ -13,6 +13,7 @@
 		E20104EE23EB994F00441040 /* AddCardSuccessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E20104ED23EB994F00441040 /* AddCardSuccessViewController.swift */; };
 		E2026709230ED8CF003C0AF4 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2026708230ED8CF003C0AF4 /* LoginViewController.swift */; };
 		E2149704231410240048D149 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2149703231410240048D149 /* HomeViewController.swift */; };
+		E21710F9242466D5006B4FAE /* NotificationPaymentReceivedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E21710F8242466D5006B4FAE /* NotificationPaymentReceivedViewController.swift */; };
 		E21AC96321EA6BEF00D460A9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E21AC96221EA6BEF00D460A9 /* AppDelegate.swift */; };
 		E21AC96521EA6BEF00D460A9 /* PayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E21AC96421EA6BEF00D460A9 /* PayViewController.swift */; };
 		E21AC96721EA6BEF00D460A9 /* ReceiveViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E21AC96621EA6BEF00D460A9 /* ReceiveViewController.swift */; };
@@ -83,6 +84,7 @@
 		E20104ED23EB994F00441040 /* AddCardSuccessViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCardSuccessViewController.swift; sourceTree = "<group>"; };
 		E2026708230ED8CF003C0AF4 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		E2149703231410240048D149 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		E21710F8242466D5006B4FAE /* NotificationPaymentReceivedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationPaymentReceivedViewController.swift; sourceTree = "<group>"; };
 		E21AC95F21EA6BEF00D460A9 /* Wildfire1.1.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Wildfire1.1.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E21AC96221EA6BEF00D460A9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E21AC96421EA6BEF00D460A9 /* PayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayViewController.swift; sourceTree = "<group>"; };
@@ -293,6 +295,7 @@
 				E2DEF202240E2C96006A6106 /* KYCSuccessViewController.swift */,
 				E2A45D3E240F789D00EC7975 /* ButtonStyleViewController.swift */,
 				E2A45D432419BC9800EC7975 /* Outcomes.swift */,
+				E21710F8242466D5006B4FAE /* NotificationPaymentReceivedViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -503,6 +506,7 @@
 				E21AC98521EA6C9E00D460A9 /* AccountViewController.swift in Sources */,
 				E25213B9234E4375003B2160 /* FirebaseAuthManager.swift in Sources */,
 				E22D7E0323A7393100F86487 /* DisplayReceiptViewController.swift in Sources */,
+				E21710F9242466D5006B4FAE /* NotificationPaymentReceivedViewController.swift in Sources */,
 				E22A9CFD239546C400A35EC1 /* Account2ViewController.swift in Sources */,
 				E21AC96521EA6BEF00D460A9 /* PayViewController.swift in Sources */,
 				E222732A23420BBE006D8326 /* AddCardViewController.swift in Sources */,
