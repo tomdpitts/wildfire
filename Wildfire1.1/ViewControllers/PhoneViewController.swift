@@ -25,7 +25,7 @@ class PhoneViewController: UIViewController {
             self.navigationItem.leftBarButtonItem = nil;
             self.navigationItem.hidesBackButton = true;
         self.navigationController?.navigationItem.backBarButtonItem?.isEnabled = false;
-        self.navigationController!.interactivePopGestureRecognizer!.isEnabled = false;
+//        self.navigationController!.interactivePopGestureRecognizer!.isEnabled = false;
         
         Utilities.styleHollowButton(verifyButton)
         

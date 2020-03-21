@@ -106,7 +106,35 @@ exports.createNewMangopayCustomer = functions.region('europe-west1').firestore.d
   var nationality = data.nationality
   var residence = data.residence
 
+  // const currencyType = data.currency
+
   const customer = await mpAPI.Users.create({PersonType: 'NATURAL', FirstName: firstname, LastName: lastname, Birthday: birthday, Nationality: nationality, CountryOfResidence: residence, Email: email});
+
+    const wallet = await mpAPI.Wallets.create({Owners: mangopayID, Description: walletName, Currency: "GBP"})
+
+    const walletID = wallet.Id
+
+    // we need to add a Wallet to the user's Firestore record - this will store the card token(s) for repeat payments
+
+    admin.firestore().collection('users').doc(userID).set({
+      defaultWalletID: walletID
+    }, {merge: true})
+    // merge: true is often crucial but perhaps nowhere more so than here.. DO NOT DELETE without extreme care
+    .catch(err => {
+      console.log('Error saving defaultWallet to database', err);
+    })
+
+    admin.firestore().collection('users').doc(userID).collection('wallets').doc(walletID).set({
+      created: wallet.CreationDate,
+      balance: wallet.Balance['Amount'],
+      description: wallet.Description,
+      currency: wallet.Currency,
+      // I'm not sure this line is needed
+      // temp_card_registration_id: cardReg.Id
+    })
+    .catch(err => {
+      console.log('Error saving wallet to database', err);
+    })
 
   return admin.firestore().collection('users').doc(context.params.id).update({mangopayID: customer.Id});
 
@@ -168,7 +196,7 @@ exports.createPaymentMethodHTTPS = functions.region('europe-west1').https.onCall
   });
 
   if (walletExists === false) {
-    const wallet = await mpAPI.Wallets.create({Owners: mangopayID, Description: walletName, Currency: 'EUR'});
+    const wallet = await mpAPI.Wallets.create({Owners: mangopayID, Description: walletName, Currency: 'GBP'});
 
     walletID = wallet.Id
 
