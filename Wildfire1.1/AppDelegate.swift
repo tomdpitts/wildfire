@@ -98,7 +98,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func applicationWillEnterForeground(_ application: UIApplication) {
         
         // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
-//        fetchPaymentMethodsListFromMangopay()
+//        listCardsFromMangopay()
 //        redirect()
         
     }
@@ -282,7 +282,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }
     }
     
-    func fetchPaymentMethodsListFromMangopay() {
+    func listCardsFromMangopay() {
         
         functions.httpsCallable("listCards").call() { (result, error) in
 
@@ -295,18 +295,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 
                 if count > 0 {
                     for i in 1...count {
+                        var cardID = ""
                         var cardNumber = ""
                         var cardProvider = ""
                         var expiryDate = ""
                         
                         let blob1 = cardList[i-1]
-                        if let cn = blob1["Alias"] as? String, let cp = blob1["CardProvider"] as? String, let ed = blob1["ExpirationDate"] as? String {
+                        if let id = blob1["Id"] as? String, let cn = blob1["Alias"] as? String, let cp = blob1["CardProvider"] as? String, let ed = blob1["ExpirationDate"] as? String {
                             
                             cardNumber = String(cn.suffix(8))
                             cardProvider = cp
                             expiryDate = ed
+                            cardID = id
                         }
-                        let card = PaymentCard(cardNumber: cardNumber, cardProvider: cardProvider, expiryDate: expiryDate)
+                        let card = PaymentCard(cardID: cardID, cardNumber: cardNumber, cardProvider: cardProvider, expiryDate: expiryDate)
                         
                         defaults.set(try? PropertyListEncoder().encode(card), forKey: "card\(i)")
                     }

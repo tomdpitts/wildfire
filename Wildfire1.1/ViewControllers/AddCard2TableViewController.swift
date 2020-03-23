@@ -179,7 +179,7 @@ class AddCard2TableViewController: UITableViewController, UITextFieldDelegate {
                                     // When the card has been added, trigger the API call to MangoPay to update UserDefaults with the card data (so that it shows up in the PaymentMethods View)
                                     // N.B. one benefit of NOT saving it directly is that MangoPay can handle any validation - this way, we only save it when it's definitely been correctly added to their MP account
                                     let appDelegate = AppDelegate()
-                                    appDelegate.fetchPaymentMethodsListFromMangopay()
+                                    appDelegate.listCardsFromMangopay()
                                     
                                     // leaving makeDefault as true by default for now
                                     self.addAddressToCard(walletID: walletID, cardID: cardID, makeDefault: true)

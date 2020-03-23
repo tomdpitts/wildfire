@@ -192,5 +192,8 @@ class Send2ViewController: UIViewController, MFMessageComposeViewControllerDeleg
         self.present(alert, animated: true)
     }
     
-    
+    @IBAction func unwindToPrevious(_ unwindSegue: UIStoryboardSegue) {
+        //        let sourceViewController = unwindSegue.source
+        // Use data from the view controller which initiated the unwind segue
+    }
 }

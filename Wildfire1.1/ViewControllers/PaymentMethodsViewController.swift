@@ -114,7 +114,15 @@ class PaymentMethodsViewController: UITableViewController {
             performSegue(withIdentifier: "showCardDetails", sender: self)
         }
     }
+    @IBAction func addCardPressed(_ sender: Any) {
         
+        if paymentMethodsList.count != 0 {
+            performSegue(withIdentifier: "showCardLimitReachedView", sender: self)
+        } else {
+            performSegue(withIdentifier: "showAddCardView", sender: self)
+        }
+    }
+    
     func fetchCards(completion: @escaping ()->()) {
         // TODO add mangopay call to fetch list of cards
         // OR store them locally?

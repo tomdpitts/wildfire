@@ -80,16 +80,11 @@ class ConfirmViewController: UIViewController {
         }
         
         self.showSpinner(onView: self.view)
+        
+        
     }
     
-//    override func viewWillDisappear(_ animated: Bool) {
-//        Auth.auth().removeStateDidChangeListener(handle!)
-//    }
-    
-//    override func viewDidAppear(_ animated: Bool) {
-//        super.viewDidAppear(animated)
-//
-//
+
 //        // update the labels to explain current balance and what the user can expect to happen next
 //        // for reasons explained in the func itself, this should be called AFTER setUpRecipientDetails, as they both refer to class variable sendAmount
 //        getUserBalance()
@@ -311,7 +306,7 @@ class ConfirmViewController: UIViewController {
                     
                     print("auth was fine")
                     
-                    self.functions.httpsCallable("addCredit").call(["amount": tpa, "currency": "EUR"]) { (result, error) in
+                    self.functions.httpsCallable("createPayin").call(["amount": tpa, "currency": "EUR"]) { (result, error) in
                         if error != nil {
                             // TODO
                             

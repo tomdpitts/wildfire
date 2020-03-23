@@ -16,8 +16,6 @@ class DisplayReceiptAfterPaymentViewController: UIViewController {
     @IBOutlet weak var payerLabel: UILabel!
     @IBOutlet weak var recipientLabel: UILabel!
     @IBOutlet weak var amountLabel: UILabel!
-    
-    
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var timeLabel: UILabel!
     
@@ -110,7 +108,13 @@ class DisplayReceiptViewController: UIViewController {
     }
     
     @IBAction func doneButtonTapped(_ sender: Any) {
-        self.dismiss(animated: true, completion: nil)
+        
+        if self.isBeingPresented {
+            self.dismiss(animated: true, completion: nil)
+        
+        } else {
+            self.performSegue(withIdentifier: "unwindToPay", sender: self)
+        }
     }
 }
 

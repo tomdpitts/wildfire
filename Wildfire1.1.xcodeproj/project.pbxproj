@@ -50,7 +50,7 @@
 		E29CF6982359BECD00ADC0D0 /* Send2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29CF6972359BECD00ADC0D0 /* Send2ViewController.swift */; };
 		E29EA43524062DAA0059C7A4 /* Graphics in Resources */ = {isa = PBXBuildFile; fileRef = E29EA43424062DAA0059C7A4 /* Graphics */; };
 		E2A45D3F240F789D00EC7975 /* ButtonStyleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A45D3E240F789D00EC7975 /* ButtonStyleViewController.swift */; };
-		E2A45D442419BC9800EC7975 /* Outcomes.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A45D432419BC9800EC7975 /* Outcomes.swift */; };
+		E2A45D442419BC9800EC7975 /* InfoViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A45D432419BC9800EC7975 /* InfoViews.swift */; };
 		E2AD346821F384430030FA2E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E2AD346721F384430030FA2E /* Assets.xcassets */; };
 		E2B979E12329609E00194E75 /* ScanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E21AC99621EA850C00D460A9 /* ScanViewController.swift */; };
 		E2B979E3232960B000194E75 /* ConfirmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2B979DE23295DB000194E75 /* ConfirmViewController.swift */; };
@@ -127,7 +127,7 @@
 		E29EA43424062DAA0059C7A4 /* Graphics */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Graphics; sourceTree = SOURCE_ROOT; };
 		E2A45D3E240F789D00EC7975 /* ButtonStyleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonStyleViewController.swift; sourceTree = "<group>"; };
 		E2A45D402415D0F100EC7975 /* Wildfire1.1.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Wildfire1.1.entitlements; sourceTree = "<group>"; };
-		E2A45D432419BC9800EC7975 /* Outcomes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Outcomes.swift; sourceTree = "<group>"; };
+		E2A45D432419BC9800EC7975 /* InfoViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoViews.swift; sourceTree = "<group>"; };
 		E2AD346721F384430030FA2E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E2B979DB2329441900194E75 /* Playground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Playground.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		E2B979DE23295DB000194E75 /* ConfirmViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmViewController.swift; sourceTree = "<group>"; };
@@ -294,7 +294,7 @@
 				E2DEF200240D0610006A6106 /* DocumentTypeViewController.swift */,
 				E2DEF202240E2C96006A6106 /* KYCSuccessViewController.swift */,
 				E2A45D3E240F789D00EC7975 /* ButtonStyleViewController.swift */,
-				E2A45D432419BC9800EC7975 /* Outcomes.swift */,
+				E2A45D432419BC9800EC7975 /* InfoViews.swift */,
 				E21710F8242466D5006B4FAE /* NotificationPaymentReceivedViewController.swift */,
 			);
 			path = ViewControllers;
@@ -476,7 +476,7 @@
 				E2DEF201240D0610006A6106 /* DocumentTypeViewController.swift in Sources */,
 				E2026709230ED8CF003C0AF4 /* LoginViewController.swift in Sources */,
 				E271C0CE23D81EED004245CC /* CardDetailsViewController.swift in Sources */,
-				E2A45D442419BC9800EC7975 /* Outcomes.swift in Sources */,
+				E2A45D442419BC9800EC7975 /* InfoViews.swift in Sources */,
 				E29CF69623586AE700ADC0D0 /* ContactsViewController.swift in Sources */,
 				E2FA9ED62333D70D0068792D /* PaymentSetupViewController.swift in Sources */,
 				E26039782350DABA0031C792 /* ProfilePicViewController.swift in Sources */,

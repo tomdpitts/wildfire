@@ -291,7 +291,9 @@ exports.transact = functions.region('europe-west1').https.onCall( async (data, c
   const db = admin.firestore()
   const userID = context.auth.uid
   const recipientID = data.recipientUID
-  const amount = data.amount
+  const amountRequested = data.amount
+  // 98% of amount requested is transferred
+  const amount = (amount*98)/100
   const currency = data.currency
 
   // now we have all the input we need ^
@@ -485,7 +487,7 @@ exports.listCards = functions.region('europe-west1').https.onCall( async (data, 
   }
 })
 
-exports.addCredit = functions.region('europe-west1').https.onCall( async (data, context) => {
+exports.createPayin = functions.region('europe-west1').https.onCall( async (data, context) => {
   const userID = context.auth.uid
 
   var mangopayID = ''
@@ -504,8 +506,9 @@ exports.addCredit = functions.region('europe-west1').https.onCall( async (data, 
   const currencyType = data.currency
   const amount = data.amount + 20
   // the fee to be taken should be an integer, since the amount is in cents/pence
-  const fee = 20
-  // const fee = Math.round(amount/100*1.8)
+
+  // payin billing is applied here: 2% + 20p
+  const fee = (amount*98)/100 + 20
 
   // using the Firebase userID (supplied via 'context' of the request), get the data we need for the payin 
   await admin.firestore().collection('users').doc(userID).get().then(doc => {
@@ -572,52 +575,56 @@ exports.addCredit = functions.region('europe-west1').https.onCall( async (data, 
   return payin
 })
 
-exports.createPayout = functions.region('europe-west1').https.onCall( async (data, context) => {
+// exports.createPayout = functions.region('europe-west1').https.onCall( async (data, context) => {
 
-  const userID = context.auth.uid
-  const currencyType = data.currency
-  const amount = data.amount
-  // the fee to be taken should be an integer, since the amount is in cents/pence
-  const fee = Math.round(amount/100*1.8)
+//   const userID = context.auth.uid
+//   const currencyType = data.currency
+//   const amountRequested = data.amount
+//   const amount = (amountRequested*98)/100 
+//   // the fee to be taken should be an integer, since the amount is in cents/pence
+//   // UK fee (at time of writing) is 45 pence
+//   const fee = 45
+  
+//   Math.round(amount/100*1.8)
 
-  var mangopayID = ''
-  var walletID = ''
-  var bankAccountID = ''
-  var culture = ''
+//   var mangopayID = ''
+//   var walletID = ''
+//   var bankAccountID = ''
+//   var culture = ''
 
-  // using the Firebase userID (supplied via 'context' of the request), get the data we need for the payin 
-  await admin.firestore().collection('users').doc(userID).get().then(doc => {
-    userData = doc.data();
-    mangopayID = userData.mangopayID
-    walletID = userData.defaultWalletID
-    bankAccountID = userData.defaultBankAccountID
+//   // using the Firebase userID (supplied via 'context' of the request), get the data we need for the payin 
+//   await admin.firestore().collection('users').doc(userID).get().then(doc => {
+//     userData = doc.data();
+//     mangopayID = userData.mangopayID
+//     walletID = userData.defaultWalletID
+//     bankAccountID = userData.defaultBankAccountID
     
-    culture = userData.culture
-    return
-  })
-  .catch(err => {
-    console.log('Error getting user info for payout', err);
-  });
+//     culture = userData.culture
+//     return
+//   })
+//   .catch(err => {
+//     console.log('Error getting user info for payout', err);
+//   });
 
-  const payoutData = {
-    "AuthorId": mangopayID,
-    "DebitedFunds": {
-      "Currency": currencyType,
-      "Amount": amount
-      },
-    "Fees": {
-      "Currency": currencyType,
-      "Amount": fee
-      },
-    "BankAccountId": bankAccountID,
-    "DebitedWalletId": walletID,
-    "BankWireRef": "WILDFIRE",
-    "PaymentType": "BANK_WIRE"
-    }
+//   const payoutData = {
+//     "AuthorId": mangopayID,
+//     "DebitedFunds": {
+//       "Currency": currencyType,
+//       "Amount": amount
+//       },
+//     "Fees": {
+//       "Currency": currencyType,
+//       "Amount": fee
+//       },
+//     "BankAccountId": bankAccountID,
+//     "DebitedWalletId": walletID,
+//     "BankWireRef": "WILDFIRE",
+//     "PaymentType": "BANK_WIRE"
+//     }
 
-  const payout = mpAPI.PayOuts.create(payoutData)
-  return payout
-})
+//   const payout = mpAPI.PayOuts.create(payoutData)
+//   return payout
+// })
 
 exports.getCurrentBalance = functions.region('europe-west1').https.onCall( async (data, context) => {
 
@@ -642,7 +649,9 @@ exports.getCurrentBalance = functions.region('europe-west1').https.onCall( async
   const wallet = await mpAPI.Wallets.get(walletID)
   const currentBalance = wallet.Balance.Amount
 
-  return db.set({balance: currentBalance}, {merge: true})
+  const balanceFactored = (currentBalance*100)/98
+
+  return db.set({balance: balanceFactored}, {merge: true})
 
 });
 
@@ -785,10 +794,11 @@ exports.triggerPayout = functions.region('europe-west1').https.onCall( async (da
 
   // TODO currency likely to be an issue. At present it's defined in the initial call from client (reasoning: user can choose their currrency and later switch at will) but if the currency doesn't match the wallet currency, the payout won't succeed. Thought needed. 
   const currencyType = data.currency
-  const amount = data.amount
+  const amountRequested = data.amount
+  const amount = (amountRequested*98)/100 
   
   // the fee to be taken should be an integer, since the amount is in cents/pence
-  const fee = Math.round(amount/100*1.8)
+  const fee = 45
   
   // using the Firebase userID (supplied via 'context' of the request), get the wallet ID
   await db.get().then(doc => {
@@ -804,13 +814,6 @@ exports.triggerPayout = functions.region('europe-west1').https.onCall( async (da
   .catch(err => {
     console.log('Error getting mangopayID from Firestore database', err);
   });
-
-  // let bankAccounts = mpAPI.Users.getBankAccount(mangopayID)
-  // console.log(bankAccounts)
-  // let primaryBankAccount = bankAccounts[1]
-  // console.log('primaryBankAccount')
-  // let bankAccountID = primaryBankAccount["Id"]
-  // console.log('bankAccountID')
 
   const payoutData = 
     {
@@ -903,28 +906,6 @@ exports.addKYCDocument = functions.region('europe-west1').https.onCall( async (d
   const updatedDoc = await mpAPI.Users.updateKycDocument(mangopayID, requestValidationStatus)
 
   return updatedDoc
-})
-
-exports.deleteCard = functions.region('europe-west1').https.onCall( async (data, context) => {
-
-  // const userID = context.auth.uid
-  // var mangopayID = ""
-
-  // // using the Firebase userID (supplied via 'context' of the request), get the mangopayID 
-  // await admin.firestore().collection('users').doc(userID).collection('wallets').doc(get().then(doc => {
-  //   userData = doc.data();
-  //   mangopayID = userData.mangopayID
-  //   return
-  // })
-  // .catch(err => {
-  //   console.log('Error getting mangopayID from Firestore database', err);
-  // })
-
-  // TODO add MangoPay Card Deactivation (useful code above)
-
-
-  return cardsList = mpAPI.Users.getCards(mangopayID, JSON)
-
 })
 
 // messy name is a little extra security by obscurity - this endpoint has no authentication
@@ -1259,20 +1240,88 @@ exports.respondToEventRecord = functions.region('europe-west1').firestore.docume
 })
 
 
-//// when a user is deleted, set isDeleted flag to True in the database
-//exports.cleanupUserData = functions.auth.user().onDelete((userRecord,context) => {
-//    const uid = userRecord.uid
-//    const doc = admin.firestore().doc('/users/' + uid)
-//    return doc.update({isDeleted: true})
-//    })
-//
-//// need to add the payment processor side deletion as well as Firestore deletion - have attached the following as a guide
-//// When a user deletes their account, clean up after them
-//exports.cleanupUser = functions.auth.user().onDelete(async (user) => {
-//                                                     const snapshot = await admin.firestore().collection('stripe_customers').doc(user.uid).get();
-//                                                     const customer = snapshot.data();
-//                                                     await stripe.customers.del(customer.customer_id);
-//                                                     return admin.firestore().collection('stripe_customers').doc(user.uid).delete();
-//                                                     });
+// when a user is deleted, set isDeleted flag to True in the database
+exports.cleanupUserData = functions.auth.user().onDelete(async (userRecord,context) => {
+  const uid = userRecord.uid
+  const userRef = db.collection("users").doc(uid)
+
+  var cardID = ""
+
+  // 2: get the user and recipient  wallet ID and MP ID
+  await userRef.get().then(doc => {
+    let data = doc.data()
+    defaultCardID = data.defaultCardID
+    return
+  })
+  .catch(err => {
+    balanceFail = true
+    console.log('Error getting user balance', err);
+  });
+
+  mpAPI.Cards.update({Id: cardId, Active: false})
+
+
+
+
+})
+
+// need to add the payment processor side deletion as well as Firestore deletion - have attached the following as a guide
+// When a user deletes their account, clean up after them
+exports.cleanupUser = functions.auth.user().onDelete(async (user) => {
+  const snapshot = await admin.firestore().collection('stripe_customers').doc(user.uid).get();
+  const customer = snapshot.data();
+  await stripe.customers.del(customer.customer_id);
+  return admin.firestore().collection('stripe_customers').doc(user.uid).delete();
+  })
 
 // Since all users exist in the database as a kind of duplicate of the User list, when a user deletes their account, rather than delete the record we're just adding an isDeleted flag - if the user ever wants to return their data is still available
+
+exports.deleteCard = functions.region('europe-west1').https.onCall( async (data, context) => {
+
+  const uid = context.params.uid
+  const userRef = db.collection("users").doc(uid)
+
+  var cardID = ""
+
+  await userRef.get().then(doc => {
+    let data = doc.data()
+    defaultCardID = data.defaultCardID
+    return
+  })
+  .then(
+    mpAPI.Cards.update({Id: cardId, Active: false})
+  ).then(
+    userRef.collection('wallets'/{walletID}/'cards'/cardID).set({
+      billingAddress: "",
+      deleted: true
+    }, {merge: true})
+  ).then( 
+    userRef.set({
+      defaultCardID: ""
+    }, {merge: true})
+  ).catch(err => {
+    balanceFail = true
+    console.log('Error getting user balance', err);
+  })
+
+  
+
+  // const userID = context.auth.uid
+  // var mangopayID = ""
+
+  // // using the Firebase userID (supplied via 'context' of the request), get the mangopayID 
+  // await admin.firestore().collection('users').doc(userID).collection('wallets').doc(get().then(doc => {
+  //   userData = doc.data();
+  //   mangopayID = userData.mangopayID
+  //   return
+  // })
+  // .catch(err => {
+  //   console.log('Error getting mangopayID from Firestore database', err);
+  // })
+
+  // TODO add MangoPay Card Deactivation (useful code above)
+
+
+  return cardsList = mpAPI.Users.getCards(mangopayID, JSON)
+
+})

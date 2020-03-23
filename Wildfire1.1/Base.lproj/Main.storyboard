@@ -439,6 +439,67 @@
             </objects>
             <point key="canvasLocation" x="3746" y="4152"/>
         </scene>
+        <!--Adding Cards-->
+        <scene sceneID="Yni-Bi-EeG">
+            <objects>
+                <viewController id="2Wc-Ev-4GN" customClass="CardLimitReached" customModule="Wildfire1_1" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="9Me-aX-Ox9">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="aZX-ja-yDP">
+                                <rect key="frame" x="20" y="121.5" width="280" height="367"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icons8-mastercard-credit-card-100" translatesAutoresizingMaskIntoConstraints="NO" id="8O0-25-11a">
+                                        <rect key="frame" x="90" y="0.0" width="100" height="100"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="100" id="QWA-Da-qXg"/>
+                                            <constraint firstAttribute="width" secondItem="8O0-25-11a" secondAttribute="height" multiplier="1:1" id="tWu-9D-cHq"/>
+                                        </constraints>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Multiple cards not supported" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L9v-Z6-QE6">
+                                        <rect key="frame" x="16" y="120" width="248.5" height="24"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" horizontalHuggingPriority="1000" scrollEnabled="NO" editable="NO" textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ozJ-FX-AKQ">
+                                        <rect key="frame" x="0.5" y="164" width="279" height="133"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                        <string key="text">At this time, Wildfire can only save one card's info at a time. If you want to use a different card, no worries! Just tap on the added card and delete it. Nothing else in your account will be affected, including your balance. You'll then be able to add a new card. </string>
+                                        <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    </textView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wDG-PY-V2M">
+                                        <rect key="frame" x="40" y="317" width="200" height="50"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="200" id="TxL-cy-Z80"/>
+                                            <constraint firstAttribute="height" constant="50" id="dDV-4J-rgt"/>
+                                        </constraints>
+                                        <state key="normal" title="Done"/>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="aZX-ja-yDP" firstAttribute="centerX" secondItem="9Me-aX-Ox9" secondAttribute="centerX" id="0LJ-vJ-C8Z"/>
+                            <constraint firstItem="aZX-ja-yDP" firstAttribute="leading" secondItem="9Me-aX-Ox9" secondAttribute="leading" constant="20" id="YmR-nw-8eB"/>
+                            <constraint firstItem="aZX-ja-yDP" firstAttribute="centerY" secondItem="3fO-IY-HHa" secondAttribute="centerY" id="j5i-zS-1EQ"/>
+                            <constraint firstAttribute="trailing" secondItem="aZX-ja-yDP" secondAttribute="trailing" constant="20" id="xzR-hK-j9p"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="3fO-IY-HHa"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Adding Cards" id="EYN-ba-Gzj"/>
+                    <connections>
+                        <outlet property="doneButton" destination="wDG-PY-V2M" id="PLQ-aB-waw"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="GTD-Nf-5Pg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4509" y="4076"/>
+        </scene>
         <!--Add Card-->
         <scene sceneID="VCM-by-oi1">
             <objects>
@@ -878,7 +939,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="Crn-8f-BAR">
-                                <rect key="frame" x="20" y="68" width="280" height="371.5"/>
+                                <rect key="frame" x="20" y="119.5" width="280" height="371.5"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icons8-ok-480" translatesAutoresizingMaskIntoConstraints="NO" id="We2-ai-gvS">
                                         <rect key="frame" x="52.5" y="0.0" width="175" height="175"/>
@@ -919,7 +980,7 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="Crn-8f-BAR" firstAttribute="centerX" secondItem="fQU-xQ-SSX" secondAttribute="centerX" id="4Tb-RM-ays"/>
-                            <constraint firstItem="Crn-8f-BAR" firstAttribute="centerY" secondItem="fQU-xQ-SSX" secondAttribute="centerY" constant="-51.25" id="Kg3-bo-lSg"/>
+                            <constraint firstItem="Crn-8f-BAR" firstAttribute="centerY" secondItem="fQU-xQ-SSX" secondAttribute="centerY" id="Kg3-bo-lSg"/>
                             <constraint firstItem="fQU-xQ-SSX" firstAttribute="trailing" secondItem="Crn-8f-BAR" secondAttribute="trailing" constant="20" id="ULk-6P-jiL"/>
                             <constraint firstItem="Crn-8f-BAR" firstAttribute="leading" secondItem="fQU-xQ-SSX" secondAttribute="leading" constant="20" id="dr9-N6-twZ"/>
                         </constraints>
@@ -2214,12 +2275,14 @@
                     <navigationItem key="navigationItem" title="Payment Methods" id="3SY-5E-Xsm">
                         <barButtonItem key="rightBarButtonItem" title="Add Card" id="mLI-va-q7L">
                             <connections>
-                                <segue destination="lOX-0Y-FSB" kind="show" id="xSZ-MN-4qf"/>
+                                <action selector="addCardPressed:" destination="Cy9-Yl-4jQ" id="AOF-En-8dN"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
                         <segue destination="eVu-mO-ksZ" kind="show" identifier="showCardDetails" id="Wak-XF-XWl"/>
+                        <segue destination="lOX-0Y-FSB" kind="show" identifier="showAddCardView" id="YhI-hf-aZr"/>
+                        <segue destination="2Wc-Ev-4GN" kind="show" identifier="showCardLimitReachedView" id="0qu-gQ-DNZ"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jSc-Ma-ipP" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -3296,7 +3359,7 @@
             </objects>
             <point key="canvasLocation" x="7192.5" y="399.29577464788736"/>
         </scene>
-        <!--Bank Accounts-->
+        <!--Bank Account-->
         <scene sceneID="6rx-Uj-5c6">
             <objects>
                 <tableViewController id="CDk-SW-YDS" customClass="BankAccountsViewController" customModule="Wildfire1_1" customModuleProvider="target" sceneMemberID="viewController">
@@ -3319,7 +3382,7 @@
                             <outlet property="delegate" destination="CDk-SW-YDS" id="reD-4L-weV"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Bank Accounts" id="EqN-zL-adL"/>
+                    <navigationItem key="navigationItem" title="Bank Account" id="EqN-zL-adL"/>
                     <connections>
                         <outlet property="addAccountButton" destination="OBl-yO-4ew" id="acx-cY-lFH"/>
                         <outlet property="noBankAccountsView" destination="niR-aD-D5P" id="5td-Z0-MOh"/>
@@ -4398,7 +4461,7 @@
                                 <rect key="frame" x="10" y="115.5" width="300" height="337"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icons8-checked-identification-documents-100 (1).png" translatesAutoresizingMaskIntoConstraints="NO" id="sQg-pP-Ufm">
-                                        <rect key="frame" x="100" y="0.0" width="100" height="100"/>
+                                        <rect key="frame" x="50" y="0.0" width="200" height="100"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="100" id="AzQ-uq-Mo5"/>
                                         </constraints>
@@ -4608,7 +4671,7 @@
         <image name="icons8-right-button-100" width="50" height="50"/>
         <image name="icons8-user-50" width="25" height="25"/>
         <namedColor name="tealPrimary">
-            <color red="0.18068996070000001" green="0.76580256219999998" blue="0.78049224620000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.1809999942779541" green="0.76599997282028198" blue="0.77999997138977051" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
     <inferredMetricsTieBreakers>
@@ -4616,7 +4679,7 @@
         <segue reference="JjY-XQ-ITd"/>
         <segue reference="XkC-zp-HKA"/>
         <segue reference="ydr-lM-sQk"/>
-        <segue reference="JGW-hE-gdx"/>
+        <segue reference="YhI-hf-aZr"/>
         <segue reference="6CO-tz-ak8"/>
     </inferredMetricsTieBreakers>
 </document>

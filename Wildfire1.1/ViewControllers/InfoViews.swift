@@ -91,3 +91,14 @@ class OutcomeIDRefusedViewController: UIViewController {
         self.dismiss(animated: true, completion: nil)
     }
 }
+
+class CardLimitReached: UIViewController {
+    
+    @IBOutlet weak var doneButton: UIButton!
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        Utilities.styleHollowButton(doneButton)
+    }
+}
