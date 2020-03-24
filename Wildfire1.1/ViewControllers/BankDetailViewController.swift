@@ -7,8 +7,11 @@
 //
 
 import UIKit
+import FirebaseFunctions
 
 class BankDetailViewController: UIViewController {
+    
+    lazy var functions = Functions.functions(region:"europe-west1")
     
     var bankAccount: BankAccount?
     
@@ -93,7 +96,52 @@ class BankDetailViewController: UIViewController {
     
     
     @IBAction func deleteBankAccount(_ sender: Any) {
+        let title = "Delete Account Details"
+        let message = "Are you sure you want to delete this account information? This cannot be undone."
+        let segueID = "unwindToPrevious"
+        
+        showAlert(title: title, message: message, segueIdentifier: segueID)
     }
+    
+    
+    func showAlert(title: String, message: String?, segueIdentifier: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
+            
+            self.deleteBankAccountInfo()
+            
+            self.performSegue(withIdentifier: segueIdentifier, sender: self)
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
+        }))
+        
+        self.present(alert, animated: true)
+    }
+    
+    
+    func deleteBankAccountInfo() {
+        
+        self.functions.httpsCallable("deleteCard").call() { (result, error) in
+            // update credit cards list
+            let appDelegate = AppDelegate()
+            appDelegate.fetchBankAccountsListFromMangopay()
+        }
+        
+        if let id = self.bankAccount?.accountID {
+            UserDefaults.standard.removeObject(forKey: "bankAccount\(id)")
+            let count = UserDefaults.standard.integer(forKey: "numberOfBankAccounts")
+            if count > 0 {
+                let newCount = count - 1
+                UserDefaults.standard.set(newCount, forKey: "numberOfBankAccounts")
+            }
+        }
+    }
+    
+    
+    
+    
     
     func displayBankInfo() {
         if let bnk = bankAccount {

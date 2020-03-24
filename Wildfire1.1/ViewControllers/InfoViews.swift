@@ -101,4 +101,8 @@ class CardLimitReached: UIViewController {
         
         Utilities.styleHollowButton(doneButton)
     }
+    
+    @IBAction func doneButtonTapped(_ sender: Any) {
+        self.performSegue(withIdentifier: "unwindToPrevious", sender: self)
+    }
 }

@@ -1290,38 +1290,19 @@ exports.deleteCard = functions.region('europe-west1').https.onCall( async (data,
   })
   .then(
     mpAPI.Cards.update({Id: cardId, Active: false})
-  ).then(
-    userRef.collection('wallets'/{walletID}/'cards'/cardID).set({
-      billingAddress: "",
-      deleted: true
-    }, {merge: true})
-  ).then( 
+  ).catch(err => {
+    console.log('Error deleting card on mangopay', err)
+  }).then(
+    userRef.doc('wallets'/{walletID}/'cards'/cardID).delete()
+  ).catch(err => {
+    console.log('Error deleting card in firestore (cards)', err)
+  }).then( 
     userRef.set({
       defaultCardID: ""
     }, {merge: true})
   ).catch(err => {
-    balanceFail = true
-    console.log('Error getting user balance', err);
+    console.log('Error deleting defaultCardID in Firestore', err)
   })
-
   
-
-  // const userID = context.auth.uid
-  // var mangopayID = ""
-
-  // // using the Firebase userID (supplied via 'context' of the request), get the mangopayID 
-  // await admin.firestore().collection('users').doc(userID).collection('wallets').doc(get().then(doc => {
-  //   userData = doc.data();
-  //   mangopayID = userData.mangopayID
-  //   return
-  // })
-  // .catch(err => {
-  //   console.log('Error getting mangopayID from Firestore database', err);
-  // })
-
-  // TODO add MangoPay Card Deactivation (useful code above)
-
-
-  return cardsList = mpAPI.Users.getCards(mangopayID, JSON)
-
+  return
 })

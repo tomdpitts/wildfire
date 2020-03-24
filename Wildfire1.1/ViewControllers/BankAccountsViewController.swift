@@ -54,7 +54,8 @@ class BankAccountsViewController: UITableViewController {
 //                }
             self.tableView.reloadData()
             if self.bankAccountsList.count == 0 {
-                self.tableView.backgroundView = self.noBankAccountsView
+                self.tableView.addSubview(self.noBankAccountsView)
+//                self.tableView.backgroundView = self.noBankAccountsView
                 Utilities.styleHollowButton(self.addAccountButton)
             }
         }

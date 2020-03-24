@@ -402,7 +402,7 @@
                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>
-                                    <action selector="deleteCard:" destination="eVu-mO-ksZ" eventType="touchUpInside" id="nXC-Dd-oAr"/>
+                                    <action selector="deleteCardButtonTapped:" destination="eVu-mO-ksZ" eventType="touchUpInside" id="kvU-Re-Ufd"/>
                                 </connections>
                             </button>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icons8-mastercard-credit-card-100" translatesAutoresizingMaskIntoConstraints="NO" id="0mM-si-8c8">
@@ -433,9 +433,11 @@
                         <outlet property="cardNumberLabel" destination="UYn-y1-Ykj" id="hF0-cG-Bgc"/>
                         <outlet property="deleteButton" destination="rAb-Qn-37J" id="Ayc-cB-LvY"/>
                         <outlet property="expiryDateLabel" destination="mdR-vM-twh" id="weS-KD-xaG"/>
+                        <segue destination="MYV-Q9-SEJ" kind="unwind" identifier="unwindToPrevious" unwindAction="unwindToPrevious:" id="5EA-7S-atm"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gZS-Y9-AFt" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="MYV-Q9-SEJ" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="3746" y="4152"/>
         </scene>
@@ -448,7 +450,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="aZX-ja-yDP">
-                                <rect key="frame" x="20" y="121.5" width="280" height="367"/>
+                                <rect key="frame" x="20" y="130" width="280" height="350.5"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icons8-mastercard-credit-card-100" translatesAutoresizingMaskIntoConstraints="NO" id="8O0-25-11a">
                                         <rect key="frame" x="90" y="0.0" width="100" height="100"/>
@@ -464,20 +466,23 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" horizontalHuggingPriority="1000" scrollEnabled="NO" editable="NO" textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ozJ-FX-AKQ">
-                                        <rect key="frame" x="0.5" y="164" width="279" height="133"/>
+                                        <rect key="frame" x="0.5" y="164" width="279" height="116.5"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                        <string key="text">At this time, Wildfire can only save one card's info at a time. If you want to use a different card, no worries! Just tap on the added card and delete it. Nothing else in your account will be affected, including your balance. You'll then be able to add a new card. </string>
+                                        <string key="text">At this time, Wildfire can only save one card's info at a time. If you want to use a different card, no worries! Just tap on the added card and delete it. Nothing else in your account will be affected. You'll then be able to add a new card. </string>
                                         <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                     </textView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wDG-PY-V2M">
-                                        <rect key="frame" x="40" y="317" width="200" height="50"/>
+                                        <rect key="frame" x="40" y="300.5" width="200" height="50"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="200" id="TxL-cy-Z80"/>
                                             <constraint firstAttribute="height" constant="50" id="dDV-4J-rgt"/>
                                         </constraints>
                                         <state key="normal" title="Done"/>
+                                        <connections>
+                                            <action selector="doneButtonTapped:" destination="2Wc-Ev-4GN" eventType="touchUpInside" id="Fad-vc-OlQ"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                             </stackView>
@@ -498,7 +503,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GTD-Nf-5Pg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4509" y="4076"/>
+            <point key="canvasLocation" x="4517" y="4126"/>
         </scene>
         <!--Add Card-->
         <scene sceneID="VCM-by-oi1">
@@ -1847,7 +1852,7 @@
                     <navigationItem key="navigationItem" id="ikU-LA-yRB"/>
                     <connections>
                         <segue destination="49e-Tb-3d3" kind="show" identifier="goToPay" id="Imv-iW-H17"/>
-                        <segue destination="xal-Cf-0cP" kind="show" identifier="goToPhoneVerification" id="WIg-I9-j0r"/>
+                        <segue destination="xal-Cf-0cP" kind="show" identifier="goToPhoneVerification" id="N2R-Fh-136"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PqR-YE-jXW" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -2249,7 +2254,7 @@
             </objects>
             <point key="canvasLocation" x="2966" y="2618"/>
         </scene>
-        <!--Payment Methods-->
+        <!--Payment Method-->
         <scene sceneID="rrl-83-a8R">
             <objects>
                 <tableViewController id="Cy9-Yl-4jQ" customClass="PaymentMethodsViewController" customModule="Wildfire1_1" customModuleProvider="target" sceneMemberID="viewController">
@@ -2272,7 +2277,7 @@
                             <outlet property="delegate" destination="Cy9-Yl-4jQ" id="sEZ-My-5fZ"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Payment Methods" id="3SY-5E-Xsm">
+                    <navigationItem key="navigationItem" title="Payment Method" id="3SY-5E-Xsm">
                         <barButtonItem key="rightBarButtonItem" title="Add Card" id="mLI-va-q7L">
                             <connections>
                                 <action selector="addCardPressed:" destination="Cy9-Yl-4jQ" id="AOF-En-8dN"/>
@@ -2592,7 +2597,7 @@
                         <outlet property="errorLabel" destination="kcd-Mg-pU9" id="1Wa-55-RDq"/>
                         <outlet property="phoneField" destination="GZT-gZ-ufH" id="dMp-7A-tFl"/>
                         <outlet property="verifyButton" destination="J6X-9D-j2g" id="phT-OE-U2Q"/>
-                        <segue destination="ulI-eW-qCk" kind="show" identifier="goToVerify" id="87t-o2-smy"/>
+                        <segue destination="ulI-eW-qCk" kind="show" identifier="goToVerify" id="TgZ-m8-vzg"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ghD-fv-EbR" userLabel="First Responder" sceneMemberID="firstResponder"/>

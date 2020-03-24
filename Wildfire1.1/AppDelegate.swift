@@ -336,10 +336,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
             if count > 0 {
                 for i in 1...count {
-                    var cardNumber = ""
-                    var cardProvider = ""
-                    var expiryDate = ""
                     
+                    var accountID = ""
                     var accountHolderName = ""
                     var type = ""
                     var IBAN = ""
@@ -348,6 +346,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                     var country = ""
 
                     let blob1 = bankAccountList[i-1]
+                    
+                    if let id = blob1["Id"] as? String {
+                        accountID = id
+                    }
+                    
+                    // part of the reason this list of 'if lets' is separated out like this is because the bank account object can have different info depending on how the user set it up, and the region in which the account is based. Don't tidy it up without considering how to deal with IBAN vs SWIFT account info etc
                     
                     if let nm = blob1["OwnerName"] as? String, let tp = blob1["Type"] as? String {
                         accountHolderName = nm
@@ -370,7 +374,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                         country = cn
                     }
                     
-                    let bankAccount = BankAccount(accountHolderName: accountHolderName, type: type, IBAN: IBAN, SWIFTBIC: SWIFTBIC, accountNumber: accountNumber, country: country)
+                    let bankAccount = BankAccount(accountID: accountID, accountHolderName: accountHolderName, type: type, IBAN: IBAN, SWIFTBIC: SWIFTBIC, accountNumber: accountNumber, country: country)
 
                     // save BankAccount object to User Defaults
                     defaults.set(try? PropertyListEncoder().encode(bankAccount), forKey: "bankAccount\(i)")

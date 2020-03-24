@@ -92,7 +92,7 @@ struct PaymentCard: Codable {
     
     // this simply translates MangoPay's     naming system to our (clearer) system
     enum CodingKeys: String, CodingKey {
-        case cardID
+        case cardID = "Id"
         case cardNumber = "Alias"
         case cardProvider = "CardProvider"
         case expiryDate = "ExpirationDate"
@@ -100,6 +100,7 @@ struct PaymentCard: Codable {
 }
 
 struct BankAccount: Codable {
+    let accountID: String
     let accountHolderName: String
     let type: String
     let IBAN: String?
@@ -109,6 +110,7 @@ struct BankAccount: Codable {
     
     // this simply translates MangoPay's naming system to our (clearer) system
     enum CodingKeys: String, CodingKey {
+        case accountID = "Id"
         case accountHolderName = "OwnerName"
         case type = "Type"
         case IBAN
