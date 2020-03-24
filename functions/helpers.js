@@ -36,5 +36,17 @@ module.exports = {
             error: errorLog
         })
       }
+    },
+
+    callCloudFunction: async function(functionName, data) {
+      let url = `https://europe-west1-${config.firebase.projectId}.cloudfunctions.net/${functionName}`
+      
+      await fetch(url, {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ data }),
+      })
     }
   }

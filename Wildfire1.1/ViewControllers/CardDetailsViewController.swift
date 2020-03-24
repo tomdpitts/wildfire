@@ -73,8 +73,15 @@ class CardDetailsViewController: UIViewController {
         
         self.functions.httpsCallable("deleteCard").call() { (result, error) in
             // update credit cards list
+            
+            if error != nil {
+                print(error)
+            } else {
+                print (result)
+            }
             let appDelegate = AppDelegate()
             appDelegate.listCardsFromMangopay()
+            print("listcards function called")
         }
         
         if let id = self.card?.cardID {

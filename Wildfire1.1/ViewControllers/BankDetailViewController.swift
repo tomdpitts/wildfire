@@ -34,8 +34,6 @@ class BankDetailViewController: UIViewController {
     @IBOutlet weak var accountNumberStack: UIStackView!
     @IBOutlet weak var countryStack: UIStackView!
     
-    
-    
     @IBOutlet weak var makeDepositButton: UIButton!
     @IBOutlet weak var deleteButton: UIButton!
     
@@ -123,7 +121,7 @@ class BankDetailViewController: UIViewController {
     
     func deleteBankAccountInfo() {
         
-        self.functions.httpsCallable("deleteCard").call() { (result, error) in
+        self.functions.httpsCallable("deleteBankAccount").call() { (result, error) in
             // update credit cards list
             let appDelegate = AppDelegate()
             appDelegate.fetchBankAccountsListFromMangopay()
@@ -138,10 +136,6 @@ class BankDetailViewController: UIViewController {
             }
         }
     }
-    
-    
-    
-    
     
     func displayBankInfo() {
         if let bnk = bankAccount {
