@@ -1,4 +1,5 @@
 const admin = require('firebase-admin');
+const fetch = require('node-fetch');
 
 module.exports = {
     // timestamp: function() {
@@ -40,7 +41,7 @@ module.exports = {
 
     callCloudFunction: async function(functionName, data) {
       let url = `https://europe-west1-${config.firebase.projectId}.cloudfunctions.net/${functionName}`
-      
+
       await fetch(url, {
           method: 'POST',
           headers: {

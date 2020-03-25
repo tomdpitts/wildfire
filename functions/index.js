@@ -789,8 +789,8 @@ exports.listBankAccounts = functions.region('europe-west1').https.onCall( async 
   .catch(err => {
     console.log('Error getting mangopayID from Firestore database', err);
   });
-  return cardsList = mpAPI.Users.getBankAccounts(mangopayID)
 
+  return mpAPI.Users.getBankAccounts(mangopayID)
 })
 
 exports.triggerPayout = functions.region('europe-west1').https.onCall( async (data, context) => {
@@ -1256,32 +1256,33 @@ exports.respondToEventRecord = functions.region('europe-west1').firestore.docume
 
 // when a user is deleted, set isDeleted flag to True in the database
 exports.deleteUser = functions.region('europe-west1').https.onCall( async (data, context) => {
+
   const userID = context.auth.uid
   const userRef = admin.firestore().collection('users').doc(userID)
 
-  const currentBalance = await helpers.callCloudFunction('getCurrentBalance', {uid: userID}).catch( error => {
-    console.log(`deleteUser func: ${userID} tried to delete account, but getCurrentBalance failed`, error)
-  })
+  var resultOutput = ""
 
-  await helpers.callCloudFunction('triggerPayout', {currency: 'GBP', amount: currentBalance, uid: userID})
-  .catch( error => {
-    console.log(`deleteUser func: ${userID} tried to delete account, but triggerPayout failed`, error)
-    // need to ensure an error was not thrown before continuing!! We don't want to deleteUser if triggerPayout was not successful
+  var currentBalance = await helpers.callCloudFunction('getCurrentBalance', {uid: userID})
+  .then( () => {
+    resultOutput = "got current balance"
+    return helpers.callCloudFunction('triggerPayout', {currency: 'GBP', amount: currentBalance, uid: userID})
   }).then( () => {
+    resultOutput = "triggered payout"
+    // delete user in Firebase Authentication
     return admin.auth().deleteUser(uid)
   }).then( () => {
+    resultOutput = "deleted User in Auth"
+    // delete user in Firestore database
+    userRef.delete()
+    console.log('currentBalance in function flow is: ' + currentBalance)
     return console.log(`Successfully deleted user ${userID}`)
-  })
-  .catch(error => {
-    console.log(`Error deleting user: ${userID}`, error)
-  })
-  .then( () => {
-    // delete user
-    return userRef.delete()
   }).catch( error => {
-    console.log(`Error deleting User in Firestore database: ${userID}`, error)
+    resultOutput = error
+    console.log(`deleteUser func: ${userID} tried to delete account, but there was an error: `, error)
   })
-  return 
+
+  console.log('currentBalance outside function flow is: ' + currentBalance)
+  return resultOutput
 })
 
 // Since all users exist in the database as a kind of duplicate of the User list, when a user deletes their account, rather than delete the record we're just adding an isDeleted flag - if the user ever wants to return their data is still available
@@ -1290,61 +1291,57 @@ exports.deleteCard = functions.region('europe-west1').https.onCall( async (data,
 
   const db = admin.firestore()
 
-  const uid = context.params.uid
+  const uid = context.auth.uid
   const userRef = db.collection("users").doc(uid)
 
   var cardID = ""
 
-  await userRef.get().then(doc => {
+  var output = await userRef.get().then(doc => {
     let data = doc.data()
     cardID = data.defaultCardID
     return
   })
-  .then(
-    mpAPI.Cards.update({Id: cardId, Active: false})
-  ).catch(err => {
-    console.log('Error deleting card on mangopay', err)
-  }).then(
+  .then(() => mpAPI.Cards.update({Id: cardId, Active: false}))
+  .then(() => {
     userRef.doc('wallets'/{walletID}/'cards'/cardID).delete()
-  ).catch(err => {
-    console.log('Error deleting card in firestore (cards)', err)
-  }).then( 
     userRef.set({
       defaultCardID: ""
     }, {merge: true})
-  ).catch(err => {
-    console.log('Error deleting defaultCardID in Firestore', err)
+    console.log(output)
+    return
+  }).catch(error => {
+    console.log(`deleteCard func: ${userID} tried to delete card, but there was an error: `, error)
   })
 
-  return
+  return output
 })
 
 exports.deleteBankAccount = functions.region('europe-west1').https.onCall( async (data, context) => {
   const db = admin.firestore()
 
-  const uid = context.params.uid
+  const uid = context.auth.uid
   const userRef = db.collection("users").doc(uid)
 
   var mangopayID = ""
   var bankAccountID = ""
 
-  await userRef.get().then(doc => {
+  var output = await userRef.get().then(doc => {
     let data = doc.data()
     mangopayID = data.mangopayID
     bankAccountID = data.defaultBankAccountID
     return
   })
-  .then(
-    mpAPI.Users.deactivateBankAccount(mangopayID, bankAccountID)
-  ).catch(err => {
-    console.log('Error deleting bank account on mangopay', err)
-  }).then( 
+  .then(() => mpAPI.Users.deactivateBankAccount(mangopayID, bankAccountID))
+  .then(() => {
     userRef.set({
       defaultBankAccountID: ""
     }, {merge: true})
-  ).catch(err => {
-    console.log('Error deleting defaultBankAccountID in Firestore', err)
+    console.log(output)
+    return
+  })
+  .catch(error => {
+    console.log(`deleteBackAccount func: ${userID} tried to delete Bank Account info, but there was an error: `, error)
   })
 
-  return
+  return output
 })
