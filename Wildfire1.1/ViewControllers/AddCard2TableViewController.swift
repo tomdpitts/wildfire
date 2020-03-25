@@ -101,6 +101,11 @@ class AddCard2TableViewController: UITableViewController, UITextFieldDelegate {
 //                }
                 semaphore.wait()
                 
+                if error != nil {
+                    print(error)
+                    self.removeSpinner()
+                }
+                
                 if let returnedArray = result?.data as? [[String: Any]] {
                 // the result includes the bits we need (this is the result of step 4 in the diagram found at the API doc link above)
                     

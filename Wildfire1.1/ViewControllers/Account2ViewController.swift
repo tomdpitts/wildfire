@@ -276,7 +276,6 @@ class Account2ViewController: UITableViewController {
         
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
             do {
-                
                 if deleteAccount == true {
                     
                     self.functions.httpsCallable("deleteUser").call() { (result, error) in
@@ -286,7 +285,6 @@ class Account2ViewController: UITableViewController {
                         } else {
                             // update the userAccountExists flag (if user signs in with a different number, we don't want this flag to persist in memory and mess things up
                             self.resetUserDefaults()
-                            self.performSegue(withIdentifier: segueIdentifier, sender: self)
                         }
                     }
                 } else {
@@ -294,7 +292,9 @@ class Account2ViewController: UITableViewController {
                     try Auth.auth().signOut()
                     // update the userAccountExists flag (if user signs in with a different number, we don't want this flag to persist in memory and mess things up
                     self.resetUserDefaults()
+                    
                 }
+                self.performSegue(withIdentifier: segueIdentifier, sender: self)
             } catch let err {
                 // TODO what if signout fails e.g. no connection
                 print(err)
