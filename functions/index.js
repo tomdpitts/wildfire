@@ -99,6 +99,8 @@ exports.createNewMangopayCustomer = functions.region('europe-west1').firestore.d
   
   const data = snap.data()
 
+  const userID = context.params.id
+
   var firstname = data.firstname
   var lastname = data.lastname
   var email = data.email
@@ -107,44 +109,61 @@ exports.createNewMangopayCustomer = functions.region('europe-west1').firestore.d
   var residence = data.residence
   // const currencyType = data.currency
 
-  try {
-  
-    const customer = await mpAPI.Users.create({PersonType: 'NATURAL', FirstName: firstname, LastName: lastname, Birthday: birthday, Nationality: nationality, CountryOfResidence: residence, Email: email})
+  var mangopayIDArray = []
+  var walletName = "GBP Wallet"
 
-    const mangopayID = customer.Id
+  const customer = await mpAPI.Users.create({PersonType: 'NATURAL', FirstName: firstname, LastName: lastname, Birthday: birthday, Nationality: nationality, CountryOfResidence: residence, Email: email})
 
-    const wallet = await mpAPI.Wallets.create({Owners: mangopayID, Description: walletName, Currency: "GBP"})
+  const mangopayID = customer.Id
+  mangopayIDArray.push(mangopayID)
 
-    const walletID = wallet.Id
+  const wallet = await mpAPI.Wallets.create({Owners: mangopayIDArray, Description: walletName, Currency: "GBP"})
 
-  } catch (error) {
-    console.log(error)
+  const walletID = wallet.Id
+
+  if (mangopayID !== "" && walletID !== "") {
+    // we need to add a Wallet to the user's Firestore record - this will store the card token(s) for repeat payments
+
+    admin.firestore().collection('users').doc(userID).set({
+      mangopayID: mangopayID,
+      defaultWalletID: walletID
+    }, {merge: true})
+    // DO NOT DELETE 'merge: true' unless you're really sure
+    .catch(err => {
+      console.log(`${userID}: Error saving mangopayID and walletID to database`, err);
+    })
+
+    admin.firestore().collection('users').doc(userID).collection('wallets').doc(walletID).set({
+      created: wallet.CreationDate,
+      balance: wallet.Balance['Amount'],
+      description: wallet.Description,
+      currency: wallet.Currency,
+      // I'm not sure this line is needed
+      // temp_card_registration_id: cardReg.Id
+    })
+    .catch(err => {
+      console.log(`${userID}: Error saving wallet to user wallet database`, err);
+    })
+    return 
+  } else {
+    console.log(`${userID}: creating a user and wallet in mangopay failed`, err)
+    admin.firestore().collection('userCreationFailed').doc(userID).set({
+      firstname: data.firstname,
+      lastname: data.lastname,
+      email: data.email,
+      birthday: data.dob,
+      nationality: data.nationality,
+      residence: data.residence,
+      // const currencyType = data.currency
+
+      mangopayID: mangopayID,
+      walletID: walletID
+    })
+    .catch(err => {
+      console.log(`${userID}: saving doc to userCreationFailed failed - wow.. `, err);
+    })
+    return
   }
-
-  // we need to add a Wallet to the user's Firestore record - this will store the card token(s) for repeat payments
-
-  admin.firestore().collection('users').doc(userID).set({
-    defaultWalletID: walletID
-  }, {merge: true})
-  // merge: true is often crucial but perhaps nowhere more so than here.. DO NOT DELETE without extreme care
-  .catch(err => {
-    console.log('Error saving defaultWallet to database', err);
-  })
-
-  admin.firestore().collection('users').doc(userID).collection('wallets').doc(walletID).set({
-    created: wallet.CreationDate,
-    balance: wallet.Balance['Amount'],
-    description: wallet.Description,
-    currency: wallet.Currency,
-    // I'm not sure this line is needed
-    // temp_card_registration_id: cardReg.Id
-  })
-  .catch(err => {
-    console.log('Error saving wallet to database', err);
-  })
-
-  return admin.firestore().collection('users').doc(context.params.id).update({mangopayID: mangopayID});
-
 })
 
 exports.isRegistered = functions.region('europe-west1').https.onCall( async (data, context) => {
@@ -439,38 +458,6 @@ exports.transact = functions.region('europe-west1').https.onCall( async (data, c
     console.log('one or more of the balances was not retrieved')
     return { text: "balance retrieval failed" }
   }
-
-    // // runTransaction is a Firebase thing - designed for this kind of use case
-    // let transaction = db.runTransaction(t => {
-    //   // return t.get(userRef)
-    //   //   .then(doc => {
-      
-    //   // here's the magic
-    //   if (amount <= oldUserBalance && amount > 0) {
-            
-    //     // P.S. the sendAmount > 0 should always pass since there will be validation elsewhere. However, suggest leaving it in as it doesn't hurt and if the FE validation ever breaks for whatever reason, allowing sendAmount < 0 would be a catastrophic security issue i.e. this is a useful failsafe
-        
-    //     let newUserBalance = oldUserBalance - amount
-    //     let newRecipientBalance = oldRecipientBalance + amount
-
-    //     // update both parties' balances
-    //     t.update(userRef, {balance: newUserBalance});
-    //     t.update(recipientRef, {balance: newRecipientBalance})
-        
-    //     // Add a new document with a generated id.
-    //     return db.collection('transactions').add(transactionData)
-    //   } else {
-    //     return nil        
-    //   }
-    // }).then(result => {
-    //   // this transaction will only complete if both parties' balances are updated
-    //   console.log('Transaction success!');
-    //   return { text: "success" };
-    // }).catch(err => {
-    //   console.log('Transaction failure:', err);
-    //   return { text: "failure" };
-    // });
-  // }
 })
 
 // TODO this func doesn't really need to go through cloud functions, could be moved to client
@@ -797,7 +784,12 @@ exports.listBankAccounts = functions.region('europe-west1').https.onCall( async 
     console.log('Error getting mangopayID from Firestore database', err);
   });
 
-  return mpAPI.Users.getBankAccounts(mangopayID)
+  if (mangopayID !== "") {
+    const accountsList = await mpAPI.Users.getBankAccounts(mangopayID)
+    return accountsList
+  } else {
+    return null
+  }
 })
 
 exports.triggerPayout = functions.region('europe-west1').https.onCall( async (data, context) => {
@@ -1261,35 +1253,45 @@ exports.respondToEventRecord = functions.region('europe-west1').firestore.docume
   }
 })
 
+exports.foober = functions.region('europe-west1').https.onCall( async (data, context) => {
+
+  console.log('foober')
+  return
+})
+
+
 // when a user is deleted, set isDeleted flag to True in the database
-exports.deleteUser = functions.region('europe-west1').https.onCall( async (data, context) => {
+exports.deleteUserAccount = functions.region('europe-west1').https.onCall( async (data, context) => {
 
-  const userID = context.auth.uid
-  const userRef = admin.firestore().collection('users').doc(userID)
+  console.log('deleteUserAccount was called')
+  return
 
-  var resultOutput = ""
+  // const userID = context.auth.uid
+  // const userRef = admin.firestore().collection('users').doc(userID)
 
-  var currentBalance = await helpers.callCloudFunction('getCurrentBalance', {uid: userID})
-  .then( () => {
-    resultOutput = "got current balance"
-    return helpers.callCloudFunction('triggerPayout', {currency: 'GBP', amount: currentBalance, uid: userID})
-  }).then( () => {
-    resultOutput = "triggered payout"
-    // delete user in Firebase Authentication
-    return admin.auth().deleteUser(uid)
-  }).then( () => {
-    resultOutput = "deleted User in Auth"
-    // delete user in Firestore database
-    userRef.delete()
-    console.log('currentBalance in function flow is: ' + currentBalance)
-    return console.log(`Successfully deleted user ${userID}`)
-  }).catch( error => {
-    resultOutput = error
-    console.log(`deleteUser func: ${userID} tried to delete account, but there was an error: `, error)
-  })
+  // var resultOutput = ""
 
-  console.log('currentBalance outside function flow is: ' + currentBalance)
-  return resultOutput
+  // var currentBalance = await helpers.callCloudFunction('getCurrentBalance', {uid: userID})
+  // .then( () => {
+  //   resultOutput = "got current balance"
+  //   return helpers.callCloudFunction('triggerPayout', {currency: 'GBP', amount: currentBalance, uid: userID})
+  // }).then( () => {
+  //   resultOutput = "triggered payout"
+  //   // delete user in Firebase Authentication
+  //   return admin.auth().deleteUser(uid)
+  // }).then( () => {
+  //   resultOutput = "deleted User in Auth"
+  //   // delete user in Firestore database
+  //   userRef.delete()
+  //   console.log('currentBalance in function flow is: ' + currentBalance)
+  //   return console.log(`Successfully deleted user ${userID}`)
+  // }).catch( error => {
+  //   resultOutput = error
+  //   console.log(`deleteUser func: ${userID} tried to delete account, but there was an error: `, error)
+  // })
+
+  // console.log('currentBalance outside function flow is: ' + currentBalance)
+  // return resultOutput
 })
 
 // Since all users exist in the database as a kind of duplicate of the User list, when a user deletes their account, rather than delete the record we're just adding an isDeleted flag - if the user ever wants to return their data is still available

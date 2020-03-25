@@ -21,9 +21,9 @@ class PhoneViewController: UIViewController {
         navigationItem.title = "Confirm number"
         navigationController?.navigationBar.prefersLargeTitles = true
         
-            // we don't want the user to go back to the welcome screen
-            self.navigationItem.leftBarButtonItem = nil;
-            self.navigationItem.hidesBackButton = true;
+        // we don't want the user to go back to the welcome screen
+        self.navigationItem.leftBarButtonItem = nil
+        self.navigationItem.hidesBackButton = true
         self.navigationController?.navigationItem.backBarButtonItem?.isEnabled = false;
 //        self.navigationController!.interactivePopGestureRecognizer!.isEnabled = false;
         

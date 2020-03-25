@@ -17,7 +17,6 @@ class Account2ViewController: UITableViewController {
     
     lazy var functions = Functions.functions(region:"europe-west1")
 
-    
     var justCompletedSignUp = false
     
     var genericProfilePic = UIImage(named: "Logo70px")
@@ -276,25 +275,33 @@ class Account2ViewController: UITableViewController {
         
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
             do {
-                if deleteAccount == true {
-                    
-                    self.functions.httpsCallable("deleteUser").call() { (result, error) in
-                        
+                if deleteAccount == true {                    self.functions.httpsCallable("foober").call(["foo": "bar"]) { (result, error) in
+
                         if let err = error {
                             print(err)
                         } else {
+                            // surprisingly enough, it seems the currentUser persists on the client even when deletion has been triggered, so we'll always call signOut()
+                            do {
+    //                                try Auth.auth().signOut()
+                            } catch {
+                                print(error)
+                            }
+
                             // update the userAccountExists flag (if user signs in with a different number, we don't want this flag to persist in memory and mess things up
                             self.resetUserDefaults()
+
+                            self.performSegue(withIdentifier: segueIdentifier, sender: self)
                         }
                     }
                 } else {
-                    // just log out, don't delete user account
+                    // surprisingly enough, it seems the currentUser persists on the client even when deletion has been triggered, so we'll always call signOut()
                     try Auth.auth().signOut()
                     // update the userAccountExists flag (if user signs in with a different number, we don't want this flag to persist in memory and mess things up
                     self.resetUserDefaults()
                     
+                    self.performSegue(withIdentifier: segueIdentifier, sender: self)
                 }
-                self.performSegue(withIdentifier: segueIdentifier, sender: self)
+                
             } catch let err {
                 // TODO what if signout fails e.g. no connection
                 print(err)
@@ -306,6 +313,28 @@ class Account2ViewController: UITableViewController {
         
         self.present(alert, animated: true)
     }
+    
+//    func deleteAccount() {
+//        self.functions.httpsCallable("foober").call(["foo": "bar"]) { (result, error) in
+//                            
+//            if let err = error {
+//                print(err)
+//            } else {
+//                // surprisingly enough, it seems the currentUser persists on the client even when deletion has been triggered, so we'll always call signOut()
+//                do {
+//        //                                try Auth.auth().signOut()
+//                } catch {
+//                    print(error)
+//                }
+//                
+//                // update the userAccountExists flag (if user signs in with a different number, we don't want this flag to persist in memory and mess things up
+//                self.resetUserDefaults()
+//                
+//                self.performSegue(withIdentifier: "unwindToWelcome", sender: self)
+//            }
+//        }
+//    }
+    
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.destination is EditProfileTableViewController {

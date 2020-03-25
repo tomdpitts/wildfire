@@ -69,7 +69,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         redirect()
 //        setupNavigationBarAppearance()
         
-        print(UserDefaults.standard.dictionaryRepresentation())
         return true
     }
     // Update: no longer using Facebook integration for time being so parking this
@@ -126,7 +125,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
     
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String) {
-        print("Firebase registration token: \(fcmToken)")
 
         let dataDict:[String: String] = ["token": fcmToken]
         NotificationCenter.default.post(name: Notification.Name("FCMToken"), object: nil, userInfo: dataDict)
@@ -246,15 +244,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         let mainStoryboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         
+        
         if uid != nil {
             if let checkoutTime = self.timestamp {
                 if checkoutTime > Date().toSeconds() - 60 {
-                    
-                    
-//                    let initialViewController: UIViewController = mainStoryboard.instantiateViewController(withIdentifier: "mainMenu") as UIViewController
-//                    self.window = UIWindow(frame: UIScreen.main.bounds)
-//                    self.window?.rootViewController = initialViewController
-//                    self.window?.makeKeyAndVisible()
+                    // do nothing - user can continue where they left off
                     
                 } else {
                     
@@ -274,11 +268,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             }
             
         } else {
-            let initialViewController: UIViewController = mainStoryboard.instantiateViewController(withIdentifier: "verifyMobile") as UIViewController
-            self.window = UIWindow(frame: UIScreen.main.bounds)
-            self.window?.rootViewController = initialViewController
-            self.window?.makeKeyAndVisible()
             
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let homeVC = storyboard.instantiateViewController(withIdentifier: "HomeVC") as! HomeViewController
+            let phoneVC = storyboard.instantiateViewController(withIdentifier: "verifyMobile") as! PhoneViewController
+
+            let navController = storyboard.instantiateViewController(withIdentifier: "homeNavController") as! UINavigationController
+
+            navController.pushViewController(homeVC, animated: false)
+            navController.pushViewController(phoneVC, animated: true)
+            
+            self.window = UIWindow(frame: UIScreen.main.bounds)
+            self.window?.rootViewController = navController
+            self.window?.makeKeyAndVisible()
         }
     }
     
@@ -317,7 +319,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             } else {
                 
                 // this (probably) means no cards have been added
-                print("nope")
             }
         }
     }
@@ -331,8 +332,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             defaults.set(bankAccountList.count, forKey: "numberOfBankAccounts")
 
             let count = bankAccountList.count
-
-            print(bankAccountList)
 
             if count > 0 {
                 for i in 1...count {
@@ -382,7 +381,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             }
 
         } else {
-        print("nope")
         }
         }
     }

@@ -59,9 +59,18 @@ class HomeViewController: UIViewController {
                 
                 DispatchQueue.main.async {
                     if success {
+//                        // Safe Push VC
+//                        if let viewController = UIStoryboard(name: "mainMenu", bundle: nil).instantiateViewController(withIdentifier: "MainVC") as? UITabBarController {
+//                            if let navigator = self.navigationController {
+//                                navigator.pushViewController(viewController, animated: true)
+//                            }
+//                        }
                         self.performSegue(withIdentifier: "goToPay", sender: self)
+//                        let vc = PayViewController()
+//                        self.navigationController?.pushViewController(vc, animated: true)
+                        
                     } else {
-                        // just try again. Previously failure to auth triggered signOut which is just a terrible UX cos it happens more often than you might think
+                        // just try again. Previously auth failure triggered signOut which is just a terrible UX and it happens more often than you might think
                         self.authenticateUser()
 //                        do {
 //                            try Auth.auth().signOut()
