@@ -159,7 +159,6 @@ class formStep3ViewController: UIViewController, UITextFieldDelegate {
             // TODO if facebook login, use profile pic here
                 "photoURL": "https://cdn.pixabay.com/photo/2014/05/21/20/17/icon-350228_1280.png" ]
             
-            // merge: true is IMPORTANT - prevents complete overwriting of a document if a user logs in for a second time, for example, which could wipe important data (including the balance..)
             Firestore.firestore().collection("users").document(uid).setData(newUserData, merge: true) { (error) in
                 
                 self.removeSpinner()

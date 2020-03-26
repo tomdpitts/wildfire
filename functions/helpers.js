@@ -40,7 +40,7 @@ module.exports = {
     },
 
     callCloudFunction: async function(functionName, data) {
-      let url = `https://europe-west1-${config.firebase.projectId}.cloudfunctions.net/${functionName}`
+      let url = `https://europe-west1-wildfire-30fca.cloudfunctions.net/${functionName}`
 
       await fetch(url, {
           method: 'POST',

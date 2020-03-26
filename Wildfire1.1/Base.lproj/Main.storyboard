@@ -1998,7 +1998,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="293" height="75"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Logo200px" translatesAutoresizingMaskIntoConstraints="NO" id="liq-YY-mrM">
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="genericProfilePic" translatesAutoresizingMaskIntoConstraints="NO" id="liq-YY-mrM">
                                                     <rect key="frame" x="16" y="7" width="61" height="61"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="61" id="cWS-Op-mVf"/>
@@ -3426,8 +3426,9 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OBl-yO-4ew">
-                            <rect key="frame" x="80.5" y="181" width="139" height="50"/>
+                            <rect key="frame" x="50" y="181" width="200" height="50"/>
                             <constraints>
+                                <constraint firstAttribute="width" constant="200" id="jRH-ab-S4G"/>
                                 <constraint firstAttribute="height" constant="50" id="mLO-NJ-Dr0"/>
                             </constraints>
                             <state key="normal" title="Add Account Details"/>

@@ -275,7 +275,7 @@ class Account2ViewController: UITableViewController {
         
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
             do {
-                if deleteAccount == true {                    self.functions.httpsCallable("foober").call(["foo": "bar"]) { (result, error) in
+                if deleteAccount == true {                    self.functions.httpsCallable("deleteUser").call(["foo": "bar"]) { (result, error) in
 
                         if let err = error {
                             print(err)
@@ -288,7 +288,7 @@ class Account2ViewController: UITableViewController {
                             }
 
                             // update the userAccountExists flag (if user signs in with a different number, we don't want this flag to persist in memory and mess things up
-                            self.resetUserDefaults()
+//                            self.resetUserDefaults()
 
                             self.performSegue(withIdentifier: segueIdentifier, sender: self)
                         }
@@ -316,7 +316,7 @@ class Account2ViewController: UITableViewController {
     
 //    func deleteAccount() {
 //        self.functions.httpsCallable("foober").call(["foo": "bar"]) { (result, error) in
-//                            
+//
 //            if let err = error {
 //                print(err)
 //            } else {
@@ -326,10 +326,10 @@ class Account2ViewController: UITableViewController {
 //                } catch {
 //                    print(error)
 //                }
-//                
+//
 //                // update the userAccountExists flag (if user signs in with a different number, we don't want this flag to persist in memory and mess things up
 //                self.resetUserDefaults()
-//                
+//
 //                self.performSegue(withIdentifier: "unwindToWelcome", sender: self)
 //            }
 //        }

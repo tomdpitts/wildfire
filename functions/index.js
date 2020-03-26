@@ -5,7 +5,7 @@
 // Dependancies
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
-const gcs = require('@google-cloud/storage');
+// const gcs = require('@google-cloud/storage');
 const mangopay = require('mangopay2-nodejs-sdk');
 const helpers = require('./helpers.js')
 
@@ -1253,45 +1253,44 @@ exports.respondToEventRecord = functions.region('europe-west1').firestore.docume
   }
 })
 
-exports.foober = functions.region('europe-west1').https.onCall( async (data, context) => {
-
-  console.log('foober')
-  return
-})
-
-
 // when a user is deleted, set isDeleted flag to True in the database
-exports.deleteUserAccount = functions.region('europe-west1').https.onCall( async (data, context) => {
+exports.deleteUser = functions.region('europe-west1').https.onCall( async (data, context) => {
 
-  console.log('deleteUserAccount was called')
-  return
+  const userID = context.auth.uid
+  const userRef = admin.firestore().collection('users').doc(userID)
 
-  // const userID = context.auth.uid
-  // const userRef = admin.firestore().collection('users').doc(userID)
+  var resultOutput = ""
 
-  // var resultOutput = ""
+  var currentBalance = await helpers.callCloudFunction('getCurrentBalance', {uid: userID})
+  .then( () => {
+    resultOutput = "got current balance"
 
-  // var currentBalance = await helpers.callCloudFunction('getCurrentBalance', {uid: userID})
-  // .then( () => {
-  //   resultOutput = "got current balance"
-  //   return helpers.callCloudFunction('triggerPayout', {currency: 'GBP', amount: currentBalance, uid: userID})
-  // }).then( () => {
-  //   resultOutput = "triggered payout"
-  //   // delete user in Firebase Authentication
-  //   return admin.auth().deleteUser(uid)
-  // }).then( () => {
-  //   resultOutput = "deleted User in Auth"
-  //   // delete user in Firestore database
-  //   userRef.delete()
-  //   console.log('currentBalance in function flow is: ' + currentBalance)
-  //   return console.log(`Successfully deleted user ${userID}`)
-  // }).catch( error => {
-  //   resultOutput = error
-  //   console.log(`deleteUser func: ${userID} tried to delete account, but there was an error: `, error)
-  // })
+    if (currentBalance > 50) {
+      return helpers.callCloudFunction('triggerPayout', {currency: 'GBP', amount: currentBalance, uid: userID})
+    } else {
+      return null
+    }
+  }).then( (result) => {
+    if (result === null) {
+      resultOutput = "triggered payout (but insufficient credit, so no payout was made)"
+    } else {
+      resultOutput = "triggered payout"
+    }
+    // delete user in Firebase Authentication
+    return admin.auth().deleteUser(uid)
+  }).then( () => {
+    resultOutput = "deleted User in Auth"
+    // delete user in Firestore database
+    userRef.delete()
+    console.log('currentBalance in function flow is: ' + currentBalance)
+    return console.log(`Successfully deleted user ${userID}`)
+  }).catch( error => {
+    resultOutput = error
+    console.log(`deleteUser func: ${userID} tried to delete account, but there was an error: `, error)
+  })
 
-  // console.log('currentBalance outside function flow is: ' + currentBalance)
-  // return resultOutput
+  console.log('currentBalance outside function flow is: ' + currentBalance)
+  return resultOutput
 })
 
 // Since all users exist in the database as a kind of duplicate of the User list, when a user deletes their account, rather than delete the record we're just adding an isDeleted flag - if the user ever wants to return their data is still available
