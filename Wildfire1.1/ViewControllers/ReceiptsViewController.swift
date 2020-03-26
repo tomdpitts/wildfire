@@ -167,8 +167,7 @@ class ReceiptsViewController: UITableViewController {
                             group.append(i)
                         }
                    }
-                    
-                   transactionsGrouped.append(group)
+                       transactionsGrouped.append(group)
                    }
                 
                 // we've just been adding these transactions to local arrays, now need to update the class variables to allow the tableview to refresh with the right data

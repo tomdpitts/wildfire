@@ -284,9 +284,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }
     }
     
-    func listCardsFromMangopay() {
+    func listCardsFromMangopay(completion: (() -> Void)? = nil) {
         
-        functions.httpsCallable("listCards").call() { (result, error) in
+        let mpID: String? = UserDefaults.standard.string(forKey: "mangopayID")
+        
+        functions.httpsCallable("listCards").call(["mpID": mpID]) { (result, error) in
 
             if let cardList = result?.data as? [[String: Any]] {
                 let defaults = UserDefaults.standard
@@ -316,72 +318,80 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                     }
                 }
                 
+                completion?()
+                
             } else {
                 
+                completion?()
                 // this (probably) means no cards have been added
             }
         }
     }
     
-    func fetchBankAccountsListFromMangopay() {
-        functions.httpsCallable("listBankAccounts").call() { (result, error) in
+    func fetchBankAccountsListFromMangopay(completion: (() -> Void)? = nil) {
+        
+        let mpID: String? = UserDefaults.standard.string(forKey: "mangopayID")
+        
+        functions.httpsCallable("listBankAccounts").call(["mpID": mpID]) { (result, error) in
 
-        if let bankAccountList = result?.data as? [[String: Any]] {
-            let defaults = UserDefaults.standard
+            if let bankAccountList = result?.data as? [[String: Any]] {
+                let defaults = UserDefaults.standard
 
-            defaults.set(bankAccountList.count, forKey: "numberOfBankAccounts")
+                defaults.set(bankAccountList.count, forKey: "numberOfBankAccounts")
 
-            let count = bankAccountList.count
+                let count = bankAccountList.count
 
-            if count > 0 {
-                for i in 1...count {
-                    
-                    var accountID = ""
-                    var accountHolderName = ""
-                    var type = ""
-                    var IBAN = ""
-                    var SWIFTBIC = ""
-                    var accountNumber = ""
-                    var country = ""
+                if count > 0 {
+                    for i in 1...count {
+                        
+                        var accountID = ""
+                        var accountHolderName = ""
+                        var type = ""
+                        var IBAN = ""
+                        var SWIFTBIC = ""
+                        var accountNumber = ""
+                        var country = ""
 
-                    let blob1 = bankAccountList[i-1]
-                    
-                    if let id = blob1["Id"] as? String {
-                        accountID = id
+                        let blob1 = bankAccountList[i-1]
+                        
+                        if let id = blob1["Id"] as? String {
+                            accountID = id
+                        }
+                        
+                        // part of the reason this list of 'if lets' is separated out like this is because the bank account object can have different info depending on how the user set it up, and the region in which the account is based. Don't tidy it up without considering how to deal with IBAN vs SWIFT account info etc
+                        
+                        if let nm = blob1["OwnerName"] as? String, let tp = blob1["Type"] as? String {
+                            accountHolderName = nm
+                            type = tp
+                        }
+                        
+                        if let ib = blob1["IBAN"] as? String {
+                            IBAN = ib
+                        }
+                        
+                        if let sb = blob1["BIC"] as? String {
+                            SWIFTBIC = sb
+                        }
+                        
+                        if let an = blob1["AccountNumber"] as? String {
+                            accountNumber = an
+                        }
+
+                        if let cn = blob1["Country"] as? String {
+                            country = cn
+                        }
+                        
+                        let bankAccount = BankAccount(accountID: accountID, accountHolderName: accountHolderName, type: type, IBAN: IBAN, SWIFTBIC: SWIFTBIC, accountNumber: accountNumber, country: country)
+
+                        // save BankAccount object to User Defaults
+                        defaults.set(try? PropertyListEncoder().encode(bankAccount), forKey: "bankAccount\(i)")
+                        completion?()
                     }
-                    
-                    // part of the reason this list of 'if lets' is separated out like this is because the bank account object can have different info depending on how the user set it up, and the region in which the account is based. Don't tidy it up without considering how to deal with IBAN vs SWIFT account info etc
-                    
-                    if let nm = blob1["OwnerName"] as? String, let tp = blob1["Type"] as? String {
-                        accountHolderName = nm
-                        type = tp
-                    }
-                    
-                    if let ib = blob1["IBAN"] as? String {
-                        IBAN = ib
-                    }
-                    
-                    if let sb = blob1["BIC"] as? String {
-                        SWIFTBIC = sb
-                    }
-                    
-                    if let an = blob1["AccountNumber"] as? String {
-                        accountNumber = an
-                    }
-
-                    if let cn = blob1["Country"] as? String {
-                        country = cn
-                    }
-                    
-                    let bankAccount = BankAccount(accountID: accountID, accountHolderName: accountHolderName, type: type, IBAN: IBAN, SWIFTBIC: SWIFTBIC, accountNumber: accountNumber, country: country)
-
-                    // save BankAccount object to User Defaults
-                    defaults.set(try? PropertyListEncoder().encode(bankAccount), forKey: "bankAccount\(i)")
                 }
-            }
 
-        } else {
-        }
+            } else {
+                completion?()
+            }
         }
     }
     

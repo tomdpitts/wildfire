@@ -464,17 +464,22 @@ exports.transact = functions.region('europe-west1').https.onCall( async (data, c
 exports.listCards = functions.region('europe-west1').https.onCall( async (data, context) => {
 
   const userID = context.auth.uid
+
   var mangopayID = ""
 
-  // using the Firebase userID (supplied via 'context' of the request), get the mangopayID 
-  await admin.firestore().collection('users').doc(userID).get().then(doc => {
-    userData = doc.data();
-    mangopayID = userData.mangopayID
-    return
-  })
-  .catch(err => {
-    console.log('Error getting mangopayID from Firestore database', err);
-  });
+  if (data.mpID !== undefined) {
+    mangopayID = data.mpID
+  } else {
+    // using the Firebase userID (supplied via 'context' of the request), get the mangopayID 
+    await admin.firestore().collection('users').doc(userID).get().then(doc => {
+      userData = doc.data();
+      mangopayID = userData.mangopayID
+      return
+    })
+    .catch(err => {
+      console.log('Error getting mangopayID from Firestore database', err);
+    });
+  }
 
   if (mangopayID !== "") {
     const cardsList = await mpAPI.Users.getCards(mangopayID, JSON)
@@ -628,10 +633,12 @@ exports.getCurrentBalance = functions.region('europe-west1').https.onCall( async
 
   // TODO in future, this func should probably be triggered by webhook or similiar, rather than relying on a call from client
 
-  var userID = context.auth.uid
-  // if the userID isn't available, that's likely because it's a request via helpers.callCloudFunction
-  if (userID === null) {
+  var userID = ""
+  // if the userID isn't available from context, that's likely because it's a request via helpers.callCloudFunction
+  if (data.uid !== undefined) {
     userID = data.uid
+  } else {
+    userID = context.auth.uid
   }
   const db = admin.firestore().collection('users').doc(userID)
 
@@ -774,15 +781,19 @@ exports.listBankAccounts = functions.region('europe-west1').https.onCall( async 
   const userID = context.auth.uid
   var mangopayID = ""
 
-  // using the Firebase userID (supplied via 'context' of the request), get the mangopayID 
-  await admin.firestore().collection('users').doc(userID).get().then(doc => {
-    userData = doc.data();
-    mangopayID = userData.mangopayID
-    return
-  })
-  .catch(err => {
-    console.log('Error getting mangopayID from Firestore database', err);
-  });
+  if (data.mpID !== undefined) {
+    mangopayID = data.mpID
+  } else {
+    // using the Firebase userID (supplied via 'context' of the request), get the mangopayID 
+    await admin.firestore().collection('users').doc(userID).get().then(doc => {
+      userData = doc.data();
+      mangopayID = userData.mangopayID
+      return
+    })
+    .catch(err => {
+      console.log('Error getting mangopayID from Firestore database', err);
+    })
+  }
 
   if (mangopayID !== "") {
     const accountsList = await mpAPI.Users.getBankAccounts(mangopayID)
@@ -1277,7 +1288,7 @@ exports.deleteUser = functions.region('europe-west1').https.onCall( async (data,
       resultOutput = "triggered payout"
     }
     // delete user in Firebase Authentication
-    return admin.auth().deleteUser(uid)
+    return admin.auth().deleteUser(userID)
   }).then( () => {
     resultOutput = "deleted User in Auth"
     // delete user in Firestore database
@@ -1289,6 +1300,7 @@ exports.deleteUser = functions.region('europe-west1').https.onCall( async (data,
     console.log(`deleteUser func: ${userID} tried to delete account, but there was an error: `, error)
   })
 
+  console.log(resultOutput)
   console.log('currentBalance outside function flow is: ' + currentBalance)
   return resultOutput
 })
@@ -1299,23 +1311,25 @@ exports.deleteCard = functions.region('europe-west1').https.onCall( async (data,
 
   const db = admin.firestore()
 
-  const uid = context.auth.uid
-  const userRef = db.collection("users").doc(uid)
+  const userID = context.auth.uid
+  const userRef = db.collection("users").doc(userID)
 
   var cardID = ""
+  var walletID = ""
 
   var output = await userRef.get().then(doc => {
     let data = doc.data()
     cardID = data.defaultCardID
+    walletID = data.defaultWalletID
     return
   })
-  .then(() => mpAPI.Cards.update({Id: cardId, Active: false}))
+  .then(() => mpAPI.Cards.update({Id: cardID, Active: false}))
   .then(() => {
-    userRef.doc('wallets'/{walletID}/'cards'/cardID).delete()
+    userRef.collection('wallets').doc(walletID).collection('cards').doc(cardID).delete()
     userRef.set({
-      defaultCardID: ""
+      defaultCardID: "",
+      defaultBillingAddress: ""
     }, {merge: true})
-    console.log(output)
     return
   }).catch(error => {
     console.log(`deleteCard func: ${userID} tried to delete card, but there was an error: `, error)
@@ -1327,8 +1341,8 @@ exports.deleteCard = functions.region('europe-west1').https.onCall( async (data,
 exports.deleteBankAccount = functions.region('europe-west1').https.onCall( async (data, context) => {
   const db = admin.firestore()
 
-  const uid = context.auth.uid
-  const userRef = db.collection("users").doc(uid)
+  const userID = context.auth.uid
+  const userRef = db.collection("users").doc(userID)
 
   var mangopayID = ""
   var bankAccountID = ""

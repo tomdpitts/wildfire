@@ -57,9 +57,10 @@ class CardDetailsViewController: UIViewController {
         
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
             
-            self.deleteCard()
+            self.deleteCard() {
+                self.performSegue(withIdentifier: "unwindToPrevious", sender: self)
+            }
             
-            self.performSegue(withIdentifier: segueIdentifier, sender: self)
         }))
         
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
@@ -69,7 +70,9 @@ class CardDetailsViewController: UIViewController {
     }
     
     
-    func deleteCard() {
+    func deleteCard(completion: @escaping ()->()) {
+        
+        self.showSpinner(onView: self.view)
         
         self.functions.httpsCallable("deleteCard").call() { (result, error) in
             // update credit cards list
@@ -77,11 +80,13 @@ class CardDetailsViewController: UIViewController {
             if error != nil {
                 print(error)
             } else {
-                print (result)
+                print(result)
             }
             let appDelegate = AppDelegate()
-            appDelegate.listCardsFromMangopay()
-            print("listcards function called")
+            appDelegate.listCardsFromMangopay() {
+                self.removeSpinner()
+                completion()
+            }
         }
         
         if let id = self.card?.cardID {

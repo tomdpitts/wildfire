@@ -194,7 +194,6 @@ class AddCard2TableViewController: UITableViewController, UITextFieldDelegate {
                                     self.performSegue(withIdentifier: "showSuccessScreen", sender: self)
                                 }
                             }
-                            // TODO add loading spinner to wait for responseURL
                         }
                     }
                 }

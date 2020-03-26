@@ -66,8 +66,6 @@ class VerificationCodeViewController: UIViewController {
                 verificationCode: code)
             
             Auth.auth().signIn(with: credential) { (authResult, error) in
-                
-                print(authResult)
             
                 if error != nil {
                     self.removeSpinner()

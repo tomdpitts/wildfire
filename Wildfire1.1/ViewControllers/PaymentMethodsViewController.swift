@@ -40,18 +40,21 @@ class PaymentMethodsViewController: UITableViewController {
         
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellID)
         
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
         fetchCardsFromUserDefaults() { () in
             self.tableView.reloadData()
         }
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // tableView needs to include a cell for each card, plus 1 cell for "Add new card"
-        if paymentMethodsList.count == 0 {
-            return 1
-        } else {
-            return paymentMethodsList.count
-        }
+//        if paymentMethodsList.count == 0 {
+//            return 1
+//        } else {
+//            return paymentMethodsList.count
+//        }
+        return 1
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -127,7 +130,6 @@ class PaymentMethodsViewController: UITableViewController {
                 paymentMethodsList.append(card)
             }
         }
-        
         completion()
     }
         

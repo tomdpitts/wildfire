@@ -280,15 +280,14 @@ class Account2ViewController: UITableViewController {
                         if let err = error {
                             print(err)
                         } else {
-                            // surprisingly enough, it seems the currentUser persists on the client even when deletion has been triggered, so we'll always call signOut()
+                            // might be a timing thing, but in testing, user was usually still signed in even after calling deleteUser
                             do {
-    //                                try Auth.auth().signOut()
+                                    try Auth.auth().signOut()
                             } catch {
                                 print(error)
                             }
 
-                            // update the userAccountExists flag (if user signs in with a different number, we don't want this flag to persist in memory and mess things up
-//                            self.resetUserDefaults()
+                            self.resetUserDefaults()
 
                             self.performSegue(withIdentifier: segueIdentifier, sender: self)
                         }

@@ -98,7 +98,7 @@ class ContactsViewController: UITableViewController, UISearchResultsUpdating {
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        if  (resultSearchController.isActive) {
+        if (resultSearchController.isActive) {
             return 1
         } else {
             return contactsGrouped.count
@@ -254,8 +254,10 @@ class ContactsViewController: UITableViewController, UISearchResultsUpdating {
                     }
                     self.contactsGrouped.append(group)
                 }
-                
-                self.tableView.reloadData()
+                // TODO does this solution prevent crashing?
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
             } else {
                 // denied access
             }
