@@ -33,7 +33,7 @@
                                             <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
                                         </state>
                                         <connections>
-                                            <segue destination="u43-ox-leC" kind="show" id="x3F-aN-fyu"/>
+                                            <action selector="sendButtonTapped:" destination="9pv-A4-QxB" eventType="touchUpInside" id="2j3-Ib-haE"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HgW-XE-C0H">
@@ -70,6 +70,7 @@
                     <connections>
                         <outlet property="scanButton" destination="HgW-XE-C0H" id="RAj-vu-T9X"/>
                         <outlet property="sendButton" destination="oEZ-Et-K1S" id="SDu-a8-b3r"/>
+                        <segue destination="u43-ox-leC" kind="show" identifier="goToSend" id="e6N-MD-xhp"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W5J-7L-Pyd" sceneMemberID="firstResponder"/>
@@ -466,7 +467,7 @@
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" horizontalHuggingPriority="1000" scrollEnabled="NO" editable="NO" textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ozJ-FX-AKQ">
                                         <rect key="frame" x="0.5" y="164" width="279" height="116.5"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                        <string key="text">At this time, Wildfire can only save one card's info at a time. If you want to use a different card, no worries! Just tap on the added card and delete it. Nothing else in your account will be affected. You'll then be able to add a new card. </string>
+                                        <string key="text">At present, Wildfire can only save one card's info at a time. If you want to use a different card, no worries! Just tap on the added card and delete it. Nothing else in your account will be affected. You'll then be able to add a new card. </string>
                                         <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -634,8 +635,8 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Yi0-Uc-Zmr" userLabel="Line 1">
-                                                    <rect key="frame" x="5" y="11.5" width="310" height="21"/>
+                                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="4 Spencer Road" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Yi0-Uc-Zmr" userLabel="Line 1">
+                                                    <rect key="frame" x="5" y="11" width="310" height="22"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no" returnKeyType="next" textContentType="address-line1"/>
                                                     <userDefinedRuntimeAttributes>
@@ -677,8 +678,8 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textField opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="zuc-qY-zZo" userLabel="Line 2">
-                                                    <rect key="frame" x="5" y="11.5" width="310" height="21"/>
+                                                <textField opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Tret" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="zuc-qY-zZo" userLabel="Line 2">
+                                                    <rect key="frame" x="5" y="11" width="310" height="22"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no" returnKeyType="next" textContentType="address-line2"/>
                                                     <userDefinedRuntimeAttributes>
@@ -720,8 +721,8 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textField opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Rgp-Io-isB">
-                                                    <rect key="frame" x="5" y="11.5" width="310" height="21"/>
+                                                <textField opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Vieste" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Rgp-Io-isB">
+                                                    <rect key="frame" x="5" y="11" width="310" height="22"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="words" returnKeyType="next" textContentType="address-level2"/>
                                                     <userDefinedRuntimeAttributes>
@@ -763,8 +764,8 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textField opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="CXL-IR-qsp" userLabel="CSV">
-                                                    <rect key="frame" x="5" y="11.5" width="310" height="21"/>
+                                                <textField opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Bari" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="CXL-IR-qsp" userLabel="CSV">
+                                                    <rect key="frame" x="5" y="11" width="310" height="22"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="words" returnKeyType="next" textContentType="address-level1"/>
                                                     <userDefinedRuntimeAttributes>
@@ -806,8 +807,8 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textField opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="lrT-Fo-axP" userLabel="CSV">
-                                                    <rect key="frame" x="5" y="11.5" width="310" height="21"/>
+                                                <textField opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="20331" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="lrT-Fo-axP" userLabel="CSV">
+                                                    <rect key="frame" x="5" y="11" width="310" height="22"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="allCharacters" autocorrectionType="no" returnKeyType="next" textContentType="postal-code"/>
                                                     <userDefinedRuntimeAttributes>
@@ -849,8 +850,8 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textField opaque="NO" tag="5" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="RJu-ts-4yn" userLabel="CSV">
-                                                    <rect key="frame" x="5" y="11.5" width="310" height="21"/>
+                                                <textField opaque="NO" tag="5" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Italy" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="RJu-ts-4yn" userLabel="CSV">
+                                                    <rect key="frame" x="5" y="11" width="310" height="22"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="yes" returnKeyType="next" textContentType="country-name"/>
                                                     <userDefinedRuntimeAttributes>
@@ -2250,6 +2251,17 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Receipts" id="Vav-hZ-JT3"/>
+                    <refreshControl key="refreshControl" opaque="NO" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="zat-Gb-EdD">
+                        <autoresizingMask key="autoresizingMask"/>
+                        <attributedString key="attributedTitle">
+                            <fragment content="Refreshing">
+                                <attributes>
+                                    <font key="NSFont" metaFont="system" size="14"/>
+                                    <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                </attributes>
+                            </fragment>
+                        </attributedString>
+                    </refreshControl>
                     <connections>
                         <segue destination="NJi-Gm-iql" kind="showDetail" identifier="displayReceipt" id="bUt-bW-kcg"/>
                         <segue destination="0nl-va-a5B" kind="unwind" identifier="unwindToPrevious" unwindAction="unwindToPrevious:" id="gQu-HK-eYO"/>
@@ -2290,6 +2302,18 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <refreshControl key="refreshControl" opaque="NO" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="ihh-2c-NNc">
+                        <autoresizingMask key="autoresizingMask"/>
+                        <attributedString key="attributedTitle">
+                            <fragment content="Refreshing">
+                                <attributes>
+                                    <color key="NSColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                    <font key="NSFont" metaFont="system" size="14"/>
+                                    <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                </attributes>
+                            </fragment>
+                        </attributedString>
+                    </refreshControl>
                     <connections>
                         <segue destination="eVu-mO-ksZ" kind="show" identifier="showCardDetails" id="Wak-XF-XWl"/>
                         <segue destination="lOX-0Y-FSB" kind="show" identifier="showAddCardView" id="YhI-hf-aZr"/>
@@ -3401,53 +3425,19 @@
                             <outlet property="delegate" destination="CDk-SW-YDS" id="reD-4L-weV"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Bank Account" id="EqN-zL-adL"/>
+                    <navigationItem key="navigationItem" title="Bank Account" id="EqN-zL-adL">
+                        <barButtonItem key="rightBarButtonItem" title="Add Details" id="YaS-DR-CNm">
+                            <connections>
+                                <segue destination="VYa-hN-JH5" kind="show" id="gr2-HT-oDS"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
-                        <outlet property="addAccountButton" destination="OBl-yO-4ew" id="acx-cY-lFH"/>
-                        <outlet property="noBankAccountsView" destination="niR-aD-D5P" id="5td-Z0-MOh"/>
+                        <outlet property="addDetailsButton" destination="YaS-DR-CNm" id="NPw-hu-okC"/>
                         <segue destination="Qgo-Fg-rxz" kind="show" identifier="showBankDetails" id="VKs-p5-dVW"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wfx-95-V7L" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-                <view contentMode="scaleToFill" id="niR-aD-D5P">
-                    <rect key="frame" x="0.0" y="0.0" width="300" height="300"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <subviews>
-                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icons8-bank-building-100" translatesAutoresizingMaskIntoConstraints="NO" id="BxE-9c-jXA">
-                            <rect key="frame" x="125" y="0.0" width="50" height="50"/>
-                        </imageView>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add your Bank Account details to deposit your funds to your account" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bat-5F-zJn">
-                            <rect key="frame" x="50" y="70" width="200" height="61"/>
-                            <constraints>
-                                <constraint firstAttribute="width" constant="200" id="hQv-js-8eU"/>
-                            </constraints>
-                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                            <nil key="textColor"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OBl-yO-4ew">
-                            <rect key="frame" x="50" y="181" width="200" height="50"/>
-                            <constraints>
-                                <constraint firstAttribute="width" constant="200" id="jRH-ab-S4G"/>
-                                <constraint firstAttribute="height" constant="50" id="mLO-NJ-Dr0"/>
-                            </constraints>
-                            <state key="normal" title="Add Account Details"/>
-                            <connections>
-                                <segue destination="VYa-hN-JH5" kind="show" id="9wq-ri-dSd"/>
-                            </connections>
-                        </button>
-                    </subviews>
-                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                    <constraints>
-                        <constraint firstItem="OBl-yO-4ew" firstAttribute="centerX" secondItem="niR-aD-D5P" secondAttribute="centerX" id="1NT-22-XC3"/>
-                        <constraint firstItem="BxE-9c-jXA" firstAttribute="centerX" secondItem="niR-aD-D5P" secondAttribute="centerX" id="D2l-q3-1EF"/>
-                        <constraint firstItem="Bat-5F-zJn" firstAttribute="centerX" secondItem="niR-aD-D5P" secondAttribute="centerX" id="GGF-1b-INY"/>
-                        <constraint firstItem="Bat-5F-zJn" firstAttribute="top" secondItem="BxE-9c-jXA" secondAttribute="bottom" constant="20" id="LLO-WN-gDp"/>
-                        <constraint firstItem="OBl-yO-4ew" firstAttribute="top" secondItem="Bat-5F-zJn" secondAttribute="bottom" constant="50" id="QbG-fj-dcu"/>
-                        <constraint firstItem="BxE-9c-jXA" firstAttribute="top" secondItem="k6U-Mc-4dS" secondAttribute="top" id="UKO-EG-tIW"/>
-                    </constraints>
-                    <viewLayoutGuide key="safeArea" id="k6U-Mc-4dS"/>
-                </view>
             </objects>
             <point key="canvasLocation" x="5722.5" y="398.23943661971833"/>
         </scene>
@@ -4718,7 +4708,7 @@
         <segue reference="hWh-Xd-ZQz"/>
         <segue reference="JjY-XQ-ITd"/>
         <segue reference="XkC-zp-HKA"/>
-        <segue reference="bGq-l6-Or3"/>
+        <segue reference="ydr-lM-sQk"/>
         <segue reference="YhI-hf-aZr"/>
         <segue reference="6CO-tz-ak8"/>
     </inferredMetricsTieBreakers>

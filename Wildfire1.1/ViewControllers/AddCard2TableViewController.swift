@@ -62,6 +62,7 @@ class AddCard2TableViewController: UITableViewController, UITextFieldDelegate {
 
     // TODO rewrite this using Promise
     @IBAction func submitPressed(_ sender: Any) {
+        self.resignFirstResponder()
             
         // API guide https://docs.mangopay.com/endpoints/v2.01/cards#e177_the-card-registration-object
         
@@ -145,9 +146,7 @@ class AddCard2TableViewController: UITableViewController, UITextFieldDelegate {
                             "cardExpirationDate": self.expiryDateField,
                             "cardCvx": self.csvField
                             ]
-                        
-                        print(body)
-                        
+                                                
                         // send card details to Mangopay's tokenization server, and get a RegistrationData object back as response
                         self.networkingClient.postCardInfo(url: cardRegURL, parameters: body) { (response, error) in
                             
@@ -173,25 +172,34 @@ class AddCard2TableViewController: UITableViewController, UITextFieldDelegate {
                             // now pass the RegistrationData object to callable Cloud Function which will complete the Card Registration and store the CardId in Firestore (this whole process is a secure way to store the user's card without having their sensitive info ever touch our server)
                             // N.B. we send the wallet ID received earlier so that the Cloud Function can store the final CardID under the user's Firestore wallet entry (the correct wallet - they could have multiple)
                             self.functions.httpsCallable("addCardRegistration").call(["regData": regData, "cardRegID": cardRegID, "walletID": walletID]) { (result, error) in
-                                
-                                self.removeSpinner()
 
                                 if let err = error {
+                                    //
+                                    print("error occurred")
                                     print(err)
+                                    // revive the button to prevent retries
+                                    self.submitButton.isEnabled = true
+                                    self.removeSpinner()
                                 } else {
-                                    let cardID = result?.data as! String
+                                    print("success")
+                                    print(result?.data)
+//                                    self.submitButton.isEnabled = true
                                     
+                                    let cardID = result?.data as! String
+
                                     // When the card has been added, trigger the API call to MangoPay to update UserDefaults with the card data (so that it shows up in the PaymentMethods View)
                                     // N.B. one benefit of NOT saving it directly is that MangoPay can handle any validation - this way, we only save it when it's definitely been correctly added to their MP account
                                     let appDelegate = AppDelegate()
-                                    appDelegate.listCardsFromMangopay()
-                                    
+                                    appDelegate.listCardsFromMangopay() { () in
+                                        
+                                        self.removeSpinner()
+                                        
+                                        self.performSegue(withIdentifier: "showSuccessScreen", sender: self)
+                                        
+                                    }
+
                                     // leaving makeDefault as true by default for now
                                     self.addAddressToCard(walletID: walletID, cardID: cardID, makeDefault: true)
-                                    
-                                    
-                                    
-                                    self.performSegue(withIdentifier: "showSuccessScreen", sender: self)
                                 }
                             }
                         }
@@ -349,6 +357,17 @@ class AddCard2TableViewController: UITableViewController, UITextFieldDelegate {
 //                    return "CSV number must be exactly 3 digits"
 //                    }
         }
+    }
+    
+    func showAlert(title: String?, message: String?, progress: Bool) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
+            if progress == true {
+                self.performSegue(withIdentifier: "unwindToPrevious", sender: self)
+            }
+        }))
+        self.present(alert, animated: true)
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

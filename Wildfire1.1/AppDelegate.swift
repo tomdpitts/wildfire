@@ -284,12 +284,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }
     }
     
-    func listCardsFromMangopay(completion: (() -> Void)? = nil) {
+    func listCardsFromMangopay(completion: @escaping ()->()) {
+        print("listCardsFromMangopay called")
         
         let mpID: String? = UserDefaults.standard.string(forKey: "mangopayID")
         
         functions.httpsCallable("listCards").call(["mpID": mpID]) { (result, error) in
-
+            
             if let cardList = result?.data as? [[String: Any]] {
                 let defaults = UserDefaults.standard
                 
@@ -315,15 +316,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                         let card = PaymentCard(cardID: cardID, cardNumber: cardNumber, cardProvider: cardProvider, expiryDate: expiryDate)
                         
                         defaults.set(try? PropertyListEncoder().encode(card), forKey: "card\(i)")
+                        print("card \(i)")
+                        print(card)
                     }
                 }
-                
-                completion?()
+                completion()
                 
             } else {
-                
-                completion?()
                 // this (probably) means no cards have been added
+                completion()
             }
         }
     }

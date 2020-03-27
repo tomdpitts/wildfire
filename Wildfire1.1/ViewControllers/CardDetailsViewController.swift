@@ -83,7 +83,7 @@ class CardDetailsViewController: UIViewController {
                 print(result)
             }
             let appDelegate = AppDelegate()
-            appDelegate.listCardsFromMangopay() {
+            appDelegate.listCardsFromMangopay() { () in
                 self.removeSpinner()
                 completion()
             }

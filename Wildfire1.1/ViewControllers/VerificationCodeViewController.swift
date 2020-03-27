@@ -79,7 +79,7 @@ class VerificationCodeViewController: UIViewController {
                 
                 // update credit cards and bank accounts list (user may be returning)
                 let appDelegate = AppDelegate()
-                appDelegate.listCardsFromMangopay()
+                appDelegate.listCardsFromMangopay() { () in }
                 appDelegate.fetchBankAccountsListFromMangopay()
                 
                 // check whether the user has previously completed signup flow

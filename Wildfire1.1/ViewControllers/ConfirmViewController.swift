@@ -298,14 +298,11 @@ class ConfirmViewController: UIViewController {
         
         // for sake of readibility, we first divide into two cases: 1) user wants to topup and transact, 2) user just wants to transact - they already have sufficient credit.
         if topup == true {
-            print("we're topping up here")
             authenticatePayment() { authenticated in
                 if authenticated == true {
                     // N.B. topupAmount must be passed if topup == true. Guarding so that this breaks if this condition isn't met.
                     guard let tpa = topupAmount else { return }
-                    
-                    print("auth was fine")
-                    
+                                        
                     self.functions.httpsCallable("createPayin").call(["amount": tpa, "currency": "EUR"]) { (result, error) in
                         if error != nil {
                             // TODO

@@ -40,9 +40,11 @@ class PaymentMethodsViewController: UITableViewController {
         
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellID)
         
+        self.refreshControl?.addTarget(self, action: #selector(refresh), for: UIControl.Event.valueChanged)
+        
     }
     
-    override func viewWillAppear(_ animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         fetchCardsFromUserDefaults() { () in
             self.tableView.reloadData()
         }
@@ -103,13 +105,6 @@ class PaymentMethodsViewController: UITableViewController {
     }
     
     func fetchCardsFromUserDefaults(completion: @escaping ()->()) {
-        // TODO add mangopay call to fetch list of cards
-        // OR store them locally?
-        // UPDATE: decided to store in UserDefaults and have an API call in AppDelegate on AppDidEnterForeground to check the list is up to date in the background
-        
-//        let storedCards = UserDefaults.standard.object(forKey: "storedCards") as? [PaymentCard] ?? [PaymentCard]()
-//
-//        self.paymentMethodsList = storedCards
         
         let defaults = UserDefaults.standard
         
@@ -129,10 +124,22 @@ class PaymentMethodsViewController: UITableViewController {
                 
                 paymentMethodsList.append(card)
             }
+        } else {
+            paymentMethodsList = []
         }
         completion()
     }
+    
+    @objc func refresh(sender:AnyObject) {
         
+        let appDelegate = AppDelegate()
+        appDelegate.listCardsFromMangopay() { () in
+            self.fetchCardsFromUserDefaults {
+                self.tableView.reloadData()
+                self.refreshControl?.endRefreshing()
+            }
+        }
+    }
     
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

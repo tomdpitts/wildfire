@@ -25,15 +25,16 @@ class Utilities {
             let docRef = db.collection("users").document(uid)
 
             docRef.getDocument { (document, error) in
-                if let doc = document {
-                    let userData = doc.data()
-                    
-                    // somewhat hacky, but fcmToken is now written to the user record in firebase, so can no longer use the document.exists test to determine whether or not the user has completed the signup flow
-                    if (userData?["email"]) != nil {
-                        UserDefaults.standard.set(true, forKey: "userAccountExists")
-                    } else {
-                        UserDefaults.standard.set(false, forKey: "userAccountExists")
-                    }
+                if let document = document, document.exists {
+                    UserDefaults.standard.set(true, forKey: "userAccountExists")
+//                    let userData = doc.data()
+//
+//                    // somewhat hacky, but fcmToken is now written to the user record in firebase, so can no longer use the document.exists test to determine whether or not the user has completed the signup flow
+//                    if (userData?["email"]) != nil {
+//                        UserDefaults.standard.set(true, forKey: "userAccountExists")
+//                    } else {
+//                        UserDefaults.standard.set(false, forKey: "userAccountExists")
+//                    }
                 } else {
                     UserDefaults.standard.set(false, forKey: "userAccountExists")
                 }

@@ -271,20 +271,10 @@ exports.addCardRegistration = functions.region('europe-west1').https.onCall( asy
 
   const userID = context.auth.uid
 
-  var mangopayID = ''
   const rd = data.regData
   const cardRegID = String(data.cardRegID)
   const walletID = data.walletID
 
-  // using the Firebase userID (supplied via 'context' of the request), get the mangopayID 
-  await admin.firestore().collection('users').doc(userID).get().then(doc => {
-    userData = doc.data();
-    mangopayID = userData.mangopayID
-    return
-  })
-  .catch(err => {
-    console.log('Error getting mangopayID from Firestore database', err);
-  });
 
   // update the CardRegistration object with the Registration data and cardRegID sent as the argument for this function.
   // see https://docs.mangopay.com/endpoints/v2.01/cards#e1042_post-card-info 
@@ -484,7 +474,16 @@ exports.listCards = functions.region('europe-west1').https.onCall( async (data, 
   if (mangopayID !== "") {
     const cardsList = await mpAPI.Users.getCards(mangopayID, JSON)
 
-    return cardsList
+    var activeCardsList = []
+    var x
+
+    for (x of cardsList) {
+      if (x.Active !== false ) {
+        activeCardsList.push(x)
+      }
+    } 
+
+    return activeCardsList
   } else {
     return null
   }

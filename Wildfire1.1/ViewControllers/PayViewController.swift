@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Contacts
 
 class PayViewController: UIViewController {
     
@@ -27,7 +28,22 @@ class PayViewController: UIViewController {
         
     }
     
-//    override func viewWillAppear(_ animated: Bool) {
+    @IBAction func sendButtonTapped(_ sender: Any) {
+        
+        CNContactStore().requestAccess(for: .contacts) { (granted, error) in
+            if let error = error {
+                print(error)
+                return
+            } else {
+                DispatchQueue.main.async {
+                    self.performSegue(withIdentifier: "goToSend", sender: self)
+                }
+            }
+        }
+                    
+        
+    }
+    //    override func viewWillAppear(_ animated: Bool) {
 //        super.viewWillAppear(animated)
 //        navigationController?.setNavigationBarHidden(true, animated: animated)
 //    }

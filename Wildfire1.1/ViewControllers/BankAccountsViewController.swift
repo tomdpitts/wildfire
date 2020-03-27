@@ -18,8 +18,8 @@ class BankAccountsViewController: UITableViewController {
     
     @IBOutlet var noBankAccountsView: UIView!
     
-    @IBOutlet weak var addAccountButton: UIButton!
-    
+    @IBOutlet weak var addDetailsButton: UIBarButtonItem!
+        
     lazy var functions = Functions.functions(region:"europe-west1")
     let db = Firestore.firestore()
     let uid = Auth.auth().currentUser?.uid
@@ -47,17 +47,12 @@ class BankAccountsViewController: UITableViewController {
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellID)
         
         fetchBankAccounts() { () in
-//                if self.transactionsList.isEmpty == true {
-//                    let title = "Looks like you haven't made any transactions yet"
-//                    let message = "When you pay someone or get paid, it'll show up here"
-//                    self.showAlert(title: title, message: message)
-//                }
-            self.tableView.reloadData()
-            if self.bankAccountsList.count == 0 {
-                self.tableView.addSubview(self.noBankAccountsView)
-//                self.tableView.backgroundView = self.noBankAccountsView
-                Utilities.styleHollowButton(self.addAccountButton)
+
+            if self.bankAccountsList.count > 0 {
+                self.addDetailsButton.isEnabled = true
+                self.addDetailsButton.tintColor = UIColor.clear
             }
+            self.tableView.reloadData()
         }
     }
     
@@ -94,7 +89,7 @@ class BankAccountsViewController: UITableViewController {
             cell = UITableViewCell(style: .subtitle, reuseIdentifier: self.cellID)
         
         if bankAccountsList.count == 0 {
-            cell.textLabel?.text = "You haven't added any cards yet"
+            cell.textLabel?.text = "You haven't added any account details yet"
             cell.imageView?.image = UIImage(named: "icons8-bank-building-50")
         } else {
             let found = bankAccountsList[indexPath.row]

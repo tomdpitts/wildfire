@@ -54,6 +54,8 @@ class ReceiptsViewController: UITableViewController {
         
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellID)
         
+        self.refreshControl?.addTarget(self, action: #selector(refresh), for: UIControl.Event.valueChanged)
+        
         fetchTransactions() { () in
             if self.transactionsList.isEmpty == true {
                 let title = "Looks like you haven't made any transactions yet"
@@ -188,6 +190,13 @@ class ReceiptsViewController: UITableViewController {
 
         
         performSegue(withIdentifier: "displayReceipt", sender: self)
+    }
+    
+    @objc func refresh(sender:AnyObject) {
+        
+        fetchTransactions() { () in
+            self.tableView.reloadData()
+        }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
