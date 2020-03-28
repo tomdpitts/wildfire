@@ -57,9 +57,6 @@ class EditProfileTableViewController: UITableViewController {
         super.viewDidLoad()
         
         setUpTextFields()
-        
-        navigationItem.title = "Edit Profile"
-        navigationController?.navigationBar.prefersLargeTitles = true
 
         tableView.tableFooterView = UIView()
         tableView.backgroundColor = .groupTableViewBackground

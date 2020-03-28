@@ -27,10 +27,6 @@ class formStep2ViewController: UIViewController {
         super.viewDidLoad()
         
         navigationController?.interactivePopGestureRecognizer?.delegate = nil
-        
-        navigationItem.title = "Date of Birth"
-        navigationController?.navigationBar.prefersLargeTitles = true
-        
 
         setUpElements()
 

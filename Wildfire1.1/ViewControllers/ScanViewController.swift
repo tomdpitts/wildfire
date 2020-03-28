@@ -82,9 +82,6 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
             self.navigationController?.navigationBar.isTranslucent = true
         }
         
-        
-        navigationItem.title = "Scan"
-        navigationController?.navigationBar.prefersLargeTitles = true
 //        self.navigationController!.navigationBar.setBackgroundImage(UIImage(), for: .default)
 //        self.navigationController!.navigationBar.shadowImage = UIImage()
        

@@ -32,9 +32,6 @@ class PaymentMethodsViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        navigationItem.title = "Payment Methods"
-//        navigationController?.navigationBar.prefersLargeTitles = true
-        
         tableView.tableFooterView = UIView()
         tableView.backgroundColor = .groupTableViewBackground
         

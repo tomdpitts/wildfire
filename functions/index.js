@@ -665,53 +665,6 @@ exports.getCurrentBalance = functions.region('europe-west1').https.onCall( async
 
 });
 
-// exports.addCardRegistration = functions.region('europe-west1').https.onCall( async (data, context) => {
-
-//   const userID = context.auth.uid
-
-//   var mangopayID = ''
-//   const rd = data.regData
-//   const cardRegID = String(data.cardRegID)
-//   const walletID = data.walletID
-
-//   // using the Firebase userID (supplied via 'context' of the request), get the mangopayID 
-//   await admin.firestore().collection('users').doc(userID).get().then(doc => {
-//     userData = doc.data();
-//     mangopayID = userData.mangopayID
-//     return
-//   })
-//   .catch(err => {
-//     console.log('Error getting userID', err);
-//   });
-
-//   // update the CardRegistration object with the Registration data and cardRegID sent as the argument for this function.
-//   // see https://docs.mangopay.com/endpoints/v2.01/cards#e1042_post-card-info 
-//   // "Update a Card Registration"
-//   const cardObject = await mpAPI.CardRegistrations.update({RegistrationData: rd, Id: cardRegID})
-
-//   admin.firestore().collection('users').doc(userID).set({
-//     defaultCardID: cardObject.CardId
-//     // merge (to prevent overwriting other fields) should never be needed, but just in case..
-//   }, {merge: true})
-//   .catch(err => {
-//     console.log('Error saving to database', err);
-//   })
-
-//   let cardID = cardObject.CardId
-
-//   // and save the important part of the response - the cardId - to the Firestore database
-//   admin.firestore().collection('users').doc(userID).collection('wallets').doc(walletID).collection('cards').doc(cardID).set({
-//     cardID: cardID
-//     // merge (to prevent overwriting other fields) should never be needed, but just in case..
-//   }, {merge: true})
-//   .catch(err => {
-//     console.log('Error saving to database', err);
-//   })
-
-//   return cardID
-// })
-
-
 exports.addBankAccount = functions.region('europe-west1').https.onCall( async (data, context) => {
 
   const userID = context.auth.uid
@@ -1364,5 +1317,5 @@ exports.deleteBankAccount = functions.region('europe-west1').https.onCall( async
     console.log(`deleteBackAccount func: ${userID} tried to delete Bank Account info, but there was an error: `, error)
   })
 
-  return output
+  return
 })

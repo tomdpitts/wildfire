@@ -36,14 +36,18 @@ class AddCard2TableViewController: UITableViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        navigationItem.title = "Billing Address"
-        navigationController?.navigationBar.prefersLargeTitles = true
         
         tableView.tableFooterView = UIView()
         tableView.backgroundColor = .groupTableViewBackground
         
         errorLabel.isHidden = true
+        
+        Utilities.styleTextField(line1TextField)
+        Utilities.styleTextField(line2TextField)
+        Utilities.styleTextField(cityTextField)
+        Utilities.styleTextField(regionTextField)
+        Utilities.styleTextField(postcodeTextField)
+        Utilities.styleTextField(countryTextField)
         Utilities.styleFilledButton(submitButton)
         
         for code in NSLocale.isoCountryCodes  {

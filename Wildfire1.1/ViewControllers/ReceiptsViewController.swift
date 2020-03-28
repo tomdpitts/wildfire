@@ -46,8 +46,6 @@ class ReceiptsViewController: UITableViewController {
         transactionDates = []
         transactionsList = []
         transactionsGrouped = []
-        navigationItem.title = "Receipts"
-        navigationController?.navigationBar.prefersLargeTitles = true
         
         tableView.tableFooterView = UIView()
         tableView.backgroundColor = .groupTableViewBackground

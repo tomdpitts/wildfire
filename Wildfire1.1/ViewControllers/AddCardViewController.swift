@@ -33,9 +33,12 @@ class AddCardViewController: UIViewController, UITextFieldDelegate {
         
         navigationController?.interactivePopGestureRecognizer?.delegate = nil
         
-        navigationItem.title = "Add Card"
-        navigationController?.navigationBar.prefersLargeTitles = true
+//        navigationItem.title = "Add Card"
+//        navigationController?.navigationBar.prefersLargeTitles = true
         
+        Utilities.styleTextField(cardNumberField)
+        Utilities.styleTextField(expiryDateField)
+        Utilities.styleTextField(csvField)
         Utilities.styleHollowButton(submitButton)
         
         // this is required for the limiting of text fields such as Card Number to only numeric values

@@ -49,9 +49,6 @@ class BankDetailViewController: UIViewController {
         Utilities.styleHollowButton(makeDepositButton)
         Utilities.styleHollowButtonRED(deleteButton)
         
-        navigationItem.title = "Account Details"
-        navigationController?.navigationBar.prefersLargeTitles = true
-        
         KYCPendingView.isHidden = true
         
         // TODO - TAKE THIS OUT! FOR TESTING ONLY
@@ -107,9 +104,9 @@ class BankDetailViewController: UIViewController {
         
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
             
-            self.deleteBankAccountInfo()
-            
-            self.performSegue(withIdentifier: segueIdentifier, sender: self)
+            self.deleteBankAccountInfo() {
+                self.performSegue(withIdentifier: segueIdentifier, sender: self)
+            }
         }))
         
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
@@ -119,12 +116,14 @@ class BankDetailViewController: UIViewController {
     }
     
     
-    func deleteBankAccountInfo() {
+    func deleteBankAccountInfo(completion: @escaping ()->()) {
         
         self.functions.httpsCallable("deleteBankAccount").call() { (result, error) in
             // update credit cards list
             let appDelegate = AppDelegate()
-            appDelegate.fetchBankAccountsListFromMangopay()
+            appDelegate.fetchBankAccountsListFromMangopay() {
+                completion()
+            }
         }
         
         if let id = self.bankAccount?.accountID {

@@ -27,9 +27,6 @@ class ProfilePicViewController: UIViewController, UINavigationControllerDelegate
         confirmButton.isHidden = true
         confirmButton.isEnabled = false
         
-        navigationItem.title = "Profile Picture"
-        navigationController?.navigationBar.prefersLargeTitles = true
-        
         // set the profile pic, if it exists
         if let cpp = currentProfilePic {
             pictureView.image = cpp

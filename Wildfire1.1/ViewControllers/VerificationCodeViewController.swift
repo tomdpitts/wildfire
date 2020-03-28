@@ -21,9 +21,6 @@ class VerificationCodeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        navigationItem.title = "Verify"
-        navigationController?.navigationBar.prefersLargeTitles = true
         
         Utilities.styleHollowButton(verifyButton)
         
@@ -80,7 +77,7 @@ class VerificationCodeViewController: UIViewController {
                 // update credit cards and bank accounts list (user may be returning)
                 let appDelegate = AppDelegate()
                 appDelegate.listCardsFromMangopay() { () in }
-                appDelegate.fetchBankAccountsListFromMangopay()
+                appDelegate.fetchBankAccountsListFromMangopay() {}
                 
                 // check whether the user has previously completed signup flow
                 if UserDefaults.standard.bool(forKey: "userAccountExists") != true {

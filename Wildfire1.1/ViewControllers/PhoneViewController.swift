@@ -18,8 +18,6 @@ class PhoneViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.title = "Confirm number"
-        navigationController?.navigationBar.prefersLargeTitles = true
         
         // we don't want the user to go back to the welcome screen
         self.navigationItem.leftBarButtonItem = nil

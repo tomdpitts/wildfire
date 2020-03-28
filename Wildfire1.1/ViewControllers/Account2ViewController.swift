@@ -44,9 +44,6 @@ class Account2ViewController: UITableViewController {
             setUpProfilePic()
         }
         
-        navigationItem.title = "Account"
-        navigationController?.navigationBar.prefersLargeTitles = true
-        
         
 //        // TODO roll this out across the board?
 //        tableView.backgroundView = GradientView()

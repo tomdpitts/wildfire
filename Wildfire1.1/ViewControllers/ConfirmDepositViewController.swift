@@ -46,10 +46,6 @@ class ConfirmDepositViewController: UIViewController {
         }
         Utilities.styleHollowButton(confirmDepositButton)
         Utilities.styleHollowButtonRED(cancelButton)
-        
-        navigationItem.title = "Confirm Deposit"
-        navigationController?.navigationBar.prefersLargeTitles = true
-        
     }
     
     // TODO finish this func

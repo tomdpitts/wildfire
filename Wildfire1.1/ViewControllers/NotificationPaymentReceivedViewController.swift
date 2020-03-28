@@ -23,16 +23,10 @@ class NotificationPaymentReceivedViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
-        navigationItem.title = "Received transfer"
-    navigationController?.navigationBar.prefersLargeTitles = true
-        
         amountLabel.text = currency + amount
-        
         nameLabel.text = authorName
         
         Utilities.styleHollowButton(doneButton)
-        
     }
     
     @IBAction func doneButtonTapped(_ sender: Any) {

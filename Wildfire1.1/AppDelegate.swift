@@ -329,7 +329,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }
     }
     
-    func fetchBankAccountsListFromMangopay(completion: (() -> Void)? = nil) {
+    func fetchBankAccountsListFromMangopay(completion: @escaping ()->()) {
         
         let mpID: String? = UserDefaults.standard.string(forKey: "mangopayID")
         
@@ -386,12 +386,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
                         // save BankAccount object to User Defaults
                         defaults.set(try? PropertyListEncoder().encode(bankAccount), forKey: "bankAccount\(i)")
-                        completion?()
+                        completion()
                     }
+                } else {
+                    completion()
                 }
 
             } else {
-                completion?()
+                completion()
             }
         }
     }

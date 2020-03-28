@@ -50,11 +50,6 @@ class AccountViewController: UIViewController {
         
         navigationController?.interactivePopGestureRecognizer?.delegate = nil
         
-        navigationItem.title = "Account"
-        navigationController?.navigationBar.prefersLargeTitles = true
-        
-        
-        
         
         // this all needs to be updated to point to Firestore, not RT database
         

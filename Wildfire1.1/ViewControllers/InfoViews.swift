@@ -15,9 +15,6 @@ class OutcomeIDVerifiedViewController: UIViewController {
     @IBOutlet weak var okButton: UIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        navigationItem.title = "Verification Outcome"
-        navigationController?.navigationBar.prefersLargeTitles = false
 
         Utilities.styleHollowButton(okButton)
     }

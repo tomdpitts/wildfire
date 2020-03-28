@@ -35,9 +35,6 @@ class ContactsViewController: UITableViewController, UISearchResultsUpdating {
         
         // can't remember what this does - try google
         navigationController?.interactivePopGestureRecognizer?.delegate = nil
-        
-        navigationItem.title = "Send"
-        navigationController?.navigationBar.prefersLargeTitles = true
     
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellID)
         

@@ -38,9 +38,6 @@ class BankDetails1TableViewController: UITableViewController {
         
         nameField.becomeFirstResponder()
         
-        navigationItem.title = "Bank Account"
-        navigationController?.navigationBar.prefersLargeTitles = true
-        
         tableView.tableFooterView = UIView()
         tableView.backgroundColor = .groupTableViewBackground
         
