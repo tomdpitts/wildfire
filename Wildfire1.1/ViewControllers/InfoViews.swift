@@ -18,7 +18,7 @@ class OutcomeIDVerifiedViewController: UIViewController {
 
         Utilities.styleHollowButton(okButton)
         
-        // generate haptic feedback onLoad to indicate usccess
+        // generate haptic feedback onLoad to indicate success
         let notificationFeedbackGenerator = UINotificationFeedbackGenerator()
         notificationFeedbackGenerator.prepare()
         notificationFeedbackGenerator.notificationOccurred(.success)
@@ -45,7 +45,7 @@ class OutcomeIDRefusedViewController: UIViewController {
         Utilities.styleHollowButton(newImageButton)
         Utilities.styleHollowButton(backToHomeButton)
         
-        // generate haptic feedback onLoad to indicate usccess
+        // generate haptic feedback onLoad to indicate success
         let notificationFeedbackGenerator = UINotificationFeedbackGenerator()
         notificationFeedbackGenerator.prepare()
         notificationFeedbackGenerator.notificationOccurred(.error)

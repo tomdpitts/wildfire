@@ -44,8 +44,8 @@ class AccountViewController: UIViewController {
         
         // check whether the user has completed signup flow
         if UserDefaults.standard.bool(forKey: "userAccountExists") != true {
-            let utilities = Utilities()
-            utilities.checkForUserAccount()
+            
+            Utilities.checkForUserAccount()
         }
         
         navigationController?.interactivePopGestureRecognizer?.delegate = nil

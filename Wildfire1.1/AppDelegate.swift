@@ -60,10 +60,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         // check whether the user has completed signup flow 
         if UserDefaults.standard.bool(forKey: "userAccountExists") != true {
-            Utilities().checkForUserAccount()
+            Utilities.checkForUserAccount()
         }
         if UserDefaults.standard.string(forKey: "mangopayID") == nil {
-            Utilities().getMangopayID()
+            Utilities.getMangopayID()
         }
 
         redirect()

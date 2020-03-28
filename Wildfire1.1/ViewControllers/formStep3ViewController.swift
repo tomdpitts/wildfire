@@ -166,8 +166,7 @@ class formStep3ViewController: UIViewController, UITextFieldDelegate {
                     
                     // update saved userAccountExists flag
                     if UserDefaults.standard.bool(forKey: "userAccountExists") != true {
-                        let utilities = Utilities()
-                        utilities.checkForUserAccount()
+                        Utilities.checkForUserAccount()
                     }
                     
                     self.performSegue(withIdentifier: "showAccountAdded", sender: self)

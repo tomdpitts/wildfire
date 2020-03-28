@@ -58,8 +58,7 @@ class ConfirmViewController: UIViewController {
         
         // check whether the user has completed signup flow
         if UserDefaults.standard.bool(forKey: "userAccountExists") != true {
-            let utilities = Utilities()
-            utilities.checkForUserAccount()
+            Utilities.checkForUserAccount()
         }
         
         // get the recipient's full name and profile pic
@@ -74,8 +73,8 @@ class ConfirmViewController: UIViewController {
         if shouldReloadView == true {
             // check whether the user has completed signup flow
             if UserDefaults.standard.bool(forKey: "userAccountExists") != true {
-                let utilities = Utilities()
-                utilities.checkForUserAccount()
+                
+                Utilities.checkForUserAccount()
             }
         }
         

@@ -20,7 +20,7 @@ class KYCSuccessViewController: UIViewController {
     self.navigationController?.navigationItem.backBarButtonItem?.isEnabled = false;
     self.navigationController!.interactivePopGestureRecognizer!.isEnabled = false
         
-        // generate haptic feedback onLoad to indicate usccess
+        // generate haptic feedback onLoad to indicate success
         let notificationFeedbackGenerator = UINotificationFeedbackGenerator()
         notificationFeedbackGenerator.prepare()
         notificationFeedbackGenerator.notificationOccurred(.success)

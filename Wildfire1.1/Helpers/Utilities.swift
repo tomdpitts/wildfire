@@ -16,7 +16,7 @@ class Utilities {
     
     // run check to see if user has set up their account i.e. completed the signup flow
     // this should run everytime user opens app while the value for key userAccountExists is false - thereafter we can ignore the func
-    func checkForUserAccount() {
+    static func checkForUserAccount() {
         
         
         let db = Firestore.firestore()
@@ -45,7 +45,7 @@ class Utilities {
         }
     }
     
-    func getMangopayID() {
+    static func getMangopayID() {
         let db = Firestore.firestore()
         
         if let uid = Auth.auth().currentUser?.uid {

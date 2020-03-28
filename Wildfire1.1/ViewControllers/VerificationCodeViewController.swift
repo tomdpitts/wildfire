@@ -80,10 +80,11 @@ class VerificationCodeViewController: UIViewController {
                 
                 // check whether the user has previously completed signup flow
                 if UserDefaults.standard.bool(forKey: "userAccountExists") != true {
-                    Utilities().checkForUserAccount()
+                    Utilities.checkForUserAccount()
                 }
                 
                 Utilities.getCurrentRegistrationToken()
+                Utilities.getMangopayID()
                 
                 self.removeSpinner()
                 

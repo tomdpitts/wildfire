@@ -89,6 +89,8 @@ class PaymentMethodsViewController: UITableViewController {
 
         if paymentMethodsList.count != 0 {
             performSegue(withIdentifier: "showCardDetails", sender: self)
+        } else {
+            performSegue(withIdentifier: "showAddCardView", sender: self)
         }
     }
     

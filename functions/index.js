@@ -1269,7 +1269,7 @@ exports.deleteCard = functions.region('europe-west1').https.onCall( async (data,
   var cardID = ""
   var walletID = ""
 
-  var output = await userRef.get().then(doc => {
+  await userRef.get().then(doc => {
     let data = doc.data()
     cardID = data.defaultCardID
     walletID = data.defaultWalletID
@@ -1287,7 +1287,7 @@ exports.deleteCard = functions.region('europe-west1').https.onCall( async (data,
     console.log(`deleteCard func: ${userID} tried to delete card, but there was an error: `, error)
   })
 
-  return output
+  return
 })
 
 exports.deleteBankAccount = functions.region('europe-west1').https.onCall( async (data, context) => {

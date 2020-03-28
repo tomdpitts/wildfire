@@ -28,7 +28,7 @@ class NotificationPaymentReceivedViewController: UIViewController {
         
         Utilities.styleHollowButton(doneButton)
         
-        // generate haptic feedback onLoad to indicate usccess
+        // generate haptic feedback onLoad to indicate success
         let notificationFeedbackGenerator = UINotificationFeedbackGenerator()
         notificationFeedbackGenerator.prepare()
         notificationFeedbackGenerator.notificationOccurred(.success)
