@@ -35,6 +35,11 @@ class DisplayReceiptAfterPaymentViewController: UIViewController {
         
         Utilities.styleHollowButton(doneButton)
         updateReceipt()
+        
+        // generate haptic feedback onLoad to indicate usccess
+        let notificationFeedbackGenerator = UINotificationFeedbackGenerator()
+        notificationFeedbackGenerator.prepare()
+        notificationFeedbackGenerator.notificationOccurred(.success)
     }
     
 

@@ -18,7 +18,12 @@ class KYCSuccessViewController: UIViewController {
         self.navigationItem.leftBarButtonItem = nil;
         self.navigationItem.hidesBackButton = true;
     self.navigationController?.navigationItem.backBarButtonItem?.isEnabled = false;
-    self.navigationController!.interactivePopGestureRecognizer!.isEnabled = false;
+    self.navigationController!.interactivePopGestureRecognizer!.isEnabled = false
+        
+        // generate haptic feedback onLoad to indicate usccess
+        let notificationFeedbackGenerator = UINotificationFeedbackGenerator()
+        notificationFeedbackGenerator.prepare()
+        notificationFeedbackGenerator.notificationOccurred(.success)
     }
     
     override func viewWillAppear(_ animated: Bool) {

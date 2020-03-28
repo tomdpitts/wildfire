@@ -171,8 +171,9 @@ class ConfirmViewController: UIViewController {
                     self.topupAmount = difference*(-1)
                     
                     // due to the complexities of dealing with closures and async stuff, have resorted to updating class variable 'recipientName' in another function (setUpRecipientDetails) and then referring to it here. This should probably be improved in future but for now, ensure this function is only called after the other..!
-                    let diffFloat = String(format: "%.2f", Float(difference*(-1))/100)
-                    self.dynamicLabel.text = "Hit 'confirm' to top up £\(diffFloat) and pay \(self.recipientName)"
+                    let differenceString = String(format: "%.2f", Float(difference*(-1))/100)
+                    let totalCharge = String(format: "%.2f", Float(difference*(-1) + 20)/100)
+                    self.dynamicLabel.text = "Tap 'Confirm' to top up £\(differenceString) and pay \(self.recipientName). Card charge is 20p so you'll be charged \(totalCharge)"
                     self.enoughCredit = false
                 } else {
                     

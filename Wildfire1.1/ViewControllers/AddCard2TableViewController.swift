@@ -48,7 +48,7 @@ class AddCard2TableViewController: UITableViewController, UITextFieldDelegate {
         Utilities.styleTextField(regionTextField)
         Utilities.styleTextField(postcodeTextField)
         Utilities.styleTextField(countryTextField)
-        Utilities.styleFilledButton(submitButton)
+        Utilities.styleHollowButton(submitButton)
         
         for code in NSLocale.isoCountryCodes  {
             let id = NSLocale.localeIdentifier(fromComponents: [NSLocale.Key.countryCode.rawValue: code])

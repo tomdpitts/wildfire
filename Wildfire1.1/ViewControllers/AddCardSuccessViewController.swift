@@ -25,6 +25,10 @@ class AddCardSuccessViewController: UIViewController {
     self.navigationController?.navigationItem.backBarButtonItem?.isEnabled = false;
     self.navigationController!.interactivePopGestureRecognizer!.isEnabled = false
         
+        // generate haptic feedback onLoad to indicate usccess
+        let notificationFeedbackGenerator = UINotificationFeedbackGenerator()
+        notificationFeedbackGenerator.prepare()
+        notificationFeedbackGenerator.notificationOccurred(.success)
     }
     
 

@@ -190,6 +190,11 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
                 if QRRead == false {
                     return
                 } else {
+                    
+                    let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .heavy)
+                    impactFeedbackgenerator.prepare()
+                    impactFeedbackgenerator.impactOccurred()
+                    
 //                    self.finalString = validatedString
 //                    self.runScan == false
                     performSegue(withIdentifier: "showConfirmScreen", sender: self)

@@ -17,6 +17,11 @@ class OutcomeIDVerifiedViewController: UIViewController {
         super.viewDidLoad()
 
         Utilities.styleHollowButton(okButton)
+        
+        // generate haptic feedback onLoad to indicate usccess
+        let notificationFeedbackGenerator = UINotificationFeedbackGenerator()
+        notificationFeedbackGenerator.prepare()
+        notificationFeedbackGenerator.notificationOccurred(.success)
     }
     
     @IBAction func okTapped(_ sender: Any) {
@@ -39,6 +44,11 @@ class OutcomeIDRefusedViewController: UIViewController {
         
         Utilities.styleHollowButton(newImageButton)
         Utilities.styleHollowButton(backToHomeButton)
+        
+        // generate haptic feedback onLoad to indicate usccess
+        let notificationFeedbackGenerator = UINotificationFeedbackGenerator()
+        notificationFeedbackGenerator.prepare()
+        notificationFeedbackGenerator.notificationOccurred(.error)
         
         
         if let refusedMessage = UserDefaults.standard.string(forKey: "refusedMessage") {

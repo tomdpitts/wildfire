@@ -179,6 +179,10 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
         let overlayWildfireLogo = mergeImage(bottomImage: overlayQR, topImage: logo, scalePercentage: 23)
         
         QRCodeImageView.image = overlayWildfireLogo
+        
+        let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .heavy)
+        impactFeedbackgenerator.prepare()
+        impactFeedbackgenerator.impactOccurred()
     }
     
     func generateQRString() -> String {

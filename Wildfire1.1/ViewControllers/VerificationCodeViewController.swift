@@ -66,8 +66,7 @@ class VerificationCodeViewController: UIViewController {
             
                 if error != nil {
                     self.removeSpinner()
-                    print(error)
-                    self.errorLabel.text = "Code doesn't match for some reason. Please check it, or go back and submit your phone number again."
+                    self.errorLabel.text = "Code doesn't match for some reason. Please check it, or resubmit your phone number and try again."
                     self.errorLabel.isHidden = false
                     return
                 }

@@ -22,6 +22,7 @@
 		E21AC97A21EA6BF000D460A9 /* Wildfire1_1Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E21AC97921EA6BF000D460A9 /* Wildfire1_1Tests.swift */; };
 		E21AC98521EA6C9E00D460A9 /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E21AC98421EA6C9E00D460A9 /* AccountViewController.swift */; };
 		E222732A23420BBE006D8326 /* AddCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E222732923420BBE006D8326 /* AddCardViewController.swift */; };
+		E2261D1B242F2F29008170DB /* AccountAddedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2261D1A242F2F29008170DB /* AccountAddedViewController.swift */; };
 		E22A9CFD239546C400A35EC1 /* Account2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E22A9CFC239546C400A35EC1 /* Account2ViewController.swift */; };
 		E22D7E0323A7393100F86487 /* DisplayReceiptViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E22D7E0223A7393100F86487 /* DisplayReceiptViewController.swift */; };
 		E22D7E0523B04E8A00F86487 /* PaymentMethodsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E22D7E0423B04E8A00F86487 /* PaymentMethodsViewController.swift */; };
@@ -98,6 +99,7 @@
 		E21AC98421EA6C9E00D460A9 /* AccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
 		E21AC99621EA850C00D460A9 /* ScanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanViewController.swift; sourceTree = "<group>"; };
 		E222732923420BBE006D8326 /* AddCardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCardViewController.swift; sourceTree = "<group>"; };
+		E2261D1A242F2F29008170DB /* AccountAddedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountAddedViewController.swift; sourceTree = "<group>"; };
 		E22A9CFC239546C400A35EC1 /* Account2ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Account2ViewController.swift; sourceTree = "<group>"; };
 		E22D7E0223A7393100F86487 /* DisplayReceiptViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayReceiptViewController.swift; sourceTree = "<group>"; };
 		E22D7E0423B04E8A00F86487 /* PaymentMethodsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentMethodsViewController.swift; sourceTree = "<group>"; };
@@ -296,6 +298,7 @@
 				E2A45D3E240F789D00EC7975 /* ButtonStyleViewController.swift */,
 				E2A45D432419BC9800EC7975 /* InfoViews.swift */,
 				E21710F8242466D5006B4FAE /* NotificationPaymentReceivedViewController.swift */,
+				E2261D1A242F2F29008170DB /* AccountAddedViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -491,6 +494,7 @@
 				E2B979E12329609E00194E75 /* ScanViewController.swift in Sources */,
 				E2CDF4AD235F2859002E155D /* VerificationCodeViewController.swift in Sources */,
 				E279717D231433AF00964F25 /* SignUpViewController.swift in Sources */,
+				E2261D1B242F2F29008170DB /* AccountAddedViewController.swift in Sources */,
 				E271C0D223D99E6F004245CC /* EditProfileTableViewController.swift in Sources */,
 				E2444DF823A0A7930035674D /* ReceiptsViewController.swift in Sources */,
 				E21AC96321EA6BEF00D460A9 /* AppDelegate.swift in Sources */,

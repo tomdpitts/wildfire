@@ -76,7 +76,7 @@ class BankAccountsViewController: UITableViewController {
         cell = UITableViewCell(style: .subtitle, reuseIdentifier: self.cellID)
         
         if bankAccountsList.count == 0 {
-            cell.textLabel?.text = "Account details "
+            cell.textLabel?.text = "Account details not yet added"
             cell.imageView?.image = UIImage(named: "icons8-bank-building-50")
         } else {
             let found = bankAccountsList[indexPath.row]

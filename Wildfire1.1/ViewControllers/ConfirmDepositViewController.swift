@@ -31,21 +31,28 @@ class ConfirmDepositViewController: UIViewController {
     @IBOutlet weak var countryStack: UIStackView!
 
     @IBOutlet weak var amountLabel: UILabel!
+    @IBOutlet weak var whyAmIBeingCharged: UIStackView!
     @IBOutlet weak var confirmDepositButton: UIButton!
     @IBOutlet weak var cancelButton: UIButton!
+    
+    let tapRec = UITapGestureRecognizer()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         displayBankInfo()
         
-        if let n = depositAmount {
-            amountLabel.text = String(format: "%.2f", n)
+        if let amount = depositAmount {
+            let actualAmount = 0.98*amount + 0.45
+            amountLabel.text = String(format: "%.2f", actualAmount)
         } else {
             amountLabel.text = "not found"
         }
         Utilities.styleHollowButton(confirmDepositButton)
         Utilities.styleHollowButtonRED(cancelButton)
+        
+        tapRec.addTarget(self, action: "tappedView")
+        whyAmIBeingCharged.addGestureRecognizer(tapRec)
     }
     
     // TODO finish this func
@@ -87,7 +94,9 @@ class ConfirmDepositViewController: UIViewController {
         }
     }
     
-    
+    func tappedView(){
+        self.performSegue(withIdentifier: "showChargesExplainer", sender: self)
+    }
     
     @IBAction func cancelButtonTapped(_ sender: Any) {
         performSegue(withIdentifier: "unwindToPrevious", sender: self)

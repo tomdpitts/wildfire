@@ -170,8 +170,7 @@ class formStep3ViewController: UIViewController, UITextFieldDelegate {
                         utilities.checkForUserAccount()
                     }
                     
-                    // progress: true presents next screen
-                    self.showAlert(title: "Great! You're signed up.", message: nil, progress: true)
+                    self.performSegue(withIdentifier: "showAccountAdded", sender: self)
                      
                     
                     // the user is already logged in with their phone number, but adding email address gives a killswitch option
@@ -211,21 +210,21 @@ class formStep3ViewController: UIViewController, UITextFieldDelegate {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         
         alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: { (action) in
-            if progress == true {
-                self.progressUser()
-            }
+//            if progress == true {
+//                self.progressUser()
+//            }
         }))
         self.present(alert, animated: true)
     }
-    
-    func progressUser() {
-        if self.userIsInPaymentFlow == true {
-            // Transition to step 2 aka PaymentSetUp VC
-            self.performSegue(withIdentifier: "goToAddPayment", sender: self)
-        } else {
-            self.performSegue(withIdentifier: "unwindToPrevious", sender: self)
-        }
-    }
+//
+//    func progressUser() {
+//        if self.userIsInPaymentFlow == true {
+//            // Transition to step 2 aka PaymentSetUp VC
+//            self.performSegue(withIdentifier: "goToAddPayment", sender: self)
+//        } else {
+//            self.performSegue(withIdentifier: "unwindToPrevious", sender: self)
+//        }
+//    }
     
     private func localeFinder(for fullCountryName : String) -> String? {
         
@@ -287,9 +286,9 @@ class formStep3ViewController: UIViewController, UITextFieldDelegate {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.destination is Account2ViewController {
-            let vc = segue.destination as! Account2ViewController
-            vc.justCompletedSignUp = true
+        if segue.destination is AccountAddedViewController {
+            let vc = segue.destination as! AccountAddedViewController
+            vc.userIsInPaymentFlow = self.userIsInPaymentFlow
         }
     }
     

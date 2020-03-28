@@ -45,6 +45,11 @@ class PassportUploadViewController: UIViewController, UINavigationControllerDele
             self.pictureView.image = aspectScaleImage
             // contentMode needs to be updated from "center" (which ensures the icons8 'rescan'icon doesn't look stretched or blurry) to scaleAspectFill to best render the image
             self.pictureView.contentMode = .scaleAspectFit
+            
+            let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .heavy)
+            impactFeedbackgenerator.prepare()
+            impactFeedbackgenerator.impactOccurred()
+            
             self.editImageButton.setTitle("Change Image", for: .normal)
             self.confirmButton.isHidden = false
         }
