@@ -22,7 +22,7 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var btnAction: UIButton!
     @IBOutlet weak var saveToCameraRoll: UIButton!
-    @IBOutlet weak var scanToPayLabel: UILabel!
+//    @IBOutlet weak var scanToPayLabel: UILabel!
     
     @IBAction func swipeGestureRecognizer(_ sender: Any) {
         // swipe down (and only down) hides keyboard
@@ -51,7 +51,7 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
         Utilities.styleHollowButton(saveToCameraRoll)
         
         saveToCameraRoll.isHidden = true
-        scanToPayLabel.isHidden = true
+//        scanToPayLabel.isHidden = true
         
         saveToCameraRoll.tintColor = UIColor(hexString: "#39C3C6")
         if #available(iOS 13.0, *) {
@@ -79,7 +79,7 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
 //        btnAction.setTitle("Show code",for: .normal)
         btnAction.isHidden = false
         saveToCameraRoll.isHidden = true
-        scanToPayLabel.isHidden = true
+//        scanToPayLabel.isHidden = true
         
         // reset Save to Camera Roll Button
         saveToCameraRoll.setTitle("Save to Camera Roll", for: .normal)
@@ -95,21 +95,47 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
         
         guard let amountString = amountTextField.text else { return }
         
-        let numberOfDecimalDigits: Int
+        var workString: String = amountString
         
-        if let dotIndex = amountString.firstIndex(of: ".") {
-            // prevent more than 2 digits after the decimal
-            numberOfDecimalDigits = amountString.distance(from: dotIndex, to: amountString.endIndex) - 1
-            
-            if numberOfDecimalDigits == 1 {
-                let replacementString = amountString + "0"
-                amountTextField.text = replacementString
-                
-            } else if numberOfDecimalDigits == 0 {
-                let replacementString = String(amountString.dropLast())
-                amountTextField.text = replacementString
-            }
+        // 1: ensure amount is between 0.50 and 50
+        
+        guard let amountFloat = Float(workString) else { return }
+        
+        var x = amountFloat
+        
+        if x > 50.00 {
+            x = 50
         }
+        
+        if x < 0 {
+            x = 0.5
+        }
+        
+        // 2: round to nearest 0.50
+        
+        let y = (Float(Int((2*x) + 0.5)))/2
+        
+        // 3: round to 2 decimal places
+        
+        let z = String(y)
+        
+        let numberOfDecimalDigits: Int
+         
+        if let dotIndex = z.firstIndex(of: ".") {
+             // prevent more than 2 digits after the decimal
+             numberOfDecimalDigits = z.distance(from: dotIndex, to: z.endIndex) - 1
+             
+             if numberOfDecimalDigits == 1 {
+                 let replacementString = z + "0"
+                 workString = replacementString
+                 
+             } else if numberOfDecimalDigits == 0 {
+                 let replacementString = String(z.dropLast())
+                 workString = replacementString
+             }
+        }
+        
+        amountTextField.text = workString
     }
     
     
@@ -138,7 +164,7 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
             btnAction.isHidden = true
             
             saveToCameraRoll.isHidden = false
-            scanToPayLabel.isHidden = false
+//            scanToPayLabel.isHidden = false
             
         }
             
@@ -150,7 +176,7 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
 //            btnAction.setTitle("Show code",for: .normal)
             btnAction.isHidden = false
             saveToCameraRoll.isHidden = true
-            scanToPayLabel.isHidden = true
+//            scanToPayLabel.isHidden = true
             
             // reset Save to Camera Roll Button (currently hidden)
             saveToCameraRoll.setTitle("Save to Camera Roll", for: .normal)

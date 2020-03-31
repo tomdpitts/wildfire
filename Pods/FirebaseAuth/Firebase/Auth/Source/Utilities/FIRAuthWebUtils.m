@@ -26,7 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation FIRAuthWebUtils
 
 + (NSArray<NSString *> *)supportedAuthDomains {
-  return @[@"firebaseapp.com", @"web.app"];
+  return @[@"web.app", @"firebaseapp.com"];
 }
 
 + (NSString *)randomStringWithLength:(NSUInteger)length {

@@ -14,14 +14,20 @@ import libPhoneNumber_iOS
 import SwiftyJSON
 import MessageUI
 
-class Send2ViewController: UIViewController, MFMessageComposeViewControllerDelegate {
+class Send2ViewController: UIViewController, MFMessageComposeViewControllerDelegate, UITextFieldDelegate {
     
     lazy var functions = Functions.functions(region: "europe-west1")
 
 
+    @IBOutlet weak var headerImage: UIImageView!
+    
+    @IBOutlet weak var smsLabel: UILabel!
+    @IBOutlet weak var amountStack: UIStackView!
+    
     @IBOutlet weak var amountTextField: UITextField!
     @IBOutlet weak var errorLabel: UILabel!
     @IBOutlet weak var confirmationTick: UIImageView!
+    @IBOutlet weak var spinner: UIActivityIndicatorView!
     @IBOutlet weak var searchStatus: UILabel!
     
     @IBOutlet weak var sendButton: UIButton!
@@ -29,7 +35,7 @@ class Send2ViewController: UIViewController, MFMessageComposeViewControllerDeleg
     let phoneUtil = NBPhoneNumberUtil()
     var contact: Contact?
     
-    var sendAmount = 0
+    var sendAmount: Float?
     var isRegistered = false
     
     
@@ -53,84 +59,122 @@ class Send2ViewController: UIViewController, MFMessageComposeViewControllerDeleg
         
         Utilities.styleHollowButton(sendButton)
         
+        amountTextField.delegate = self
+        
         errorLabel.isHidden = true
+        smsLabel.isHidden = true
         
         if let name = contact?.fullName {
             navigationItem.title = "To \(name)"
         } else {
             navigationItem.title = "Recipient"
         }
-        navigationController?.navigationBar.prefersLargeTitles = true
+        
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(DismissKeyboard))
+        view.addGestureRecognizer(tap)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         amountTextField.becomeFirstResponder()
+        spinner.startAnimating()
     }
     
+    @IBAction func amountChanged(_ sender: Any) {
+        guard let amountString = amountTextField.text else { return }
+        
+        var workString: String = amountString
+        
+        // 1: ensure amount is between 0.50 and 50
+        
+        guard let amountFloat = Float(workString) else { return }
+        
+        var x = amountFloat
+        
+        if x > 50.00 {
+            x = 50.00
+        }
+        
+        if x < 0 {
+            x = 0.5
+        }
+        
+        // 2: round to nearest 0.50
+        
+        let y = (Float(Int((2*x) + 0.5)))/2
+        
+        // 3: round to 2 decimal places
+        
+        let z = String(y)
+        
+        let numberOfDecimalDigits: Int
+         
+        if let dotIndex = z.firstIndex(of: ".") {
+             // prevent more than 2 digits after the decimal
+             numberOfDecimalDigits = z.distance(from: dotIndex, to: z.endIndex) - 1
+             
+             if numberOfDecimalDigits == 1 {
+                 let replacementString = z + "0"
+                 workString = replacementString
+                 
+             } else if numberOfDecimalDigits == 0 {
+                 let replacementString = String(z.dropLast())
+                 workString = replacementString
+             }
+        }
+        
+        amountTextField.text = workString
+    }
+
     func isRegistered(phoneNumber: String, name: String) {
         // to check whether the selected contact is already registered, we pass the number to Cloud Functions to search against database
         
         // call the function to check for a match
         functions.httpsCallable("isRegistered").call(["phone": phoneNumber]) { (result, error) in
+            self.spinner.isHidden = true
+            self.spinner.stopAnimating()
+            
             if let error = error as NSError? {
+                
                 print(error)
-//                if error.domain == FunctionsErrorDomain {
-//                    let code = FunctionsErrorCode(rawValue: error.code)
-//                    let message = error.localizedDescription
-//                    let details = error.userInfo[FunctionsErrorDetailsKey]
-//                }
-//                // ...
+                self.headerImage.image = UIImage(named: "icons8-sms-100")
+                self.searchStatus.text = "\(name) doesn't appear to be registered"
+                self.smsLabel.text = "Text a download link to get them up and running"
+                self.smsLabel.isHidden = false
+                self.sendButton.setTitle("Send SMS", for: .normal)
+                
             }
             
-            guard let data = result?.data else { return }
-                        
-            if let recipientID = data as? String {
+            if let recipientID = result?.data as? String {
+                
                 self.confirmationTick.isHidden = false
                 self.searchStatus.text = "\(name) is registered"
-                self.searchStatus.isHidden = false
                 
                 // check the recipient isn't the user themself! If they are, we should go back to the previous screen and display an error message
                 
                 if recipientID != Auth.auth().currentUser?.uid {
                     self.contact?.uid = recipientID
                     self.isRegistered = true
+                    
+                    self.headerImage.image = UIImage(named: "icons8-paper-plane-100 (2)")
                 } else {
                     self.showAlert(title: "Oops", message: "Please select a recipient that doesn't have the same phone number as you")
                 }
                 
             } else {
                 // searched for the number but no match found i.e. the contact isn't registered
-                self.searchStatus.text = "Text \(name) a download link to collect their money"
-                self.searchStatus.isHidden = false
+                self.headerImage.image = UIImage(named: "icons8-sms-100")
+                self.searchStatus.text = "\(name) doesn't appear to be registered"
+                self.smsLabel.text = "Text a download link to get them up and running!"
+                self.smsLabel.isHidden = false
+                self.sendButton.setTitle("Send SMS", for: .normal)
             }
             
             self.sendButton.isEnabled = true
         }
     }
     
-    func validateAmount() -> Bool {
-        if amountTextField.text == "" {
-            errorLabel.text = "Please enter an amount to send \(String(describing: contact?.givenName))"
-            errorLabel.isHidden = false
-            return false
-        } else {
-            if let n = amountTextField.text {
-                if let m = Int(n) {
-                    self.sendAmount = m
-                    return true
-                } else {
-                    // TODO error handling
-                    errorLabel.text = "Please enter a valid number"
-                    errorLabel.isHidden = false
-                    return false
-                }
-            } else {
-                return false
-            }
-        }
-    }
-    
     @IBAction func sendTapped(_ sender: Any) {
+        self.view.endEditing(true)
         let success = validateAmount()
         if success == true {
             errorLabel.isHidden = true
@@ -145,6 +189,26 @@ class Send2ViewController: UIViewController, MFMessageComposeViewControllerDeleg
         
     }
     
+    func validateAmount() -> Bool {
+        if let text = amountTextField.text {
+            if text == "" {
+                errorLabel.text = "Please enter an amount to send \(String(describing: contact?.givenName))"
+                errorLabel.isHidden = false
+                return false
+            } else {
+                if let m = Float(text) {
+                    self.sendAmount = m
+                    return true
+                } else {
+                    errorLabel.text = "Please enter a valid number"
+                    errorLabel.isHidden = false
+                    return false
+                }
+            }
+        } else {
+            return false
+        }
+    }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.destination is ConfirmViewController {
@@ -155,14 +219,31 @@ class Send2ViewController: UIViewController, MFMessageComposeViewControllerDeleg
            
             if let uid = recipientUID {
                 vc.recipientUID = uid
-                vc.sendAmount = sendAmount*100
+                guard let amount = sendAmount else { return }
+                vc.sendAmount = Int(amount * Float(100))
             }
         }
     }
     
     func sendText() {
         
-        let messageBody = "Hi \(self.contact?.givenName), I'd like to send you £\(self.sendAmount) with Wildfire - the payments app. Download the app here to collect it http://tiny.cc/bznffz"
+        var contactName: String?
+        var messageBody: String?
+        
+        if let n = self.contact {
+            contactName = n.givenName
+        }
+        
+        if let amount = amountTextField.text {
+            if let name = contactName {
+                messageBody = "Hi \(name), I'd like to send you £\(amount) with Wildfire - the payments app. Download the app here to collect it http://wildfire-30fca.web.app"
+            } else {
+                messageBody = "Hi, I'd like to send you £\(amount) with Wildfire - the payments app. Download the app here to collect it http://wildfire-30fca.web.app"
+            }
+        } else {
+            messageBody = "Hi, I'd like to pay you with Wildfire - the payments app. Download the app here to collect it http://wildfire-30fca.web.app"
+        }
+        
         if (MFMessageComposeViewController.canSendText()) {
             let controller = MFMessageComposeViewController()
             controller.body = messageBody
@@ -183,6 +264,26 @@ class Send2ViewController: UIViewController, MFMessageComposeViewControllerDeleg
         self.navigationController?.isNavigationBarHidden = false
     }
     
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        guard let oldText = textField.text, let r = Range(range, in: oldText) else {
+            return true
+        }
+
+        let newText = oldText.replacingCharacters(in: r, with: string)
+        let isNumeric = newText.isEmpty || (Double(newText) != nil)
+        let numberOfDots = newText.components(separatedBy: ".").count - 1
+
+        let numberOfDecimalDigits: Int
+        if let dotIndex = newText.firstIndex(of: ".") {
+            // prevent more than 2 digits after the decimal
+            numberOfDecimalDigits = newText.distance(from: dotIndex, to: newText.endIndex) - 1
+        } else {
+            numberOfDecimalDigits = 0
+        }
+
+        return isNumeric && numberOfDots <= 1 && numberOfDecimalDigits <= 2
+    }
+    
     func showAlert(title: String?, message: String?) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         
@@ -190,6 +291,11 @@ class Send2ViewController: UIViewController, MFMessageComposeViewControllerDeleg
             self.performSegue(withIdentifier: "unwindToPrevious", sender: self)
         }))
         self.present(alert, animated: true)
+    }
+    
+    @objc func DismissKeyboard(){
+    //Causes the view to resign from the status of first responder.
+    view.endEditing(true)
     }
     
     @IBAction func unwindToPrevious(_ unwindSegue: UIStoryboardSegue) {

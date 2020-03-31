@@ -160,6 +160,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             
             if let controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "IDVerified") as? OutcomeIDVerifiedViewController {
                 if let window = self.window, let rootViewController = window.rootViewController {
+                    if #available(iOS 13.0, *) {
+                        window.overrideUserInterfaceStyle = .light
+                    }
                     var currentController = rootViewController
                     while let presentedController = currentController.presentedViewController {
                         currentController = presentedController
@@ -189,6 +192,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             
             if let controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "IDRefused") as? UIViewController {
                 if let window = self.window, let rootViewController = window.rootViewController {
+                    if #available(iOS 13.0, *) {
+                        window.overrideUserInterfaceStyle = .light
+                    }
                     var currentController = rootViewController
                     while let presentedController = currentController.presentedViewController {
                         currentController = presentedController
@@ -217,6 +223,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 controller.amount = amount
                 
                 if let window = self.window, let rootViewController = window.rootViewController {
+                    if #available(iOS 13.0, *) {
+                        window.overrideUserInterfaceStyle = .light
+                    }
                     var currentController = rootViewController
                     while let presentedController = currentController.presentedViewController {
                         currentController = presentedController
@@ -253,6 +262,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 } else {
                     
                     let initialViewController: UIViewController = mainStoryboard.instantiateViewController(withIdentifier: "HomeVC") as UIViewController
+                    if #available(iOS 13.0, *) {
+                        window?.overrideUserInterfaceStyle = .light
+                    }
                     self.window = UIWindow(frame: UIScreen.main.bounds)
                     self.window?.rootViewController = initialViewController
                     self.window?.makeKeyAndVisible()
@@ -261,7 +273,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             } else {
                 
                 let initialViewController: UIViewController = mainStoryboard.instantiateViewController(withIdentifier: "HomeVC") as UIViewController
+                
                 self.window = UIWindow(frame: UIScreen.main.bounds)
+                if #available(iOS 13.0, *) {
+                    window?.overrideUserInterfaceStyle = .light
+                }
                 self.window?.rootViewController = initialViewController
                 self.window?.makeKeyAndVisible()
                 
@@ -279,6 +295,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             navController.pushViewController(phoneVC, animated: true)
             
             self.window = UIWindow(frame: UIScreen.main.bounds)
+            if #available(iOS 13.0, *) {
+                window?.overrideUserInterfaceStyle = .light
+            }
             self.window?.rootViewController = navController
             self.window?.makeKeyAndVisible()
         }

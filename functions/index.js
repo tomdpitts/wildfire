@@ -175,13 +175,11 @@ exports.isRegistered = functions.region('europe-west1').https.onCall( async (dat
     return null
   })
 
-  var uid = ""
-
-  if (recipient.uid !== null) {
-    uid = recipient.uid
+  if (recipient !== null) {
+    return recipient.uid
+  } else {
+    return null
   }
-
-  return uid
 })
 
 
@@ -1279,7 +1277,6 @@ exports.deleteCard = functions.region('europe-west1').https.onCall( async (data,
   .then(() => {
     userRef.collection('wallets').doc(walletID).collection('cards').doc(cardID).delete()
     userRef.set({
-      defaultCardID: "",
       defaultBillingAddress: ""
     }, {merge: true})
     return
