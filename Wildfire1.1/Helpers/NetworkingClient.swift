@@ -21,11 +21,18 @@ class NetworkingClient {
 //            "API-key": "exampleAPIkey",
 //            "content-type": "application/json"
 //        ]
-        Alamofire.request(url, method: .post, parameters: parameters).validate().responseString(completionHandler: { response in
-            if let error = response.error {
+        AF.request(url, method: .post, parameters: parameters).validate().responseString(completionHandler: { response in
+            
+            switch response.result {
+            case .success:
+                if let data = response.data, let dataString = String(data: data, encoding: .utf8) {
+                    completion(dataString, nil)
+                } else {
+                    completion("nil", nil)
+                }
+                
+            case let .failure(error):
                 completion("nil", error)
-            } else if let dataString = response.result.value {
-                completion(dataString, nil)
             }
         })
         return
@@ -38,7 +45,7 @@ class NetworkingClient {
         //            "API-key": "exampleAPIkey",
         //            "content-type": "application/json"
         //        ]
-        Alamofire.request(url, method: .get).validate().responseJSON(completionHandler: { response in
+        AF.request(url, method: .get).validate().responseJSON(completionHandler: { response in
             if let error = response.error {
                 completion(Data(), error)
             } else if let data = response.data {

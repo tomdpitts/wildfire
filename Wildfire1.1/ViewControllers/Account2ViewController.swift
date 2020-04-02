@@ -24,6 +24,8 @@ class Account2ViewController: UITableViewController {
     var fullname: String?
     var email: String?
     var profilePic: UIImage?
+    
+    var balanceAmount: Float = 0
 
     @IBOutlet weak var profilePicView: UIImageView!
     @IBOutlet weak var userNameLabel: UILabel!
@@ -94,7 +96,15 @@ class Account2ViewController: UITableViewController {
         if indexPath.row == 9 {
             let title = "Are you sure you want to Log Out?"
             // TODO a really nice user friendly feature would be to check whether balance is >0, and show a helpful hint to deposit if it is
-            let message = "You can log back in at any time, and your credit will still be here. Alternatively, you can deposit your credit to your back account before you go."
+            var message = ""
+                
+            if balanceAmount > Float(0.5) {
+                    
+                message = "Just to let you know, your balance is £\(balanceAmount) - if you want to deposit it to your bank account, tap 'Cancel' and deposit to bank account. You can log back in at any time (with the same phone number), and your credit will still be here."
+            } else {
+                message = "You can log back in at any time (with the same phone number), and your credit will still be here."
+            }
+            
             let segue = "unwindToWelcome"
             showLogOutAlert(title: title, message: message, segueIdentifier: segue, deleteAccount: false)
         } else if indexPath.row == 10 {
@@ -169,7 +179,7 @@ class Account2ViewController: UITableViewController {
 
                 self.userNameLabel.text = fullname
                 self.balanceAmountLabel.text = "Balance: £\(balanceString)"
-
+                self.balanceAmount = balanceFloat
               }
         }
     }
@@ -210,8 +220,8 @@ class Account2ViewController: UITableViewController {
         
         let uid = Auth.auth().currentUser?.uid
 
-        // set the generic image immediately
-        profilePicView.image = genericProfilePic
+//        // set the generic image immediately
+//        profilePicView.image = genericProfilePic
         
 //        profilePicView.layer.borderWidth = 3.0
 //        profilePicView.layer.borderColor = UIColor.white.cgColor
@@ -229,42 +239,51 @@ class Account2ViewController: UITableViewController {
     }
     
     @objc func updateProfilePicView() {
-
-            if let uid = Auth.auth().currentUser?.uid {
-                let storageRef = Storage.storage().reference().child("profilePictures").child(uid)
-
-                storageRef.downloadURL { url, error in
-                    guard let url = url else { return }
-
-    //                let processor = DownsamplingImageProcessor(size: self.profilePicView.frame.size)
-    //                    >> RoundCornerImageProcessor(cornerRadius: 20)
-                    self.profilePicView.kf.indicatorType = .activity
-                    
-                    // using Kingfisher library for tidy handling of image download
-                    self.profilePicView.kf.setImage(
-                        with: url,
-                        placeholder: self.genericProfilePic,
-                        options: [
-                            .scaleFactor(UIScreen.main.scale),
-                            .transition(.fade(1)),
-                            .cacheOriginalImage
-                        ])
-                    {
-                        result in
-                        switch result {
-                            // TODO add better error handling
-                        case .success(let value):
-                           
-                            self.profilePic = value.image
-                            self.genericProfilePic = value.image
-                        case .failure(let error):
-                            print("Job failed: \(error.localizedDescription)")
-                        }
-                    }
+        
+        if let url = UserDefaults.standard.string(forKey: "profilePicURL") {
+            print(url)
+            // using Kingfisher library for tidy handling of image download
+            self.profilePicView.kf.setImage(with: URL(string: url),
+                placeholder: self.genericProfilePic,
+                options: [
+                    .scaleFactor(UIScreen.main.scale),
+                    .transition(.fade(1)),
+                    .cacheOriginalImage
+                ])
+            {
+                result in
+                switch result {
+                    // TODO add better error handling
+                case .success(let value):
+                   
+                    self.profilePic = value.image
+                    self.genericProfilePic = value.image
+                case .failure(let error):
+                    print("Job failed: \(error.localizedDescription)")
                 }
-            } else {
-                // user isn't logged in...?
             }
+        } else {
+            print("no url to be found")
+        }
+    
+
+//            if let uid = Auth.auth().currentUser?.uid {
+//                let storageRef = Storage.storage().reference().child("profilePictures").child(uid)
+//
+//                storageRef.downloadURL { url, error in
+//
+//                    print(url)
+//                    guard let url = url else { return }
+//
+//    //                let processor = DownsamplingImageProcessor(size: self.profilePicView.frame.size)
+//    //                    >> RoundCornerImageProcessor(cornerRadius: 20)
+//                    self.profilePicView.kf.indicatorType = .activity
+//
+//
+//                }
+//            } else {
+//                // user isn't logged in...?
+//            }
         }
     
     func showLogOutAlert(title: String, message: String?, segueIdentifier: String, deleteAccount: Bool) {

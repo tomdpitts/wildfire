@@ -47,6 +47,7 @@
 		E279717D231433AF00964F25 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E279717C231433AF00964F25 /* SignUpViewController.swift */; };
 		E279717F231433D500964F25 /* ExistingUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E279717E231433D500964F25 /* ExistingUserViewController.swift */; };
 		E284815D23FA53D500D51462 /* BankAccountsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E284815C23FA53D500D51462 /* BankAccountsViewController.swift */; };
+		E29925ED2435B02900AE5D6F /* LaunchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29925EC2435B02900AE5D6F /* LaunchViewController.swift */; };
 		E29CF69623586AE700ADC0D0 /* ContactsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29CF69523586AE700ADC0D0 /* ContactsViewController.swift */; };
 		E29CF6982359BECD00ADC0D0 /* Send2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29CF6972359BECD00ADC0D0 /* Send2ViewController.swift */; };
 		E29EA43524062DAA0059C7A4 /* Graphics in Resources */ = {isa = PBXBuildFile; fileRef = E29EA43424062DAA0059C7A4 /* Graphics */; };
@@ -124,6 +125,7 @@
 		E279717C231433AF00964F25 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		E279717E231433D500964F25 /* ExistingUserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExistingUserViewController.swift; sourceTree = "<group>"; };
 		E284815C23FA53D500D51462 /* BankAccountsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BankAccountsViewController.swift; sourceTree = "<group>"; };
+		E29925EC2435B02900AE5D6F /* LaunchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchViewController.swift; sourceTree = "<group>"; };
 		E29CF69523586AE700ADC0D0 /* ContactsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsViewController.swift; sourceTree = "<group>"; };
 		E29CF6972359BECD00ADC0D0 /* Send2ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Send2ViewController.swift; sourceTree = "<group>"; };
 		E29EA43424062DAA0059C7A4 /* Graphics */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Graphics; sourceTree = SOURCE_ROOT; };
@@ -257,6 +259,7 @@
 		E257EA28230D8A9F003E2A32 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				E29925EC2435B02900AE5D6F /* LaunchViewController.swift */,
 				E2149703231410240048D149 /* HomeViewController.swift */,
 				E2026708230ED8CF003C0AF4 /* LoginViewController.swift */,
 				E279717E231433D500964F25 /* ExistingUserViewController.swift */,
@@ -314,7 +317,7 @@
 				E21AC95B21EA6BEF00D460A9 /* Sources */,
 				E21AC95C21EA6BEF00D460A9 /* Frameworks */,
 				E21AC95D21EA6BEF00D460A9 /* Resources */,
-				7E87FFF8C47FB8FE3D7E7AA0 /* [CP] Embed Pods Frameworks */,
+				A15E63582A1D6054BA5B8753 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -430,7 +433,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		7E87FFF8C47FB8FE3D7E7AA0 /* [CP] Embed Pods Frameworks */ = {
+		A15E63582A1D6054BA5B8753 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -509,6 +512,7 @@
 				E23331D323328C630039E6A2 /* SuccessViewController.swift in Sources */,
 				E21AC98521EA6C9E00D460A9 /* AccountViewController.swift in Sources */,
 				E25213B9234E4375003B2160 /* FirebaseAuthManager.swift in Sources */,
+				E29925ED2435B02900AE5D6F /* LaunchViewController.swift in Sources */,
 				E22D7E0323A7393100F86487 /* DisplayReceiptViewController.swift in Sources */,
 				E21710F9242466D5006B4FAE /* NotificationPaymentReceivedViewController.swift in Sources */,
 				E22A9CFD239546C400A35EC1 /* Account2ViewController.swift in Sources */,
@@ -690,6 +694,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = D52N54SYXN;
 				INFOPLIST_FILE = Wildfire1.1/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -710,6 +715,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = D52N54SYXN;
 				INFOPLIST_FILE = Wildfire1.1/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

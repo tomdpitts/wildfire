@@ -91,6 +91,18 @@ class ProfilePicViewController: UIViewController, UINavigationControllerDelegate
                 print(err)
                 return
             }
+            
+            storageRef.downloadURL { url, error in
+              if let error = error {
+                // Handle any errors
+              } else {
+                print("storageRef URL is:")
+                print(url)
+                guard let URL = url else { return }
+                UserDefaults.standard.set(URL, forKey: "profilePicURL")
+                NotificationCenter.default.post(name: Notification.Name("newProfilePicUploaded"), object: nil)
+              }
+            }
         }
         
         
@@ -119,9 +131,9 @@ class ProfilePicViewController: UIViewController, UINavigationControllerDelegate
                 }
             }
         }
-        uploadTask.observe(.success) { snapshot in
-            NotificationCenter.default.post(name: Notification.Name("newProfilePicUploaded"), object: nil)
-
-        }
+//        uploadTask.observe(.success) { snapshot in
+//            NotificationCenter.default.post(name: Notification.Name("newProfilePicUploaded"), object: nil)
+//            // Fetch the download URL
+//        }
     }
 }
