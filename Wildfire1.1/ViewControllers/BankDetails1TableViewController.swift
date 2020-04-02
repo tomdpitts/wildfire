@@ -10,7 +10,7 @@ import UIKit
 import FirebaseAuth
 import FirebaseFirestore
 
-class BankDetails1TableViewController: UITableViewController {
+class BankDetails1TableViewController: UITableViewController, UITextFieldDelegate {
     
     @IBOutlet weak var nameField: UITextField!
     
@@ -64,47 +64,58 @@ class BankDetails1TableViewController: UITableViewController {
     }
     
     func getUserAddress() {
-            if let uid = Auth.auth().currentUser?.uid {
-                let docRef = Firestore.firestore().collection("users").document(uid)
+        if let uid = Auth.auth().currentUser?.uid {
+            let docRef = Firestore.firestore().collection("users").document(uid)
 
-    //
-    //            docRef.getDocument { (document, error) in
-    //
-    //                if let err = error {
-    //                    print(err)
-    //                }
-    //                if let document = document, document.exists {
-    //                    let data = document.data()
-    //                    print(data)
-    //                } else {
-    //                    print("Document does not exist")
-    //                }
-    //            }
-                
-                docRef.addSnapshotListener { documentSnapshot, error in
-                    guard let document = documentSnapshot else {
+//
+//            docRef.getDocument { (document, error) in
+//
+//                if let err = error {
+//                    print(err)
+//                }
+//                if let document = document, document.exists {
+//                    let data = document.data()
+//                    print(data)
+//                } else {
+//                    print("Document does not exist")
+//                }
+//            }
+            
+            docRef.addSnapshotListener { documentSnapshot, error in
+                guard let document = documentSnapshot else {
 
-                        print("Error fetching document: \(error!)")
-                        return
-                    }
-                    
-                    guard let data = document.data() else {
-                        print("Document data was empty.")
-                        return
-                    }
-                    
-                    if let address = data["defaultBillingAddress"] as? [String: String] {
-                        self.line1 = address["line1"] ?? ""
-                        self.line2 = address["line2"] ?? ""
-                        self.cityName = address["city"] ?? ""
-                        self.region = address["region"] ?? ""
-                        self.postcode = address["postcode"] ?? ""
-                        self.country = address["country"] ?? ""
-                        
-                    } else { return }
+                    print("Error fetching document: \(error!)")
+                    return
                 }
+                
+                guard let data = document.data() else {
+                    print("Document data was empty.")
+                    return
+                }
+                
+                if let address = data["defaultBillingAddress"] as? [String: String] {
+                    self.line1 = address["line1"] ?? ""
+                    self.line2 = address["line2"] ?? ""
+                    self.cityName = address["city"] ?? ""
+                    self.region = address["region"] ?? ""
+                    self.postcode = address["postcode"] ?? ""
+                    self.country = address["country"] ?? ""
+                    
+                } else { return }
             }
         }
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        // Try to find next responder
+        if let nextField = textField.superview?.viewWithTag(textField.tag + 1) as? UITextField {
+            nextField.becomeFirstResponder()
+        } else {
+            // Not found, so remove keyboard.
+            textField.resignFirstResponder()
+        }
+        return true
+    }
 
     func validateFields() -> String? {
         

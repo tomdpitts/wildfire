@@ -150,7 +150,6 @@ class BankDetails2TableViewController: UITableViewController, UITextFieldDelegat
         } else {
             // Not found, so remove keyboard.
             textField.resignFirstResponder()
-            submitPressed(self)
         }
         return true
     }

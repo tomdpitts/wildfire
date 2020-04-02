@@ -224,7 +224,6 @@ class AddCard2TableViewController: UITableViewController, UITextFieldDelegate {
         } else {
             // Not found, so remove keyboard.
             textField.resignFirstResponder()
-            submitPressed(self)
         }
         return true
     }

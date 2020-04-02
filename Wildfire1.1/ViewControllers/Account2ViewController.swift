@@ -240,10 +240,10 @@ class Account2ViewController: UITableViewController {
     
     @objc func updateProfilePicView() {
         
-        if let url = UserDefaults.standard.string(forKey: "profilePicURL") {
+        if let url = UserDefaults.standard.url(forKey: "profilePicURL") {
             print(url)
             // using Kingfisher library for tidy handling of image download
-            self.profilePicView.kf.setImage(with: URL(string: url),
+            self.profilePicView.kf.setImage(with: url,
                 placeholder: self.genericProfilePic,
                 options: [
                     .scaleFactor(UIScreen.main.scale),
