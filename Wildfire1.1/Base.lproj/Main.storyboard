@@ -1979,13 +1979,14 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="genericProfilePic" translatesAutoresizingMaskIntoConstraints="NO" id="Qct-Jo-Jww">
-                                <rect key="frame" x="60" y="184" width="200" height="200"/>
+                                <rect key="frame" x="110" y="234" width="100" height="100"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="Qct-Jo-Jww" secondAttribute="height" multiplier="1:1" id="1e2-Aj-SEG"/>
+                                    <constraint firstAttribute="width" constant="100" id="hgt-9w-YRb"/>
                                 </constraints>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZVE-iR-KzM">
-                                <rect key="frame" x="60" y="414" width="200" height="50"/>
+                                <rect key="frame" x="60" y="374" width="200" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="Mvd-zs-xXd"/>
                                     <constraint firstAttribute="width" constant="200" id="e6V-MW-9gX"/>
@@ -1998,9 +1999,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="Qct-Jo-Jww" secondAttribute="trailing" constant="60" id="34U-yN-Apl"/>
-                            <constraint firstItem="ZVE-iR-KzM" firstAttribute="top" secondItem="Qct-Jo-Jww" secondAttribute="bottom" constant="30" id="44d-PG-2NX"/>
-                            <constraint firstItem="Qct-Jo-Jww" firstAttribute="leading" secondItem="oJ7-fz-xyE" secondAttribute="leading" constant="60" id="9HD-Vc-n9h"/>
+                            <constraint firstItem="ZVE-iR-KzM" firstAttribute="top" secondItem="Qct-Jo-Jww" secondAttribute="bottom" constant="40" id="44d-PG-2NX"/>
                             <constraint firstItem="Qct-Jo-Jww" firstAttribute="centerY" secondItem="oJ7-fz-xyE" secondAttribute="centerY" id="9ew-9T-y3b"/>
                             <constraint firstItem="Qct-Jo-Jww" firstAttribute="centerX" secondItem="oJ7-fz-xyE" secondAttribute="centerX" id="t0G-dE-13b"/>
                             <constraint firstItem="ZVE-iR-KzM" firstAttribute="centerX" secondItem="oJ7-fz-xyE" secondAttribute="centerX" id="teU-uv-HYI"/>
@@ -4910,7 +4909,7 @@
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fuX-Jb-HwY">
                                                 <rect key="frame" x="0.0" y="0.0" width="120" height="50"/>
-                                                <state key="normal" title="Cancel"/>
+                                                <state key="normal" title="Later"/>
                                                 <connections>
                                                     <action selector="cancelTapped:" destination="bFt-Ep-Iwe" eventType="touchUpInside" id="bU4-dj-TUO"/>
                                                 </connections>
@@ -4962,7 +4961,7 @@
         <segue reference="Huo-pa-P2i"/>
         <segue reference="XkC-zp-HKA"/>
         <segue reference="ydr-lM-sQk"/>
-        <segue reference="JGW-hE-gdx"/>
+        <segue reference="Ql7-vS-atY"/>
         <segue reference="6CO-tz-ak8"/>
     </inferredMetricsTieBreakers>
     <resources>

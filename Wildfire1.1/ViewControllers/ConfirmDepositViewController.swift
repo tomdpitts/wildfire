@@ -58,7 +58,7 @@ class ConfirmDepositViewController: UIViewController {
     // TODO finish this func
     @IBAction func confirmDepositTapped(_ sender: Any) {
         
-        self.showSpinner(onView: self.view, text: "Ordering deposit")
+        self.showSpinner(onView: self.view, titleText: "Ordering deposit", messageText: nil)
         
         // prevent double taps!
         confirmDepositButton.isEnabled = false

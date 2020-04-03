@@ -85,7 +85,7 @@ class PassportUploadViewController: UIViewController, UINavigationControllerDele
         
         guard let mangopayID = UserDefaults.standard.string(forKey: "mangopayID") else { return }
     
-        self.showSpinner(onView: self.view, text: "Secure upload can take up to 60 seconds")
+        self.showSpinner(onView: self.view, titleText: "Securely uploading", messageText: "Please allow up to 60 seconds")
         
         let imageToUpload = convertImageToBase64(image)
         

@@ -19,13 +19,9 @@ class AddCardViewController: UIViewController, UITextFieldDelegate {
     lazy var functions = Functions.functions(region:"europe-west1")
 
     @IBOutlet weak var cardNumberField: UITextField!
-    
     @IBOutlet weak var expiryDateField: UITextField!
-    
     @IBOutlet weak var csvField: UITextField!
-    
     @IBOutlet weak var errorLabel: UILabel!
-    
     @IBOutlet weak var submitButton: UIButton!
     
     override func viewDidLoad() {
@@ -43,6 +39,8 @@ class AddCardViewController: UIViewController, UITextFieldDelegate {
         
         // this is required for the limiting of text fields such as Card Number to only numeric values
         cardNumberField.delegate = self
+        expiryDateField.delegate = self
+        csvField.delegate = self
         
         errorLabel.isHidden = true
         
@@ -118,11 +116,10 @@ class AddCardViewController: UIViewController, UITextFieldDelegate {
         }
     }
         
-    //MARK - UITextField Delegates
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
         if textField == cardNumberField {
-            let allowedCharacters = CharacterSet(charactersIn:"0123456789")//Here change this characters based on your requirement
+            let allowedCharacters = CharacterSet(charactersIn:"0123456789")
             let characterSet = CharacterSet(charactersIn: string)
             return allowedCharacters.isSuperset(of: characterSet)
         }

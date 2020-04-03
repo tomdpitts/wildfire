@@ -10,7 +10,7 @@ import UIKit
 import FirebaseAuth
 import libPhoneNumber_iOS
 
-class PhoneViewController: UIViewController {
+class PhoneViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var phoneField: UITextField!
     @IBOutlet weak var verifyButton: UIButton!
@@ -28,6 +28,8 @@ class PhoneViewController: UIViewController {
         Utilities.styleHollowButton(verifyButton)
         
         errorLabel.isHidden = true
+        
+        phoneField.delegate = self
     }
     
     @IBAction func verifyTapped(_ sender: Any) {
@@ -38,8 +40,6 @@ class PhoneViewController: UIViewController {
     func triggerPhoneCheck() {
         guard let phoneNumber = phoneField.text else { return }
         
-        self.showSpinner(onView: self.view, text: nil)
-        
         if phoneNumber.count < 11 || phoneNumber.prefix(1) != "+" {
             self.removeSpinner()
             // TODO return error "please enter 11 digit number"..
@@ -49,6 +49,8 @@ class PhoneViewController: UIViewController {
         }
         
 //        let phoneUtil = NBPhoneNumberUtil()
+        
+        self.showSpinner(onView: self.view, titleText: nil, messageText: nil)
         
         PhoneAuthProvider.provider().verifyPhoneNumber(phoneNumber, uiDelegate: nil) { (verificationID, error) in
             self.removeSpinner()
@@ -65,5 +67,15 @@ class PhoneViewController: UIViewController {
             
             self.performSegue(withIdentifier: "goToVerify", sender: self)
         }
+    }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        
+        if textField == phoneField {
+            let allowedCharacters = CharacterSet(charactersIn:"+0123456789")
+            let characterSet = CharacterSet(charactersIn: string)
+            return allowedCharacters.isSuperset(of: characterSet)
+        }
+        return true
     }
 }

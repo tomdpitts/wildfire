@@ -55,6 +55,12 @@ class AddCard2TableViewController: UITableViewController, UITextFieldDelegate {
             let name = NSLocale(localeIdentifier: "en_UK").displayName(forKey: NSLocale.Key.identifier, value: id) ?? "Country not found for code: \(code)"
             self.countries.append(name)
         }
+        
+        line1TextField.delegate = self
+        line2TextField.delegate = self
+        cityTextField.delegate = self
+        regionTextField.delegate = self
+        postcodeTextField.delegate = self
         countryTextField.delegate = self
     }
     
@@ -79,7 +85,7 @@ class AddCard2TableViewController: UITableViewController, UITextFieldDelegate {
             showError(error!)
         } else {
             
-            self.showSpinner(onView: self.view, text: "Secure upload can take up to 30 seconds")
+            self.showSpinner(onView: self.view, titleText: "Securely uploading", messageText: "Please allow up to 30 seconds")
             
             // kill the button to prevent retries
             submitButton.isEnabled = false
@@ -94,8 +100,14 @@ class AddCard2TableViewController: UITableViewController, UITextFieldDelegate {
             // Semaphore is used to ensure async API calls aren't triggered before all the relevant data is ready - they have to be sequential
             let semaphore = DispatchSemaphore(value: 1)
             
+            var mangopayID = ""
+            
+            if let mpID = UserDefaults.standard.string(forKey: "mangopayID") {
+                mangopayID = mpID
+            }
+            
             // fields have passed validation - so continue
-            functions.httpsCallable("createPaymentMethodHTTPS").call(["text": "Euros"]) { (result, error) in
+            functions.httpsCallable("createPaymentMethod").call(["walletName": "defaultWallet", "mpID": mangopayID]) { (result, error) in
 //                if let error = error as NSError? {
 //                    if error.domain == FunctionsErrorDomain {
 //                        let code = FunctionsErrorCode(rawValue: error.code)
@@ -219,7 +231,7 @@ class AddCard2TableViewController: UITableViewController, UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         // Try to find next responder
-        if let nextField = textField.superview?.superview?.viewWithTag(textField.tag + 1) as? UITextField {
+        if let nextField = textField.superview?.superview?.superview?.viewWithTag(textField.tag + 1) as? UITextField {
             nextField.becomeFirstResponder()
         } else {
             // Not found, so remove keyboard.

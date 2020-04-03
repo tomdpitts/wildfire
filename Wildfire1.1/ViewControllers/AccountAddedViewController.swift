@@ -44,7 +44,7 @@ class AccountAddedViewController: UIViewController {
     
     
     @IBAction func cancelTapped(_ sender: Any) {
-        self.performSegue(withIdentifier: "unwindToPay", sender: self)
+        self.performSegue(withIdentifier: "unwindToPrevious", sender: self)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

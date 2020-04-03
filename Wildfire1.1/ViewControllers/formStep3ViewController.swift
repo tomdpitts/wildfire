@@ -130,7 +130,7 @@ class formStep3ViewController: UIViewController, UITextFieldDelegate {
     // not adding validation to check for existing doc as that should already be covered
     func addNewUserToDatabases(firstname: String, lastname: String, email: String, dob: Int64, nationality: String, residence: String) {
         
-        self.showSpinner(onView: self.view, text: nil)
+        self.showSpinner(onView: self.view, titleText: nil, messageText: nil)
         
         let fullname = firstname + " " + lastname
         
@@ -269,6 +269,14 @@ class formStep3ViewController: UIViewController, UITextFieldDelegate {
         if residence == nil {
             return "Please enter a valid Country of Residence"
         }
+        
+//        let list = ["Afghanistan", "Bahamas", Bosni Herzegovine, Botswana, Cambodge, Corée du Nord, Ethiopie, Ghana, Guyana, Iran, Irak, Laos, Ouganda, Pakistan, Serbie, Sri Lanka, Syrie, Trinité-et-Tobago, Tunisie, Vanuatu, Yemen.]
+//        
+//        if list.contains(residence) {
+//            return "Regrettably, due to the anti-money laundering policies of our payment processor, we are unable to add users with Residence in \(residence)"
+//        }
+//        
+//        if residence =
         
         return nil
     }

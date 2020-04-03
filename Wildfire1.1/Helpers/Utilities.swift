@@ -359,40 +359,38 @@ extension UIColor {
 var vSpinner : UIView?
 
 extension UIViewController {
-    func showSpinner(onView : UIView, text: String?) {
-        let spinnerView = UIView.init(frame: onView.bounds)
-        spinnerView.backgroundColor = UIColor.init(red: 0.5, green: 0.5, blue: 0.5, alpha: 0.8)
-        let ai = UIActivityIndicatorView.init(style: .whiteLarge)
-        ai.startAnimating()
-        ai.center = spinnerView.center
+    func showSpinner(onView : UIView, titleText: String?, messageText: String?) {
         
-        if let message = text {
-            let label = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 21))
-            label.font = UIFont.preferredFont(forTextStyle: .footnote)
-
-            label.textColor = .white
-            
-            label.center.x = spinnerView.center.x
-            label.frame.origin.y = spinnerView.center.y - (label.frame.height)
-
-            label.text = message
-
-            spinnerView.addSubview(label)
+        var title = "Just a moment"
+        var message = ""
+        
+        if let text = titleText {
+            title = text
         }
         
-        DispatchQueue.main.async {
-            spinnerView.addSubview(ai)
-            onView.addSubview(spinnerView)
+        if let textM = messageText {
+            message = textM
         }
         
-        vSpinner = spinnerView
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        
+        let loadingIndicator = UIActivityIndicatorView(frame: CGRect(x: 5, y: 5, width: 50, height: 50))
+        loadingIndicator.hidesWhenStopped = true
+        loadingIndicator.style = UIActivityIndicatorView.Style.gray
+        loadingIndicator.startAnimating();
+
+        alert.view.addSubview(loadingIndicator)
+        present(alert, animated: true, completion: nil)
+        
     }
     
     func removeSpinner() {
-        DispatchQueue.main.async {
-            vSpinner?.removeFromSuperview()
-            vSpinner = nil
-        }
+        
+        dismiss(animated: false, completion: nil)
+//        DispatchQueue.main.async {
+//            vSpinner?.removeFromSuperview()
+//            vSpinner = nil
+//        }
     }
 }
 

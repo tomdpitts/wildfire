@@ -11,7 +11,7 @@ import FirebaseAuth
 import FirebaseInstanceID
 import FirebaseFirestore
 
-class VerificationCodeViewController: UIViewController {
+class VerificationCodeViewController: UIViewController, UITextFieldDelegate {
 
     @IBOutlet weak var verificationField: UITextField!
     
@@ -25,11 +25,13 @@ class VerificationCodeViewController: UIViewController {
         Utilities.styleHollowButton(verifyButton)
         
         errorLabel.isHidden = true
+        
+        verificationField.delegate = self
     }
     
     @IBAction func verifyTapped(_ sender: Any) {
         
-        self.showSpinner(onView: self.view, text: nil)
+        self.showSpinner(onView: self.view, titleText: nil, messageText: nil)
         
         let check = validateField()
         guard let code = verificationField.text else { return }
@@ -95,5 +97,15 @@ class VerificationCodeViewController: UIViewController {
                 print("tried..")
             }
         }
+    }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        
+        if textField == verificationField {
+            let allowedCharacters = CharacterSet(charactersIn:"0123456789")
+            let characterSet = CharacterSet(charactersIn: string)
+            return allowedCharacters.isSuperset(of: characterSet)
+        }
+        return true
     }
 }

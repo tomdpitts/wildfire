@@ -16,6 +16,8 @@ import Kingfisher
 class Account2ViewController: UITableViewController {
     
     lazy var functions = Functions.functions(region:"europe-west1")
+    
+    static var listener: ListenerRegistration?
 
     var justCompletedSignUp = false
     
@@ -154,67 +156,41 @@ class Account2ViewController: UITableViewController {
 //                }
 //            }
             
-            docRef.addSnapshotListener { documentSnapshot, error in
-                guard let document = documentSnapshot else {
-
-                    print("Error fetching document: \(error!)")
-                    return
-                }
+            Account2ViewController.listener = docRef.addSnapshotListener { documentSnapshot, error in
                 
-                guard let data = document.data() else {
-                    print("Document data was empty.")
-                    return
-                }
-                print(data)
+                if let error = error {
+                    print("Error retreiving collection: \(error)")
+                } else {
                 
-                let fullname = data["fullname"] as! String
-                let balance = data["balance"] as! Int
-                let balanceFloat = Float(balance)/100
-                let balanceString = String(format: "%.2f", balanceFloat)
+                    guard let document = documentSnapshot else {
 
-                let email = data["email"] as! String
+                        print("Error fetching document: \(error!)")
+                        return
+                    }
+                    
+                    guard let data = document.data() else {
+                        print("Document data was empty.")
+                        return
+                    }
+                    print(data)
+                    
+                    let fullname = data["fullname"] as! String
+                    let balance = data["balance"] as! Int
+                    let balanceFloat = Float(balance)/100
+                    let balanceString = String(format: "%.2f", balanceFloat)
 
-                self.email = email
-                self.fullname = fullname
+                    let email = data["email"] as! String
 
-                self.userNameLabel.text = fullname
-                self.balanceAmountLabel.text = "Balance: £\(balanceString)"
-                self.balanceAmount = balanceFloat
-              }
+                    self.email = email
+                    self.fullname = fullname
+
+                    self.userNameLabel.text = fullname
+                    self.balanceAmountLabel.text = "Balance: £\(balanceString)"
+                    self.balanceAmount = balanceFloat
+                }
+            }
         }
     }
-         //     TO BE DELETED:
-    
-//            // TODO replace with listener
-//            docRef.getDocument { (document, error) in
-//                if let error = error {
-//                    // TODO error handling
-//                    print(error)
-//                } else {
-//                }
-//                if let document = document, document.exists {
-//                    let userData = document.data()
-//                    let balance = userData?["balance"] as! Int
-//                    let balanceString = String(balance)
-//                    let firstname = userData?["firstname"] as! String
-//                    let lastname = userData?["lastname"] as! String
-//
-//                    self.balance = balance
-//                    self.firstname = firstname
-//                    self.lastname = lastname
-//
-//                    self.userNameLabel.text = firstname + " " + lastname
-//                    self.balanceAmountLabel.text = balanceString
-//
-////                    self.tableView.reloadData()
-//                    print("that's all done for you")
-//
-//                } else {
-//                    print("Document does not exist")
-//                }
-//            }
-//        }
-//    }
     
     func setUpProfilePic() {
         
@@ -265,33 +241,19 @@ class Account2ViewController: UITableViewController {
         } else {
             print("no url to be found")
         }
-    
-
-//            if let uid = Auth.auth().currentUser?.uid {
-//                let storageRef = Storage.storage().reference().child("profilePictures").child(uid)
-//
-//                storageRef.downloadURL { url, error in
-//
-//                    print(url)
-//                    guard let url = url else { return }
-//
-//    //                let processor = DownsamplingImageProcessor(size: self.profilePicView.frame.size)
-//    //                    >> RoundCornerImageProcessor(cornerRadius: 20)
-//                    self.profilePicView.kf.indicatorType = .activity
-//
-//
-//                }
-//            } else {
-//                // user isn't logged in...?
-//            }
-        }
+    }
     
     func showLogOutAlert(title: String, message: String?, segueIdentifier: String, deleteAccount: Bool) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
             do {
-                if deleteAccount == true {                    self.functions.httpsCallable("deleteUser").call(["foo": "bar"]) { (result, error) in
+                if deleteAccount == true {
+                    self.showSpinner(onView: self.view, titleText: nil, messageText: nil)
+                    Account2ViewController.listener?.remove()
+                    self.functions.httpsCallable("deleteUser").call(["foo": "bar"]) { (result, error) in
+                        
+                        self.removeSpinner()
 
                         if let err = error {
                             print(err)
@@ -309,6 +271,9 @@ class Account2ViewController: UITableViewController {
                         }
                     }
                 } else {
+                    
+                    Account2ViewController.listener?.remove()
+                    
                     // surprisingly enough, it seems the currentUser persists on the client even when deletion has been triggered, so we'll always call signOut()
                     try Auth.auth().signOut()
                     // update the userAccountExists flag (if user signs in with a different number, we don't want this flag to persist in memory and mess things up

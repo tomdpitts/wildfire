@@ -184,24 +184,29 @@ exports.isRegistered = functions.region('europe-west1').https.onCall( async (dat
 
 
 // When user adds a new payment method, a) create a MangoPay wallet, b) create a Card Registration Object, and c) save the card token
-exports.createPaymentMethodHTTPS = functions.region('europe-west1').https.onCall( async (data, context) => {
+exports.createPaymentMethod = functions.region('europe-west1').https.onCall( async (data, context) => {
 
   const userID = context.auth.uid
 
   var mangopayID = []
   var mangopayIDString = ''
-  const walletName = data.text
+  const walletName = data.walletName
 
-
-  await admin.firestore().collection('users').doc(userID).get().then(doc => {
-    userData = doc.data();
-    mangopayID.push(userData.mangopayID);
-    mangopayIDString = userData.mangopayID;
-    return
-  })
-  .catch(err => {
-    console.log('Error getting mangopayID from Firestore database', err);
-  });
+  if (typeof data.mpID !== 'undefined') {
+    mangopayID.push(data.mpID)
+    mangopayIDString = data.mpID
+  } else {
+    // using the Firebase userID (supplied via 'context' of the request), get the mangopayID 
+    await admin.firestore().collection('users').doc(userID).get().then(doc => {
+      userData = doc.data();
+      mmangopayID.push(userData.mangopayID)
+      mangopayIDString = userData.mangopayID
+      return
+    })
+    .catch(err => {
+      console.log('Error getting mangopayID from Firestore database', err);
+    })
+  }
 
   var walletExists = false
   var walletID = ""
@@ -448,14 +453,14 @@ exports.transact = functions.region('europe-west1').https.onCall( async (data, c
   }
 })
 
-// TODO this func doesn't really need to go through cloud functions, could be moved to client
+
 exports.listCards = functions.region('europe-west1').https.onCall( async (data, context) => {
 
   const userID = context.auth.uid
 
   var mangopayID = ""
 
-  if (data.mpID !== undefined) {
+  if (typeof data.mpID !== 'undefined') {
     mangopayID = data.mpID
   } else {
     // using the Firebase userID (supplied via 'context' of the request), get the mangopayID 
@@ -632,7 +637,7 @@ exports.getCurrentBalance = functions.region('europe-west1').https.onCall( async
 
   var userID = ""
   // if the userID isn't available from context, that's likely because it's a request via helpers.callCloudFunction
-  if (data.uid !== undefined) {
+  if (typeof data.uid !== 'undefined') {
     userID = data.uid
   } else {
     userID = context.auth.uid
@@ -680,18 +685,20 @@ exports.addBankAccount = functions.region('europe-west1').https.onCall( async (d
   const region = data.region
   const postcode = data.postcode
   const countryCode = data.countryCode
-  
-  // using the Firebase userID (supplied via 'context' of the request), get the wallet ID
-  await db.get().then(doc => {
-    userData = doc.data();
-    
-    mangopayID = userData.mangopayID
-    
-    return
-  })
-  .catch(err => {
-    console.log('Error getting mangopayID from Firestore database', err);
-  });
+
+  if (typeof data.mpID !== 'undefined') {
+    mangopayID = data.mpID
+  } else {
+    // using the Firebase userID (supplied via 'context' of the request), get the mangopayID 
+    await admin.firestore().collection('users').doc(userID).get().then(doc => {
+      userData = doc.data();
+      mangopayID = userData.mangopayID
+      return
+    })
+    .catch(err => {
+      console.log('Error getting mangopayID from Firestore database', err);
+    });
+  }
 
   const bankAccountData = {
     Type: 'OTHER',
@@ -725,13 +732,12 @@ exports.addBankAccount = functions.region('europe-west1').https.onCall( async (d
   return
 })
 
-// TODO this func doesn't really need to go through cloud functions, could be moved to client
 exports.listBankAccounts = functions.region('europe-west1').https.onCall( async (data, context) => {
 
   const userID = context.auth.uid
   var mangopayID = ""
 
-  if (data.mpID !== undefined) {
+  if (typeof data.mpID !== 'undefined') {
     mangopayID = data.mpID
   } else {
     // using the Firebase userID (supplied via 'context' of the request), get the mangopayID 
@@ -817,16 +823,6 @@ exports.addKYCDocument = functions.region('europe-west1').https.onCall( async (d
   const pages = data.pages
   
   const mangopayID = data.mangopayID
-
-  // // using the Firebase userID (supplied via 'context' of the request), get the data we need for the payin 
-  // await admin.firestore().collection('users').doc(userID).get().then(doc => {
-  //   userData = doc.data();
-  //   mangopayID = userData.mangopayID
-  //   return
-  // })
-  // .catch(err => {
-  //   console.log('Error getting user info for payout', err);
-  // });
 
   const parameters = {
     "Type": "IDENTITY_PROOF"

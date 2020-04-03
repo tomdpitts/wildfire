@@ -41,7 +41,7 @@ class PaymentMethodsViewController: UITableViewController {
         
     }
     
-    override func viewDidAppear(_ animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         fetchCardsFromUserDefaults() { () in
             self.tableView.reloadData()
         }
@@ -67,7 +67,7 @@ class PaymentMethodsViewController: UITableViewController {
             cell = UITableViewCell(style: .subtitle, reuseIdentifier: self.cellID)
         
         if paymentMethodsList.count == 0 {
-            cell.textLabel?.text = "You haven't added any cards yet"
+            cell.textLabel?.text = "You haven't added any cards"
             cell.imageView?.image = UIImage(named: "icons8-mastercard-credit-card-50")
         } else {
             let found = paymentMethodsList[indexPath.row]

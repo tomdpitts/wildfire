@@ -88,7 +88,7 @@ class BankDetails2TableViewController: UITableViewController, UITextFieldDelegat
             showError(error!)
         } else {
             
-            self.showSpinner(onView: self.view, text: "Securely adding bank details")
+            self.showSpinner(onView: self.view, titleText: "Securely adding details", messageText: nil)
             
             // kill the button to prevent retries
             submitButton.isEnabled = false
@@ -106,6 +106,12 @@ class BankDetails2TableViewController: UITableViewController, UITextFieldDelegat
                 return
             }
             
+            var mangopayID = ""
+            
+            if let mpID = UserDefaults.standard.string(forKey: "mangopayID") {
+                mangopayID = mpID
+            }
+            
             let bankAccountData: [String: String] = [
                 "name": self.name,
                 "country": countryCode,
@@ -117,7 +123,9 @@ class BankDetails2TableViewController: UITableViewController, UITextFieldDelegat
                 "city": cityName,
                 "region": region,
                 "postcode": postcode,
-                "countryCode": countryCode
+                "countryCode": countryCode,
+                
+                "mpID": mangopayID
             ]
             
             // fields have passed validation - so continue

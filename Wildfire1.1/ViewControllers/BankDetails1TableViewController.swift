@@ -167,11 +167,10 @@ class BankDetails1TableViewController: UITableViewController, UITextFieldDelegat
         }
     }
         
-    //MARK - UITextField Delegates
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
         if textField == swiftField || textField == accountField {
-            let allowedCharacters = CharacterSet(charactersIn:"0123456789")//Here change this characters based on your requirement
+            let allowedCharacters = CharacterSet(charactersIn:"0123456789")
             let characterSet = CharacterSet(charactersIn: string)
             return allowedCharacters.isSuperset(of: characterSet)
         }
