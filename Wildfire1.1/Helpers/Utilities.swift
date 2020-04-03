@@ -359,12 +359,26 @@ extension UIColor {
 var vSpinner : UIView?
 
 extension UIViewController {
-    func showSpinner(onView : UIView) {
+    func showSpinner(onView : UIView, text: String?) {
         let spinnerView = UIView.init(frame: onView.bounds)
         spinnerView.backgroundColor = UIColor.init(red: 0.5, green: 0.5, blue: 0.5, alpha: 0.8)
         let ai = UIActivityIndicatorView.init(style: .whiteLarge)
         ai.startAnimating()
         ai.center = spinnerView.center
+        
+        if let message = text {
+            let label = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 21))
+            label.font = UIFont.preferredFont(forTextStyle: .footnote)
+
+            label.textColor = .white
+            
+            label.center.x = spinnerView.center.x
+            label.frame.origin.y = spinnerView.center.y - (label.frame.height)
+
+            label.text = message
+
+            spinnerView.addSubview(label)
+        }
         
         DispatchQueue.main.async {
             spinnerView.addSubview(ai)

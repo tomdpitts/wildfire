@@ -79,7 +79,7 @@ class AddCard2TableViewController: UITableViewController, UITextFieldDelegate {
             showError(error!)
         } else {
             
-            self.showSpinner(onView: self.view)
+            self.showSpinner(onView: self.view, text: "Secure upload can take up to 30 seconds")
             
             // kill the button to prevent retries
             submitButton.isEnabled = false

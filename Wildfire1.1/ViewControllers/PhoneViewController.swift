@@ -38,7 +38,7 @@ class PhoneViewController: UIViewController {
     func triggerPhoneCheck() {
         guard let phoneNumber = phoneField.text else { return }
         
-        self.showSpinner(onView: self.view)
+        self.showSpinner(onView: self.view, text: nil)
         
         if phoneNumber.count < 11 || phoneNumber.prefix(1) != "+" {
             self.removeSpinner()

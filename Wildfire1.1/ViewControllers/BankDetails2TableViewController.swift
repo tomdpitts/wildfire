@@ -75,7 +75,6 @@ class BankDetails2TableViewController: UITableViewController, UITextFieldDelegat
     }
     
 
-    // TODO rewrite this using Promise
     @IBAction func submitPressed(_ sender: Any) {
             
         // API guide https://docs.mangopay.com/endpoints/v2.01/cards#e177_the-card-registration-object
@@ -89,13 +88,10 @@ class BankDetails2TableViewController: UITableViewController, UITextFieldDelegat
             showError(error!)
         } else {
             
-            self.showSpinner(onView: self.view)
+            self.showSpinner(onView: self.view, text: "Securely adding bank details")
             
             // kill the button to prevent retries
             submitButton.isEnabled = false
-            
-            // Semaphore is used to ensure async API calls aren't triggered before all the relevant data is ready - they have to be sequential
-            let semaphore = DispatchSemaphore(value: 1)
             
             guard let line1 = self.line1TextField.text,
                 let line2 = self.line2TextField.text,
@@ -123,8 +119,6 @@ class BankDetails2TableViewController: UITableViewController, UITextFieldDelegat
                 "postcode": postcode,
                 "countryCode": countryCode
             ]
-            
-            print(bankAccountData)
             
             // fields have passed validation - so continue
             functions.httpsCallable("addBankAccount").call(bankAccountData) { (result, error) in

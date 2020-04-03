@@ -78,7 +78,7 @@ class ConfirmViewController: UIViewController {
             }
         }
         
-        self.showSpinner(onView: self.view)
+        self.showSpinner(onView: self.view, text: nil)
         
         
     }
@@ -234,7 +234,7 @@ class ConfirmViewController: UIViewController {
             
             // notice user doesn't strictly need to add card details if they already have sufficient credit to complete payment - this is intentional
             if enoughCredit == true {
-                self.showSpinner(onView: self.view)
+                self.showSpinner(onView: self.view, text: nil)
                 
                 // initiate transaction
                 // TODO add spinner
@@ -257,7 +257,7 @@ class ConfirmViewController: UIViewController {
             } else {
                 if existingPaymentMethod == true {
                     
-                    self.showSpinner(onView: self.view)
+                    self.showSpinner(onView: self.view, text: nil)
                     
                     // initiate topup (ideally with ApplePay & touchID)
                     transact(recipientUID: self.recipientUID, amount: self.sendAmount, topup: true, topupAmount: self.topupAmount) { result in

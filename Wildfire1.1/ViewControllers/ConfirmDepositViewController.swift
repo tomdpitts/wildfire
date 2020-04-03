@@ -58,7 +58,7 @@ class ConfirmDepositViewController: UIViewController {
     // TODO finish this func
     @IBAction func confirmDepositTapped(_ sender: Any) {
         
-        self.showSpinner(onView: self.view)
+        self.showSpinner(onView: self.view, text: "Ordering deposit")
         
         // prevent double taps!
         confirmDepositButton.isEnabled = false
@@ -74,8 +74,8 @@ class ConfirmDepositViewController: UIViewController {
                 if error != nil {
                     
                     // TODO
-//                            self.showAuthenticationError(title: "Oops!", message: "We couldn't top up your account. Please try again.")
-                    print("There was an issue in processing your deposit, please try again")
+                    self.showAuthenticationError(title: "Oops!", message: "Top up didn't complete. Please try again.")
+                    
                     self.confirmDepositButton.isEnabled = true
                 } else {
                     
@@ -119,5 +119,13 @@ class ConfirmDepositViewController: UIViewController {
             }
         }
     }
-
+    
+    func showAuthenticationError(title: String, message: String?) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
+        }))
+        
+        self.present(alert, animated: true)
+    }
 }
