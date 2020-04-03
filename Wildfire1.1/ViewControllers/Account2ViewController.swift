@@ -118,6 +118,8 @@ class Account2ViewController: UITableViewController {
             // TODO add delete account functionality (in the showLogOutAlert func below (and consider renaming it..)
             
             showLogOutAlert(title: title, message: message, segueIdentifier: segue, deleteAccount: true)
+        } else if indexPath.row == 11 {
+            performSegue(withIdentifier: "showAbout", sender: self)
         }
         tableView.deselectRow(at: indexPath, animated: true)
     }

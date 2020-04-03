@@ -109,7 +109,7 @@ class formStep3ViewController: UIViewController, UITextFieldDelegate {
             
             var fixedCountries: [String] = []
             for country in matches  {
-                let reverted = country.firstUppercased
+                let reverted = country.localizedCapitalized
                 fixedCountries.append(reverted)
             }
             
@@ -185,26 +185,6 @@ class formStep3ViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
-    // UPDATE don't think this is needed anymore - leaving for reference:
-    
-    // all users of the app are signed in via Phone Authentication, but we want to add email to the auth as well for the killswitch functionality i.e. if users ever lose their phone and want to terminate their account & deposit all credit to their bank account
-//    func addEmailToFirebaseUser() {
-//
-//        let credential = EmailAuthProvider.credential(withEmail: email, password: password)
-//
-//        if let user = Auth.auth().currentUser {
-//
-//            user.linkAndRetrieveData(with: credential) { (authResult, error) in
-//                // ...
-//                if let err = error {
-//                    // TODO
-//                    // what are the error options here?
-//                    self.showAlert(title: "This email is already registered, please use another", message: "You can delete old accounts at wildfirewallet.com", progress: false)
-//                }
-//            }
-//        }
-//    }
-    
     func showAlert(title: String?, message: String?, progress: Bool) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         
@@ -215,15 +195,6 @@ class formStep3ViewController: UIViewController, UITextFieldDelegate {
         }))
         self.present(alert, animated: true)
     }
-//
-//    func progressUser() {
-//        if self.userIsInPaymentFlow == true {
-//            // Transition to step 2 aka PaymentSetUp VC
-//            self.performSegue(withIdentifier: "goToAddPayment", sender: self)
-//        } else {
-//            self.performSegue(withIdentifier: "unwindToPrevious", sender: self)
-//        }
-//    }
     
     private func localeFinder(for fullCountryName : String) -> String? {
         
@@ -264,19 +235,33 @@ class formStep3ViewController: UIViewController, UITextFieldDelegate {
         
         if nationality == nil {
             return "Please enter a valid Nationality"
-            
-        }
-        if residence == nil {
-            return "Please enter a valid Country of Residence"
         }
         
-//        let list = ["Afghanistan", "Bahamas", Bosni Herzegovine, Botswana, Cambodge, Corée du Nord, Ethiopie, Ghana, Guyana, Iran, Irak, Laos, Ouganda, Pakistan, Serbie, Sri Lanka, Syrie, Trinité-et-Tobago, Tunisie, Vanuatu, Yemen.]
-//        
-//        if list.contains(residence) {
-//            return "Regrettably, due to the anti-money laundering policies of our payment processor, we are unable to add users with Residence in \(residence)"
-//        }
-//        
-//        if residence =
+        if residence == nil {
+            return "Please enter a valid Country of Residence"
+        } else {
+        
+            // blockedCountriesList is a universal constant
+            let list = blockedCountriesList
+            
+            var localeList: [String] = []
+            
+            for x in list {
+                if let y = localeFinder(for: x) {
+                    localeList.append(y)
+                }
+            }
+        
+            let result = localeList.filter { $0 == residence }
+            
+            print(list)
+            print(result)
+            print(result.isEmpty)
+            
+            if result.isEmpty == false {
+                return "Regrettably, due to the anti-money laundering policies of our payment processor, we are unable to add users with Residence in \(residenceField.text!)."
+            }
+        }
         
         return nil
     }

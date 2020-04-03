@@ -10,6 +10,8 @@ import Foundation
 import UIKit
 //import LBTAComponents
 
+let blockedCountriesList = ["Afghanistan", "Bahamas", "Bosnia & Herzegovina", "Botswana", "Cambodia", "North Korea", "Ethiopia", "Ghana", "Guyana", "Iran", "Iraq", "Laos", "Uganda", "Pakistan", "Serbia", "Sri Lanka", "Syria", "Trinidad & Tobago", "Tunisia", "Vanuatu", "Yemen"]
+
 struct Style {
     
     // default values

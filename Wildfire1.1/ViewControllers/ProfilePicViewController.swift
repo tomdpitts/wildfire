@@ -96,8 +96,6 @@ class ProfilePicViewController: UIViewController, UINavigationControllerDelegate
               if let error = error {
                 // Handle any errors
               } else {
-                print("storageRef URL is:")
-                print(url)
                 guard let URL = url else { return }
                 UserDefaults.standard.set(URL, forKey: "profilePicURL")
                 NotificationCenter.default.post(name: Notification.Name("newProfilePicUploaded"), object: nil)

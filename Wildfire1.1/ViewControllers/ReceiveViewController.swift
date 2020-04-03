@@ -142,17 +142,31 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
     var qrcodeImage: CIImage!;
     
     @IBAction func pressedButton(_ sender: Any) {
+        
+        let userAccountExists: Bool? = UserDefaults.standard.bool(forKey: "userAccountExists")
+        
+        if userAccountExists == false || userAccountExists == nil {
+            
+            amountTextField.resignFirstResponder()
+            
+            showAlert(title: "Please set up your account", message: "Just a few quick details are needed to receive transfers")
+            
+            return
+        }
+        
         if qrcodeImage == nil {
             
             if amountTextField.text == "" {
                 return
             }
             
-            let qrdata = generateQRString().data(using: String.Encoding.isoLatin1, allowLossyConversion: false)
+            guard let qrString = generateQRString() else { return }
+            
+            let qrData = qrString.data(using: String.Encoding.isoLatin1, allowLossyConversion: false)
             
             let filter = CIFilter(name: "CIQRCodeGenerator")
             
-            filter!.setValue(qrdata, forKey: "inputMessage")
+            filter!.setValue(qrData, forKey: "inputMessage")
             filter!.setValue("Q", forKey: "inputCorrectionLevel")
             
             qrcodeImage = filter!.outputImage
@@ -188,30 +202,7 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
-    func displayQRCodeImage() {
-
-        
-        let border = UIImage(named: "QR Border3 TEAL")!
-        let logo = UIImage(named: "Logo70pxTEALBORDER")!
-        
-        let scaleX = QRCodeImageView.frame.size.width / qrcodeImage.extent.size.width
-        
-        let scaleY = QRCodeImageView.frame.size.height / qrcodeImage.extent.size.height
-        
-        let transformedImage = UIImage(ciImage: qrcodeImage.transformed(by: CGAffineTransform(scaleX: scaleX, y: scaleY)))
-        
-        let overlayQR = mergeImage(bottomImage: border, topImage: transformedImage, scalePercentage: 71)
-        
-        let overlayWildfireLogo = mergeImage(bottomImage: overlayQR, topImage: logo, scalePercentage: 23)
-        
-        QRCodeImageView.image = overlayWildfireLogo
-        
-        let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .heavy)
-        impactFeedbackgenerator.prepare()
-        impactFeedbackgenerator.impactOccurred()
-    }
-    
-    func generateQRString() -> String {
+    func generateQRString() -> String? {
         
         var receiveAmountString = ""
         
@@ -232,18 +223,43 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
         }
         
         
-        let uid = Auth.auth().currentUser!.uid
+        if let uid = Auth.auth().currentUser?.uid {
         
-        let qrdata = validator + receiveAmountString + uid
+            let qrdata = validator + receiveAmountString + uid
+            
+            let aes = try? AES(key: "afiretobekindled", iv: "av3s5e12b3fil1ed")
+            
+            let encryptedString = try? aes!.encrypt(Array(qrdata.utf8))
+            
+            guard let stringQR = encryptedString?.toHexString() else { return nil }
+            
+            return stringQR
+            
+        } else {
+            return nil
+        }
+    }
+    
+    func displayQRCodeImage() {
         
-        let aes = try? AES(key: "afiretobekindled", iv: "av3s5e12b3fil1ed")
+        let border = UIImage(named: "QR Border3 TEAL")!
+        let logo = UIImage(named: "Logo70pxTEALBORDER")!
         
-        let encryptedString = try? aes!.encrypt(Array(qrdata.utf8))
+        let scaleX = QRCodeImageView.frame.size.width / qrcodeImage.extent.size.width
         
-        let stringQR = encryptedString?.toHexString()
-
+        let scaleY = QRCodeImageView.frame.size.height / qrcodeImage.extent.size.height
         
-        return stringQR!
+        let transformedImage = UIImage(ciImage: qrcodeImage.transformed(by: CGAffineTransform(scaleX: scaleX, y: scaleY)))
+        
+        let overlayQR = mergeImage(bottomImage: border, topImage: transformedImage, scalePercentage: 71)
+        
+        let overlayWildfireLogo = mergeImage(bottomImage: overlayQR, topImage: logo, scalePercentage: 23)
+        
+        QRCodeImageView.image = overlayWildfireLogo
+        
+        let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .heavy)
+        impactFeedbackgenerator.prepare()
+        impactFeedbackgenerator.impactOccurred()
     }
     
     func mergeImage(bottomImage: UIImage, topImage: UIImage, scalePercentage: Int) -> UIImage {
@@ -337,5 +353,16 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
         // Apply the gradient to the backgroundGradientView
         self.view.layer.insertSublayer(gradientLayer, at: 0)
     }
+    
+    func showAlert(title: String, message: String?) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
+            
+        }))
+        
+        self.present(alert, animated: true)
+    }
+    
 }
 

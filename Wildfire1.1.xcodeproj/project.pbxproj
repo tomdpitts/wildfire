@@ -48,6 +48,8 @@
 		E279717F231433D500964F25 /* ExistingUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E279717E231433D500964F25 /* ExistingUserViewController.swift */; };
 		E284815D23FA53D500D51462 /* BankAccountsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E284815C23FA53D500D51462 /* BankAccountsViewController.swift */; };
 		E29925ED2435B02900AE5D6F /* LaunchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29925EC2435B02900AE5D6F /* LaunchViewController.swift */; };
+		E29925EF2437104800AE5D6F /* WILDFIRE.png in Resources */ = {isa = PBXBuildFile; fileRef = E29925EE2437104700AE5D6F /* WILDFIRE.png */; };
+		E29925F12437105900AE5D6F /* WildfireLogo1500px.png in Resources */ = {isa = PBXBuildFile; fileRef = E29925F02437105800AE5D6F /* WildfireLogo1500px.png */; };
 		E29CF69623586AE700ADC0D0 /* ContactsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29CF69523586AE700ADC0D0 /* ContactsViewController.swift */; };
 		E29CF6982359BECD00ADC0D0 /* Send2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29CF6972359BECD00ADC0D0 /* Send2ViewController.swift */; };
 		E29EA43524062DAA0059C7A4 /* Graphics in Resources */ = {isa = PBXBuildFile; fileRef = E29EA43424062DAA0059C7A4 /* Graphics */; };
@@ -126,6 +128,8 @@
 		E279717E231433D500964F25 /* ExistingUserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExistingUserViewController.swift; sourceTree = "<group>"; };
 		E284815C23FA53D500D51462 /* BankAccountsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BankAccountsViewController.swift; sourceTree = "<group>"; };
 		E29925EC2435B02900AE5D6F /* LaunchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchViewController.swift; sourceTree = "<group>"; };
+		E29925EE2437104700AE5D6F /* WILDFIRE.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = WILDFIRE.png; path = ../../Downloads/WILDFIRE.png; sourceTree = "<group>"; };
+		E29925F02437105800AE5D6F /* WildfireLogo1500px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = WildfireLogo1500px.png; path = ../../Downloads/WildfireLogo1500px.png; sourceTree = "<group>"; };
 		E29CF69523586AE700ADC0D0 /* ContactsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsViewController.swift; sourceTree = "<group>"; };
 		E29CF6972359BECD00ADC0D0 /* Send2ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Send2ViewController.swift; sourceTree = "<group>"; };
 		E29EA43424062DAA0059C7A4 /* Graphics */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Graphics; sourceTree = SOURCE_ROOT; };
@@ -214,13 +218,15 @@
 			children = (
 				E2A45D402415D0F100EC7975 /* Wildfire1.1.entitlements */,
 				E21AC96221EA6BEF00D460A9 /* AppDelegate.swift */,
+				E21AC96D21EA6BF000D460A9 /* LaunchScreen.storyboard */,
 				E21AC96821EA6BEF00D460A9 /* Main.storyboard */,
 				E24388A623154A5800948AD5 /* Helpers */,
 				E257EA28230D8A9F003E2A32 /* ViewControllers */,
 				E24388AB2315824D00948AD5 /* Media */,
+				E29925EE2437104700AE5D6F /* WILDFIRE.png */,
+				E29925F02437105800AE5D6F /* WildfireLogo1500px.png */,
 				E2AD346721F384430030FA2E /* Assets.xcassets */,
 				E29EA43424062DAA0059C7A4 /* Graphics */,
-				E21AC96D21EA6BF000D460A9 /* LaunchScreen.storyboard */,
 				E278AE0521FCEFDF00A65309 /* GoogleService-Info.plist */,
 				E21AC97021EA6BF000D460A9 /* Info.plist */,
 			);
@@ -395,8 +401,10 @@
 				E21AC96F21EA6BF000D460A9 /* LaunchScreen.storyboard in Resources */,
 				E24388AD2315A5AC00948AD5 /* WildfireLogin.mp4 in Resources */,
 				E278AE0621FCEFDF00A65309 /* GoogleService-Info.plist in Resources */,
+				E29925EF2437104800AE5D6F /* WILDFIRE.png in Resources */,
 				E29EA43524062DAA0059C7A4 /* Graphics in Resources */,
 				E2AD346821F384430030FA2E /* Assets.xcassets in Resources */,
+				E29925F12437105900AE5D6F /* WildfireLogo1500px.png in Resources */,
 				E21AC96A21EA6BEF00D460A9 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

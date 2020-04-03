@@ -65,7 +65,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         if UserDefaults.standard.string(forKey: "mangopayID") == nil {
             Utilities.getMangopayID()
         }
-
+        
+        if #available(iOS 13.0, *) {
+            window?.overrideUserInterfaceStyle = .light
+        }
+//        self.window?.tintColor = UIColor(named: "tealPrimary")
+        self.window = UIWindow(frame: UIScreen.main.bounds)
         redirect()
 //        setupNavigationBarAppearance()
         
@@ -255,7 +260,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         let mainStoryboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         
-        
         if uid != nil {
             if let checkoutTime = self.timestamp {
                 if checkoutTime > Date().toSeconds() - 60 {
@@ -264,11 +268,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 } else {
                     
                     let initialViewController: UIViewController = mainStoryboard.instantiateViewController(withIdentifier: "HomeVC") as UIViewController
-                    if #available(iOS 13.0, *) {
-                        window?.overrideUserInterfaceStyle = .light
-                    }
-                    self.window = UIWindow(frame: UIScreen.main.bounds)
+//                    if #available(iOS 13.0, *) {
+//                        window?.overrideUserInterfaceStyle = .light
+//                    }
+//                    self.window = UIWindow(frame: UIScreen.main.bounds)
                     self.window?.rootViewController = initialViewController
+                    self.window?.tintColor = UIColor(named: "tealPrimary")
                     self.window?.makeKeyAndVisible()
                     
                 }
@@ -277,10 +282,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 let initialViewController: UIViewController = mainStoryboard.instantiateViewController(withIdentifier: "HomeVC") as UIViewController
                 
                 self.window = UIWindow(frame: UIScreen.main.bounds)
-                if #available(iOS 13.0, *) {
-                    window?.overrideUserInterfaceStyle = .light
-                }
+//                if #available(iOS 13.0, *) {
+//                    window?.overrideUserInterfaceStyle = .light
+//                }
                 self.window?.rootViewController = initialViewController
+                self.window?.tintColor = UIColor(named: "tealPrimary")
                 self.window?.makeKeyAndVisible()
                 
             }
@@ -296,11 +302,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             navController.pushViewController(homeVC, animated: false)
             navController.pushViewController(phoneVC, animated: true)
             
-            self.window = UIWindow(frame: UIScreen.main.bounds)
-            if #available(iOS 13.0, *) {
-                window?.overrideUserInterfaceStyle = .light
-            }
+//            self.window = UIWindow(frame: UIScreen.main.bounds)
+//            if #available(iOS 13.0, *) {
+//                window?.overrideUserInterfaceStyle = .light
+//            }
             self.window?.rootViewController = navController
+            self.window?.tintColor = UIColor(named: "tealPrimary")
             self.window?.makeKeyAndVisible()
         }
     }
