@@ -203,7 +203,7 @@
             <objects>
                 <viewController id="tRh-0n-OZd" customClass="ScanViewController" customModule="Wildfire1_1" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Thm-Rv-SEt">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="548"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qN5-IV-UUH">
@@ -241,7 +241,7 @@
             <objects>
                 <viewController id="pFC-XD-G7v" customClass="ConfirmViewController" customModule="Wildfire1_1" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="mMr-aZ-U69">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="548"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="vaQ-Le-1R0">
@@ -557,7 +557,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="CkK-RD-EqY">
-                                <rect key="frame" x="20" y="123" width="280" height="230.5"/>
+                                <rect key="frame" x="20" y="111" width="280" height="230.5"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="4972485830400049" borderStyle="roundedRect" placeholder="16 digit Card Number" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="wPz-vK-2Zs" userLabel="Card Number">
                                         <rect key="frame" x="0.0" y="0.0" width="280" height="50"/>
@@ -609,7 +609,7 @@
                                 </constraints>
                             </stackView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LaQ-x4-5JO">
-                                <rect key="frame" x="60" y="403.5" width="200" height="50"/>
+                                <rect key="frame" x="60" y="391.5" width="200" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="200" id="jOX-JA-qIc"/>
                                     <constraint firstAttribute="height" constant="50" id="nXg-0Z-IkC"/>
@@ -1038,7 +1038,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="Crn-8f-BAR">
-                                <rect key="frame" x="20" y="152.5" width="280" height="346.5"/>
+                                <rect key="frame" x="20" y="132" width="280" height="346.5"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icons8-ok-480" translatesAutoresizingMaskIntoConstraints="NO" id="We2-ai-gvS">
                                         <rect key="frame" x="65" y="0.0" width="150" height="150"/>
@@ -1685,7 +1685,7 @@
             <objects>
                 <viewController id="ng8-iT-cq6" customClass="SignUpViewController" customModule="Wildfire1_1" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="VnR-f8-gzF">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="548"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="Pxa-BL-KYV">
@@ -1780,7 +1780,7 @@
             <objects>
                 <viewController title="formStep2 View Controller" id="9c5-q4-K87" customClass="formStep2ViewController" customModule="Wildfire1_1" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="yV2-V1-QPO">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="548"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="Gvj-1l-d7B">
@@ -1842,7 +1842,7 @@
             <objects>
                 <viewController storyboardIdentifier="formStep3 View Controller" title="formStep3 View Controller" id="u4d-OO-6Kt" customClass="formStep3ViewController" customModule="Wildfire1_1" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Sk5-do-1yb">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="548"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="CnM-Cy-2rS">
@@ -2446,14 +2446,14 @@
                         </attributedString>
                     </refreshControl>
                     <connections>
-                        <segue destination="umz-YS-edi" kind="showDetail" identifier="displayReceipt" id="bUt-bW-kcg"/>
                         <segue destination="0nl-va-a5B" kind="unwind" identifier="unwindToPrevious" unwindAction="unwindToPrevious:" id="gQu-HK-eYO"/>
+                        <segue destination="NJi-Gm-iql" kind="presentation" identifier="displayReceipt" id="xpQ-bR-22q"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pH2-AZ-MZg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="0nl-va-a5B" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="2901" y="2511"/>
+            <point key="canvasLocation" x="2901" y="2520"/>
         </scene>
         <!--Payment Method-->
         <scene sceneID="rrl-83-a8R">
@@ -2513,11 +2513,11 @@
             <objects>
                 <viewController modalTransitionStyle="flipHorizontal" id="NJi-Gm-iql" customClass="DisplayReceiptViewController" customModule="Wildfire1_1" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Gho-YL-SR4">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="548"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="5f6-CW-gcw">
-                                <rect key="frame" x="20" y="79" width="280" height="405"/>
+                                <rect key="frame" x="20" y="71.5" width="280" height="405"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Logo200px" translatesAutoresizingMaskIntoConstraints="NO" id="5js-x2-4Z0">
                                         <rect key="frame" x="90" y="0.0" width="100" height="100"/>
@@ -2659,7 +2659,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="c5u-Fx-1fh" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="Bjg-ux-eLY" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="4517" y="2618"/>
+            <point key="canvasLocation" x="3744" y="2602"/>
         </scene>
         <!--Notification Payment Received View Controller-->
         <scene sceneID="ZuF-NB-nE9">
@@ -2977,7 +2977,7 @@
             <objects>
                 <viewController modalTransitionStyle="flipHorizontal" modalPresentationStyle="currentContext" id="dMl-Xg-qLO" customClass="DisplayReceiptAfterPaymentViewController" customModule="Wildfire1_1" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Lqs-x6-fZq">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="548"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="td4-fH-TTf">
@@ -4872,24 +4872,6 @@
             <point key="canvasLocation" x="-756" y="0.0"/>
         </scene>
         <!--Navigation Controller-->
-        <scene sceneID="QHU-2M-bBX">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="umz-YS-edi" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="wgw-3l-XSK">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="NJi-Gm-iql" kind="relationship" relationship="rootViewController" id="DyJ-Fa-nec"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="NPf-B4-nRb" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="3721.875" y="2617.605633802817"/>
-        </scene>
-        <!--Navigation Controller-->
         <scene sceneID="QAS-tk-vVw">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="9dZ-dr-Kiv" sceneMemberID="viewController">
@@ -4979,7 +4961,7 @@
             <objects>
                 <viewController id="bFt-Ep-Iwe" customClass="AccountAddedViewController" customModule="Wildfire1_1" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="vrT-7w-yte">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="548"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="3cQ-NQ-tXS">
@@ -5061,7 +5043,7 @@
         <segue reference="Huo-pa-P2i"/>
         <segue reference="XkC-zp-HKA"/>
         <segue reference="ydr-lM-sQk"/>
-        <segue reference="JGW-hE-gdx"/>
+        <segue reference="YhI-hf-aZr"/>
         <segue reference="KC7-yY-zWV"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" name="tealPrimary"/>

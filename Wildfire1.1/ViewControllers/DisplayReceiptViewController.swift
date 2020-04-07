@@ -11,7 +11,6 @@ import UIKit
 class DisplayReceiptAfterPaymentViewController: UIViewController {
 
     var transaction: Transaction?
-    
   
     @IBOutlet weak var payerLabel: UILabel!
     @IBOutlet weak var recipientLabel: UILabel!
@@ -97,7 +96,9 @@ class DisplayReceiptViewController: UIViewController {
 
     func updateReceipt() {
         
-        guard let transaction = transaction else { return }
+        guard let transaction = transaction else {
+            print("nil transaction")
+            return }
         
         let formatter = DateFormatter()
         formatter.dateFormat = "E, d MMM yyyy"
@@ -116,7 +117,7 @@ class DisplayReceiptViewController: UIViewController {
     }
     
     @IBAction func doneButtonTapped(_ sender: Any) {
-        
+
         if self.isBeingPresented {
             self.dismiss(animated: true, completion: nil)
         

@@ -35,6 +35,7 @@ class ReceiptsViewController: UITableViewController {
 //        var namesDict = [[String: String]]()
     var section = 0
     var row = 0
+    var selectedTransaction: Transaction?
     
     // I've tried using dictionaries for this but they are inherently unordered so don't play nice with table view
     var transactionDates = [String]()
@@ -183,8 +184,10 @@ class ReceiptsViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // without this line, the cell remains (visually) selected after end of tap
         tableView.deselectRow(at: indexPath, animated: true)
-        self.section = indexPath.section
-        self.row = indexPath.row
+        self.selectedTransaction = transactionsGrouped[indexPath.section][indexPath.row]
+        print(selectedTransaction)
+//        self.section = indexPath.section
+//        self.row = indexPath.row
 
         
         performSegue(withIdentifier: "displayReceipt", sender: self)
@@ -197,14 +200,18 @@ class ReceiptsViewController: UITableViewController {
         }
     }
     
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-
         if segue.destination is DisplayReceiptViewController {
-            let displayReceiptVC = segue.destination as! DisplayReceiptViewController
-            let selectedTransaction = transactionsGrouped[self.section][self.row]
-            displayReceiptVC.transaction = selectedTransaction
+            if let displayReceiptVC = segue.destination as? DisplayReceiptViewController {
+                
+                displayReceiptVC.transaction = self.selectedTransaction
+            }
+            
         }
     }
+    
+    
     
     func showAlert(title: String, message: String?) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
