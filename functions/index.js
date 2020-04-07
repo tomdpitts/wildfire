@@ -273,44 +273,48 @@ exports.createPaymentMethod = functions.region('europe-west1').https.onCall( asy
 
 exports.addCardRegistration = functions.region('europe-west1').https.onCall( async (data, context) => {
 
+  console.log('addCardRegistration called')
   const userID = context.auth.uid
 
   const rd = data.regData
   const cardRegID = String(data.cardRegID)
   const walletID = data.walletID
 
+  console.log('still going')
 
   // update the CardRegistration object with the Registration data and cardRegID sent as the argument for this function.
   // see https://docs.mangopay.com/endpoints/v2.01/cards#e1042_post-card-info 
   // "Update a Card Registration"
-  const cardObject = await mpAPI.CardRegistrations.update({RegistrationData: rd, Id: cardRegID}).catch(
-    error => {
+  const cardObject = await mpAPI.CardRegistrations.update({RegistrationData: rd, Id: cardRegID})
+  .catch( error => {
       console.log(error)
     }
   )
 
-  let cardID = cardObject.CardId
+  const cardID = cardObject.CardId
 
-  console.log('cardID is:')
-  console.log(cardID)
-
-  admin.firestore().collection('users').doc(userID).set({
-    defaultCardID: cardID
-    // merge (to prevent overwriting other fields) should never be needed, but just in case..
-  }, {merge: true})
-  .catch(err => {
-    console.log('Error saving to database', err);
-  })
+  // console.log(cardObject)
+  // console.log('back from mangopay/...')
   
 
-  // and save the important part of the response - the cardId - to the Firestore database
-  admin.firestore().collection('users').doc(userID).collection('wallets').doc(walletID).collection('cards').doc(cardID).set({
-    cardID: cardID
-    // merge (to prevent overwriting other fields) should never be needed, but just in case..
-  }, {merge: true})
-  .catch(err => {
-    console.log('Error saving to database', err);
-  })
+  // console.log('cardID is:')
+  // console.log(cardID)
+
+  // admin.firestore().collection('users').doc(userID).set({
+  //   defaultCardID: cardID
+  // }, {merge: true})
+  // .catch(err => {
+  //   console.log('Error saving to database', err);
+  // })
+  
+
+  // // and save the important part of the response - the cardId - to the Firestore database
+  // admin.firestore().collection('users').doc(userID).collection('wallets').doc(walletID).collection('cards').doc(cardID).set({
+  //   cardID: cardID
+  // }, {merge: true})
+  // .catch(err => {
+  //   console.log('Error saving to database', err);
+  // })
 
   return cardID
 })
@@ -489,8 +493,10 @@ exports.listCards = functions.region('europe-west1').https.onCall( async (data, 
   }
 
   if (mangopayID !== "") {
+
     const cardsList = await mpAPI.Users.getCards(mangopayID, JSON)
 
+    console.log(cardsList)
     var activeCardsList = []
     var x
 

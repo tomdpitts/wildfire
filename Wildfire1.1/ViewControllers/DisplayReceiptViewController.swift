@@ -53,7 +53,7 @@ class DisplayReceiptAfterPaymentViewController: UIViewController {
         recipientLabel.text = transaction?.recipientName
         if let x = transaction?.amount {
             let xFloat = Float(x)/100
-            amountLabel.text = String(format: "%.2f", xFloat)
+            amountLabel.text = "£" + String(format: "%.2f", xFloat)
         }
         // TODO getting fatal error: unexpectedly found nil while unwrapping an optional value on line 54
         print(transaction?.datetime)
@@ -96,20 +96,23 @@ class DisplayReceiptViewController: UIViewController {
     
 
     func updateReceipt() {
+        
+        guard let transaction = transaction else { return }
+        
         let formatter = DateFormatter()
         formatter.dateFormat = "E, d MMM yyyy"
         let formatter2 = DateFormatter()
         formatter2.dateFormat = "HH:mm"
         
-        payerLabel.text = transaction?.payerName
-        recipientLabel.text = transaction?.recipientName
-        if let x = transaction?.amount {
-            let xFloat = Float(x)/100
-            amountLabel.text = String(format: "%.2f", xFloat)
-        }
+        payerLabel.text = transaction.payerName
+        recipientLabel.text = transaction.recipientName
         
-        dateLabel.text = formatter.string(from: transaction!.datetime)
-        timeLabel.text = formatter2.string(from: transaction!.datetime)
+        let x = transaction.amount
+        let xFloat = Float(x)/100
+        amountLabel.text = "£" + String(format: "%.2f", xFloat)
+        
+        dateLabel.text = formatter.string(from: transaction.datetime)
+        timeLabel.text = formatter2.string(from: transaction.datetime)
     }
     
     @IBAction func doneButtonTapped(_ sender: Any) {

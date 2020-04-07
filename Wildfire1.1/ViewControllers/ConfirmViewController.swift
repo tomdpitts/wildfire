@@ -73,18 +73,6 @@ class ConfirmViewController: UIViewController {
             checkForExistingPaymentMethod()
         }
     }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        self.showSpinner(onView: self.view, titleText: nil, messageText: nil)
-        
-        // this is for the scenario in which a user has just added a card while in the payment view. N.B. this is (probably) going to happen max 1 time per user, but it's extremely important this flow is as seamless as possible since users are likely to judge the usefulness of the app on this experience i.e. it's make or break
-        if shouldReloadView == true {
-            
-            // this func might be overkill (but it also removes the spinner)
-            getUserBalance()
-        }
-    }
-    
 
 //        // update the labels to explain current balance and what the user can expect to happen next
 //        // for reasons explained in the func itself, this should be called AFTER setUpRecipientDetails, as they both refer to class variable sendAmount
@@ -118,11 +106,19 @@ class ConfirmViewController: UIViewController {
     
     func setUpRecipientDetails(_ uid: String) {
         
+        self.showSpinner(onView: self.view, titleText: nil, messageText: nil)
+        
         loadRecipientProfilePicView(uid)
         
         let docRef = self.db.collection("users").document(uid)
         
         docRef.getDocument { (document, error) in
+            
+            if error != nil {
+                self.removeSpinner()
+                self.showAlert(title: "Hmm..", message: "Apologies - we're having connectivity issues. Please try again.", segue: nil, cancel: false)
+            }
+            
             if let document = document, document.exists {
 //              let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
                 let userData = document.data()
@@ -140,6 +136,9 @@ class ConfirmViewController: UIViewController {
                 
                 // this func can be called now that the recipient data is available
                 self.getUserBalance()
+            } else {
+                self.removeSpinner()
+                self.showAlert(title: "Hmm..", message: "Apologies - we're having connectivity issues. Please try again.", segue: nil, cancel: false)
             }
         }
     }
@@ -153,6 +152,7 @@ class ConfirmViewController: UIViewController {
         docRef.getDocument { (document, error) in
             
             if error != nil {
+                self.removeSpinner()
                 self.showAlert(title: "Hmm..", message: "Apologies - we're having connectivity issues. Please try again.", segue: nil, cancel: false)
             }
             if let document = document, document.exists {
@@ -236,7 +236,7 @@ class ConfirmViewController: UIViewController {
             
             // notice user doesn't strictly need to add card details if they already have sufficient credit to complete payment - this is intentional
             if enoughCredit == true {
-                self.showSpinner(onView: self.view, titleText: nil, messageText: nil)
+                self.showSpinner(onView: self.view, titleText: "Authorizing", messageText: "Securely transferring funds")
                 
                 // initiate transaction
                 // TODO add spinner
@@ -259,7 +259,7 @@ class ConfirmViewController: UIViewController {
             } else {
                 if existingPaymentMethod == true {
                     
-                    self.showSpinner(onView: self.view, titleText: nil, messageText: nil)
+                    self.showSpinner(onView: self.view, titleText: "Authorizing", messageText: "Securely transferring funds")
                     
                     // initiate topup (ideally with ApplePay & touchID)
                     transact(recipientUID: self.recipientUID, amount: self.sendAmount, topup: true, topupAmount: self.topupAmount) { result in

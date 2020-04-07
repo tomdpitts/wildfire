@@ -104,6 +104,7 @@ class AddCard2TableViewController: UITableViewController, UITextFieldDelegate {
             
             if let mpID = UserDefaults.standard.string(forKey: "mangopayID") {
                 mangopayID = mpID
+                print(mpID)
             }
             
             // fields have passed validation - so continue
@@ -311,9 +312,11 @@ class AddCard2TableViewController: UITableViewController, UITextFieldDelegate {
                 "billingAddress": ["line1": line1, "line2": line2,"city": cityName, "region": region,"postcode": postcode,"country": countryCode!]
             ]
             // separate variable name because that's how it shows up in Firestore
-            let defaultAddressData : [String: [String: String]] = [
-                "defaultBillingAddress": ["line1": line1, "line2": line2,"city": cityName, "region": region,"postcode": postcode,"country": countryCode!]
+            let defaultAddressData : [String: Any] = [
+                "defaultBillingAddress": ["line1": line1, "line2": line2,"city": cityName, "region": region,"postcode": postcode,"country": countryCode!], "defaultCardID": cardID
             ]
+            
+            // adding cardID to database here because async functions aren't working as expected and this is easier 
             
         Firestore.firestore().collection("users").document(uid).collection("wallets").document(walletID).collection("cards").document(cardID).setData(addressData
             // merge: true is IMPORTANT - prevents complete overwriting of a document if a user logs in for a second time, for example, which could wipe important data (including the balance..)

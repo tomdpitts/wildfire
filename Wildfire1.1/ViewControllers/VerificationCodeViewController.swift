@@ -75,26 +75,28 @@ class VerificationCodeViewController: UIViewController, UITextFieldDelegate {
                 
                 // User is signed in
                 
-                // update credit cards and bank accounts list (user may be returning)
-                let appDelegate = AppDelegate()
-                appDelegate.listCardsFromMangopay() { () in }
-                appDelegate.fetchBankAccountsListFromMangopay() {}
+                let userAccountExists = UserDefaults.standard.bool(forKey: "userAccountExists")
+                
                 
                 // check whether the user has previously completed signup flow
-                if UserDefaults.standard.bool(forKey: "userAccountExists") != true {
+                if userAccountExists != true {
                     Utilities.checkForUserAccount()
+                } else {
+                    // might be worth adding completion to checkForUserAccount
+                    // update credit cards and bank accounts list (user may be returning)
+                    let appDelegate = AppDelegate()
+                    appDelegate.listCardsFromMangopay() { () in }
+                    appDelegate.fetchBankAccountsListFromMangopay() {}
+                    
+                    Utilities.getCurrentRegistrationToken()
+                    Utilities.getMangopayID()
                 }
-                
-                Utilities.getCurrentRegistrationToken()
-                Utilities.getMangopayID()
-                
+
                 self.removeSpinner()
                 
-                print("will try to segue")
+                
                 // segue to welcome
                 self.performSegue(withIdentifier: "unwindToWelcome", sender: self)
-                
-                print("tried..")
             }
         }
     }

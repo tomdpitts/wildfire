@@ -385,8 +385,8 @@ extension UIViewController {
     }
     
     func removeSpinner() {
-        
-        dismiss(animated: false, completion: nil)
+        print("trying to remove Spinner")
+        dismiss(animated: true, completion: nil)
 //        DispatchQueue.main.async {
 //            vSpinner?.removeFromSuperview()
 //            vSpinner = nil
