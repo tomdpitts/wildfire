@@ -218,7 +218,6 @@ exports.createPaymentMethod = functions.region('europe-west1').https.onCall( asy
       // redundant but helps for clarity
       walletExists = false
     } else {
-      console.log('found a wallet!')
       walletExists = true
       const foundWallet = snapshot.docs[0]
       walletID = foundWallet.id
@@ -227,6 +226,8 @@ exports.createPaymentMethod = functions.region('europe-west1').https.onCall( asy
   }).catch(err => {
     console.log('Error getting wallet info', err);
   });
+
+  console.log(mangopayID)
 
   if (walletExists === false) {
     const wallet = await mpAPI.Wallets.create({Owners: mangopayID, Description: walletName, Currency: 'GBP'});
@@ -258,7 +259,7 @@ exports.createPaymentMethod = functions.region('europe-west1').https.onCall( asy
 
   // create CardRegistration object
 
-  const cardReg = await mpAPI.CardRegistrations.create({userID: mangopayIDString, Currency: 'EUR', CardType: "CB_VISA_MASTERCARD"});
+  const cardReg = await mpAPI.CardRegistrations.create({userID: mangopayIDString, Currency: 'GBP', CardType: "CB_VISA_MASTERCARD"});
 
   // this function deals with steps 1-4 outlined here: https://docs.mangopay.com/endpoints/v2.01/cards#e177_the-card-registration-object
   // we 1) created a wallet using the mangopayID stored in Firestore (if it didn't already exist), then 2) created a CardRegistration object, and now need to return the CardRegistration object to the client as per the docs
@@ -282,17 +283,25 @@ exports.addCardRegistration = functions.region('europe-west1').https.onCall( asy
   // update the CardRegistration object with the Registration data and cardRegID sent as the argument for this function.
   // see https://docs.mangopay.com/endpoints/v2.01/cards#e1042_post-card-info 
   // "Update a Card Registration"
-  const cardObject = await mpAPI.CardRegistrations.update({RegistrationData: rd, Id: cardRegID})
+  const cardObject = await mpAPI.CardRegistrations.update({RegistrationData: rd, Id: cardRegID}).catch(
+    error => {
+      console.log(error)
+    }
+  )
+
+  let cardID = cardObject.CardId
+
+  console.log('cardID is:')
+  console.log(cardID)
 
   admin.firestore().collection('users').doc(userID).set({
-    defaultCardID: cardObject.CardId
+    defaultCardID: cardID
     // merge (to prevent overwriting other fields) should never be needed, but just in case..
   }, {merge: true})
   .catch(err => {
     console.log('Error saving to database', err);
   })
-
-  let cardID = cardObject.CardId
+  
 
   // and save the important part of the response - the cardId - to the Firestore database
   admin.firestore().collection('users').doc(userID).collection('wallets').doc(walletID).collection('cards').doc(cardID).set({
@@ -316,8 +325,10 @@ exports.transact = functions.region('europe-west1').https.onCall( async (data, c
   const recipientID = data.recipientUID
   const amountRequested = data.amount
   // 98% of amount requested is transferred
-  const amount = (amount*98)/100
+  const amount98 = (amountRequested*98)/100
   const currency = data.currency
+
+  console.log(amount98)
 
   // now we have all the input we need ^
 
@@ -325,7 +336,7 @@ exports.transact = functions.region('europe-west1').https.onCall( async (data, c
   let recipientRef = db.collection("users").doc(recipientID)
 
   var oldUserBalance = 0
-  var oldRecipientBalance = 0
+  // var oldRecipientBalance = 0
 
   var userWalletID = ''
   var userMangoPayID = ''
@@ -370,18 +381,18 @@ exports.transact = functions.region('europe-west1').https.onCall( async (data, c
   })
   oldUserBalance = userMPWallet.Balance.Amount
 
-  const recipientMPWallet = await mpAPI.Wallets.get(recipientWalletID)
-  .catch(err => {
-    balanceFail = true,
-    console.log('Error getting recipientMPWallet', err)
-  })
-  oldRecipientBalance = recipientMPWallet.Balance.amount
+  // const recipientMPWallet = await mpAPI.Wallets.get(recipientWalletID)
+  // .catch(err => {
+  //   balanceFail = true,
+  //   console.log('Error getting recipientMPWallet', err)
+  // })
+  // oldRecipientBalance = recipientMPWallet.Balance.amount
 
 
   // 4: if both balances have been correctly retrieved, trigger the transaction
   if (balanceFail !== true) {
 
-    if (amount <= oldUserBalance && amount > 0) {
+    if (amount98 <= oldUserBalance && amount98 > 0) {
 
       const MPTransferData =
         {
@@ -389,7 +400,7 @@ exports.transact = functions.region('europe-west1').https.onCall( async (data, c
         "CreditedUserId": recipientMangoPayID,
         "DebitedFunds": {
           "Currency": currency,
-          "Amount": amount
+          "Amount": amount98
           },
         // intraplatform transactions are free, so fee is zero
         "Fees": {
@@ -413,25 +424,28 @@ exports.transact = functions.region('europe-west1').https.onCall( async (data, c
         datetimeHR: admin.firestore.FieldValue.serverTimestamp(),
         datetime: Math.round(Date.now()/1000),
         currency: currency,
-        amount: amount
+        amount: amountRequested
       }
 
       db.collection('transactions').add(transactionData)
 
       // 6: update both party's wallets
-      const newUserWallet = await mpAPI.Wallets.get(userWalletID)
-      const newUserBalance = newUserWallet.Balance.Amount
 
-      const newRecipientWallet = await mpAPI.Wallets.get(recipientWalletID)
-      const newRecipientBalance = newRecipientWallet.Balance.Amount
+      helpers.callCloudFunction('getCurrentBalance', {uid: userID})
+      helpers.callCloudFunction('getCurrentBalance', {uid: recipientID})
+      // const newUserWallet = await mpAPI.Wallets.get(userWalletID)
+      // const newUserBalance = newUserWallet.Balance.Amount
 
-      userRef.set({balance: newUserBalance}, {merge: true})
-      recipientRef.set({balance: newRecipientBalance}, {merge: true})
+      // const newRecipientWallet = await mpAPI.Wallets.get(recipientWalletID)
+      // const newRecipientBalance = newRecipientWallet.Balance.Amount
+
+      // userRef.set({balance: newUserBalance}, {merge: true})
+      // recipientRef.set({balance: newRecipientBalance}, {merge: true})
 
       // 7: return success to Client
 
       const receiptData = {
-        "amount": amount,
+        "amount": amountRequested,
         "currency": currency,
         "datetime": Math.round(Date.now()/1000),
         "payerID": userID,
@@ -495,6 +509,8 @@ exports.listCards = functions.region('europe-west1').https.onCall( async (data, 
 exports.createPayin = functions.region('europe-west1').https.onCall( async (data, context) => {
   const userID = context.auth.uid
 
+  const amountRequested = data.amount
+
   var mangopayID = ''
   var walletID = ''
   var cardID = ''
@@ -509,11 +525,11 @@ exports.createPayin = functions.region('europe-west1').https.onCall( async (data
   var culture = ''
 
   const currencyType = data.currency
-  const amount = data.amount + 20
+  const amount = amountRequested + 20
   // the fee to be taken should be an integer, since the amount is in cents/pence
 
   // payin billing is applied here: 2% + 20p
-  const fee = (amount*98)/100 + 20
+  const fee = (amountRequested*2)/100 + 20
 
   // using the Firebase userID (supplied via 'context' of the request), get the data we need for the payin 
   await admin.firestore().collection('users').doc(userID).get().then(doc => {

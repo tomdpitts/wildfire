@@ -41,7 +41,7 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
 //            }
 //        }
         
-        amountTextField.becomeFirstResponder()
+//        amountTextField.becomeFirstResponder()
     }
 
     override func viewDidLoad() {

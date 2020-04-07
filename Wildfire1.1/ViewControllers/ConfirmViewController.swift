@@ -69,18 +69,20 @@ class ConfirmViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         
-        // this is for the scenario in which a user has just added a card while in the payment view. N.B. this is (probably) going to happen max 1 time per user, but it's extremely important this flow is as seamless as possible since users are likely to judge the usefulness of the app on this experience i.e. it's make or break
         if shouldReloadView == true {
-            // check whether the user has completed signup flow
-            if UserDefaults.standard.bool(forKey: "userAccountExists") != true {
-                
-                Utilities.checkForUserAccount()
-            }
+            checkForExistingPaymentMethod()
         }
-        
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
         self.showSpinner(onView: self.view, titleText: nil, messageText: nil)
         
-        
+        // this is for the scenario in which a user has just added a card while in the payment view. N.B. this is (probably) going to happen max 1 time per user, but it's extremely important this flow is as seamless as possible since users are likely to judge the usefulness of the app on this experience i.e. it's make or break
+        if shouldReloadView == true {
+            
+            // this func might be overkill (but it also removes the spinner)
+            getUserBalance()
+        }
     }
     
 
@@ -303,7 +305,7 @@ class ConfirmViewController: UIViewController {
                     // N.B. topupAmount must be passed if topup == true. Guarding so that this breaks if this condition isn't met.
                     guard let tpa = topupAmount else { return }
                                         
-                    self.functions.httpsCallable("createPayin").call(["amount": tpa, "currency": "EUR"]) { (result, error) in
+                    self.functions.httpsCallable("createPayin").call(["amount": tpa, "currency": "GBP"]) { (result, error) in
                         if error != nil {
                             // TODO
                             
@@ -316,7 +318,7 @@ class ConfirmViewController: UIViewController {
                                     completion("We topped up your account but failed to complete the transaction. Please try again.")
                                 } else {
                                     
-                                    self.functions.httpsCallable("transact").call(["recipientUID": recipientUID, "amount": amount, "currency": "EUR"]) { (result, error) in
+                                    self.functions.httpsCallable("transact").call(["recipientUID": recipientUID, "amount": amount, "currency": "GBP"]) { (result, error) in
                                         // TODO error handling!
                                         if error != nil {
         //                                    self.showAuthenticationError(title: "Oops!", message: "We topped up your account but couldn't complete the transaction. Please try again.")
@@ -361,7 +363,7 @@ class ConfirmViewController: UIViewController {
                 if authenticated == true {
                     
                     
-                    self.functions.httpsCallable("transact").call(["recipientUID": recipientUID,  "amount": amount, "currency": "EUR"]) { (result, error) in
+                    self.functions.httpsCallable("transact").call(["recipientUID": recipientUID,  "amount": amount, "currency": "GBP"]) { (result, error) in
                         // TODO error handling!
                         if error != nil {
                             completion("Error in transaction function")

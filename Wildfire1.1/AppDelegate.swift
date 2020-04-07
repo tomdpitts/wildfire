@@ -66,11 +66,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             Utilities.getMangopayID()
         }
         
-        if #available(iOS 13.0, *) {
-            window?.overrideUserInterfaceStyle = .light
-        }
-//        self.window?.tintColor = UIColor(named: "tealPrimary")
         self.window = UIWindow(frame: UIScreen.main.bounds)
+//        if #available(iOS 13.0, *) {
+//            window?.overrideUserInterfaceStyle = .light
+//        }
+        //        self.window?.tintColor = UIColor(named: "tealPrimary")
+
         redirect()
 //        setupNavigationBarAppearance()
         
