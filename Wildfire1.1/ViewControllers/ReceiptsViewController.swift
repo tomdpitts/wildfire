@@ -199,7 +199,8 @@ class ReceiptsViewController: UITableViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 
-        if let displayReceiptVC = segue.destination as? DisplayReceiptViewController {
+        if segue.destination is DisplayReceiptViewController {
+            let displayReceiptVC = segue.destination as! DisplayReceiptViewController
             let selectedTransaction = transactionsGrouped[self.section][self.row]
             displayReceiptVC.transaction = selectedTransaction
         }
