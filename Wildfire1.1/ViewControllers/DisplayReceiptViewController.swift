@@ -118,12 +118,7 @@ class DisplayReceiptViewController: UIViewController {
     
     @IBAction func doneButtonTapped(_ sender: Any) {
 
-        if self.isBeingPresented {
-            self.dismiss(animated: true, completion: nil)
-        
-        } else {
-            self.performSegue(withIdentifier: "unwindToPay", sender: self)
-        }
+        self.dismiss(animated: true, completion: nil)
     }
 }
 
