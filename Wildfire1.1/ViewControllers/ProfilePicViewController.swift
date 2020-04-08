@@ -93,13 +93,13 @@ class ProfilePicViewController: UIViewController, UINavigationControllerDelegate
             }
             
             storageRef.downloadURL { url, error in
-              if let error = error {
+                if error != nil {
                 // Handle any errors
-              } else {
-                guard let URL = url else { return }
-                UserDefaults.standard.set(URL, forKey: "profilePicURL")
-                NotificationCenter.default.post(name: Notification.Name("newProfilePicUploaded"), object: nil)
-              }
+                } else {
+                    guard let URL = url else { return }
+                    UserDefaults.standard.set(URL, forKey: "profilePicURL")
+                    NotificationCenter.default.post(name: Notification.Name("newProfilePicUploaded"), object: nil)
+                }
             }
         }
         

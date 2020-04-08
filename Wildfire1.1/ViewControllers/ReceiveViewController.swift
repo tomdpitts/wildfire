@@ -19,6 +19,8 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
     let uid = Auth.auth().currentUser?.uid
     let currency = "GBP"
     
+    var shareLink: URL?
+    
     // TODO prevent users from generating QR codes when no account (and crucially, no MangoPay wallet) exists yet
     // TODO in future, would be nice to add functionality to handle pending payments, so users can receive payments quickly upon first download, and add account info after the fact
 
@@ -29,6 +31,8 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var btnAction: UIButton!
     @IBOutlet weak var saveToCameraRoll: UIButton!
 //    @IBOutlet weak var scanToPayLabel: UILabel!
+    @IBOutlet weak var shareLinkButton: UIButton!
+    @IBOutlet weak var loadingSpinner: UIActivityIndicatorView!
     
     @IBAction func swipeGestureRecognizer(_ sender: Any) {
         // swipe down (and only down) hides keyboard
@@ -55,14 +59,18 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
         // Do any additional setup after loading the view, typically from a nib.
         
         Utilities.styleHollowButton(saveToCameraRoll)
+        Utilities.styleHollowButton(shareLinkButton)
         
         saveToCameraRoll.isHidden = true
 //        scanToPayLabel.isHidden = true
+        shareLinkButton.isHidden = true
+        shareLinkButton.imageView?.tintColor = .clear
+        loadingSpinner.isHidden = true
         
-        saveToCameraRoll.tintColor = UIColor(hexString: "#39C3C6")
-        if #available(iOS 13.0, *) {
-            saveToCameraRoll.setImage(UIImage(systemName: "square.and.arrow.up")?.withTintColor(UIColor(hexString: "#39C3C6")) , for: .normal)
-        }
+//        saveToCameraRoll.tintColor = UIColor(hexString: "#39C3C6")
+//        if #available(iOS 13.0, *) {
+//            saveToCameraRoll.setImage(UIImage(systemName: "square.and.arrow.up")?.withTintColor(UIColor(hexString: "#39C3C6")) , for: .normal)
+//        }
         
         amountTextField.delegate = self
         amountTextField.keyboardType = .decimalPad
@@ -73,6 +81,9 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
         
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(DismissKeyboard))
         view.addGestureRecognizer(tap)
+        
+        
+        
         
 //        gradientBackground()
         
@@ -88,9 +99,13 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
         btnAction.isHidden = false
         saveToCameraRoll.isHidden = true
 //        scanToPayLabel.isHidden = true
+        shareLinkButton.isHidden = true
+        shareLinkButton.isEnabled = false
+        shareLinkButton.imageView?.tintColor = .clear
+        loadingSpinner.isHidden = true
         
         // reset Save to Camera Roll Button
-        saveToCameraRoll.setTitle("Save to Camera Roll", for: .normal)
+        saveToCameraRoll.setTitle("Save", for: .normal)
         Utilities.styleHollowButton(saveToCameraRoll)
         if #available(iOS 13.0, *) {
             saveToCameraRoll.setImage(UIImage(systemName: "square.and.arrow.up"), for: .normal)
@@ -187,6 +202,8 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
             
             saveToCameraRoll.isHidden = false
 //            scanToPayLabel.isHidden = false
+            shareLinkButton.isHidden = false
+            shareLinkButton.isEnabled = false
             
         }
             
@@ -199,9 +216,12 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
             btnAction.isHidden = false
             saveToCameraRoll.isHidden = true
 //            scanToPayLabel.isHidden = true
+            shareLinkButton.isHidden = true
+            shareLinkButton.imageView?.tintColor = .clear
+            loadingSpinner.isHidden = true
             
             // reset Save to Camera Roll Button (currently hidden)
-            saveToCameraRoll.setTitle("Save to Camera Roll", for: .normal)
+            saveToCameraRoll.setTitle("Save", for: .normal)
             Utilities.styleHollowButton(saveToCameraRoll)
             if #available(iOS 13.0, *) {
                 saveToCameraRoll.setImage(UIImage(systemName: "square.and.arrow.up"), for: .normal)
@@ -372,6 +392,9 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
         
         guard let uid = self.uid else { return }
         
+        loadingSpinner.isHidden = false
+        loadingSpinner.startAnimating()
+        
         let storage = Storage.storage()
         let nowString = "\(Date().timeIntervalSince1970)"
         
@@ -384,7 +407,14 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
         // Upload the file
         storageRef.putData(uploadData, metadata: nil) { (metadata, error) in
           
-            // You can also access to download URL after upload.
+            if error != nil {
+                self.loadingSpinner.isHidden = true
+                self.loadingSpinner.stopAnimating()
+                self.shareLinkButton.imageView?.image = UIImage(named: "exclamationmark.triangle")
+                self.shareLinkButton.imageView?.tintColor = UIColor(named: "tealPrimary")
+            }
+            
+            
             storageRef.downloadURL { (url, error) in
                 if let downloadURL = url {
                     self.generateLink(imageURL: downloadURL)
@@ -430,7 +460,9 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
         shareLink.socialMetaTagParameters = DynamicLinkSocialMetaTagParameters()
         shareLink.socialMetaTagParameters?.title = "Pay with Wildfire"
         shareLink.socialMetaTagParameters?.descriptionText = "The easiest and fastest way to pay"
-        shareLink.socialMetaTagParameters?.imageURL = imageURL
+        
+        print("ImageURL is: \(imageURL)")
+        shareLink.socialMetaTagParameters?.imageURL = URL(string: "https://e0.365dm.com/13/10/800x600/John-Terry_3019132.jpg?20140715104717")
         
         shareLink.shorten { (url, warnings, error) in
             if let error = error {
@@ -447,12 +479,25 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
             guard let url = url else { return }
             
             self.shareLink = url
+            
+            self.shareLinkButton.imageView?.tintColor = UIColor(named: "tealPrimary")
+            self.loadingSpinner.isHidden = true
+            self.loadingSpinner.stopAnimating()
             self.shareLinkButton.isEnabled = true
         }
     }
     
+    @IBAction func shareLinkButtonTapped(_ sender: Any) {
+        
+        guard let shareURL = shareLink else { return }
+        
+        showShareMenu(url: shareURL)
+    }
+    
+    
     func showShareMenu(url: URL) {
-        let text = "Pay £\(amountTextField.text) with Wildfire"
+        
+        let text = "Pay £\(amountTextField.text!) with Wildfire"
         let activityVC = UIActivityViewController(activityItems: [text, url], applicationActivities: nil)
         present(activityVC, animated: true)
     }

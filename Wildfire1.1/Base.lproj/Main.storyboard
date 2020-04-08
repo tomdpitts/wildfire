@@ -1158,52 +1158,56 @@
                                 </subviews>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="A35-Wf-zhP">
-                                <rect key="frame" x="30" y="419" width="260" height="50"/>
+                                <rect key="frame" x="45" y="429" width="230" height="60"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eAt-sR-c9T">
-                                        <rect key="frame" x="0.0" y="0.0" width="110" height="50"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eAt-sR-c9T">
+                                        <rect key="frame" x="0.0" y="0.0" width="110" height="60"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="110" id="Lso-K2-KGl"/>
-                                            <constraint firstAttribute="height" constant="50" id="OCS-bc-em0"/>
+                                            <constraint firstAttribute="height" constant="60" id="OCS-bc-em0"/>
                                         </constraints>
                                         <color key="tintColor" red="0.18068996070000001" green="0.76580256219999998" blue="0.78049224620000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <inset key="titleEdgeInsets" minX="15" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                        <state key="normal" title="Save" image="square.and.arrow.down" catalog="system">
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="10" maxY="0.0"/>
+                                        <state key="normal" title="Save" image="photo.on.rectangle" catalog="system">
                                             <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
                                         </state>
                                         <connections>
                                             <action selector="saveToCameraRollTapped:" destination="8rJ-Kc-sve" eventType="touchUpInside" id="URj-EL-ihR"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pkV-WL-wLr">
-                                        <rect key="frame" x="120" y="0.0" width="110" height="50"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pkV-WL-wLr">
+                                        <rect key="frame" x="120" y="0.0" width="110" height="60"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="110" id="MtR-dX-azq"/>
-                                            <constraint firstAttribute="height" constant="50" id="ab6-0P-x5F"/>
+                                            <constraint firstAttribute="height" constant="60" id="ab6-0P-x5F"/>
                                         </constraints>
                                         <color key="tintColor" red="0.18068996070000001" green="0.76580256219999998" blue="0.78049224620000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <inset key="titleEdgeInsets" minX="15" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="10" maxY="0.0"/>
                                         <state key="normal" title="Link" image="square.and.arrow.up" catalog="system">
                                             <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
                                         </state>
                                         <connections>
-                                            <action selector="saveToCameraRollTapped:" destination="8rJ-Kc-sve" eventType="touchUpInside" id="UKW-iw-ouK"/>
+                                            <action selector="shareLinkButtonTapped:" destination="8rJ-Kc-sve" eventType="touchUpInside" id="jNc-CG-mzo"/>
                                         </connections>
                                     </button>
-                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="7SB-qw-TLW">
-                                        <rect key="frame" x="240" y="0.0" width="20" height="50"/>
-                                    </activityIndicatorView>
                                 </subviews>
                             </stackView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="7SB-qw-TLW">
+                                <rect key="frame" x="188" y="450" width="20" height="20"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="A35-Wf-zhP" firstAttribute="centerX" secondItem="QS5-Rx-YEW" secondAttribute="centerX" id="9hP-BH-1Mz"/>
+                            <constraint firstItem="7SB-qw-TLW" firstAttribute="top" secondItem="fzz-fV-Ev3" secondAttribute="bottom" constant="36" id="YoS-4u-q80"/>
                             <constraint firstItem="fzz-fV-Ev3" firstAttribute="centerX" secondItem="QS5-Rx-YEW" secondAttribute="centerX" id="Zng-yn-YcE"/>
                             <constraint firstItem="fzz-fV-Ev3" firstAttribute="top" secondItem="O1u-W8-tvY" secondAttribute="top" id="eQR-ND-LkI"/>
-                            <constraint firstItem="A35-Wf-zhP" firstAttribute="top" secondItem="fzz-fV-Ev3" secondAttribute="bottom" constant="5" id="ja2-Kd-YGS"/>
+                            <constraint firstItem="A35-Wf-zhP" firstAttribute="top" secondItem="fzz-fV-Ev3" secondAttribute="bottom" constant="15" id="ja2-Kd-YGS"/>
                             <constraint firstItem="fzz-fV-Ev3" firstAttribute="leading" secondItem="QS5-Rx-YEW" secondAttribute="leading" constant="30" id="kGf-ag-4Hh"/>
+                            <constraint firstItem="7SB-qw-TLW" firstAttribute="centerX" secondItem="QS5-Rx-YEW" secondAttribute="centerX" constant="38" id="kTM-nI-oM4"/>
                             <constraint firstAttribute="trailing" secondItem="fzz-fV-Ev3" secondAttribute="trailing" constant="30" id="vuG-Z1-RpL"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="O1u-W8-tvY"/>
@@ -1216,7 +1220,9 @@
                         <outlet property="QRCodeImageView" destination="CeM-U1-8D7" id="K7S-jG-KqU"/>
                         <outlet property="amountTextField" destination="lpJ-Ef-bAA" id="F6H-XS-P6K"/>
                         <outlet property="btnAction" destination="q1g-iR-LCA" id="bPl-6m-xTI"/>
+                        <outlet property="loadingSpinner" destination="7SB-qw-TLW" id="EQu-Jk-X2j"/>
                         <outlet property="saveToCameraRoll" destination="eAt-sR-c9T" id="CLL-2s-7IE"/>
+                        <outlet property="shareLinkButton" destination="pkV-WL-wLr" id="s0o-YR-lsM"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4Nw-L8-lE0" sceneMemberID="firstResponder"/>
@@ -5106,8 +5112,8 @@
         <image name="icons8Logo" width="307.5" height="128"/>
         <image name="info.circle" catalog="system" width="128" height="121"/>
         <image name="mangopay-terms" width="802" height="78"/>
+        <image name="photo.on.rectangle" catalog="system" width="128" height="98"/>
         <image name="questionmark.circle" catalog="system" width="128" height="121"/>
-        <image name="square.and.arrow.down" catalog="system" width="121" height="128"/>
         <image name="square.and.arrow.up" catalog="system" width="115" height="128"/>
         <namedColor name="tealPrimary">
             <color red="0.1809999942779541" green="0.76599997282028198" blue="0.77999997138977051" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
