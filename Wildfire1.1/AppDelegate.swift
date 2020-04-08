@@ -12,8 +12,10 @@ import Firebase
 import LocalAuthentication
 import FirebaseAuth
 import FirebaseFunctions
+import FirebaseMessaging
 import SwiftyJSON
 import UserNotifications
+import OpenSans
 //import FBSDKCoreKit
 //import FBSDKLoginKit
 //import FacebookCore
@@ -74,6 +76,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
         redirect()
 //        setupNavigationBarAppearance()
+        
+        
         
         return true
     }
@@ -427,8 +431,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }
     }
     
+//    func setupNavigationBarAppearance() {
+////        UINavigationBar.appearance().tintColor = .black
+////        UINavigationBar.appearance().shadowImage = UIImage.imageFromColor(.black, width: 1.0, height: 1.0)?.resizableImage(withCapInsets: .zero, resizingMode: .tile)
+////        UINavigationBar.appearance().isTranslucent = false
+//
+//        let font:UIFont = UIFont(name: "OpenSans-ExtraboldItalic", size: 40.0)!
+//        let navbarTitleAtt = [
+//            NSAttributedString.Key.font:font,
+//            NSAttributedString.Key.foregroundColor: UIColor.white
+//        ]
+//        UINavigationBar.appearance().titleTextAttributes = navbarTitleAtt
+//    }
+    
 
-    func setupNavigationBarAppearance() {
+    func setupNavigationBarAppesds12331233457865arance() {
 ////        UINavigationBar.appearance().barTintColor = .blue
 ////        UINavigationBar.appearance().tintColor = .white
 ////        UINavigationBar.appearance().isTranslucent = false

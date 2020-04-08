@@ -8,10 +8,16 @@
 
 import UIKit
 import FirebaseAuth
+import FirebaseDynamicLinks
+import FirebaseStorage
 import CryptoSwift
 
 
 class ReceiveViewController: UIViewController, UITextFieldDelegate {
+    
+    var receiveAmount: String?
+    let uid = Auth.auth().currentUser?.uid
+    let currency = "GBP"
     
     // TODO prevent users from generating QR codes when no account (and crucially, no MangoPay wallet) exists yet
     // TODO in future, would be nice to add functionality to handle pending payments, so users can receive payments quickly upon first download, and add account info after the fact
@@ -69,6 +75,8 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
         view.addGestureRecognizer(tap)
         
 //        gradientBackground()
+        
+        addRect()
         
     }
     
@@ -212,9 +220,14 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
             """
         
         if let receiveAmount = amountTextField.text {
+            
             if let float = Float(receiveAmount) {
                 
                 let receiveAmountCents = float*100
+                
+                // update class variable with amount in cents, so it can be included in dynamic link
+                self.receiveAmount = String(receiveAmountCents)
+                
                 let receiveAmount7 = Int(receiveAmountCents*7)
                 receiveAmountString = String(receiveAmount7)
             }
@@ -256,6 +269,8 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
         let overlayWildfireLogo = mergeImage(bottomImage: overlayQR, topImage: logo, scalePercentage: 23)
         
         QRCodeImageView.image = overlayWildfireLogo
+        
+        self.uploadQR(QR: overlayWildfireLogo)
         
         let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .heavy)
         impactFeedbackgenerator.prepare()
@@ -312,6 +327,134 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
         if #available(iOS 13.0, *) {
             saveToCameraRoll.setImage(UIImage(systemName: "checkmark.circle"), for: .normal)
         }
+    }
+    
+    func addRect() {
+
+        // get screen size object.
+        let screenSize: CGRect = UIScreen.main.bounds
+        
+        // get screen width.
+        let screenWidth = screenSize.width
+        
+        // get screen height.
+        let screenHeight = screenSize.height
+        
+        // the rectangle top left point x axis position.
+        let xPos = 0
+        
+        // the rectangle top left point y axis position.
+        let yPos = 55
+        
+        // the rectangle width.
+        let rectWidth = Int(screenWidth) - 2 * xPos
+        
+        // the rectangle height.
+        let rectHeight = 58
+        
+        // Create a CGRect object which is used to render a rectangle.
+        let rectFrame: CGRect = CGRect(x:CGFloat(xPos), y:CGFloat(yPos), width:CGFloat(rectWidth), height:CGFloat(rectHeight))
+        
+        // Create a UIView object which use above CGRect object.
+        let blackView = UIView(frame: rectFrame)
+        
+        // Set UIView background color.
+        blackView.backgroundColor = UIColor.black
+        
+        self.view.addSubview(blackView)
+//
+//        // Add above UIView object as the main view's subview.
+//        self.navigationController?.navigationBar.insertSubview(blackView, at: 0)
+
+    }
+    
+    func uploadQR(QR: UIImage) {
+        
+        guard let uid = self.uid else { return }
+        
+        let storage = Storage.storage()
+        let nowString = "\(Date().timeIntervalSince1970)"
+        
+        // QR codes will be stored in user's folder under "QRCodes", with the current datetime as a filename (to more or less guarantee uniqueness)
+        let storageRef = storage.reference().child("QRCodes/\(uid)/\(nowString)")
+        
+        
+        guard let uploadData = QR.jpegData(compressionQuality: 0.9) else { return }
+
+        // Upload the file
+        storageRef.putData(uploadData, metadata: nil) { (metadata, error) in
+          
+            // You can also access to download URL after upload.
+            storageRef.downloadURL { (url, error) in
+                if let downloadURL = url {
+                    self.generateLink(imageURL: downloadURL)
+                }
+            }
+        }
+    }
+    
+    func generateLink(imageURL: URL) {
+        
+        guard let uid = self.uid else { return }
+        guard let amount = self.receiveAmount else { return }
+        
+        
+        var components = URLComponents()
+        components.scheme = "https"
+        components.host = "www.wildfirewallet.com"
+        
+        let transactionQuery1 = URLQueryItem(name: "userID", value: uid)
+        let transactionQuery2 = URLQueryItem(name: "amount", value: amount)
+        let transactionQuery3 = URLQueryItem(name: "currency", value: self.currency)
+        
+        components.queryItems = [transactionQuery1, transactionQuery2, transactionQuery3]
+        
+        guard let linkParameter = components.url else { return }
+        
+        let dynamicLinksDomainURIPrefix = "https://wildfire.page.link"
+        
+        guard let shareLink = DynamicLinkComponents.init(link: linkParameter, domainURIPrefix: dynamicLinksDomainURIPrefix) else {
+            print("Couldn't create FDL components")
+            return
+        }
+        
+        if let bundleID = Bundle.main.bundleIdentifier {
+            shareLink.iOSParameters = DynamicLinkIOSParameters(bundleID: bundleID)
+        }
+        
+        shareLink.iOSParameters?.appStoreID = "962194608"
+        
+        // for future Android version!
+//        linkBuilder.androidParameters = DynamicLinkAndroidParameters(packageName: "com.example.android")
+        
+        shareLink.socialMetaTagParameters = DynamicLinkSocialMetaTagParameters()
+        shareLink.socialMetaTagParameters?.title = "Pay with Wildfire"
+        shareLink.socialMetaTagParameters?.descriptionText = "The easiest and fastest way to pay"
+        shareLink.socialMetaTagParameters?.imageURL = imageURL
+        
+        shareLink.shorten { (url, warnings, error) in
+            if let error = error {
+                print("Error in url shortener: \(error)")
+                return
+            }
+            
+            if let warnings = warnings {
+                for warning in warnings {
+                    print("FDL Warning: \(warning)")
+                }
+            }
+            
+            guard let url = url else { return }
+            
+            self.shareLink = url
+            self.shareLinkButton.isEnabled = true
+        }
+    }
+    
+    func showShareMenu(url: URL) {
+        let text = "Pay £\(amountTextField.text) with Wildfire"
+        let activityVC = UIActivityViewController(activityItems: [text, url], applicationActivities: nil)
+        present(activityVC, animated: true)
     }
     
     @objc func DismissKeyboard(){

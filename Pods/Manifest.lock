@@ -183,6 +183,9 @@ PODS:
   - Firebase/Database (6.21.0):
     - Firebase/CoreOnly
     - FirebaseDatabase (~> 6.1.4)
+  - Firebase/DynamicLinks (6.21.0):
+    - Firebase/CoreOnly
+    - FirebaseDynamicLinks (~> 4.0.8)
   - Firebase/Firestore (6.21.0):
     - Firebase/CoreOnly
     - FirebaseFirestore (~> 1.11.2)
@@ -228,6 +231,9 @@ PODS:
     - FirebaseAuthInterop (~> 1.0)
     - FirebaseCore (~> 6.0)
     - leveldb-library (~> 1.22)
+  - FirebaseDynamicLinks (4.0.8):
+    - FirebaseAnalyticsInterop (~> 1.3)
+    - FirebaseCore (~> 6.2)
   - FirebaseFirestore (1.11.2):
     - abseil/algorithm (= 0.20190808)
     - abseil/base (= 0.20190808)
@@ -326,6 +332,7 @@ PODS:
     - nanopb/encode (= 0.3.9011)
   - nanopb/decode (0.3.9011)
   - nanopb/encode (0.3.9011)
+  - OpenSans (1.0.3)
   - ParticlesLoadingView (0.5)
   - PromisesObjC (1.2.8)
   - Protobuf (3.11.4)
@@ -344,6 +351,7 @@ DEPENDENCIES:
   - Firebase/Auth
   - Firebase/Core
   - Firebase/Database
+  - Firebase/DynamicLinks
   - Firebase/Firestore
   - Firebase/Functions
   - Firebase/Messaging
@@ -352,6 +360,7 @@ DEPENDENCIES:
   - Kingfisher
   - libPhoneNumber-iOS
   - mangopay
+  - OpenSans
   - ParticlesLoadingView
   - SwiftyJSON
 
@@ -372,6 +381,7 @@ SPEC REPOS:
     - FirebaseCoreDiagnostics
     - FirebaseCoreDiagnosticsInterop
     - FirebaseDatabase
+    - FirebaseDynamicLinks
     - FirebaseFirestore
     - FirebaseFunctions
     - FirebaseInstallations
@@ -391,6 +401,7 @@ SPEC REPOS:
     - libPhoneNumber-iOS
     - mangopay
     - nanopb
+    - OpenSans
     - ParticlesLoadingView
     - PromisesObjC
     - Protobuf
@@ -414,6 +425,7 @@ SPEC CHECKSUMS:
   FirebaseCoreDiagnostics: e9b4cd8ba60dee0f2d13347332e4b7898cca5b61
   FirebaseCoreDiagnosticsInterop: 296e2c5f5314500a850ad0b83e9e7c10b011a850
   FirebaseDatabase: 0144e0706a4761f1b0e8679572eba8095ddb59be
+  FirebaseDynamicLinks: 417dc6dbb6013233c77558290d73296f429656a6
   FirebaseFirestore: 71925e62a5d1cbfaff46aa4d5107e525cc48356a
   FirebaseFunctions: 5af7c35d1c5e41608fecbb667eb6c4e672e318d0
   FirebaseInstallations: acb3216eb9784d3b1d2d2d635ff74fa892cc0c44
@@ -433,6 +445,7 @@ SPEC CHECKSUMS:
   libPhoneNumber-iOS: 0a32a9525cf8744fe02c5206eb30d571e38f7d75
   mangopay: c8005077cfd2b6813b99d52a4cd78238eb1082e7
   nanopb: 18003b5e52dab79db540fe93fe9579f399bd1ccd
+  OpenSans: 33078846463eae780aa5f82986b51cce085f970d
   ParticlesLoadingView: 48704281aa7381d7c8c55cbe632f30bbc8d12604
   PromisesObjC: c119f3cd559f50b7ae681fa59dc1acd19173b7e6
   Protobuf: 176220c526ad8bd09ab1fb40a978eac3fef665f7
@@ -440,6 +453,6 @@ SPEC CHECKSUMS:
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
   SwiftyJSON: 36413e04c44ee145039d332b4f4e2d3e8d6c4db7
 
-PODFILE CHECKSUM: 799becf21424672e6aca0800dbca4203b6c10b56
+PODFILE CHECKSUM: d9e45d6e4a23928be53c86428d61561ad8687367
 
 COCOAPODS: 1.9.1

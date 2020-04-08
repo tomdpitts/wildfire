@@ -17,6 +17,7 @@ target 'Wildfire1.1' do
   pod 'Firebase/Storage'
   pod 'FirebaseUI/Storage'
   pod 'Firebase/Messaging'
+  pod 'Firebase/DynamicLinks'
   pod 'mangopay'
   pod 'CryptoSwift'
   pod 'Alamofire'
@@ -28,6 +29,7 @@ target 'Wildfire1.1' do
   pod 'Kingfisher'
   pod 'libPhoneNumber-iOS'
   pod 'BATabBarController'
+  pod 'OpenSans'
 
   target 'Wildfire1.1Tests' do
     inherit! :search_paths
