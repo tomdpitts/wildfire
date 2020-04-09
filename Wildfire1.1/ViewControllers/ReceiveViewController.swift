@@ -399,7 +399,7 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
         let nowString = "\(Date().timeIntervalSince1970)"
         
         // QR codes will be stored in user's folder under "QRCodes", with the current datetime as a filename (to more or less guarantee uniqueness)
-        let storageRef = storage.reference().child("QRCodes/\(uid)/\(nowString)")
+        let storageRef = storage.reference().child("QRCodes/\(uid)/\(nowString).jpg")
         
         
         guard let uploadData = QR.jpegData(compressionQuality: 0.9) else { return }
@@ -432,6 +432,7 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
         var components = URLComponents()
         components.scheme = "https"
         components.host = "www.wildfirewallet.com"
+        components.path = "/imglink"
         
         let transactionQuery1 = URLQueryItem(name: "userID", value: uid)
         let transactionQuery2 = URLQueryItem(name: "amount", value: amount)
@@ -461,8 +462,8 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
         shareLink.socialMetaTagParameters?.title = "Pay with Wildfire"
         shareLink.socialMetaTagParameters?.descriptionText = "The easiest and fastest way to pay"
         
-        print("ImageURL is: \(imageURL)")
-        shareLink.socialMetaTagParameters?.imageURL = URL(string: "https://e0.365dm.com/13/10/800x600/John-Terry_3019132.jpg?20140715104717")
+        print("ImageURL is: \(imageURL.absoluteString)")
+        shareLink.socialMetaTagParameters?.imageURL = imageURL
         
         shareLink.shorten { (url, warnings, error) in
             if let error = error {
@@ -497,7 +498,7 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
     
     func showShareMenu(url: URL) {
         
-        let text = "Pay £\(amountTextField.text!) with Wildfire"
+        let text = "Please send me £\(amountTextField.text!) with Wildfire (:"
         let activityVC = UIActivityViewController(activityItems: [text, url], applicationActivities: nil)
         present(activityVC, animated: true)
     }
