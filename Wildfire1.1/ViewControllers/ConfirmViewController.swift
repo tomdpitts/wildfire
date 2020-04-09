@@ -26,6 +26,8 @@ class ConfirmViewController: UIViewController {
     var decryptedString = ""
     var sendAmount = 0
     
+    var currency: String?
+    
     var topupAmount: Int?
 
     var recipientUID = ""
@@ -125,8 +127,6 @@ class ConfirmViewController: UIViewController {
                 
                 let recipientFirstname = userData?["firstname"] as! String
                 let recipientLastname = userData?["lastname"] as! String
-            
-                
                 
                 self.recipientLabel.text = "to \(recipientFirstname) \(recipientLastname)"
                 

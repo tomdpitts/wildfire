@@ -13,6 +13,7 @@ import LocalAuthentication
 import FirebaseAuth
 import FirebaseFunctions
 import FirebaseMessaging
+import FirebaseDynamicLinks
 import SwiftyJSON
 import UserNotifications
 import OpenSans
@@ -134,7 +135,105 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 //    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
 //      print("Failed to register: \(error)")
 //    }
+    
+    // func to deal with Universal Links
+    func application(_ application: UIApplication, continue userActivity: NSUserActivity,
+                     restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
+        if let incomingURL = userActivity.webpageURL {
+            print("Incoming URL is: \(incomingURL)")
+            let linkHandled = DynamicLinks.dynamicLinks().handleUniversalLink(userActivity.webpageURL!) { (dynamiclink, error) in
+                guard error == nil else {
+                    print("found an error!: \(error)")
+                    return
+                }
+                if let dynamicLink = dynamiclink {
+                    self.handleIncomingDynamicLink(dynamicLink)
+                }
+            }
+        
+        
+            return linkHandled
+        }
+        return false
+    }
+    
+    // for backwards compatibility
+    @available(iOS 9.0, *)
+    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any]) -> Bool {
+        return application(app, open: url,
+                         sourceApplication: options[UIApplication.OpenURLOptionsKey.sourceApplication] as? String,
+                         annotation: "")
+    }
 
+    // func to deal with custom scheme URL - should only be relevant the first time a user installs and opens the app
+    func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
+        
+        print("Received  URL through a custom scheme!: \(url.absoluteString)")
+        if let dynamicLink = DynamicLinks.dynamicLinks().dynamicLink(fromCustomSchemeURL: url) {
+
+            self.handleIncomingDynamicLink(dynamicLink)
+            return true
+        } else {
+            return false
+        }
+    }
+    
+    
+    func handleIncomingDynamicLink(_ dynamicLink: DynamicLink) {
+        guard let url = dynamicLink.url else {
+            print("DynamicLink object has no url")
+            return
+        }
+        print("Incoming link parameter is: \(url)")
+        guard let components = URLComponents(url: url, resolvingAgainstBaseURL: false), let queryItems = components.queryItems else { return }
+        
+        var recipientID: String?
+        var amount: String?
+        var currency: String?
+        
+        for queryItem in queryItems {
+            
+            let name = queryItem.name
+            
+            if name == "userID" {
+                recipientID = queryItem.value
+            } else if name == "amount" {
+                amount = queryItem.value
+            } else if name == "currency" {
+                currency = queryItem.value
+            }
+        }
+        
+        
+        
+        if let recipientID = recipientID, let amount = amount, let currency = currency {
+            
+            guard let amountInt = Int(amount) else { return }
+            
+            let currentUserID = Auth.auth().currentUser?.uid
+            
+//            if recipientID == currentUserID {
+//                // user is trying to pay themselves? Put a stop to it
+//                return
+//            } else {
+                if let controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "confirmVC") as? ConfirmViewController {
+                    if let window = self.window, let rootViewController = window.rootViewController {
+                        
+                        var currentController = rootViewController
+                        while let presentedController = currentController.presentedViewController {
+                            currentController = presentedController
+                        }
+                        
+                        controller.recipientUID = recipientID
+                        controller.sendAmount = amountInt
+                        controller.currency = currency
+                        
+                        currentController.present(controller, animated: true, completion: nil)
+                    }
+                }
+//            }
+        }
+    }
     
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String) {
 
