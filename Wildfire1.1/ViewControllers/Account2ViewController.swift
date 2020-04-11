@@ -61,8 +61,6 @@ class Account2ViewController: UITableViewController {
         }
         
 //        gradientBackground()
-        
-        
     }
     
     // this exists only for the case where user has just completed sign up flow, and we want to refresh the account view. Without this code, user still only sees the 'set up account' tableview cell. In all other cases, justCompletedSignUp is false

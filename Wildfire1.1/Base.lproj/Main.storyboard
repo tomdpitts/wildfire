@@ -8,8 +8,13 @@
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <array key="OpenSans-ExtraBoldItalic.ttf">
+            <string>OpenSans-ExtraBoldItalic</string>
+        </array>
+    </customFonts>
     <scenes>
-        <!--Pay-->
+        <!--PAY-->
         <scene sceneID="hNz-n2-bh7">
             <objects>
                 <viewController storyboardIdentifier="payVC" id="9pv-A4-QxB" customClass="PayViewController" customModule="Wildfire1_1" customModuleProvider="target" sceneMemberID="viewController">
@@ -66,7 +71,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="PQr-Ze-W5v"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Pay" largeTitleDisplayMode="always" id="URu-ud-ZrU"/>
+                    <navigationItem key="navigationItem" title="PAY" largeTitleDisplayMode="always" id="URu-ud-ZrU"/>
                     <connections>
                         <outlet property="scanButton" destination="HgW-XE-C0H" id="RAj-vu-T9X"/>
                         <outlet property="sendButton" destination="oEZ-Et-K1S" id="SDu-a8-b3r"/>
@@ -77,7 +82,7 @@
             </objects>
             <point key="canvasLocation" x="4591.875" y="-322.18309859154931"/>
         </scene>
-        <!--Recipient-->
+        <!--RECIPIENT-->
         <scene sceneID="K5Q-Df-OvN">
             <objects>
                 <viewController storyboardIdentifier="Send2ViewController" id="fvB-Qo-B7V" customClass="Send2ViewController" customModule="Wildfire1_1" customModuleProvider="target" sceneMemberID="viewController">
@@ -86,7 +91,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="kEy-45-XPW">
-                                <rect key="frame" x="33" y="96" width="254" height="394.5"/>
+                                <rect key="frame" x="33" y="101.5" width="254" height="394.5"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Logo200px" translatesAutoresizingMaskIntoConstraints="NO" id="usm-XL-8q6">
                                         <rect key="frame" x="89.5" y="0.0" width="75" height="75"/>
@@ -178,7 +183,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="d8M-zN-Egg"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Recipient" id="oPk-PI-QX8"/>
+                    <navigationItem key="navigationItem" title="RECIPIENT" id="oPk-PI-QX8"/>
                     <connections>
                         <outlet property="amountStack" destination="quu-cW-C4i" id="7f5-w7-bvb"/>
                         <outlet property="amountTextField" destination="nm4-lS-reI" id="xY0-TO-QGq"/>
@@ -198,7 +203,7 @@
             </objects>
             <point key="canvasLocation" x="5238.75" y="-1118.661971830986"/>
         </scene>
-        <!--Scan-->
+        <!--SCAN-->
         <scene sceneID="Iz4-9B-8sl">
             <objects>
                 <viewController id="tRh-0n-OZd" customClass="ScanViewController" customModule="Wildfire1_1" customModuleProvider="target" sceneMemberID="viewController">
@@ -225,7 +230,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Fjo-xd-1iX"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Scan" largeTitleDisplayMode="always" id="usc-EW-Dqk"/>
+                    <navigationItem key="navigationItem" title="SCAN" largeTitleDisplayMode="always" id="usc-EW-Dqk"/>
                     <connections>
                         <outlet property="cancelButton" destination="qN5-IV-UUH" id="mww-W4-1iX"/>
                         <outlet property="topbar" destination="Thm-Rv-SEt" id="pq6-S1-Avo"/>
@@ -236,7 +241,7 @@
             </objects>
             <point key="canvasLocation" x="6339.375" y="-323.23943661971833"/>
         </scene>
-        <!--Confirm-->
+        <!--CONFIRM-->
         <scene sceneID="gMC-g3-Tb8">
             <objects>
                 <viewController storyboardIdentifier="confirmVC" id="pFC-XD-G7v" customClass="ConfirmViewController" customModule="Wildfire1_1" customModuleProvider="target" sceneMemberID="viewController">
@@ -245,7 +250,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="vaQ-Le-1R0">
-                                <rect key="frame" x="20" y="94" width="280" height="413"/>
+                                <rect key="frame" x="20" y="97" width="280" height="413"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="hlp-hq-nWQ" userLabel="Titles Stack View">
                                         <rect key="frame" x="64" y="0.0" width="152" height="106"/>
@@ -324,7 +329,7 @@
                                 </constraints>
                             </stackView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="mangopay-terms" translatesAutoresizingMaskIntoConstraints="NO" id="Uza-ty-IdX">
-                                <rect key="frame" x="30" y="507" width="260" height="40"/>
+                                <rect key="frame" x="30" y="510" width="260" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="jdT-EN-u0k"/>
                                     <constraint firstAttribute="width" constant="260" id="uQq-pg-Yz5"/>
@@ -341,7 +346,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Ai1-2c-1Je"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Confirm" id="V9E-3V-Ljn"/>
+                    <navigationItem key="navigationItem" title="CONFIRM" id="V9E-3V-Ljn"/>
                     <connections>
                         <outlet property="amountLabel" destination="eWw-V4-7Xy" id="knY-uj-6eh"/>
                         <outlet property="backButton" destination="QSV-2X-2nW" id="Ugd-Re-sW0"/>
@@ -383,7 +388,7 @@
                             <outlet property="delegate" destination="u43-ox-leC" id="vwv-lM-OYO"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Send" id="338-OX-4bA"/>
+                    <navigationItem key="navigationItem" title="SEND" id="338-OX-4bA"/>
                     <connections>
                         <segue destination="fvB-Qo-B7V" kind="show" identifier="goToSend2" id="0Ax-ni-7Uh"/>
                     </connections>
@@ -401,7 +406,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="vcM-1e-JXC">
-                                <rect key="frame" x="80.5" y="206" width="159.5" height="51"/>
+                                <rect key="frame" x="80.5" y="211.5" width="159.5" height="51"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="VwJ-kh-bce">
                                         <rect key="frame" x="0.0" y="0.0" width="159.5" height="20.5"/>
@@ -440,7 +445,7 @@
                                 </subviews>
                             </stackView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rAb-Qn-37J">
-                                <rect key="frame" x="80.5" y="297" width="159.5" height="51"/>
+                                <rect key="frame" x="80.5" y="302.5" width="159.5" height="51"/>
                                 <state key="normal" title="Delete Card">
                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
@@ -449,7 +454,7 @@
                                 </connections>
                             </button>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icons8-mastercard-credit-card-100" translatesAutoresizingMaskIntoConstraints="NO" id="0mM-si-8c8">
-                                <rect key="frame" x="122.5" y="111" width="75" height="75"/>
+                                <rect key="frame" x="122.5" y="116.5" width="75" height="75"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="75" id="5fM-Ke-kQ8"/>
                                     <constraint firstAttribute="width" secondItem="0mM-si-8c8" secondAttribute="height" multiplier="1:1" id="ndg-oV-w4s"/>
@@ -491,7 +496,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="aZX-ja-yDP">
-                                <rect key="frame" x="20" y="142.5" width="280" height="325.5"/>
+                                <rect key="frame" x="20" y="145" width="280" height="325.5"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icons8-mastercard-credit-card-100" translatesAutoresizingMaskIntoConstraints="NO" id="8O0-25-11a">
                                         <rect key="frame" x="102.5" y="0.0" width="75" height="75"/>
@@ -548,7 +553,7 @@
             </objects>
             <point key="canvasLocation" x="4517" y="4151"/>
         </scene>
-        <!--Add Card-->
+        <!--ADD CARD-->
         <scene sceneID="VCM-by-oi1">
             <objects>
                 <viewController id="lOX-0Y-FSB" customClass="AddCardViewController" customModule="Wildfire1_1" customModuleProvider="target" sceneMemberID="viewController">
@@ -557,7 +562,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="CkK-RD-EqY">
-                                <rect key="frame" x="20" y="123" width="280" height="230.5"/>
+                                <rect key="frame" x="20" y="128.5" width="280" height="230.5"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="4972485830400049" borderStyle="roundedRect" placeholder="16 digit Card Number" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="wPz-vK-2Zs" userLabel="Card Number">
                                         <rect key="frame" x="0.0" y="0.0" width="280" height="50"/>
@@ -609,7 +614,7 @@
                                 </constraints>
                             </stackView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LaQ-x4-5JO">
-                                <rect key="frame" x="60" y="403.5" width="200" height="50"/>
+                                <rect key="frame" x="60" y="409" width="200" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="200" id="jOX-JA-qIc"/>
                                     <constraint firstAttribute="height" constant="50" id="nXg-0Z-IkC"/>
@@ -630,7 +635,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="xwW-7g-PKd"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Add Card" id="R7G-7H-ymH"/>
+                    <navigationItem key="navigationItem" title="ADD CARD" id="R7G-7H-ymH"/>
                     <connections>
                         <outlet property="cardNumberField" destination="wPz-vK-2Zs" id="XYe-I2-DHo"/>
                         <outlet property="csvField" destination="1mW-cA-FA9" id="8es-cS-fbD"/>
@@ -646,7 +651,7 @@
             </objects>
             <point key="canvasLocation" x="3902" y="3379"/>
         </scene>
-        <!--Billing Address-->
+        <!--BILLING ADDRESS-->
         <scene sceneID="u8b-hz-1MH">
             <objects>
                 <tableViewController id="daH-g4-ejv" customClass="AddCard2TableViewController" customModule="Wildfire1_1" customModuleProvider="target" sceneMemberID="viewController">
@@ -1012,7 +1017,7 @@
                             <outlet property="delegate" destination="daH-g4-ejv" id="ZFZ-Wa-Eww"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Billing Address" id="73a-Hy-fXl"/>
+                    <navigationItem key="navigationItem" title="BILLING ADDRESS" id="73a-Hy-fXl"/>
                     <connections>
                         <outlet property="cityTextField" destination="Rgp-Io-isB" id="HJp-9I-wZG"/>
                         <outlet property="countryTextField" destination="RJu-ts-4yn" id="lw3-Ga-jSk"/>
@@ -1029,7 +1034,7 @@
             </objects>
             <point key="canvasLocation" x="4729" y="3378"/>
         </scene>
-        <!--Card Added-->
+        <!--CARD ADDED-->
         <scene sceneID="hgb-te-8cD">
             <objects>
                 <viewController id="C4f-WC-KXH" customClass="AddCardSuccessViewController" customModule="Wildfire1_1" customModuleProvider="target" sceneMemberID="viewController">
@@ -1038,7 +1043,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="Crn-8f-BAR">
-                                <rect key="frame" x="20" y="152.5" width="280" height="346.5"/>
+                                <rect key="frame" x="20" y="155" width="280" height="346.5"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icons8-ok-480" translatesAutoresizingMaskIntoConstraints="NO" id="We2-ai-gvS">
                                         <rect key="frame" x="65" y="0.0" width="150" height="150"/>
@@ -1085,7 +1090,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="fQU-xQ-SSX"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Card Added" id="lt4-yb-caT"/>
+                    <navigationItem key="navigationItem" title="CARD ADDED" id="lt4-yb-caT"/>
                     <connections>
                         <outlet property="doneButton" destination="Cdd-LV-sxI" id="v5Z-Q4-NtC"/>
                         <segue destination="K3E-ll-1zi" kind="unwind" identifier="unwindToPrevious" unwindAction="unwindToPrevious:" id="nv4-Wj-bUK"/>
@@ -1096,7 +1101,7 @@
             </objects>
             <point key="canvasLocation" x="5609" y="3379"/>
         </scene>
-        <!--Receive-->
+        <!--RECEIVE-->
         <scene sceneID="wg7-f3-ORb">
             <objects>
                 <viewController id="8rJ-Kc-sve" customClass="ReceiveViewController" customModule="Wildfire1_1" customModuleProvider="target" sceneMemberID="viewController">
@@ -1105,7 +1110,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="fzz-fV-Ev3">
-                                <rect key="frame" x="30" y="91" width="260" height="321.5"/>
+                                <rect key="frame" x="30" y="96.5" width="260" height="321.5"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleAspectFill" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="p5q-f4-c0n">
                                         <rect key="frame" x="36.5" y="0.0" width="187.5" height="61.5"/>
@@ -1158,7 +1163,7 @@
                                 </subviews>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="A35-Wf-zhP">
-                                <rect key="frame" x="45" y="427.5" width="230" height="60"/>
+                                <rect key="frame" x="45" y="433" width="230" height="60"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eAt-sR-c9T">
                                         <rect key="frame" x="0.0" y="0.0" width="110" height="60"/>
@@ -1195,7 +1200,7 @@
                                 </subviews>
                             </stackView>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="7SB-qw-TLW">
-                                <rect key="frame" x="188" y="448.5" width="20" height="20"/>
+                                <rect key="frame" x="188" y="454" width="20" height="20"/>
                             </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -1215,7 +1220,7 @@
                             <outletCollection property="gestureRecognizers" destination="wCe-d0-Te8" appends="YES" id="Cko-od-YNy"/>
                         </connections>
                     </view>
-                    <navigationItem key="navigationItem" title="Receive" largeTitleDisplayMode="always" id="y0I-xN-K2P"/>
+                    <navigationItem key="navigationItem" title="RECEIVE" largeTitleDisplayMode="always" id="y0I-xN-K2P"/>
                     <connections>
                         <outlet property="QRCodeImageView" destination="CeM-U1-8D7" id="K7S-jG-KqU"/>
                         <outlet property="amountTextField" destination="lpJ-Ef-bAA" id="F6H-XS-P6K"/>
@@ -1234,7 +1239,7 @@
             </objects>
             <point key="canvasLocation" x="4586.25" y="398.23943661971833"/>
         </scene>
-        <!--Bank Account-->
+        <!--BANK ACCOUNT-->
         <scene sceneID="upb-Xg-j4F">
             <objects>
                 <tableViewController id="VYa-hN-JH5" customClass="BankDetails1TableViewController" customModule="Wildfire1_1" customModuleProvider="target" sceneMemberID="viewController">
@@ -1452,7 +1457,7 @@
                             <outlet property="delegate" destination="VYa-hN-JH5" id="WMH-b1-dbP"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Bank Account" id="IrK-6X-FGI"/>
+                    <navigationItem key="navigationItem" title="BANK ACCOUNT" id="IrK-6X-FGI"/>
                     <connections>
                         <outlet property="accountField" destination="gU9-L9-XYC" id="8VR-U4-ebj"/>
                         <outlet property="errorLabel" destination="b2m-Ht-3sa" id="dTr-UO-qFj"/>
@@ -1466,7 +1471,7 @@
             </objects>
             <point key="canvasLocation" x="6480" y="399.29577464788736"/>
         </scene>
-        <!--Edit Profile-->
+        <!--EDIT-->
         <scene sceneID="Uvu-bF-4C4">
             <objects>
                 <tableViewController id="qbd-6u-1CC" customClass="EditProfileTableViewController" customModule="Wildfire1_1" customModuleProvider="target" sceneMemberID="viewController">
@@ -1622,7 +1627,7 @@
                             <outlet property="delegate" destination="qbd-6u-1CC" id="sQu-UK-W9Z"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Edit Profile" id="InW-2r-yVo">
+                    <navigationItem key="navigationItem" title="EDIT" id="InW-2r-yVo">
                         <barButtonItem key="rightBarButtonItem" title="Save" id="BGb-Gl-t2I">
                             <connections>
                                 <action selector="saveTapped:" destination="qbd-6u-1CC" id="YoC-aJ-sSC"/>
@@ -1643,7 +1648,7 @@
             </objects>
             <point key="canvasLocation" x="3589" y="1843"/>
         </scene>
-        <!--Pending Verification-->
+        <!--PENDING-->
         <scene sceneID="N7I-5B-09i">
             <objects>
                 <viewController id="3fx-NT-pZ7" customClass="ButtonStyleViewController" customModule="Wildfire1_1" customModuleProvider="target" sceneMemberID="viewController">
@@ -1652,7 +1657,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="gZW-bE-B5h">
-                                <rect key="frame" x="20" y="111" width="280" height="346"/>
+                                <rect key="frame" x="20" y="116.5" width="280" height="335"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icons8-order-history-100.png" translatesAutoresizingMaskIntoConstraints="NO" id="TC8-XL-STL">
                                         <rect key="frame" x="102.5" y="0.0" width="75" height="75"/>
@@ -1662,7 +1667,7 @@
                                         </constraints>
                                     </imageView>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bdk-yy-Y52">
-                                        <rect key="frame" x="11" y="95" width="258" height="181"/>
+                                        <rect key="frame" x="11" y="95" width="258" height="170"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                         <string key="text">Apologies - your ID still needs to be verified. This is a regulatory requirement and helps keep your money safe.  This should be done in 2 business days, max. You'll be notified the moment it's ready.</string>
                                         <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -1670,7 +1675,7 @@
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                     </textView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9nF-Pa-pH4">
-                                        <rect key="frame" x="30" y="296" width="220" height="50"/>
+                                        <rect key="frame" x="30" y="285" width="220" height="50"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="L8a-I6-uwu"/>
                                             <constraint firstAttribute="width" constant="220" id="rbx-BC-Jlw"/>
@@ -1693,7 +1698,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="30v-RT-7fm"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Pending Verification" largeTitleDisplayMode="always" id="jwy-hf-Q8D"/>
+                    <navigationItem key="navigationItem" title="PENDING" largeTitleDisplayMode="always" id="jwy-hf-Q8D"/>
                     <connections>
                         <outlet property="alrightButton" destination="9nF-Pa-pH4" id="9xC-qg-qVU"/>
                     </connections>
@@ -1703,7 +1708,7 @@
             </objects>
             <point key="canvasLocation" x="6244" y="2602"/>
         </scene>
-        <!--About me-->
+        <!--ABOUT ME-->
         <scene sceneID="Cm3-f6-zwv">
             <objects>
                 <viewController id="ng8-iT-cq6" customClass="SignUpViewController" customModule="Wildfire1_1" customModuleProvider="target" sceneMemberID="viewController">
@@ -1712,7 +1717,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="Pxa-BL-KYV">
-                                <rect key="frame" x="20" y="123" width="280" height="382.5"/>
+                                <rect key="frame" x="20" y="128.5" width="280" height="382.5"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="First Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="b0b-U5-UJ3">
                                         <rect key="frame" x="0.0" y="0.0" width="280" height="50"/>
@@ -1782,7 +1787,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="8hO-Bu-Snp"/>
                     </view>
-                    <navigationItem key="navigationItem" title="About me" id="E9D-eO-ib6"/>
+                    <navigationItem key="navigationItem" title="ABOUT ME" id="E9D-eO-ib6"/>
                     <connections>
                         <outlet property="email" destination="Wu8-Dy-78Y" id="xVU-U7-3bx"/>
                         <outlet property="errorLabel" destination="Gjj-NR-EwL" id="iMv-dD-kGa"/>
@@ -1807,7 +1812,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="Gvj-1l-d7B">
-                                <rect key="frame" x="20" y="123" width="280" height="364.5"/>
+                                <rect key="frame" x="20" y="128.5" width="280" height="364.5"/>
                                 <subviews>
                                     <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" translatesAutoresizingMaskIntoConstraints="NO" id="nXz-78-P4r">
                                         <rect key="frame" x="0.0" y="0.0" width="280" height="216"/>
@@ -1869,7 +1874,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="CnM-Cy-2rS">
-                                <rect key="frame" x="20" y="123" width="280" height="322.5"/>
+                                <rect key="frame" x="20" y="128.5" width="280" height="322.5"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Nationality" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UlA-sd-6aT">
                                         <rect key="frame" x="0.0" y="0.0" width="280" height="17"/>
@@ -1999,7 +2004,7 @@
             </objects>
             <point key="canvasLocation" x="2900.625" y="0.0"/>
         </scene>
-        <!--Profile Picture-->
+        <!--PICTURE-->
         <scene sceneID="8uR-gI-71x">
             <objects>
                 <viewController storyboardIdentifier="profilePicVC" id="7Vm-q6-s2U" customClass="ProfilePicViewController" customModule="Wildfire1_1" customModuleProvider="target" sceneMemberID="viewController">
@@ -2035,7 +2040,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="N68-0E-283"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Profile Picture" id="TR7-Sk-wCP">
+                    <navigationItem key="navigationItem" title="PICTURE" id="TR7-Sk-wCP">
                         <barButtonItem key="rightBarButtonItem" style="plain" id="xMs-ya-GfM">
                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="73u-NB-3uI">
                                 <rect key="frame" x="274" y="7" width="30" height="30"/>
@@ -2350,7 +2355,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="xft-vP-HO0">
-                                <rect key="frame" x="10" y="101" width="300" height="290.5"/>
+                                <rect key="frame" x="10" y="106.5" width="300" height="290.5"/>
                                 <subviews>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" verticalHuggingPriority="249" scrollEnabled="NO" editable="NO" text="Wildfire is a product of Wildfire Wallet Ltd. Wildfire Wallet Ltd is registered in the United Kingdom, company number: 06123738" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aUx-Q9-cm4" userLabel="Text - wildfire">
                                         <rect key="frame" x="0.0" y="0.0" width="300" height="66.5"/>
@@ -2389,7 +2394,7 @@
                                 </constraints>
                             </stackView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icons8Logo" translatesAutoresizingMaskIntoConstraints="NO" id="ts9-dC-Otk">
-                                <rect key="frame" x="60" y="401.5" width="200" height="80"/>
+                                <rect key="frame" x="60" y="407" width="200" height="80"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="ts9-dC-Otk" secondAttribute="height" multiplier="10:4" id="tuX-5I-msQ"/>
                                     <constraint firstAttribute="width" constant="200" id="vmr-tS-uO3"/>
@@ -2412,7 +2417,7 @@
             </objects>
             <point key="canvasLocation" x="2119.1999999999998" y="1931.7841079460272"/>
         </scene>
-        <!--Receipts-->
+        <!--RECEIPTS-->
         <scene sceneID="jwe-5L-gRO">
             <objects>
                 <tableViewController definesPresentationContext="YES" providesPresentationContextTransitionStyle="YES" id="hRv-xs-Og9" customClass="ReceiptsViewController" customModule="Wildfire1_1" customModuleProvider="target" sceneMemberID="viewController">
@@ -2455,7 +2460,7 @@
                             <outlet property="delegate" destination="hRv-xs-Og9" id="qTR-HR-xin"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Receipts" id="Vav-hZ-JT3"/>
+                    <navigationItem key="navigationItem" title="RECEIPTS" id="Vav-hZ-JT3"/>
                     <refreshControl key="refreshControl" opaque="NO" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="zat-Gb-EdD">
                         <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -2478,7 +2483,7 @@
             </objects>
             <point key="canvasLocation" x="2901" y="2520"/>
         </scene>
-        <!--Payment Method-->
+        <!--PAYMENT METHOD-->
         <scene sceneID="rrl-83-a8R">
             <objects>
                 <tableViewController id="Cy9-Yl-4jQ" customClass="PaymentMethodsViewController" customModule="Wildfire1_1" customModuleProvider="target" sceneMemberID="viewController">
@@ -2501,7 +2506,7 @@
                             <outlet property="delegate" destination="Cy9-Yl-4jQ" id="sEZ-My-5fZ"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Payment Method" id="3SY-5E-Xsm">
+                    <navigationItem key="navigationItem" title="PAYMENT METHOD" id="3SY-5E-Xsm">
                         <barButtonItem key="rightBarButtonItem" title="Add Card" id="mLI-va-q7L">
                             <connections>
                                 <action selector="addCardPressed:" destination="Cy9-Yl-4jQ" id="AOF-En-8dN"/>
@@ -2658,9 +2663,9 @@
                                     <constraint firstAttribute="trailingMargin" secondItem="OxD-sM-hrA" secondAttribute="trailing" id="RjV-ZF-PX6"/>
                                 </constraints>
                             </stackView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Receipt" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="86k-nw-Pag">
-                                <rect key="frame" x="20" y="40" width="121" height="41"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="34"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="RECEIPT" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="86k-nw-Pag">
+                                <rect key="frame" x="20" y="40" width="134" height="46.5"/>
+                                <fontDescription key="fontDescription" name="OpenSans-ExtraBoldItalic" family="Open Sans" pointSize="34"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -2777,7 +2782,7 @@
             </objects>
             <point key="canvasLocation" x="5522" y="2543"/>
         </scene>
-        <!--Confirm number-->
+        <!--CONFIRM NUMBER-->
         <scene sceneID="9yQ-TI-LVr">
             <objects>
                 <viewController storyboardIdentifier="verifyMobile" modalPresentationStyle="fullScreen" id="xal-Cf-0cP" customClass="PhoneViewController" customModule="Wildfire1_1" customModuleProvider="target" sceneMemberID="viewController">
@@ -2786,7 +2791,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="19" translatesAutoresizingMaskIntoConstraints="NO" id="Xtt-mB-ebY">
-                                <rect key="frame" x="20" y="111" width="280" height="158.5"/>
+                                <rect key="frame" x="20" y="116.5" width="280" height="158.5"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Mobile number" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="GZT-gZ-ufH">
                                         <rect key="frame" x="0.0" y="0.0" width="280" height="50"/>
@@ -2837,7 +2842,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="zyl-1U-Kpu"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Confirm number" id="i76-0h-3q9"/>
+                    <navigationItem key="navigationItem" title="CONFIRM NUMBER" id="i76-0h-3q9"/>
                     <connections>
                         <outlet property="errorLabel" destination="kcd-Mg-pU9" id="1Wa-55-RDq"/>
                         <outlet property="phoneField" destination="GZT-gZ-ufH" id="dMp-7A-tFl"/>
@@ -2849,7 +2854,7 @@
             </objects>
             <point key="canvasLocation" x="1861.875" y="-1255.9859154929577"/>
         </scene>
-        <!--Verify-->
+        <!--VERIFY-->
         <scene sceneID="cpl-d9-m3p">
             <objects>
                 <viewController modalPresentationStyle="fullScreen" id="ulI-eW-qCk" customClass="VerificationCodeViewController" customModule="Wildfire1_1" customModuleProvider="target" sceneMemberID="viewController">
@@ -2858,7 +2863,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="19" translatesAutoresizingMaskIntoConstraints="NO" id="pNz-Kt-k97">
-                                <rect key="frame" x="20" y="111" width="280" height="238.5"/>
+                                <rect key="frame" x="20" y="116.5" width="280" height="238.5"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Verification code" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="RhF-xj-I3r">
                                         <rect key="frame" x="14.5" y="0.0" width="251" height="50"/>
@@ -2912,7 +2917,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="TDy-HD-ic8"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Verify" id="BrS-BK-Oln"/>
+                    <navigationItem key="navigationItem" title="VERIFY" id="BrS-BK-Oln"/>
                     <connections>
                         <outlet property="errorLabel" destination="lJv-U0-wZq" id="h5d-6R-KaW"/>
                         <outlet property="verificationField" destination="RhF-xj-I3r" id="Tmh-UB-V6z"/>
@@ -2932,13 +2937,14 @@
                     <tabBarItem key="tabBarItem" title="Pay" image="icons8-paper-plane-50" id="acW-dT-cKf"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="oyu-eT-WTY">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="91"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="96.5"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" name="tealPrimary"/>
                         <textAttributes key="titleTextAttributes">
                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         </textAttributes>
                         <textAttributes key="largeTitleTextAttributes">
+                            <fontDescription key="fontDescription" name="OpenSans-ExtraBoldItalic" family="Open Sans" pointSize="34"/>
                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         </textAttributes>
                     </navigationBar>
@@ -2958,13 +2964,14 @@
                     <tabBarItem key="tabBarItem" title="Account" image="icons8-secure-50" id="4H4-bh-m9b"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="jGA-If-hG9">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="91"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="96.5"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" name="tealPrimary"/>
                         <textAttributes key="titleTextAttributes">
                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         </textAttributes>
                         <textAttributes key="largeTitleTextAttributes">
+                            <fontDescription key="fontDescription" name="OpenSans-ExtraBoldItalic" family="Open Sans" pointSize="34"/>
                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         </textAttributes>
                     </navigationBar>
@@ -2984,14 +2991,14 @@
                     <tabBarItem key="tabBarItem" title="Receive" image="icons8-get-cash-filled-50" id="cPa-gy-q4n"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="xq0-TO-NBe">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="91"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="96.5"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" name="tealPrimary"/>
                         <textAttributes key="titleTextAttributes">
                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         </textAttributes>
                         <textAttributes key="largeTitleTextAttributes">
-                            <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="17"/>
+                            <fontDescription key="fontDescription" name="OpenSans-ExtraBoldItalic" family="Open Sans" pointSize="34"/>
                         </textAttributes>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -3003,7 +3010,7 @@
             </objects>
             <point key="canvasLocation" x="3646.875" y="398.23943661971833"/>
         </scene>
-        <!--Payment Success-->
+        <!--PAYMENT SUCCESS-->
         <scene sceneID="cng-us-at1">
             <objects>
                 <viewController modalTransitionStyle="flipHorizontal" modalPresentationStyle="currentContext" id="dMl-Xg-qLO" customClass="DisplayReceiptAfterPaymentViewController" customModule="Wildfire1_1" customModuleProvider="target" sceneMemberID="viewController">
@@ -3012,7 +3019,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="td4-fH-TTf">
-                                <rect key="frame" x="20" y="123" width="280" height="385"/>
+                                <rect key="frame" x="20" y="128.5" width="280" height="385"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Logo200px" translatesAutoresizingMaskIntoConstraints="NO" id="Wly-5B-JJb">
                                         <rect key="frame" x="90" y="0.0" width="100" height="100"/>
@@ -3144,7 +3151,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="hdM-2S-6Wv"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Payment Success" id="7CN-Xd-CxW"/>
+                    <navigationItem key="navigationItem" title="PAYMENT SUCCESS" id="7CN-Xd-CxW"/>
                     <connections>
                         <outlet property="amountLabel" destination="wk8-F0-8fz" id="KTv-MV-n5c"/>
                         <outlet property="dateLabel" destination="RtF-tq-alc" id="OMa-uU-fVu"/>
@@ -3166,9 +3173,12 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="hCy-bm-9Jb" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="xmI-0h-aPW">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="103"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="108.5"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" name="tealPrimary"/>
+                        <textAttributes key="largeTitleTextAttributes">
+                            <fontDescription key="fontDescription" name="OpenSans-ExtraBoldItalic" family="Open Sans" pointSize="34"/>
+                        </textAttributes>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
@@ -3179,7 +3189,7 @@
             </objects>
             <point key="canvasLocation" x="5576.25" y="-322.18309859154931"/>
         </scene>
-        <!--Account Address-->
+        <!--ACCOUNT ADDRESS-->
         <scene sceneID="XTk-zH-fFu">
             <objects>
                 <tableViewController id="lS1-eE-cTm" customClass="BankDetails2TableViewController" customModule="Wildfire1_1" customModuleProvider="target" sceneMemberID="viewController">
@@ -3532,7 +3542,7 @@
                             <outlet property="delegate" destination="lS1-eE-cTm" id="Vzy-lf-9El"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Account Address" id="MaW-er-fyc"/>
+                    <navigationItem key="navigationItem" title="ACCOUNT ADDRESS" id="MaW-er-fyc"/>
                     <connections>
                         <outlet property="cityTextField" destination="VkP-Hb-bsh" id="eja-OL-y8u"/>
                         <outlet property="countryTextField" destination="g0z-tE-F7h" id="XQl-oj-XWW"/>
@@ -3549,7 +3559,7 @@
             </objects>
             <point key="canvasLocation" x="7338.75" y="399.29577464788736"/>
         </scene>
-        <!--Account Added-->
+        <!--ACCOUNT ADDED-->
         <scene sceneID="z3o-eX-Jpq">
             <objects>
                 <viewController id="mAW-s9-gPe" customClass="AddCardSuccessViewController" customModule="Wildfire1_1" customModuleProvider="target" sceneMemberID="viewController">
@@ -3558,7 +3568,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="euw-Vh-8fq">
-                                <rect key="frame" x="10" y="109" width="300" height="392"/>
+                                <rect key="frame" x="10" y="112" width="300" height="392"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icons8-ok-480" translatesAutoresizingMaskIntoConstraints="NO" id="Xcx-i4-ODz">
                                         <rect key="frame" x="30" y="0.0" width="240" height="175"/>
@@ -3606,7 +3616,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Vy1-HR-VYD"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Account Added" largeTitleDisplayMode="always" id="Uz3-qx-N5n"/>
+                    <navigationItem key="navigationItem" title="ACCOUNT ADDED" largeTitleDisplayMode="always" id="Uz3-qx-N5n"/>
                     <connections>
                         <outlet property="doneButton" destination="Uca-Ir-rNF" id="lea-32-1U7"/>
                         <segue destination="PF9-up-ht6" kind="unwind" identifier="unwindToPrevious" unwindAction="unwindToPrevious:" id="Wqb-K4-FFX"/>
@@ -3617,7 +3627,7 @@
             </objects>
             <point key="canvasLocation" x="8190" y="399.29577464788736"/>
         </scene>
-        <!--Bank Account-->
+        <!--BANK ACCOUNT-->
         <scene sceneID="6rx-Uj-5c6">
             <objects>
                 <tableViewController id="CDk-SW-YDS" customClass="BankAccountsViewController" customModule="Wildfire1_1" customModuleProvider="target" sceneMemberID="viewController">
@@ -3640,7 +3650,7 @@
                             <outlet property="delegate" destination="CDk-SW-YDS" id="reD-4L-weV"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Bank Account" id="EqN-zL-adL">
+                    <navigationItem key="navigationItem" title="BANK ACCOUNT" id="EqN-zL-adL">
                         <barButtonItem key="rightBarButtonItem" title="Add Details" id="YaS-DR-CNm">
                             <connections>
                                 <segue destination="VYa-hN-JH5" kind="show" id="gr2-HT-oDS"/>
@@ -3656,7 +3666,7 @@
             </objects>
             <point key="canvasLocation" x="5722.5" y="398.23943661971833"/>
         </scene>
-        <!--ID Verification-->
+        <!--ID VERIFICATION-->
         <scene sceneID="ODZ-od-DJ3">
             <objects>
                 <viewController id="IyM-7T-zf0" customClass="ButtonStyleViewController" customModule="Wildfire1_1" customModuleProvider="target" sceneMemberID="viewController">
@@ -3665,7 +3675,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="27" translatesAutoresizingMaskIntoConstraints="NO" id="AP8-TF-75b">
-                                <rect key="frame" x="20" y="111" width="280" height="346"/>
+                                <rect key="frame" x="20" y="116.5" width="280" height="335"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icons8-checked-identification-documents-100 (1).png" translatesAutoresizingMaskIntoConstraints="NO" id="D9U-yS-64F">
                                         <rect key="frame" x="65" y="0.0" width="150" height="150"/>
@@ -3675,7 +3685,7 @@
                                         </constraints>
                                     </imageView>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="XVR-cC-kAk">
-                                        <rect key="frame" x="20" y="177" width="240" height="82"/>
+                                        <rect key="frame" x="20" y="177" width="240" height="71"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                         <string key="text">To send deposits to your bank account, we are legally required to verify your identity.  Apologies for the hassle, but this helps us keep your money safe. You'll only need to do this once.</string>
                                         <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -3683,7 +3693,7 @@
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                     </textView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AWv-S1-VVD">
-                                        <rect key="frame" x="30" y="286" width="220" height="60"/>
+                                        <rect key="frame" x="30" y="275" width="220" height="60"/>
                                         <constraints>
                                             <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="50" id="25h-WZ-G1R"/>
                                             <constraint firstAttribute="height" constant="60" id="ANQ-0y-vEy"/>
@@ -3712,7 +3722,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="mWw-FT-vHb"/>
                     </view>
-                    <navigationItem key="navigationItem" title="ID Verification" largeTitleDisplayMode="always" id="FDB-2q-vwi"/>
+                    <navigationItem key="navigationItem" title="ID VERIFICATION" largeTitleDisplayMode="always" id="FDB-2q-vwi"/>
                     <connections>
                         <outlet property="continueButton" destination="AWv-S1-VVD" id="rOJ-oM-BY5"/>
                     </connections>
@@ -3721,7 +3731,7 @@
             </objects>
             <point key="canvasLocation" x="5182" y="1126"/>
         </scene>
-        <!--Document Type-->
+        <!--DOCUMENT-->
         <scene sceneID="3mN-8y-d43">
             <objects>
                 <viewController id="pub-UR-8Gm" customClass="DocumentTypeViewController" customModule="Wildfire1_1" customModuleProvider="target" sceneMemberID="viewController">
@@ -3785,7 +3795,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="ega-mc-fB8"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Document Type" largeTitleDisplayMode="always" id="1Ou-Eo-g2l"/>
+                    <navigationItem key="navigationItem" title="DOCUMENT" largeTitleDisplayMode="always" id="1Ou-Eo-g2l"/>
                     <connections>
                         <outlet property="IDCard" destination="NYc-fI-y1m" id="aO7-3P-pSm"/>
                         <outlet property="driverLicenceButton" destination="oRN-3Q-spE" id="lyh-fX-0WC"/>
@@ -3794,9 +3804,9 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oN7-0v-WAK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="6004" y="1125"/>
+            <point key="canvasLocation" x="5955" y="1125"/>
         </scene>
-        <!--Passport Image-->
+        <!--PASSPORT-->
         <scene sceneID="AOA-0o-NDf">
             <objects>
                 <viewController id="GUc-Ah-Dmv" customClass="PassportUploadViewController" customModule="Wildfire1_1" customModuleProvider="target" sceneMemberID="viewController">
@@ -3805,13 +3815,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icons8-rescan-document-100 (1).png" translatesAutoresizingMaskIntoConstraints="NO" id="Vi3-1Q-YTP">
-                                <rect key="frame" x="30" y="111" width="260" height="195"/>
+                                <rect key="frame" x="30" y="116.5" width="260" height="195"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="Vi3-1Q-YTP" secondAttribute="height" multiplier="4:3" id="47i-Zd-TBM"/>
                                 </constraints>
                             </imageView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="3as-HE-duj">
-                                <rect key="frame" x="35" y="326" width="250" height="190.5"/>
+                                <rect key="frame" x="35" y="331.5" width="250" height="190.5"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oJi-xs-r6N">
                                         <rect key="frame" x="15" y="0.0" width="220" height="50"/>
@@ -3861,7 +3871,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="nTa-Hx-wfO"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Passport Image" largeTitleDisplayMode="always" id="EGE-mo-14n"/>
+                    <navigationItem key="navigationItem" title="PASSPORT" largeTitleDisplayMode="always" id="EGE-mo-14n"/>
                     <connections>
                         <outlet property="confirmButton" destination="xsP-MZ-YfH" id="Wgy-TZ-MO1"/>
                         <outlet property="editImageButton" destination="oJi-xs-r6N" id="53i-sv-3Hm"/>
@@ -3873,7 +3883,7 @@
             </objects>
             <point key="canvasLocation" x="9448.125" y="416.19718309859155"/>
         </scene>
-        <!--ID Verification-->
+        <!--UPLOADED-->
         <scene sceneID="QeT-1Z-y1f">
             <objects>
                 <viewController id="Nfh-Rr-8gB" customClass="KYCSuccessViewController" customModule="Wildfire1_1" customModuleProvider="target" sceneMemberID="viewController">
@@ -3931,7 +3941,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="NOd-9q-hMc"/>
                     </view>
-                    <navigationItem key="navigationItem" title="ID Verification" id="tKa-5E-Dgv"/>
+                    <navigationItem key="navigationItem" title="UPLOADED" id="tKa-5E-Dgv"/>
                     <connections>
                         <outlet property="doneButton" destination="f4w-jU-lMI" id="ZdB-qp-6mY"/>
                         <segue destination="fIG-LP-Lgn" kind="unwind" identifier="unwindToAccountView" unwindAction="unwindToAccountView:" id="cBJ-6o-bSk"/>
@@ -3942,7 +3952,7 @@
             </objects>
             <point key="canvasLocation" x="8451" y="1125"/>
         </scene>
-        <!--Account Details-->
+        <!--ACCOUNT DETAILS-->
         <scene sceneID="xci-f2-AP9">
             <objects>
                 <viewController id="Qgo-Fg-rxz" customClass="BankDetailViewController" customModule="Wildfire1_1" customModuleProvider="target" sceneMemberID="viewController">
@@ -3951,10 +3961,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ha1-25-z9u" userLabel="KYC Pending View">
-                                <rect key="frame" x="-20" y="91" width="360" height="46"/>
+                                <rect key="frame" x="-20" y="96.5" width="360" height="46"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="center" distribution="fillProportionally" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="17i-UP-jzo" userLabel="KYC Pending Stack">
-                                        <rect key="frame" x="30" y="8" width="300" height="30"/>
+                                        <rect key="frame" x="40" y="8" width="280" height="30"/>
                                         <subviews>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" verticalHuggingPriority="251" image="icons8-order-history-100" translatesAutoresizingMaskIntoConstraints="NO" id="JSQ-U2-WQL">
                                                 <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
@@ -3963,7 +3973,7 @@
                                                 </constraints>
                                             </imageView>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fIC-gK-l0a">
-                                                <rect key="frame" x="40" y="0.0" width="260" height="30"/>
+                                                <rect key="frame" x="40" y="0.0" width="240" height="30"/>
                                                 <inset key="titleEdgeInsets" minX="10" minY="0.0" maxX="0.0" maxY="0.0"/>
                                                 <state key="normal" title="ID Verification pending">
                                                     <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -3980,14 +3990,14 @@
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <constraints>
-                                    <constraint firstItem="17i-UP-jzo" firstAttribute="leading" secondItem="Ha1-25-z9u" secondAttribute="leading" constant="30" id="TMf-yS-RY6"/>
+                                    <constraint firstItem="17i-UP-jzo" firstAttribute="leading" secondItem="Ha1-25-z9u" secondAttribute="leading" constant="40" id="TMf-yS-RY6"/>
                                     <constraint firstItem="17i-UP-jzo" firstAttribute="top" secondItem="Ha1-25-z9u" secondAttribute="topMargin" id="hPG-ns-duD"/>
                                     <constraint firstItem="17i-UP-jzo" firstAttribute="centerX" secondItem="Ha1-25-z9u" secondAttribute="centerX" id="nNC-Vy-l7I"/>
                                     <constraint firstAttribute="bottomMargin" secondItem="17i-UP-jzo" secondAttribute="bottom" id="thd-io-6Sb"/>
                                 </constraints>
                             </view>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="gzV-IM-7zM">
-                                <rect key="frame" x="18.5" y="147" width="283" height="340.5"/>
+                                <rect key="frame" x="18.5" y="152.5" width="283" height="340.5"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icons8-bank-building-100" translatesAutoresizingMaskIntoConstraints="NO" id="cmQ-gN-H58">
                                         <rect key="frame" x="116.5" y="0.0" width="50" height="50"/>
@@ -4131,7 +4141,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="hbU-RM-JDN"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Account Details" largeTitleDisplayMode="always" id="O5b-0B-stw"/>
+                    <navigationItem key="navigationItem" title="ACCOUNT DETAILS" largeTitleDisplayMode="always" id="O5b-0B-stw"/>
                     <connections>
                         <outlet property="IBANLabel" destination="7OI-rt-mtK" id="bIz-cs-J4C"/>
                         <outlet property="IBANStack" destination="MNh-Aq-0OV" id="TDY-Ap-zT9"/>
@@ -4157,7 +4167,7 @@
             </objects>
             <point key="canvasLocation" x="4241" y="1152"/>
         </scene>
-        <!--Deposit Amount-->
+        <!--AMOUNT-->
         <scene sceneID="A5p-2V-dwg">
             <objects>
                 <viewController id="dQG-hw-mYL" customClass="DepositViewController" customModule="Wildfire1_1" customModuleProvider="target" sceneMemberID="viewController">
@@ -4166,7 +4176,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="26" translatesAutoresizingMaskIntoConstraints="NO" id="TPj-0i-y56">
-                                <rect key="frame" x="35" y="111" width="250" height="373.5"/>
+                                <rect key="frame" x="35" y="116.5" width="250" height="373.5"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icons8-bank-building-100" translatesAutoresizingMaskIntoConstraints="NO" id="ysF-Eh-Akn">
                                         <rect key="frame" x="100" y="0.0" width="50" height="50"/>
@@ -4245,7 +4255,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Bbm-CL-Jiq"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Deposit Amount" largeTitleDisplayMode="always" id="9ut-hb-bsO"/>
+                    <navigationItem key="navigationItem" title="AMOUNT" largeTitleDisplayMode="always" id="9ut-hb-bsO"/>
                     <connections>
                         <outlet property="amountTextField" destination="AZu-pn-n5a" id="mGt-XH-fnL"/>
                         <outlet property="errorLabel" destination="6VJ-gD-5fC" id="b4n-tK-xad"/>
@@ -4257,7 +4267,7 @@
             </objects>
             <point key="canvasLocation" x="6004" y="1845"/>
         </scene>
-        <!--Confirm Deposit-->
+        <!--CONFIRM-->
         <scene sceneID="I8G-WV-w7I">
             <objects>
                 <viewController id="Yt2-x3-537" customClass="ConfirmDepositViewController" customModule="Wildfire1_1" customModuleProvider="target" sceneMemberID="viewController">
@@ -4266,7 +4276,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="17" translatesAutoresizingMaskIntoConstraints="NO" id="BZm-E6-nf7">
-                                <rect key="frame" x="18.5" y="96" width="283" height="402"/>
+                                <rect key="frame" x="18.5" y="101.5" width="283" height="402"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icons8-bank-building-100" translatesAutoresizingMaskIntoConstraints="NO" id="NfF-Ny-ZU4">
                                         <rect key="frame" x="116.5" y="0.0" width="50" height="50"/>
@@ -4447,7 +4457,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Em7-jR-paP"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Confirm Deposit" largeTitleDisplayMode="always" id="jsJ-qV-BwC"/>
+                    <navigationItem key="navigationItem" title="CONFIRM" largeTitleDisplayMode="always" id="jsJ-qV-BwC"/>
                     <connections>
                         <outlet property="IBANLabel" destination="tVF-Mu-9DD" id="FzT-N8-eJF"/>
                         <outlet property="IBANStack" destination="JtP-Vr-Kbb" id="YLP-8X-wd4"/>
@@ -4470,7 +4480,7 @@
             </objects>
             <point key="canvasLocation" x="6770" y="1845"/>
         </scene>
-        <!--Deposit ordered-->
+        <!--ORDERED-->
         <scene sceneID="mmd-Qy-coG">
             <objects>
                 <viewController id="Mem-b9-qwW" customClass="AddCardSuccessViewController" customModule="Wildfire1_1" customModuleProvider="target" sceneMemberID="viewController">
@@ -4479,7 +4489,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="gU5-4V-6AX">
-                                <rect key="frame" x="10" y="112.5" width="300" height="385.5"/>
+                                <rect key="frame" x="10" y="115" width="300" height="385.5"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icons8-ok-480" translatesAutoresizingMaskIntoConstraints="NO" id="3sp-pQ-Hfg">
                                         <rect key="frame" x="75" y="0.0" width="150" height="150"/>
@@ -4528,7 +4538,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="JqW-xv-nd1"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Deposit ordered" largeTitleDisplayMode="always" id="KQH-5R-OYh"/>
+                    <navigationItem key="navigationItem" title="ORDERED" largeTitleDisplayMode="always" id="KQH-5R-OYh"/>
                     <connections>
                         <outlet property="doneButton" destination="u6A-xF-dyy" id="c93-Cc-6Mk"/>
                         <segue destination="c54-kM-eHo" kind="unwind" identifier="unwindToPrevious" unwindAction="unwindToPrevious:" id="x8E-Bk-Eb1"/>
@@ -4539,7 +4549,7 @@
             </objects>
             <point key="canvasLocation" x="7535" y="1846"/>
         </scene>
-        <!--Front-->
+        <!--FRONT-->
         <scene sceneID="6or-p0-62l">
             <objects>
                 <viewController id="WVt-dx-Sae" customClass="DriverLicenceFrontUploadViewController" customModule="Wildfire1_1" customModuleProvider="target" sceneMemberID="viewController">
@@ -4548,13 +4558,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icons8-rescan-document-100 (1).png" translatesAutoresizingMaskIntoConstraints="NO" id="hoP-Vv-2vR">
-                                <rect key="frame" x="40" y="111" width="240" height="180"/>
+                                <rect key="frame" x="40" y="116.5" width="240" height="180"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="hoP-Vv-2vR" secondAttribute="height" multiplier="4:3" id="rsN-dI-mb7"/>
                                 </constraints>
                             </imageView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="cAj-co-r8Q">
-                                <rect key="frame" x="35" y="311" width="250" height="180.5"/>
+                                <rect key="frame" x="35" y="316.5" width="250" height="180.5"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3C3-hI-JK8">
                                         <rect key="frame" x="15" y="0.0" width="220" height="50"/>
@@ -4604,7 +4614,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="OyE-vS-od4"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Front" largeTitleDisplayMode="always" id="oF6-R9-cSd"/>
+                    <navigationItem key="navigationItem" title="FRONT" largeTitleDisplayMode="always" id="oF6-R9-cSd"/>
                     <connections>
                         <outlet property="editImageButton" destination="3C3-hI-JK8" id="2j9-AG-Hmi"/>
                         <outlet property="nextButton" destination="WP7-In-KMH" id="nnU-cj-3yq"/>
@@ -4615,7 +4625,7 @@
             </objects>
             <point key="canvasLocation" x="6769" y="1125"/>
         </scene>
-        <!--Back-->
+        <!--BACK-->
         <scene sceneID="bG5-CU-QLQ">
             <objects>
                 <viewController id="2Mg-Fb-OXM" customClass="DriverLicenceBackUploadViewController" customModule="Wildfire1_1" customModuleProvider="target" sceneMemberID="viewController">
@@ -4624,13 +4634,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icons8-rescan-document-100 (1).png" translatesAutoresizingMaskIntoConstraints="NO" id="aay-br-VVX">
-                                <rect key="frame" x="40" y="111" width="240" height="180"/>
+                                <rect key="frame" x="40" y="116.5" width="240" height="180"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="aay-br-VVX" secondAttribute="height" multiplier="4:3" id="uHM-xi-v79"/>
                                 </constraints>
                             </imageView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="qtC-I4-z42">
-                                <rect key="frame" x="35" y="311" width="250" height="197"/>
+                                <rect key="frame" x="35" y="316.5" width="250" height="197"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="X8B-ps-655">
                                         <rect key="frame" x="15" y="0.0" width="220" height="50"/>
@@ -4680,7 +4690,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Ass-6f-5CY"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Back" largeTitleDisplayMode="always" id="GHE-y0-aCP"/>
+                    <navigationItem key="navigationItem" title="BACK" largeTitleDisplayMode="always" id="GHE-y0-aCP"/>
                     <connections>
                         <outlet property="confirmButton" destination="rSK-cB-dc9" id="fJe-gb-6lR"/>
                         <outlet property="editImageButton" destination="X8B-ps-655" id="KKY-uL-eCa"/>
@@ -4746,7 +4756,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="XW5-45-XF4"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Verification Outcome" largeTitleDisplayMode="always" id="dG2-LK-4Xy"/>
+                    <navigationItem key="navigationItem" title="OUTCOME" largeTitleDisplayMode="always" id="dG2-LK-4Xy"/>
                     <connections>
                         <outlet property="okButton" destination="XNu-F4-DMX" id="qWf-Y4-lL9"/>
                         <segue destination="zYr-Sb-YkS" kind="unwind" identifier="unwindToPrevious" unwindAction="unwindToPrevious:" id="uEW-dR-aoa"/>
@@ -4831,7 +4841,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="OC2-lc-po3"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Verification Outcome" largeTitleDisplayMode="always" id="MLU-cP-80S"/>
+                    <navigationItem key="navigationItem" title="OUTCOME" largeTitleDisplayMode="always" id="MLU-cP-80S"/>
                     <connections>
                         <outlet property="backToHomeButton" destination="iKr-pz-Vtf" id="R0a-10-6hd"/>
                         <outlet property="newImageButton" destination="LWi-TF-9Uy" id="Ihl-c8-lqd"/>
@@ -4852,8 +4862,11 @@
                 <navigationController storyboardIdentifier="IDRefused" automaticallyAdjustsScrollViewInsets="NO" id="Gcd-Id-ll8" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="Pte-sN-ObQ">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="91"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="94"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <textAttributes key="largeTitleTextAttributes">
+                            <fontDescription key="fontDescription" name="OpenSans-ExtraBoldItalic" family="Open Sans" pointSize="32"/>
+                        </textAttributes>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
@@ -4870,9 +4883,12 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="LVs-72-jOY" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="hV3-zS-kkM">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="91"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="96.5"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" name="tealPrimary"/>
+                        <textAttributes key="largeTitleTextAttributes">
+                            <fontDescription key="fontDescription" name="OpenSans-ExtraBoldItalic" family="Open Sans" pointSize="34"/>
+                        </textAttributes>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
@@ -4908,8 +4924,11 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="9dZ-dr-Kiv" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="6I1-az-Ust">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="91"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="94"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <textAttributes key="largeTitleTextAttributes">
+                            <fontDescription key="fontDescription" name="OpenSans-ExtraBoldItalic" family="Open Sans" pointSize="32"/>
+                        </textAttributes>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
@@ -4920,7 +4939,7 @@
             </objects>
             <point key="canvasLocation" x="10246.875" y="715.14084507042253"/>
         </scene>
-        <!--Transaction Costs-->
+        <!--CHARGES-->
         <scene sceneID="DAX-gc-mXX">
             <objects>
                 <viewController id="1xb-vy-NoK" customClass="CardLimitReached" customModule="Wildfire1_1" customModuleProvider="target" sceneMemberID="viewController">
@@ -4929,7 +4948,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="6w0-H8-luo">
-                                <rect key="frame" x="20" y="101" width="280" height="408"/>
+                                <rect key="frame" x="20" y="106.5" width="280" height="402.5"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icons8-mastercard-credit-card-100" translatesAutoresizingMaskIntoConstraints="NO" id="u6X-d6-Asg">
                                         <rect key="frame" x="102.5" y="0.0" width="75" height="75"/>
@@ -4945,7 +4964,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" horizontalHuggingPriority="1000" editable="NO" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IcX-Ar-CeX">
-                                        <rect key="frame" x="0.0" y="139" width="280" height="199"/>
+                                        <rect key="frame" x="0.0" y="139" width="280" height="193.5"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                         <string key="text">First of all, we want to apologise for charging you. The reality is that whenever you use your credit or debit card, both digitally or instore, a number of institutions take a cut of the transaction value.    At Wildfire, we believe you shouldn't have to pay to use your money. That's why paying other Wildfire users is always free!   Costs are as follows: When you add credit, the charge is 20p. When you deposit to your bank account, the total charge is 2% + 45p. The only charge we take in that whole process is 0.1% of deposits, and we're working hard to get that down to 0%. The rest is to purely to cover the costs of card networks, payment gateways, and banks.</string>
                                         <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -4953,7 +4972,7 @@
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                     </textView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AN6-ct-zI2">
-                                        <rect key="frame" x="40" y="358" width="200" height="50"/>
+                                        <rect key="frame" x="40" y="352.5" width="200" height="50"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="0CA-U2-Q7w"/>
                                             <constraint firstAttribute="width" constant="200" id="4ll-zV-dPh"/>
@@ -4976,7 +4995,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="O6G-ZF-MpS"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Transaction Costs" id="GkX-N5-vwd"/>
+                    <navigationItem key="navigationItem" title="CHARGES" id="GkX-N5-vwd"/>
                     <connections>
                         <outlet property="doneButton" destination="AN6-ct-zI2" id="RBf-Do-9tv"/>
                         <segue destination="0Yv-67-mtq" kind="unwind" identifier="unwindToPrevious" unwindAction="unwindToPrevious:" id="NKM-Wl-M5J"/>
@@ -4996,7 +5015,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="3cQ-NQ-tXS">
-                                <rect key="frame" x="10" y="163" width="300" height="325"/>
+                                <rect key="frame" x="10" y="166" width="300" height="325"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icons8-ok-480" translatesAutoresizingMaskIntoConstraints="NO" id="7id-gK-4c6">
                                         <rect key="frame" x="75" y="0.0" width="150" height="150"/>
@@ -5071,8 +5090,8 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="hWh-Xd-ZQz"/>
-        <segue reference="Huo-pa-P2i"/>
-        <segue reference="XkC-zp-HKA"/>
+        <segue reference="JjY-XQ-ITd"/>
+        <segue reference="FIA-qD-1nb"/>
         <segue reference="ydr-lM-sQk"/>
         <segue reference="JGW-hE-gdx"/>
         <segue reference="KC7-yY-zWV"/>

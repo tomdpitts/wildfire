@@ -392,6 +392,44 @@ extension UIViewController {
 //            vSpinner = nil
 //        }
     }
+    
+    func addRect() {
+
+        // get screen size object.
+        let screenSize: CGRect = UIScreen.main.bounds
+        
+        // get screen width.
+        let screenWidth = screenSize.width
+        
+        // get screen height.
+        let screenHeight = screenSize.height
+        
+        // the rectangle top left point x axis position.
+        let xPos = 0
+        
+        // the rectangle top left point y axis position.
+        let yPos = 62
+        
+        // the rectangle width.
+        let rectWidth = Int(screenWidth) - 2 * xPos
+        
+        // the rectangle height.
+        let rectHeight = 58
+        
+        // Create a CGRect object which is used to render a rectangle.
+        let rectFrame: CGRect = CGRect(x:CGFloat(xPos), y:CGFloat(yPos), width:CGFloat(rectWidth), height:CGFloat(rectHeight))
+        
+        // Create a UIView object which use above CGRect object.
+        let blackView = UIView(frame: rectFrame)
+        
+        // Set UIView background color.
+        blackView.backgroundColor = UIColor.black
+        
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        
+//        self.navigationController?.navigationBar.insertSubview(blackView, at: 0)
+        self.view.addSubview(blackView)
+    }
 }
 
 // this extension helps with debugging layout conflicts and issues
@@ -521,3 +559,4 @@ extension NSLayoutConstraint {
 //        gradientView.set(colors: colors, startPoint: startPoint, endPoint: endPoint, locations: locations)
 //    }
 //}
+
