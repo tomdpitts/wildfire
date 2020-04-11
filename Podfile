@@ -29,7 +29,7 @@ target 'Wildfire1.1' do
   pod 'Kingfisher'
   pod 'libPhoneNumber-iOS'
   pod 'BATabBarController'
-  pod 'OpenSans'
+  # pod 'OpenSans'
 
   target 'Wildfire1.1Tests' do
     inherit! :search_paths

@@ -332,7 +332,6 @@ PODS:
     - nanopb/encode (= 0.3.9011)
   - nanopb/decode (0.3.9011)
   - nanopb/encode (0.3.9011)
-  - OpenSans (1.0.3)
   - ParticlesLoadingView (0.5)
   - PromisesObjC (1.2.8)
   - Protobuf (3.11.4)
@@ -360,7 +359,6 @@ DEPENDENCIES:
   - Kingfisher
   - libPhoneNumber-iOS
   - mangopay
-  - OpenSans
   - ParticlesLoadingView
   - SwiftyJSON
 
@@ -401,7 +399,6 @@ SPEC REPOS:
     - libPhoneNumber-iOS
     - mangopay
     - nanopb
-    - OpenSans
     - ParticlesLoadingView
     - PromisesObjC
     - Protobuf
@@ -445,7 +442,6 @@ SPEC CHECKSUMS:
   libPhoneNumber-iOS: 0a32a9525cf8744fe02c5206eb30d571e38f7d75
   mangopay: c8005077cfd2b6813b99d52a4cd78238eb1082e7
   nanopb: 18003b5e52dab79db540fe93fe9579f399bd1ccd
-  OpenSans: 33078846463eae780aa5f82986b51cce085f970d
   ParticlesLoadingView: 48704281aa7381d7c8c55cbe632f30bbc8d12604
   PromisesObjC: c119f3cd559f50b7ae681fa59dc1acd19173b7e6
   Protobuf: 176220c526ad8bd09ab1fb40a978eac3fef665f7
@@ -453,6 +449,6 @@ SPEC CHECKSUMS:
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
   SwiftyJSON: 36413e04c44ee145039d332b4f4e2d3e8d6c4db7
 
-PODFILE CHECKSUM: d9e45d6e4a23928be53c86428d61561ad8687367
+PODFILE CHECKSUM: e54c12b78e85d3425dbe9d297b1c066db307b4d5
 
 COCOAPODS: 1.9.1

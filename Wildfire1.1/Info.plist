@@ -70,7 +70,7 @@
 	<string>Access to photos required to change proflie picture</string>
 	<key>UIAppFonts</key>
 	<array>
-		<string>OpenSans-ExtraBoldItalic.tff</string>
+		<string>OpenSans-ExtraBoldItalic.ttf</string>
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>

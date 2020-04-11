@@ -16,7 +16,6 @@ import FirebaseMessaging
 import FirebaseDynamicLinks
 import SwiftyJSON
 import UserNotifications
-import OpenSans
 //import FBSDKCoreKit
 //import FBSDKLoginKit
 //import FacebookCore
