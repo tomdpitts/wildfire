@@ -211,119 +211,47 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             
             let currentUserID = Auth.auth().currentUser?.uid
             
-//            if recipientID == currentUserID {
-//                // user is trying to pay themselves? Put a stop to it
-//                return
-//            } else {
+            if recipientID == currentUserID {
+                // user is trying to pay themselves? Put a stop to it
+                return
+            } else {
             
-//            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-//
-//            let scanVC = storyboard.instantiateViewController(withIdentifier: "scanVC") as! ScanViewController
-//            let confirmVC = storyboard.instantiateViewController(withIdentifier: "confirmVC") as! ConfirmViewController
-//
-//            confirmVC.recipientUID = recipientID
-//            confirmVC.sendAmount = amountInt
-//            confirmVC.currency = currency
-//
-//            let navController = storyboard.instantiateViewController(withIdentifier: "scanNavVC") as! UINavigationController
-//
-//            navController.pushViewController(scanVC, animated: false)
-//            navController.pushViewController(confirmVC, animated: true)
-//
-//            // untested change - "homeVC" on this line used to be "navController"
-//            self.window?.rootViewController = navController
-//            self.window?.makeKeyAndVisible()
-//
-            
-            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            
-            if let confirmViewController = storyboard.instantiateViewController(withIdentifier: "confirmVC") as? ConfirmViewController {
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
                 
-                confirmViewController.recipientUID = recipientID
-                confirmViewController.sendAmount = amountInt
-                confirmViewController.currency = currency
-                confirmViewController.isDynamicLinkResponder = true
-                
-
-                if let window = self.window, let rootViewController = window.rootViewController {
-
-                    var currentController = rootViewController
-                    while let presentedController = currentController.presentedViewController {
-                        currentController = presentedController
-                    }
+                if let confirmViewController = storyboard.instantiateViewController(withIdentifier: "confirmVC") as? ConfirmViewController {
                     
-                    if currentController == HomeViewController() {
-                        
-                        let tabBarController = storyboard.instantiateViewController(withIdentifier: "mainMenu") as! UITabBarController
-                        let phoneNavController = storyboard.instantiateViewController(withIdentifier: "payNavVC") as! UINavigationController
-                        let phoneViewController = storyboard.instantiateViewController(withIdentifier: "payVC") as! PayViewController
-
-                        currentController.navigationController?.pushViewController(tabBarController, animated: false)
-                        currentController.navigationController?.pushViewController(phoneNavController, animated: false)
-                        currentController.navigationController?.pushViewController(phoneViewController, animated: false)
-                        
-                    }
+                    confirmViewController.recipientUID = recipientID
+                    confirmViewController.sendAmount = amountInt
+                    confirmViewController.currency = currency
+                    confirmViewController.isDynamicLinkResponder = true
                     
-                    currentController.present(confirmViewController, animated: true, completion: nil)
+
+                    if let window = self.window, let rootViewController = window.rootViewController {
+
+                        var currentController = rootViewController
+                        while let presentedController = currentController.presentedViewController {
+                            currentController = presentedController
+                        }
+                        
+                        if currentController == HomeViewController() {
+                            
+                            // TODO this needs testing
+                            // the idea is that if a user taps on a link when Wildfire wasn't open recently, redirect() will kick in and authenticate user. So far so good, but if auth is successful and the confirmVC is dismissed, the user is dumped on the blank homescreen. Adding this stack of VCs in the case where redirect() has been triggered should mean dismissing ConfirmVC reveals the Pay VC as usual.
+                            
+                            let tabBarController = storyboard.instantiateViewController(withIdentifier: "mainMenu") as! UITabBarController
+                            let phoneNavController = storyboard.instantiateViewController(withIdentifier: "payNavVC") as! UINavigationController
+                            let phoneViewController = storyboard.instantiateViewController(withIdentifier: "payVC") as! PayViewController
+
+                            currentController.navigationController?.pushViewController(tabBarController, animated: false)
+                            currentController.navigationController?.pushViewController(phoneNavController, animated: false)
+                            currentController.navigationController?.pushViewController(phoneViewController, animated: false)
+                            
+                        }
+                        
+                        currentController.present(confirmViewController, animated: true, completion: nil)
+                    }
                 }
             }
-//
-//
-//                let storyboard = UIStoryboard(name: "Main", bundle: nil)
-//
-//                let confirmVC = storyboard.instantiateViewController(withIdentifier: "confirmVC") as! ConfirmViewController
-//
-//                confirmVC.recipientUID = recipientID
-//                confirmVC.sendAmount = amountInt
-//                confirmVC.currency = currency
-
-//                var topMostViewController = UIApplication.shared.keyWindow?.rootViewController
-//
-//                while let presentedViewController = topMostViewController?.presentedViewController {
-//                    topMostViewController = presentedViewController
-//                }
-//
-//                if let top = topMostViewController {
-//                    top.present(confirmVC, animated:true, completion: nil)
-//                }
-                
-
-
-            
-//                    let storyboard = UIStoryboard(name: "Main", bundle: nil)
-//                    let scanVC = storyboard.instantiateViewController(withIdentifier: "scanVC") as! ScanViewController
-//                    let confirmVC = storyboard.instantiateViewController(withIdentifier: "confirmVC") as! ConfirmViewController
-//
-//                    let navController = storyboard.instantiateViewController(withIdentifier: "scanNavVC") as! UINavigationController
-//
-//                    navController.pushViewController(scanVC, animated: false)
-//                    navController.pushViewController(confirmVC, animated: true)
-//
-//                    confirmVC.recipientUID = recipientID
-//                    confirmVC.sendAmount = amountInt
-//                    confirmVC.currency = currency
-//
-//                    self.window?.rootViewController = navController
-//                    self.window?.makeKeyAndVisible()
-            
-            
-            
-//                if let controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "confirmVC") as? ConfirmViewController {
-//                    if let window = self.window, let rootViewController = window.rootViewController {
-//
-//                        var currentController = rootViewController
-//                        while let presentedController = currentController.presentedViewController {
-//                            currentController = presentedController
-//                        }
-//
-//                        controller.recipientUID = recipientID
-//                        controller.sendAmount = amountInt
-//                        controller.currency = currency
-//
-//                        currentController.present(controller, animated: true, completion: nil)
-//                    }
-//                }
-//            }
         }
     }
     
