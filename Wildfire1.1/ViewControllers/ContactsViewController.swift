@@ -52,7 +52,7 @@ class ContactsViewController: UITableViewController, UISearchResultsUpdating {
 
             return controller
         })()
-        
+
         tableView.reloadData()
     }
     

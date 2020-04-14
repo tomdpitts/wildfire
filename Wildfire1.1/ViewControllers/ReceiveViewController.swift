@@ -83,8 +83,6 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
         view.addGestureRecognizer(tap)
         
         
-        
-        
 //        gradientBackground()
         
     }
@@ -375,7 +373,6 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
                 self.shareLinkButton.imageView?.tintColor = UIColor(named: "tealPrimary")
             }
             
-            
             storageRef.downloadURL { (url, error) in
                 if let downloadURL = url {
                     self.generateLink(imageURL: downloadURL)
@@ -459,7 +456,7 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
     
     func showShareMenu(url: URL) {
         
-        let text = "Please send me £\(amountTextField.text!) with Wildfire (:"
+        let text = "Here's a link to send me £\(amountTextField.text!) with Wildfire"
         let activityVC = UIActivityViewController(activityItems: [text, url], applicationActivities: nil)
         present(activityVC, animated: true)
     }

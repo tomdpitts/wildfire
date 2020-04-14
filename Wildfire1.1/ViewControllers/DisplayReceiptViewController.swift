@@ -11,6 +11,8 @@ import UIKit
 class DisplayReceiptAfterPaymentViewController: UIViewController {
 
     var transaction: Transaction?
+    
+    var isDynamicLinkResponder = false
   
     @IBOutlet weak var payerLabel: UILabel!
     @IBOutlet weak var recipientLabel: UILabel!
@@ -23,14 +25,14 @@ class DisplayReceiptAfterPaymentViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        navigationItem.title = "Receipt"
-        navigationController?.navigationBar.prefersLargeTitles = true
         
-        self.navigationItem.leftBarButtonItem = nil;
-        self.navigationItem.hidesBackButton = true;
-        self.navigationController?.navigationItem.backBarButtonItem?.isEnabled = false;
-        self.navigationController!.interactivePopGestureRecognizer!.isEnabled = false
+        if let navController = self.navigationController {
+            navController.navigationItem.leftBarButtonItem = nil;
+            navController.navigationItem.hidesBackButton = true;
+            navController.navigationItem.backBarButtonItem?.isEnabled = false;
+            navController.interactivePopGestureRecognizer!.isEnabled = false
+        }
+        
         
         Utilities.styleHollowButton(doneButton)
         updateReceipt()
@@ -39,6 +41,15 @@ class DisplayReceiptAfterPaymentViewController: UIViewController {
         let notificationFeedbackGenerator = UINotificationFeedbackGenerator()
         notificationFeedbackGenerator.prepare()
         notificationFeedbackGenerator.notificationOccurred(.success)
+        
+        if isDynamicLinkResponder == true {
+            let label = UILabel()
+            label.frame = CGRect(x: 20, y: 40, width: 200, height: 34)
+            label.textAlignment = NSTextAlignment.left
+            label.font = UIFont.systemFont(ofSize: 34, weight: .bold)
+            label.text = "Payment Success"
+            self.view.addSubview(label)
+        }
     }
     
 

@@ -156,26 +156,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         return false
     }
     
-    // for backwards compatibility
-    @available(iOS 9.0, *)
-    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any]) -> Bool {
-        return application(app, open: url,
-                         sourceApplication: options[UIApplication.OpenURLOptionsKey.sourceApplication] as? String,
-                         annotation: "")
-    }
-
-    // func to deal with custom scheme URL - should only be relevant the first time a user installs and opens the app
-    func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
-        
-        print("Received  URL through a custom scheme!: \(url.absoluteString)")
-        if let dynamicLink = DynamicLinks.dynamicLinks().dynamicLink(fromCustomSchemeURL: url) {
-
-            self.handleIncomingDynamicLink(dynamicLink)
-            return true
-        } else {
-            return false
-        }
-    }
+//    // for backwards compatibility
+//    @available(iOS 9.0, *)
+//    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any]) -> Bool {
+//        return application(app, open: url,
+//                         sourceApplication: options[UIApplication.OpenURLOptionsKey.sourceApplication] as? String,
+//                         annotation: "")
+//    }
+//
+//    // func to deal with custom scheme URL - should only be relevant the first time a user installs and opens the app
+//    func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
+//
+//        print("Received  URL through a custom scheme!: \(url.absoluteString)")
+//        if let dynamicLink = DynamicLinks.dynamicLinks().dynamicLink(fromCustomSchemeURL: url) {
+//
+//            self.handleIncomingDynamicLink(dynamicLink)
+//            return true
+//        } else {
+//            return false
+//        }
+//    }
     
     
     func handleIncomingDynamicLink(_ dynamicLink: DynamicLink) {
@@ -215,21 +215,114 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 //                // user is trying to pay themselves? Put a stop to it
 //                return
 //            } else {
-                if let controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "confirmVC") as? ConfirmViewController {
-                    if let window = self.window, let rootViewController = window.rootViewController {
-                        
-                        var currentController = rootViewController
-                        while let presentedController = currentController.presentedViewController {
-                            currentController = presentedController
-                        }
-                        
-                        controller.recipientUID = recipientID
-                        controller.sendAmount = amountInt
-                        controller.currency = currency
-                        
-                        currentController.present(controller, animated: true, completion: nil)
+            
+//            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+//
+//            let scanVC = storyboard.instantiateViewController(withIdentifier: "scanVC") as! ScanViewController
+//            let confirmVC = storyboard.instantiateViewController(withIdentifier: "confirmVC") as! ConfirmViewController
+//
+//            confirmVC.recipientUID = recipientID
+//            confirmVC.sendAmount = amountInt
+//            confirmVC.currency = currency
+//
+//            let navController = storyboard.instantiateViewController(withIdentifier: "scanNavVC") as! UINavigationController
+//
+//            navController.pushViewController(scanVC, animated: false)
+//            navController.pushViewController(confirmVC, animated: true)
+//
+//            // untested change - "homeVC" on this line used to be "navController"
+//            self.window?.rootViewController = navController
+//            self.window?.makeKeyAndVisible()
+//
+            
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            
+            if let confirmViewController = storyboard.instantiateViewController(withIdentifier: "confirmVC") as? ConfirmViewController {
+                
+                confirmViewController.recipientUID = recipientID
+                confirmViewController.sendAmount = amountInt
+                confirmViewController.currency = currency
+                confirmViewController.isDynamicLinkResponder = true
+                
+
+                if let window = self.window, let rootViewController = window.rootViewController {
+
+                    var currentController = rootViewController
+                    while let presentedController = currentController.presentedViewController {
+                        currentController = presentedController
                     }
+                    
+                    if currentController == HomeViewController() {
+                        
+                        let tabBarController = storyboard.instantiateViewController(withIdentifier: "mainMenu") as! UITabBarController
+                        let phoneNavController = storyboard.instantiateViewController(withIdentifier: "payNavVC") as! UINavigationController
+                        let phoneViewController = storyboard.instantiateViewController(withIdentifier: "payVC") as! PayViewController
+
+                        currentController.navigationController?.pushViewController(tabBarController, animated: false)
+                        currentController.navigationController?.pushViewController(phoneNavController, animated: false)
+                        currentController.navigationController?.pushViewController(phoneViewController, animated: false)
+                        
+                    }
+                    
+                    currentController.present(confirmViewController, animated: true, completion: nil)
                 }
+            }
+//
+//
+//                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+//
+//                let confirmVC = storyboard.instantiateViewController(withIdentifier: "confirmVC") as! ConfirmViewController
+//
+//                confirmVC.recipientUID = recipientID
+//                confirmVC.sendAmount = amountInt
+//                confirmVC.currency = currency
+
+//                var topMostViewController = UIApplication.shared.keyWindow?.rootViewController
+//
+//                while let presentedViewController = topMostViewController?.presentedViewController {
+//                    topMostViewController = presentedViewController
+//                }
+//
+//                if let top = topMostViewController {
+//                    top.present(confirmVC, animated:true, completion: nil)
+//                }
+                
+
+
+            
+//                    let storyboard = UIStoryboard(name: "Main", bundle: nil)
+//                    let scanVC = storyboard.instantiateViewController(withIdentifier: "scanVC") as! ScanViewController
+//                    let confirmVC = storyboard.instantiateViewController(withIdentifier: "confirmVC") as! ConfirmViewController
+//
+//                    let navController = storyboard.instantiateViewController(withIdentifier: "scanNavVC") as! UINavigationController
+//
+//                    navController.pushViewController(scanVC, animated: false)
+//                    navController.pushViewController(confirmVC, animated: true)
+//
+//                    confirmVC.recipientUID = recipientID
+//                    confirmVC.sendAmount = amountInt
+//                    confirmVC.currency = currency
+//
+//                    self.window?.rootViewController = navController
+//                    self.window?.makeKeyAndVisible()
+            
+            
+            
+//                if let controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "confirmVC") as? ConfirmViewController {
+//                    if let window = self.window, let rootViewController = window.rootViewController {
+//
+//                        var currentController = rootViewController
+//                        while let presentedController = currentController.presentedViewController {
+//                            currentController = presentedController
+//                        }
+//
+//                        controller.recipientUID = recipientID
+//                        controller.sendAmount = amountInt
+//                        controller.currency = currency
+//
+//                        currentController.present(controller, animated: true, completion: nil)
+//                    }
+//                }
 //            }
         }
     }
@@ -365,7 +458,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         if uid != nil {
             if let checkoutTime = self.timestamp {
-                if checkoutTime > Date().toSeconds() - 60 {
+                if checkoutTime > Date().toSeconds() - 30 {
                     // do nothing - user can continue where they left off
                     
                 } else {
@@ -409,7 +502,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 //            if #available(iOS 13.0, *) {
 //                window?.overrideUserInterfaceStyle = .light
 //            }
-            self.window?.rootViewController = navController
+            
+            // untested change - "homeVC" on this line used to be "navController"
+            self.window?.rootViewController = homeVC
             self.window?.tintColor = UIColor(named: "tealPrimary")
             self.window?.makeKeyAndVisible()
         }

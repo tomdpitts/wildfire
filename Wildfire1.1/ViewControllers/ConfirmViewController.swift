@@ -23,6 +23,8 @@ class ConfirmViewController: UIViewController {
     let userUID = Auth.auth().currentUser?.uid
     lazy var functions = Functions.functions(region:"europe-west1")
 
+    var isDynamicLinkResponder = false
+    
     var decryptedString = ""
     var sendAmount = 0
     
@@ -39,6 +41,8 @@ class ConfirmViewController: UIViewController {
     var shouldReloadView = false
     
     var confirmedTransaction: Transaction?
+    
+    var alertController: UIAlertController?
     
     @IBOutlet weak var amountLabel: UILabel!
     
@@ -63,13 +67,14 @@ class ConfirmViewController: UIViewController {
             Utilities.checkForUserAccount()
         }
         
-        // get the recipient's full name and profile pic
-        setUpRecipientDetails(recipientUID)
-        
         checkForExistingPaymentMethod()
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        
+        // note: moved this func call from viewDidLoad so that alerts always play nice (specifically, when tapping a dynamic link)
+        // get the recipient's full name and profile pic
+        setUpRecipientDetails(recipientUID)
         
         if shouldReloadView == true {
             checkForExistingPaymentMethod()
@@ -88,8 +93,8 @@ class ConfirmViewController: UIViewController {
         Utilities.styleFilledButton(self.confirmButton)
         
         
-        currentBalance.isHidden = true
-        dynamicLabel.isHidden = true
+//        currentBalance.isHidden = true
+//        dynamicLabel.isHidden = true
         
         // disable confirm button until recipient details are fully loaded
         confirmButton.isEnabled = false
@@ -104,6 +109,16 @@ class ConfirmViewController: UIViewController {
         // TODO update with appropriate currency
         // display transaction amount front and centre
         amountLabel.text = "£" + String(format: "%.2f", sendAmountFloat)
+        
+        // in the case that a user has opened a dynamic link, and this vc has been presented, it doesn't sit in a Nav Controller, so the Nav bar is missing. This shouldn't be too much of an issue in this case
+        if isDynamicLinkResponder == true {
+            let label = UILabel()
+            label.frame = CGRect(x: 20, y: 40, width: 200, height: 34)
+            label.textAlignment = NSTextAlignment.left
+            label.font = UIFont.systemFont(ofSize: 34, weight: .bold)
+            label.text = "Confirm"
+            self.view.addSubview(label)
+        }
     }
     
     func setUpRecipientDetails(_ uid: String) {
@@ -193,7 +208,6 @@ class ConfirmViewController: UIViewController {
                 
             } else {
                 // user hasn't added account info yet
-                //
                 
                 self.dynamicLabel.text = "Please provide some quick details to complete payment"
                 
@@ -236,7 +250,6 @@ class ConfirmViewController: UIViewController {
             
             // notice user doesn't strictly need to add card details if they already have sufficient credit to complete payment - this is intentional
             if enoughCredit == true {
-                self.showSpinner(onView: self.view, titleText: "Authorizing", messageText: "Securely transferring funds")
                 
                 // initiate transaction
                 // TODO add spinner
@@ -258,8 +271,6 @@ class ConfirmViewController: UIViewController {
                 }
             } else {
                 if existingPaymentMethod == true {
-                    
-                    self.showSpinner(onView: self.view, titleText: "Authorizing", messageText: "Securely transferring funds")
                     
                     // initiate topup (ideally with ApplePay & touchID)
                     transact(recipientUID: self.recipientUID, amount: self.sendAmount, topup: true, topupAmount: self.topupAmount) { result in
@@ -302,6 +313,9 @@ class ConfirmViewController: UIViewController {
         if topup == true {
             authenticatePayment() { authenticated in
                 if authenticated == true {
+                    
+                    self.showSpinner(onView: self.view, titleText: "Authorizing", messageText: "Securely transferring funds")
+                    
                     // N.B. topupAmount must be passed if topup == true. Guarding so that this breaks if this condition isn't met.
                     guard let tpa = topupAmount else { return }
                                         
@@ -495,6 +509,34 @@ class ConfirmViewController: UIViewController {
         }
     }
     
+//    func showConfirmSpinner(viewController: UIViewController, titleText: String?, messageText: String?) {
+//
+//        print("showing spinner")
+//        var title = "Just a moment"
+//        var message = ""
+//
+//        if let text = titleText {
+//            title = text
+//        }
+//
+//        if let textM = messageText {
+//            message = textM
+//        }
+//
+//        self.alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+//
+//        let loadingIndicator = UIActivityIndicatorView(frame: CGRect(x: 5, y: 5, width: 50, height: 50))
+//        loadingIndicator.hidesWhenStopped = true
+//        loadingIndicator.style = UIActivityIndicatorView.Style.gray
+//        loadingIndicator.startAnimating()
+//
+//        if let alert = alertController {
+//            alert.view.addSubview(loadingIndicator)
+//
+//            viewController.present(alert, animated: true, completion: nil)
+//        }
+//    }
+    
     func showAlert(title: String, message: String?, segue: String?, cancel: Bool) {
         DispatchQueue.main.async {
             let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
@@ -531,6 +573,9 @@ class ConfirmViewController: UIViewController {
             
             let vc = segue.destination as! DisplayReceiptAfterPaymentViewController
             vc.transaction = self.confirmedTransaction
+            if self.isDynamicLinkResponder == true {
+                vc.isDynamicLinkResponder = true
+            }
         }
     }
     

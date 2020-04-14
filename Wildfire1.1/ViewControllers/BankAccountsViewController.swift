@@ -40,8 +40,9 @@ class BankAccountsViewController: UITableViewController {
         fetchBankAccounts() { () in
 
             if self.bankAccountsList.count > 0 {
-                self.addDetailsButton.isEnabled = true
+                self.addDetailsButton.isEnabled = false
                 self.addDetailsButton.tintColor = UIColor.clear
+
             }
             self.tableView.reloadData()
         }

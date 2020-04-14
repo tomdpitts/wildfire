@@ -42,6 +42,7 @@ class Account2ViewController: UITableViewController {
         super.viewDidLoad()
                 
         tableView.delegate = self
+        navigationController?.navigationBar.prefersLargeTitles = true
         
         if UserDefaults.standard.bool(forKey: "userAccountExists") == true {
             getUserInfo()

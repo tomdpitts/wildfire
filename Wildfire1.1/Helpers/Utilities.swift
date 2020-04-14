@@ -359,8 +359,10 @@ extension UIColor {
 var vSpinner : UIView?
 
 extension UIViewController {
-    func showSpinner(onView : UIView, titleText: String?, messageText: String?) {
+       
+    func showSpinner(onView: UIView, titleText: String?, messageText: String?) {
         
+        print("showing spinner")
         var title = "Just a moment"
         var message = ""
         
@@ -380,9 +382,35 @@ extension UIViewController {
         loadingIndicator.startAnimating();
 
         alert.view.addSubview(loadingIndicator)
+//        onView.addSubview(alert.view)
         present(alert, animated: true, completion: nil)
-        
     }
+    
+//    func showConfirmSpinner(viewController: UIViewController, titleText: String?, messageText: String?) {
+//
+//            print("showing spinner")
+//            var title = "Just a moment"
+//            var message = ""
+//
+//            if let text = titleText {
+//                title = text
+//            }
+//
+//            if let textM = messageText {
+//                message = textM
+//            }
+//
+//            let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+//
+//            let loadingIndicator = UIActivityIndicatorView(frame: CGRect(x: 5, y: 5, width: 50, height: 50))
+//            loadingIndicator.hidesWhenStopped = true
+//            loadingIndicator.style = UIActivityIndicatorView.Style.gray
+//            loadingIndicator.startAnimating();
+//
+//            alert.view.addSubview(loadingIndicator)
+//    //        onView.addSubview(alert.view)
+//            present(alert, animated: true, completion: nil)
+//        }
     
     func removeSpinner() {
         print("trying to remove Spinner")
@@ -393,43 +421,52 @@ extension UIViewController {
 //        }
     }
     
-    func addRect() {
-
-        // get screen size object.
-        let screenSize: CGRect = UIScreen.main.bounds
-        
-        // get screen width.
-        let screenWidth = screenSize.width
-        
-        // get screen height.
-        let screenHeight = screenSize.height
-        
-        // the rectangle top left point x axis position.
-        let xPos = 0
-        
-        // the rectangle top left point y axis position.
-        let yPos = 62
-        
-        // the rectangle width.
-        let rectWidth = Int(screenWidth) - 2 * xPos
-        
-        // the rectangle height.
-        let rectHeight = 58
-        
-        // Create a CGRect object which is used to render a rectangle.
-        let rectFrame: CGRect = CGRect(x:CGFloat(xPos), y:CGFloat(yPos), width:CGFloat(rectWidth), height:CGFloat(rectHeight))
-        
-        // Create a UIView object which use above CGRect object.
-        let blackView = UIView(frame: rectFrame)
-        
-        // Set UIView background color.
-        blackView.backgroundColor = UIColor.black
-        
-        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
-        
-//        self.navigationController?.navigationBar.insertSubview(blackView, at: 0)
-        self.view.addSubview(blackView)
-    }
+//    func addRectAndWhiteOpenSans() {
+//
+//        // get screen size object.
+//        let screenSize: CGRect = UIScreen.main.bounds
+//        
+//        // get screen width.
+//        let screenWidth = screenSize.width
+//        
+//        // get screen height.
+//        let screenHeight = screenSize.height
+//        
+//        // the rectangle top left point x axis position.
+//        let xPos = 0
+//        
+//        // the rectangle top left point y axis position.
+//        let yPos = 60
+//        
+//        // the rectangle width.
+//        let rectWidth = Int(screenWidth) - 2 * xPos
+//        
+//        // the rectangle height.
+//        let rectHeight = 60
+//        
+//        // Create a CGRect object which is used to render a rectangle.
+//        let rectFrame: CGRect = CGRect(x:CGFloat(xPos), y:CGFloat(yPos), width:CGFloat(rectWidth), height:CGFloat(rectHeight))
+//        
+//        // Create a UIView object which use above CGRect object.
+//        let blackView = UIView(frame: rectFrame)
+//        
+//        // Set UIView background color.
+//        blackView.backgroundColor = UIColor.black
+//        
+//        let attributes = [NSAttributedString.Key.foregroundColor: UIColor.white, NSAttributedString.Key.font: UIFont(name: "OpenSans-ExtraBoldItalic", size: 36)!]
+//        navigationController?.navigationBar.largeTitleTextAttributes = attributes
+//        
+////        self.navigationController?.navigationBar.insertSubview(blackView, at: 0)
+//        self.view.addSubview(blackView)
+//    }
+//    
+//    func revertToBlackOpenSans() {
+//        let largeTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.darkText, NSAttributedString.Key.font: UIFont(name: "OpenSans-ExtraBoldItalic", size: 36)!]
+//        let normalTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.darkText, NSAttributedString.Key.font: UIFont(name: "OpenSans-ExtraBoldItalic", size: 26)!]
+//        
+//        navigationController?.navigationBar.titleTextAttributes = normalTextAttributes
+//        navigationController?.navigationBar.largeTitleTextAttributes = largeTextAttributes
+//    }
 }
 
 // this extension helps with debugging layout conflicts and issues

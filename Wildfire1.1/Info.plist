@@ -71,6 +71,7 @@
 	<key>UIAppFonts</key>
 	<array>
 		<string>OpenSans-ExtraBoldItalic.ttf</string>
+		<string>OpenSans-Bold.tff</string>
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>
