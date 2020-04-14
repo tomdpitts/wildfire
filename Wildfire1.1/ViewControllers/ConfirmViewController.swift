@@ -256,8 +256,6 @@ class ConfirmViewController: UIViewController {
                 // TODO add semaphore or something to wait for result before continuing, with timeout
                 transact(recipientUID: self.recipientUID, amount: self.sendAmount, topup: false, topupAmount: nil) { result in
                     
-                    self.removeSpinner()
-                    
                     let trunc = result.prefix(7)
                     if trunc == "success" {
                         
@@ -274,8 +272,6 @@ class ConfirmViewController: UIViewController {
                     
                     // initiate topup (ideally with ApplePay & touchID)
                     transact(recipientUID: self.recipientUID, amount: self.sendAmount, topup: true, topupAmount: self.topupAmount) { result in
-                        
-                        self.removeSpinner()
                         
                         let trunc = result.prefix(7)
                         if trunc == "success" {
@@ -324,12 +320,14 @@ class ConfirmViewController: UIViewController {
                             // TODO
                             
                             completion("We couldn't top up your account. Please try again.")
+                            self.removeSpinner()
                         } else {
                             
                             self.functions.httpsCallable("getCurrentBalance").call(["foo": "bar"]) { (result, error) in
                                 
                                 if error != nil {
                                     completion("We topped up your account but failed to complete the transaction. Please try again.")
+                                    self.removeSpinner()
                                 } else {
                                     
                                     self.functions.httpsCallable("transact").call(["recipientUID": recipientUID, "amount": amount, "currency": "GBP"]) { (result, error) in
@@ -340,6 +338,7 @@ class ConfirmViewController: UIViewController {
                                             // in this scenario, the top up went through and only the transaction failed. This means we need to refresh certain parts of the view, and temporarily disable the confirm button until that's done
                                             self.confirmButton.isEnabled = false
                                             self.getUserBalance()
+                                            self.removeSpinner()
                                             
                                         } else {
                                             
@@ -361,6 +360,7 @@ class ConfirmViewController: UIViewController {
                                             }
                                             
                                             completion("success (topped up)")
+                                            self.removeSpinner()
                                         }
                                     }
                                 }
@@ -376,6 +376,7 @@ class ConfirmViewController: UIViewController {
             authenticatePayment() { authenticated in
                 if authenticated == true {
                     
+                    self.showSpinner(onView: self.view, titleText: "Authorizing", messageText: "Securely transferring funds")
                     
                     self.functions.httpsCallable("transact").call(["recipientUID": recipientUID,  "amount": amount, "currency": "GBP"]) { (result, error) in
                         // TODO error handling!
@@ -388,6 +389,7 @@ class ConfirmViewController: UIViewController {
                     //                                    let details = error.userInfo[FunctionsErrorDetailsKey]
                     //                                }
                             // ...
+                            self.removeSpinner()
                         } else {
                             
                             if let transactionData = result?.data as? [String: Any] {
@@ -409,7 +411,9 @@ class ConfirmViewController: UIViewController {
                             
                             
                             print(self.confirmedTransaction)
+                            
                             completion("success (no topup required)")
+                            self.removeSpinner()
                         }
                     }
                 } else {
