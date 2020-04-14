@@ -135,9 +135,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 //      print("Failed to register: \(error)")
 //    }
     
+    
+    fileprivate var backgroundTask: UIBackgroundTaskIdentifier = .invalid
+    
     // func to deal with Universal Links
     func application(_ application: UIApplication, continue userActivity: NSUserActivity,
                      restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
+        
+        // this prevents a timing-related bug causing dynamicLinks to fail approx. every other time
+        backgroundTask = UIApplication.shared.beginBackgroundTask { [weak self] in
+            UIApplication.shared.endBackgroundTask(self!.backgroundTask)
+            self?.backgroundTask = .invalid
+        }
+        
         if let incomingURL = userActivity.webpageURL {
             print("Incoming URL is: \(incomingURL)")
             let linkHandled = DynamicLinks.dynamicLinks().handleUniversalLink(userActivity.webpageURL!) { (dynamiclink, error) in
@@ -156,26 +166,33 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         return false
     }
     
-//    // for backwards compatibility
-//    @available(iOS 9.0, *)
-//    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any]) -> Bool {
-//        return application(app, open: url,
-//                         sourceApplication: options[UIApplication.OpenURLOptionsKey.sourceApplication] as? String,
-//                         annotation: "")
-//    }
-//
-//    // func to deal with custom scheme URL - should only be relevant the first time a user installs and opens the app
-//    func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
-//
-//        print("Received  URL through a custom scheme!: \(url.absoluteString)")
-//        if let dynamicLink = DynamicLinks.dynamicLinks().dynamicLink(fromCustomSchemeURL: url) {
-//
-//            self.handleIncomingDynamicLink(dynamicLink)
-//            return true
-//        } else {
-//            return false
-//        }
-//    }
+    // for backwards compatibility
+    @available(iOS 9.0, *)
+    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any]) -> Bool {
+        return application(app, open: url,
+                         sourceApplication: options[UIApplication.OpenURLOptionsKey.sourceApplication] as? String,
+                         annotation: "")
+    }
+
+    // func to deal with custom scheme URL - should only be relevant the first time a user installs and opens the app
+    func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
+
+        print("Received  URL through a custom scheme!: \(url.absoluteString)")
+        
+        // this prevents a timing-related bug causing dynamicLinks to fail approx. every other time
+        backgroundTask = UIApplication.shared.beginBackgroundTask { [weak self] in
+            UIApplication.shared.endBackgroundTask(self!.backgroundTask)
+            self?.backgroundTask = .invalid
+        }
+        
+        if let dynamicLink = DynamicLinks.dynamicLinks().dynamicLink(fromCustomSchemeURL: url) {
+
+            self.handleIncomingDynamicLink(dynamicLink)
+            return true
+        } else {
+            return false
+        }
+    }
     
     
     func handleIncomingDynamicLink(_ dynamicLink: DynamicLink) {
@@ -204,54 +221,73 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }
         
         
-        
         if let recipientID = recipientID, let amount = amount, let currency = currency {
             
             guard let amountInt = Int(amount) else { return }
             
             let currentUserID = Auth.auth().currentUser?.uid
             
-            if recipientID == currentUserID {
-                // user is trying to pay themselves? Put a stop to it
-                return
-            } else {
+//            if recipientID == currentUserID {
+//                // user is trying to pay themselves? Put a stop to it
+//                return
+//            } else {
             
                 let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                
-                if let confirmViewController = storyboard.instantiateViewController(withIdentifier: "confirmVC") as? ConfirmViewController {
-                    
-                    confirmViewController.recipientUID = recipientID
-                    confirmViewController.sendAmount = amountInt
-                    confirmViewController.currency = currency
-                    confirmViewController.isDynamicLinkResponder = true
                     
 
-                    if let window = self.window, let rootViewController = window.rootViewController {
+                if let window = self.window, let rootViewController = window.rootViewController {
 
-                        var currentController = rootViewController
-                        while let presentedController = currentController.presentedViewController {
-                            currentController = presentedController
+                    var currentController = rootViewController
+                    while let presentedController = currentController.presentedViewController {
+                        currentController = presentedController
+                    }
+                    
+                    if currentController == HomeViewController() {
+                        print("currentController is HomeViewVC")
+                        // TODO this needs testing
+                        // the idea is that if a user taps on a link when Wildfire wasn't open recently, redirect() will kick in and authenticate user. So far so good, but if auth is successful and the confirmVC is dismissed, the user is dumped on the blank homescreen. Adding this stack of VCs in the case where redirect() has been triggered should mean dismissing ConfirmVC reveals the Pay VC as usual.
+                        
+                        let initialViewController: UIViewController = storyboard.instantiateViewController(withIdentifier: "HomeVC") as UIViewController
+                        
+                        let tabBarController = storyboard.instantiateViewController(withIdentifier: "mainMenu") as! UITabBarController
+                        let phoneNavController = storyboard.instantiateViewController(withIdentifier: "payNavVC") as! UINavigationController
+                        let phoneViewController = storyboard.instantiateViewController(withIdentifier: "payVC") as! PayViewController
+
+                        currentController.navigationController?.pushViewController(tabBarController, animated: false)
+                        currentController.navigationController?.pushViewController(phoneNavController, animated: false)
+                        currentController.navigationController?.pushViewController(phoneViewController, animated: false)
+                        
+                        if let confirmViewController = storyboard.instantiateViewController(withIdentifier: "confirmVC") as? ConfirmViewController {
+                        
+                            confirmViewController.recipientUID = recipientID
+                            confirmViewController.sendAmount = amountInt
+                            confirmViewController.currency = currency
+                            confirmViewController.isDynamicLinkResponder = true
+                            
+                            self.window?.rootViewController = initialViewController
+                            self.window?.makeKeyAndVisible()
+                            
+                            currentController.present(confirmViewController, animated: true, completion: nil)
                         }
                         
-                        if currentController == HomeViewController() {
-                            
-                            // TODO this needs testing
-                            // the idea is that if a user taps on a link when Wildfire wasn't open recently, redirect() will kick in and authenticate user. So far so good, but if auth is successful and the confirmVC is dismissed, the user is dumped on the blank homescreen. Adding this stack of VCs in the case where redirect() has been triggered should mean dismissing ConfirmVC reveals the Pay VC as usual.
-                            
-                            let tabBarController = storyboard.instantiateViewController(withIdentifier: "mainMenu") as! UITabBarController
-                            let phoneNavController = storyboard.instantiateViewController(withIdentifier: "payNavVC") as! UINavigationController
-                            let phoneViewController = storyboard.instantiateViewController(withIdentifier: "payVC") as! PayViewController
-
-                            currentController.navigationController?.pushViewController(tabBarController, animated: false)
-                            currentController.navigationController?.pushViewController(phoneNavController, animated: false)
-                            currentController.navigationController?.pushViewController(phoneViewController, animated: false)
-                            
-                        }
+                    } else {
                         
-                        currentController.present(confirmViewController, animated: true, completion: nil)
+                        print("currentController is NOT HomeViewVC")
+                    
+                        if let confirmViewController = storyboard.instantiateViewController(withIdentifier: "confirmVC") as? ConfirmViewController {
+                        
+                            confirmViewController.recipientUID = recipientID
+                            confirmViewController.sendAmount = amountInt
+                            confirmViewController.currency = currency
+                            confirmViewController.isDynamicLinkResponder = true
+                            
+                            currentController.present(confirmViewController, animated: true, completion: nil)
+                        }
                     }
                 }
-            }
+//            }
+        } else {
+            print("parameters didn't come through")
         }
     }
     
