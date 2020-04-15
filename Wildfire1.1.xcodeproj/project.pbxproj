@@ -62,6 +62,8 @@
 		E2B979E12329609E00194E75 /* ScanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E21AC99621EA850C00D460A9 /* ScanViewController.swift */; };
 		E2B979E3232960B000194E75 /* ConfirmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2B979DE23295DB000194E75 /* ConfirmViewController.swift */; };
 		E2BEF97124443E8F002EE61B /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E2BEF97024443E8C002EE61B /* OpenSans-Bold.ttf */; };
+		E2BEF97324468F79002EE61B /* TopUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2BEF97224468F79002EE61B /* TopUpViewController.swift */; };
+		E2BEF9752446DA74002EE61B /* CreditAddedSuccessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2BEF9742446DA74002EE61B /* CreditAddedSuccessViewController.swift */; };
 		E2CDF4AB235F2126002E155D /* PhoneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2CDF4AA235F2126002E155D /* PhoneViewController.swift */; };
 		E2CDF4AD235F2859002E155D /* VerificationCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2CDF4AC235F2859002E155D /* VerificationCodeViewController.swift */; };
 		E2DEF201240D0610006A6106 /* DocumentTypeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2DEF200240D0610006A6106 /* DocumentTypeViewController.swift */; };
@@ -147,6 +149,8 @@
 		E2B979DB2329441900194E75 /* Playground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Playground.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		E2B979DE23295DB000194E75 /* ConfirmViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmViewController.swift; sourceTree = "<group>"; };
 		E2BEF97024443E8C002EE61B /* OpenSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Bold.ttf"; sourceTree = "<group>"; };
+		E2BEF97224468F79002EE61B /* TopUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopUpViewController.swift; sourceTree = "<group>"; };
+		E2BEF9742446DA74002EE61B /* CreditAddedSuccessViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreditAddedSuccessViewController.swift; sourceTree = "<group>"; };
 		E2CDF4AA235F2126002E155D /* PhoneViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneViewController.swift; sourceTree = "<group>"; };
 		E2CDF4AC235F2859002E155D /* VerificationCodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationCodeViewController.swift; sourceTree = "<group>"; };
 		E2DEF200240D0610006A6106 /* DocumentTypeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentTypeViewController.swift; sourceTree = "<group>"; };
@@ -320,6 +324,8 @@
 				E2A45D432419BC9800EC7975 /* InfoViews.swift */,
 				E21710F8242466D5006B4FAE /* NotificationPaymentReceivedViewController.swift */,
 				E2261D1A242F2F29008170DB /* AccountAddedViewController.swift */,
+				E2BEF97224468F79002EE61B /* TopUpViewController.swift */,
+				E2BEF9742446DA74002EE61B /* CreditAddedSuccessViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -524,6 +530,7 @@
 				E2261D1B242F2F29008170DB /* AccountAddedViewController.swift in Sources */,
 				E271C0D223D99E6F004245CC /* EditProfileTableViewController.swift in Sources */,
 				E2444DF823A0A7930035674D /* ReceiptsViewController.swift in Sources */,
+				E2BEF9752446DA74002EE61B /* CreditAddedSuccessViewController.swift in Sources */,
 				E21AC96321EA6BEF00D460A9 /* AppDelegate.swift in Sources */,
 				E2E283FD240CDDA200D97DDF /* PassportUploadViewController.swift in Sources */,
 				E2FA9ED82334E6130068792D /* NetworkingClient.swift in Sources */,
@@ -532,6 +539,7 @@
 				E254470A23FCCF63005A37A1 /* ConfirmDepositViewController.swift in Sources */,
 				E29CF6982359BECD00ADC0D0 /* Send2ViewController.swift in Sources */,
 				E252A5EC23F3BD220023AEDC /* BankDetails2TableViewController.swift in Sources */,
+				E2BEF97324468F79002EE61B /* TopUpViewController.swift in Sources */,
 				E24388AA231575DA00948AD5 /* CustomSegues.swift in Sources */,
 				E23331D323328C630039E6A2 /* SuccessViewController.swift in Sources */,
 				E21AC98521EA6C9E00D460A9 /* AccountViewController.swift in Sources */,

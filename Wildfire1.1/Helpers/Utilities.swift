@@ -359,6 +359,25 @@ extension UIColor {
 var vSpinner : UIView?
 
 extension UIViewController {
+    
+    func universalShowAlert(title: String, message: String?, segue: String?, cancel: Bool) {
+        DispatchQueue.main.async {
+            let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+            
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
+                if let seg = segue {
+                    self.performSegue(withIdentifier: seg, sender: self)
+                }
+            }))
+
+            if cancel == true {
+                alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
+                }))
+            }
+            
+            self.present(alert, animated: true)
+        }
+    }
        
     func showSpinner(onView: UIView, titleText: String?, messageText: String?) {
         
@@ -414,11 +433,13 @@ extension UIViewController {
     
     func removeSpinner() {
         print("trying to remove Spinner")
-        dismiss(animated: true, completion: nil)
-//        DispatchQueue.main.async {
-//            vSpinner?.removeFromSuperview()
-//            vSpinner = nil
-//        }
+        
+        // guarding against dismissing a presented view controller e.g. Confirm VC can be presented
+        if let type = self.navigationController?.visibleViewController?.isKind(of: UIAlertController.Type) {
+            if type == true {
+                dismiss(animated: true, completion: nil)
+            }
+        }
     }
     
 //    func addRectAndWhiteOpenSans() {

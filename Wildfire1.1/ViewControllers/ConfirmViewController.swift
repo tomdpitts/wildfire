@@ -134,6 +134,7 @@ class ConfirmViewController: UIViewController {
             if error != nil {
                 self.removeSpinner()
                 self.showAlert(title: "Hmm..", message: "Apologies - we're having connectivity issues. Please try again.", segue: nil, cancel: false)
+                return
             }
             
             if let document = document, document.exists {
@@ -169,6 +170,7 @@ class ConfirmViewController: UIViewController {
             if error != nil {
                 self.removeSpinner()
                 self.showAlert(title: "Hmm..", message: "Apologies - we're having connectivity issues. Please try again.", segue: nil, cancel: false)
+                return
             }
             if let document = document, document.exists {
                 
@@ -206,6 +208,8 @@ class ConfirmViewController: UIViewController {
                 
                 self.removeSpinner()
                 
+                return
+                
             } else {
                 // user hasn't added account info yet
                 
@@ -240,7 +244,6 @@ class ConfirmViewController: UIViewController {
         return
     }
     
-    // TODO: complete this func
     @IBAction func confirmButtonPressed(_ sender: UIButton) {
         
         let userAccountExists = UserDefaults.standard.bool(forKey: "userAccountExists")
@@ -318,51 +321,45 @@ class ConfirmViewController: UIViewController {
                     self.functions.httpsCallable("createPayin").call(["amount": tpa, "currency": "GBP"]) { (result, error) in
                         if error != nil {
                             // TODO
-                            
-                            completion("We couldn't top up your account. Please try again.")
                             self.removeSpinner()
+                            completion("We couldn't top up your account. Please try again.")
                         } else {
                             
                             self.functions.httpsCallable("getCurrentBalance").call(["foo": "bar"]) { (result, error) in
                                 
+                                // not too fussed if this fails or not - this just triggers the updating of balance in firestore db
+                            }
+                                    
+                            self.functions.httpsCallable("transact").call(["recipientUID": recipientUID, "amount": amount, "currency": "GBP"]) { (result, error) in
+                                
                                 if error != nil {
-                                    completion("We topped up your account but failed to complete the transaction. Please try again.")
+                                    
+                                    // in this scenario, the top up went through and only the transaction failed. This means we need to refresh certain parts of the view, and temporarily disable the confirm button until that's done
+                                    self.confirmButton.isEnabled = false
+                                    self.getUserBalance()
                                     self.removeSpinner()
+                                    completion("We topped up your account but couldn't complete the transaction. Please try again.")
+                                    
                                 } else {
                                     
-                                    self.functions.httpsCallable("transact").call(["recipientUID": recipientUID, "amount": amount, "currency": "GBP"]) { (result, error) in
-                                        // TODO error handling!
-                                        if error != nil {
-        //                                    self.showAuthenticationError(title: "Oops!", message: "We topped up your account but couldn't complete the transaction. Please try again.")
-                                            completion("We topped up your account but couldn't complete the transaction. Please try again.")
-                                            // in this scenario, the top up went through and only the transaction failed. This means we need to refresh certain parts of the view, and temporarily disable the confirm button until that's done
-                                            self.confirmButton.isEnabled = false
-                                            self.getUserBalance()
-                                            self.removeSpinner()
-                                            
-                                        } else {
-                                            
-                                            if let transactionData = result?.data as? [String: Any] {
-                                                let amount = transactionData["amount"] as! Int
-                                                let currency = transactionData["currency"] as! String
-                                                
-                                                let datetimeUNIX = transactionData["datetime"] as! Int
-                                                let datetime = Date(timeIntervalSince1970: TimeInterval(datetimeUNIX))
-                                                
-                                                let payerID = transactionData["payerID"] as! String
-                                                let recipientID = transactionData["recipientID"] as! String
-                                                let payerName = transactionData["payerName"] as! String
-                                                let recipientName = transactionData["recipientName"] as! String
-                                                let userIsPayer = transactionData["userIsPayer"] as! Bool
-                                                
-                                                
-                                                self.confirmedTransaction = Transaction(amount: amount, currency: currency, datetime: datetime, payerID: payerID, recipientID: recipientID, payerName: payerName, recipientName: recipientName, userIsPayer: userIsPayer)
-                                            }
-                                            
-                                            completion("success (topped up)")
-                                            self.removeSpinner()
-                                        }
+                                    if let transactionData = result?.data as? [String: Any] {
+                                        let amount = transactionData["amount"] as! Int
+                                        let currency = transactionData["currency"] as! String
+                                        
+                                        let datetimeUNIX = transactionData["datetime"] as! Int
+                                        let datetime = Date(timeIntervalSince1970: TimeInterval(datetimeUNIX))
+                                        
+                                        let payerID = transactionData["payerID"] as! String
+                                        let recipientID = transactionData["recipientID"] as! String
+                                        let payerName = transactionData["payerName"] as! String
+                                        let recipientName = transactionData["recipientName"] as! String
+                                        let userIsPayer = transactionData["userIsPayer"] as! Bool
+                                        
+                                        
+                                        self.confirmedTransaction = Transaction(amount: amount, currency: currency, datetime: datetime, payerID: payerID, recipientID: recipientID, payerName: payerName, recipientName: recipientName, userIsPayer: userIsPayer)
                                     }
+                                    self.removeSpinner()
+                                    completion("success (topped up)")
                                 }
                             }
                         }
@@ -381,7 +378,6 @@ class ConfirmViewController: UIViewController {
                     self.functions.httpsCallable("transact").call(["recipientUID": recipientUID,  "amount": amount, "currency": "GBP"]) { (result, error) in
                         // TODO error handling!
                         if error != nil {
-                            completion("Error in transaction function")
                             print(error)
                     //                                if error.domain == FunctionsErrorDomain {
                     //                                    let code = FunctionsErrorCode(rawValue: error.code)
@@ -390,6 +386,7 @@ class ConfirmViewController: UIViewController {
                     //                                }
                             // ...
                             self.removeSpinner()
+                            completion("Error in transaction function")
                         } else {
                             
                             if let transactionData = result?.data as? [String: Any] {
@@ -412,8 +409,8 @@ class ConfirmViewController: UIViewController {
                             
                             print(self.confirmedTransaction)
                             
-                            completion("success (no topup required)")
                             self.removeSpinner()
+                            completion("success (no topup required)")
                         }
                     }
                 } else {

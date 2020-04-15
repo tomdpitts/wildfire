@@ -355,6 +355,7 @@ exports.transact = functions.region('europe-west1').https.onCall( async (data, c
 
   
   // 2: get the user and recipient  wallet ID and MP ID
+  // NB should be refactored to fetch simultaneously
   await userRef.get().then(doc => {
     let data = doc.data()
     userMangoPayID = data.mangopayID
@@ -377,7 +378,7 @@ exports.transact = functions.region('europe-west1').https.onCall( async (data, c
     console.log('Error getting recipient balance', err);
   });
 
-  // 3: Check balance of both parties
+  // 3: Check balance of payer
   const userMPWallet = await mpAPI.Wallets.get(userWalletID)
   .catch(err => {
     balanceFail = true,
@@ -393,7 +394,7 @@ exports.transact = functions.region('europe-west1').https.onCall( async (data, c
   // oldRecipientBalance = recipientMPWallet.Balance.amount
 
 
-  // 4: if both balances have been correctly retrieved, trigger the transaction
+  // 4: if balance have been correctly retrieved, trigger the transaction
   if (balanceFail !== true) {
 
     if (amount98 <= oldUserBalance && amount98 > 0) {
