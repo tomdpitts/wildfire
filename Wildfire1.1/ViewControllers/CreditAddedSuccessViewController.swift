@@ -33,8 +33,9 @@ class CreditAddedSuccessViewController: UIViewController {
         notificationFeedbackGenerator.notificationOccurred(.success)
         
         if let newBalance = self.newBalance {
-            let newBalanceString = String(newBalance)
-            newBalanceLabel.text = "Your new balance is: \(newBalanceString)"
+            let newBalanceFloat = Float(newBalance)/100
+            let newBalanceString = String(format: "%.2f", newBalanceFloat)
+            newBalanceLabel.text = "Your new balance is: £\(newBalanceString)"
         }
     }
 }

@@ -85,7 +85,7 @@ class AddCard2TableViewController: UITableViewController, UITextFieldDelegate {
             showError(error!)
         } else {
             
-            self.showSpinner(onView: self.view, titleText: "Adding card", messageText: "Please allow up to 30 seconds")
+            self.showSpinner(titleText: "Adding card", messageText: "Please allow up to 30 seconds")
             
             // kill the button to prevent retries
             submitButton.isEnabled = false

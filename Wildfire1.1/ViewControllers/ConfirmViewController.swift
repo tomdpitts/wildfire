@@ -123,7 +123,7 @@ class ConfirmViewController: UIViewController {
     
     func setUpRecipientDetails(_ uid: String) {
         
-        self.showSpinner(onView: self.view, titleText: nil, messageText: nil)
+        self.showSpinner(titleText: nil, messageText: nil)
         
         loadRecipientProfilePicView(uid)
         
@@ -313,7 +313,7 @@ class ConfirmViewController: UIViewController {
             authenticatePayment() { authenticated in
                 if authenticated == true {
                     
-                    self.showSpinner(onView: self.view, titleText: "Authorizing", messageText: "Securely transferring funds")
+                    self.showSpinner(titleText: "Authorizing", messageText: "Securely transferring funds")
                     
                     // N.B. topupAmount must be passed if topup == true. Guarding so that this breaks if this condition isn't met.
                     guard let tpa = topupAmount else { return }
@@ -373,7 +373,7 @@ class ConfirmViewController: UIViewController {
             authenticatePayment() { authenticated in
                 if authenticated == true {
                     
-                    self.showSpinner(onView: self.view, titleText: "Authorizing", messageText: "Securely transferring funds")
+                    self.showSpinner(titleText: "Authorizing", messageText: "Securely transferring funds")
                     
                     self.functions.httpsCallable("transact").call(["recipientUID": recipientUID,  "amount": amount, "currency": "GBP"]) { (result, error) in
                         // TODO error handling!

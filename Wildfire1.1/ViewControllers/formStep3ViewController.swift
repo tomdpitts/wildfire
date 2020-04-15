@@ -130,7 +130,7 @@ class formStep3ViewController: UIViewController, UITextFieldDelegate {
     // not adding validation to check for existing doc as that should already be covered
     func addNewUserToDatabases(firstname: String, lastname: String, email: String, dob: Int64, nationality: String, residence: String) {
         
-        self.showSpinner(onView: self.view, titleText: nil, messageText: nil)
+        self.showSpinner(titleText: nil, messageText: nil)
         
         let fullname = firstname + " " + lastname
         

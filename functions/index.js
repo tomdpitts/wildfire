@@ -683,7 +683,11 @@ exports.getCurrentBalance = functions.region('europe-west1').https.onCall( async
   const wallet = await mpAPI.Wallets.get(walletID)
   const currentBalance = wallet.Balance.Amount
 
+  console.log(currentBalance)
+
   const balanceFactored = (currentBalance*100)/98
+
+  console.log(balanceFactored)
 
   db.set({balance: balanceFactored}, {merge: true})
 

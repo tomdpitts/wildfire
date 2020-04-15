@@ -73,7 +73,7 @@ class DriverLicenceBackUploadViewController: UIViewController, UINavigationContr
         
         guard let mangopayID = UserDefaults.standard.string(forKey: "mangopayID") else { return }
     
-        self.showSpinner(onView: self.view, titleText: "Securely uploading", messageText: "Please allow up to 60 seconds")
+        self.showSpinner(titleText: "Securely uploading", messageText: "Please allow up to 60 seconds")
         
         let frontImageToUpload = convertImageToBase64(frontImage)
         let backImageToUpload = convertImageToBase64(backImage)

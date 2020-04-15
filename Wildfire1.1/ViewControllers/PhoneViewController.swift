@@ -50,7 +50,7 @@ class PhoneViewController: UIViewController, UITextFieldDelegate {
         
 //        let phoneUtil = NBPhoneNumberUtil()
         
-        self.showSpinner(onView: self.view, titleText: nil, messageText: nil)
+        self.showSpinner(titleText: nil, messageText: nil)
         
         PhoneAuthProvider.provider().verifyPhoneNumber(phoneNumber, uiDelegate: nil) { (verificationID, error) in
             self.removeSpinner()

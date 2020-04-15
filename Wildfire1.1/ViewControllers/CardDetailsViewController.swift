@@ -72,7 +72,7 @@ class CardDetailsViewController: UIViewController {
     
     func deleteCard(completion: @escaping ()->()) {
         
-        self.showSpinner(onView: self.view, titleText: nil, messageText: nil)
+        self.showSpinner(titleText: nil, messageText: nil)
         
         self.functions.httpsCallable("deleteCard").call() { (result, error) in
             // update credit cards list

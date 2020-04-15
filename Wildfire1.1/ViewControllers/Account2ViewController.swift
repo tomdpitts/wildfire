@@ -28,6 +28,7 @@ class Account2ViewController: UITableViewController {
     var profilePic: UIImage?
     
     var balanceAmount: Float = 0
+    var balanceString: String?
 
     @IBOutlet weak var profilePicView: UIImageView!
     @IBOutlet weak var userNameLabel: UILabel!
@@ -74,11 +75,6 @@ class Account2ViewController: UITableViewController {
             justCompletedSignUp = false
         }
     }
-
-    
-//    override func viewWillDisappear(_ animated: Bool) {
-//        listener.remove()
-//    }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
@@ -157,7 +153,7 @@ class Account2ViewController: UITableViewController {
 //                }
 //            }
             
-            Account2ViewController.listener = docRef.addSnapshotListener { documentSnapshot, error in
+            docRef.addSnapshotListener { documentSnapshot, error in
                 
                 if let error = error {
                     print("Error retreiving collection: \(error)")
@@ -187,6 +183,7 @@ class Account2ViewController: UITableViewController {
 
                     self.userNameLabel.text = fullname
                     self.balanceAmountLabel.text = "Balance: £\(balanceString)"
+                    self.balanceString = balanceString
                     self.balanceAmount = balanceFloat
                 }
             }
@@ -250,8 +247,8 @@ class Account2ViewController: UITableViewController {
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
             do {
                 if deleteAccount == true {
-                    self.showSpinner(onView: self.view, titleText: nil, messageText: nil)
-                    Account2ViewController.listener?.remove()
+                    self.showSpinner(titleText: nil, messageText: nil)
+                    
                     self.functions.httpsCallable("deleteUser").call(["foo": "bar"]) { (result, error) in
                         
                         self.removeSpinner()
@@ -272,8 +269,6 @@ class Account2ViewController: UITableViewController {
                         }
                     }
                 } else {
-                    
-                    Account2ViewController.listener?.remove()
                     
                     // surprisingly enough, it seems the currentUser persists on the client even when deletion has been triggered, so we'll always call signOut()
                     try Auth.auth().signOut()
@@ -328,6 +323,12 @@ class Account2ViewController: UITableViewController {
             
             if let pp = self.profilePic {
                 vc.profilePic = pp
+            }
+        } else if segue.destination is TopUpViewController {
+            let vc = segue.destination as! TopUpViewController
+            
+            if let currentBalance = self.balanceString {
+                vc.currentBalance = currentBalance
             }
         }
     }

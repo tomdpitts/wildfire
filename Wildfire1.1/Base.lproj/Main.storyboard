@@ -2353,14 +2353,15 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Add Credit" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g2n-Nw-Vmz">
-                                <rect key="frame" x="119" y="102.5" width="82" height="20.5"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icons8-initiate-money-transfer-100" translatesAutoresizingMaskIntoConstraints="NO" id="FSk-n8-cRd">
+                                <rect key="frame" x="122.5" y="97.5" width="75" height="75"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="75" id="rlK-db-Ygw"/>
+                                    <constraint firstAttribute="width" secondItem="FSk-n8-cRd" secondAttribute="height" multiplier="1:1" id="rlg-Wf-8lH"/>
+                                </constraints>
+                            </imageView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" alignment="center" spacing="17" translatesAutoresizingMaskIntoConstraints="NO" id="eXA-fe-CsL">
-                                <rect key="frame" x="60" y="133" width="200" height="224.5"/>
+                                <rect key="frame" x="60" y="177.5" width="200" height="252"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="dhn-Ab-Stp" userLabel="Amount Stack">
                                         <rect key="frame" x="34" y="0.0" width="132.5" height="76.5"/>
@@ -2381,20 +2382,31 @@
                                             </textField>
                                         </subviews>
                                     </stackView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Max £50; 50p increments only" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H7x-wf-qkC">
-                                        <rect key="frame" x="2" y="93.5" width="196.5" height="21.5"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="7VU-GE-V6L">
+                                        <rect key="frame" x="2" y="93.5" width="196.5" height="49"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Max £50; 50p increments only" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H7x-wf-qkC">
+                                                <rect key="frame" x="0.0" y="0.0" width="196.5" height="17"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Card charge is 20p" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VyN-hw-5dV">
+                                                <rect key="frame" x="36.5" y="22" width="123" height="27"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                    </stackView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Error Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oY5-9m-fD4">
-                                        <rect key="frame" x="58.5" y="132" width="83.5" height="25.5"/>
+                                        <rect key="frame" x="58.5" y="159.5" width="83.5" height="25.5"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vNx-bK-T1E">
-                                        <rect key="frame" x="0.0" y="174.5" width="200" height="50"/>
+                                        <rect key="frame" x="0.0" y="202" width="200" height="50"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="200" id="OBw-dv-WO7"/>
                                             <constraint firstAttribute="height" constant="50" id="nkJ-ri-9iM"/>
@@ -2409,8 +2421,9 @@
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="eXA-fe-CsL" firstAttribute="top" secondItem="g2n-Nw-Vmz" secondAttribute="bottom" constant="10" id="QEU-Pv-9mD"/>
-                            <constraint firstItem="g2n-Nw-Vmz" firstAttribute="top" secondItem="lrS-qC-vhD" secondAttribute="top" constant="10" id="VgV-Xy-4rL"/>
+                            <constraint firstItem="FSk-n8-cRd" firstAttribute="top" secondItem="lrS-qC-vhD" secondAttribute="top" constant="5" id="KFh-G4-UwJ"/>
+                            <constraint firstItem="FSk-n8-cRd" firstAttribute="centerX" secondItem="Yey-rg-h7M" secondAttribute="centerX" id="KP2-y6-vI2"/>
+                            <constraint firstItem="eXA-fe-CsL" firstAttribute="top" secondItem="FSk-n8-cRd" secondAttribute="bottom" constant="5" id="Pml-xz-Wyq"/>
                             <constraint firstItem="eXA-fe-CsL" firstAttribute="centerX" secondItem="Yey-rg-h7M" secondAttribute="centerX" id="oAt-6J-H2b"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="lrS-qC-vhD"/>
@@ -2419,13 +2432,15 @@
                     <connections>
                         <outlet property="addCredit" destination="vNx-bK-T1E" id="oZv-a7-kwH"/>
                         <outlet property="amountField" destination="rlA-jY-AQh" id="3Wt-Un-QUZ"/>
+                        <outlet property="cardChargeLabel" destination="VyN-hw-5dV" id="PJm-0h-W1f"/>
                         <outlet property="errorLabel" destination="oY5-9m-fD4" id="m7i-Zc-CM0"/>
                         <segue destination="Fl0-xL-0Qk" kind="show" identifier="showCreditAdded" id="HeV-Cj-b7M"/>
+                        <segue destination="lOX-0Y-FSB" kind="show" identifier="showAddCard" id="xeb-yR-cYh"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Mjy-e8-O1Z" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3411" y="1125"/>
+            <point key="canvasLocation" x="3410.625" y="1125"/>
         </scene>
         <!--About-->
         <scene sceneID="xes-JL-IcU">
@@ -5254,7 +5269,7 @@
         <segue reference="JjY-XQ-ITd"/>
         <segue reference="FIA-qD-1nb"/>
         <segue reference="bGq-l6-Or3"/>
-        <segue reference="JGW-hE-gdx"/>
+        <segue reference="xeb-yR-cYh"/>
         <segue reference="6CO-tz-ak8"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" name="tealPrimary"/>
@@ -5277,6 +5292,7 @@
         <image name="icons8-headstone-50" width="25" height="25"/>
         <image name="icons8-identification-documents-100 (1)" width="50" height="50"/>
         <image name="icons8-identification-documents-error-100" width="50" height="50"/>
+        <image name="icons8-initiate-money-transfer-100" width="50" height="50"/>
         <image name="icons8-mastercard-credit-card-100" width="100" height="100"/>
         <image name="icons8-money-50" width="25" height="25"/>
         <image name="icons8-ok-480" width="240" height="240"/>

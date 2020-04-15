@@ -88,7 +88,7 @@ class BankDetails2TableViewController: UITableViewController, UITextFieldDelegat
             showError(error!)
         } else {
             
-            self.showSpinner(onView: self.view, titleText: "Securely adding details", messageText: nil)
+            self.showSpinner(titleText: "Securely adding details", messageText: nil)
             
             // kill the button to prevent retries
             submitButton.isEnabled = false

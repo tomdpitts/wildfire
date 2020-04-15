@@ -379,7 +379,7 @@ extension UIViewController {
         }
     }
        
-    func showSpinner(onView: UIView, titleText: String?, messageText: String?) {
+    func showSpinner(titleText: String?, messageText: String?) {
         
         print("showing spinner")
         var title = "Just a moment"
@@ -401,44 +401,20 @@ extension UIViewController {
         loadingIndicator.startAnimating();
 
         alert.view.addSubview(loadingIndicator)
-//        onView.addSubview(alert.view)
-        present(alert, animated: true, completion: nil)
+        DispatchQueue.main.async {
+            self.present(alert, animated: true, completion: nil)
+        }
     }
-    
-//    func showConfirmSpinner(viewController: UIViewController, titleText: String?, messageText: String?) {
-//
-//            print("showing spinner")
-//            var title = "Just a moment"
-//            var message = ""
-//
-//            if let text = titleText {
-//                title = text
-//            }
-//
-//            if let textM = messageText {
-//                message = textM
-//            }
-//
-//            let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-//
-//            let loadingIndicator = UIActivityIndicatorView(frame: CGRect(x: 5, y: 5, width: 50, height: 50))
-//            loadingIndicator.hidesWhenStopped = true
-//            loadingIndicator.style = UIActivityIndicatorView.Style.gray
-//            loadingIndicator.startAnimating();
-//
-//            alert.view.addSubview(loadingIndicator)
-//    //        onView.addSubview(alert.view)
-//            present(alert, animated: true, completion: nil)
-//        }
     
     func removeSpinner() {
         print("trying to remove Spinner")
         
-        // guarding against dismissing a presented view controller e.g. Confirm VC can be presented
-        if let type = self.navigationController?.visibleViewController?.isKind(of: UIAlertController.Type) {
-            if type == true {
-                dismiss(animated: true, completion: nil)
-            }
+        let presentedVC : UIViewController? = self.presentedViewController as UIViewController?
+
+        if presentedVC != nil {
+           if let alertController : UIAlertController = presentedVC as? UIAlertController {
+              dismiss(animated: true, completion: nil)
+           }
         }
     }
     

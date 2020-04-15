@@ -31,7 +31,7 @@ class VerificationCodeViewController: UIViewController, UITextFieldDelegate {
     
     @IBAction func verifyTapped(_ sender: Any) {
         
-        self.showSpinner(onView: self.view, titleText: nil, messageText: nil)
+        self.showSpinner(titleText: nil, messageText: nil)
         
         let check = validateField()
         guard let code = verificationField.text else { return }

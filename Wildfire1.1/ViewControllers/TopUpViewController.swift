@@ -14,7 +14,7 @@ class TopUpViewController: UIViewController, UITextFieldDelegate {
     
     lazy var functions = Functions.functions(region: "europe-west1")
     
-    var currentBalance: Int?
+    var currentBalance: String?
     var creditAmount: Int?
     
     var newBalance: Int?
@@ -22,6 +22,7 @@ class TopUpViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var addCredit: UIButton!
     
     @IBOutlet weak var amountField: UITextField!
+    @IBOutlet weak var cardChargeLabel: UILabel!
     @IBOutlet weak var errorLabel: UILabel!
     
     override func viewDidLoad() {
@@ -29,8 +30,9 @@ class TopUpViewController: UIViewController, UITextFieldDelegate {
         
         errorLabel.isHidden = true
         
+        Utilities.styleHollowButton(addCredit)
         if let balance = currentBalance {
-            navigationItem.title = "Balance: \(balance)"
+            navigationItem.title = "Balance: £\(balance)"
         } else {
             navigationItem.title = "Balance"
         }
@@ -87,12 +89,30 @@ class TopUpViewController: UIViewController, UITextFieldDelegate {
         }
         
         amountField.text = workString
+        guard let amount = Float(workString) else {
+            print("couldn't Float workString")
+            return }
+        
+        let totalCharge = String(format: "%.2f", amount + 0.20)
+//        let chargedAmount = amount + 0.20
+//        let finalChargedAmount = String(chargedAmount) + "0"
+        cardChargeLabel.text = "Card charge is 20p so you'll be charged £\(totalCharge)"
+        
+        
     }
     
     
     @IBAction func addCreditTapped(_ sender: Any) {
         
         self.view.endEditing(true)
+        
+        let cardsAdded = UserDefaults.standard.integer(forKey: "numberOfCards")
+        
+        if cardsAdded < 1 {
+            universalShowAlert(title: "No payment methods", message: "Please add card details to continue", segue: "showAddCard", cancel: true)
+            return
+        }
+        
         let success = validateAmount()
         if success == true {
             errorLabel.isHidden = true
@@ -120,7 +140,7 @@ class TopUpViewController: UIViewController, UITextFieldDelegate {
         authenticatePayment() { authenticated in
             if authenticated == true {
             
-                self.showSpinner(onView: self.view, titleText: "Authorizing", messageText: "Adding credit to balance")
+                self.showSpinner(titleText: "Authorizing", messageText: "Adding credit to balance")
                 
                 self.functions.httpsCallable("createPayin").call(["amount": amount, "currency": currency]) { (result, error) in
                     if error != nil {
@@ -137,11 +157,11 @@ class TopUpViewController: UIViewController, UITextFieldDelegate {
                             } else {
                                 
                                 if let data = result?.data {
-                                    
-                                    print("Data is: \(data)")
+                                    let newBalance = data as? Int
+                                    self.removeSpinner()
+                                    completion("success", newBalance)
                                 }
-                                self.removeSpinner()
-                                completion("success", 12)
+                                
                             }
                         }
                     }
@@ -161,6 +181,7 @@ class TopUpViewController: UIViewController, UITextFieldDelegate {
             } else {
                 if let m = Float(text) {
                     self.creditAmount = Int(m*100)
+                    print("creditAmount is: \(self.creditAmount)")
                     return true
                 } else {
                     errorLabel.text = "Please enter a valid number"
