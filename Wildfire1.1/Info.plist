@@ -39,7 +39,7 @@
 			<string>Bundle ID</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.wildfire.Wildfire1-1</string>
+				<string>com.wildfire.Wildfire</string>
 			</array>
 		</dict>
 	</array>

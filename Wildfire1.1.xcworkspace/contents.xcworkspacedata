@@ -2,7 +2,7 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:Wildfire1.1.xcodeproj">
+      location = "group:/Users/Tom/wildfire/Wildfire1-1.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:.firebaserc">

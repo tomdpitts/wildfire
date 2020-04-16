@@ -92,7 +92,7 @@
 		E2026708230ED8CF003C0AF4 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		E2149703231410240048D149 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		E21710F8242466D5006B4FAE /* NotificationPaymentReceivedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationPaymentReceivedViewController.swift; sourceTree = "<group>"; };
-		E21AC95F21EA6BEF00D460A9 /* Wildfire1.1.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Wildfire1.1.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E21AC95F21EA6BEF00D460A9 /* Wildfire.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Wildfire.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E21AC96221EA6BEF00D460A9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E21AC96421EA6BEF00D460A9 /* PayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayViewController.swift; sourceTree = "<group>"; };
 		E21AC96621EA6BEF00D460A9 /* ReceiveViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiveViewController.swift; sourceTree = "<group>"; };
@@ -213,7 +213,7 @@
 		E21AC96021EA6BEF00D460A9 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				E21AC95F21EA6BEF00D460A9 /* Wildfire1.1.app */,
+				E21AC95F21EA6BEF00D460A9 /* Wildfire.app */,
 				E21AC97521EA6BF000D460A9 /* Wildfire1.1Tests.xctest */,
 			);
 			name = Products;
@@ -340,7 +340,7 @@
 			);
 			name = Wildfire1.1;
 			productName = Wildfire1.1;
-			productReference = E21AC95F21EA6BEF00D460A9 /* Wildfire1.1.app */;
+			productReference = E21AC95F21EA6BEF00D460A9 /* Wildfire.app */;
 			productType = "com.apple.product-type.application";
 		};
 		E21AC97421EA6BF000D460A9 /* Wildfire1.1Tests */ = {
@@ -383,7 +383,7 @@
 					};
 				};
 			};
-			buildConfigurationList = E21AC95A21EA6BEF00D460A9 /* Build configuration list for PBXProject "Wildfire1.1" */;
+			buildConfigurationList = E21AC95A21EA6BEF00D460A9 /* Build configuration list for PBXProject "Wildfire1-1" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -719,8 +719,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.wildfire.Wildfire1-1";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.wildfire.Wildfire;
+				PRODUCT_NAME = Wildfire;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -740,8 +740,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.wildfire.Wildfire1-1";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.wildfire.Wildfire;
+				PRODUCT_NAME = Wildfire;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -794,7 +794,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		E21AC95A21EA6BEF00D460A9 /* Build configuration list for PBXProject "Wildfire1.1" */ = {
+		E21AC95A21EA6BEF00D460A9 /* Build configuration list for PBXProject "Wildfire1-1" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E21AC97C21EA6BF000D460A9 /* Debug */,

@@ -17,21 +17,21 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.wildfire.Wildfire1-1</string>
+	<string>com.wildfire.Wildfire</string>
 	<key>PROJECT_ID</key>
 	<string>wildfire-30fca</string>
 	<key>STORAGE_BUCKET</key>
 	<string>wildfire-30fca.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
-	<true></true>
+	<true/>
 	<key>IS_ANALYTICS_ENABLED</key>
-	<false></false>
+	<false/>
 	<key>IS_APPINVITE_ENABLED</key>
-	<false></false>
+	<false/>
 	<key>IS_GCM_ENABLED</key>
-	<true></true>
+	<true/>
 	<key>IS_SIGNIN_ENABLED</key>
-	<true></true>
+	<true/>
 	<key>GOOGLE_APP_ID</key>
 	<string>1:989194075636:ios:2be2d586b67cf8eb</string>
 	<key>DATABASE_URL</key>
