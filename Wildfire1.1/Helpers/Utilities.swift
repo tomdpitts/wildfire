@@ -381,7 +381,6 @@ extension UIViewController {
        
     func showSpinner(titleText: String?, messageText: String?) {
         
-        print("showing spinner")
         var title = "Just a moment"
         var message = ""
         
@@ -407,17 +406,46 @@ extension UIViewController {
     }
     
     func removeSpinner() {
-        print("trying to remove Spinner")
+        
+        let presentedVC : UIViewController? = self.presentedViewController
+
+        if presentedVC != nil {
+            
+            if let alertController: UIAlertController = presentedVC as? UIAlertController {
+                
+                DispatchQueue.main.async {
+                    alertController.dismiss(animated: true, completion: nil)
+                    
+                }
+            } else {
+                print("presentedVC is NOT alertController")
+            }
+        } else {
+            print("presentedVC is nil")
+        }
+    }
+    
+    func removeSpinnerWithCompletion(spinnerCompletion: @escaping ()->()) {
         
         let presentedVC : UIViewController? = self.presentedViewController as UIViewController?
 
         if presentedVC != nil {
-           if let alertController : UIAlertController = presentedVC as? UIAlertController {
-              dismiss(animated: true, completion: nil)
-           }
+            
+            if let alertController : UIAlertController = presentedVC as? UIAlertController {
+                
+                DispatchQueue.main.async {
+                    alertController.dismiss(animated: true) {
+                        spinnerCompletion()
+                    }
+                }
+            } else {
+                print("presentedVC is NOT alertController")
+                spinnerCompletion()
+            }
+        } else {
+            spinnerCompletion()
         }
     }
-    
 //    func addRectAndWhiteOpenSans() {
 //
 //        // get screen size object.

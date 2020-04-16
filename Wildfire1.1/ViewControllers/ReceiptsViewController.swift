@@ -37,7 +37,7 @@ class ReceiptsViewController: UITableViewController {
     var row = 0
     var selectedTransaction: Transaction?
     
-    // I've tried using dictionaries for this but they are inherently unordered so don't play nice with table view
+    // dictionaries are unordered, arrays play nicer w Tableview
     var transactionDates = [String]()
     var transactionsList = [Transaction]()
     var transactionsGrouped = [[Transaction]]()
@@ -53,7 +53,7 @@ class ReceiptsViewController: UITableViewController {
         
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellID)
         
-        self.refreshControl?.addTarget(self, action: #selector(refresh), for: UIControl.Event.valueChanged)
+//        self.refreshControl?.addTarget(self, action: #selector(refresh), for: UIControl.Event.valueChanged)
         
         fetchTransactions() { () in
             if self.transactionsList.isEmpty == true {
@@ -61,7 +61,6 @@ class ReceiptsViewController: UITableViewController {
                 let message = "When you pay someone or get paid, it'll show up here"
                 self.showAlert(title: title, message: message)
             }
-            self.tableView.reloadData()
         }
         
     }
@@ -110,16 +109,18 @@ class ReceiptsViewController: UITableViewController {
         let formatter = DateFormatter()
         formatter.dateFormat = "E, d MMM yyyy"
         
-        var transactionDates = [String]()
-        var transactionsList = [Transaction]()
-        var transactionsGrouped = [[Transaction]]()
         
         if let uid = uid {
             db.collection("users").document(uid).collection("receipts").order(by: "datetime", descending: true).addSnapshotListener { querySnapshot, error in
+                
                 guard (querySnapshot?.documents) != nil else {
                     print("Error fetching documents: \(error!)")
                     return
                 }
+                
+                var transactionDates = [String]()
+                var transactionsList = [Transaction]()
+                var transactionsGrouped = [[Transaction]]()
                 
                 for document in querySnapshot!.documents {
                     
@@ -176,6 +177,8 @@ class ReceiptsViewController: UITableViewController {
                 self.transactionsList = transactionsList
                 self.transactionsGrouped = transactionsGrouped
                 
+                self.tableView.reloadData()
+                
                 completion()
             }
         }
@@ -193,12 +196,12 @@ class ReceiptsViewController: UITableViewController {
         performSegue(withIdentifier: "displayReceipt", sender: self)
     }
     
-    @objc func refresh(sender:AnyObject) {
-        
-        fetchTransactions() { () in
-            self.tableView.reloadData()
-        }
-    }
+//    @objc func refresh(sender:AnyObject) {
+//
+//        fetchTransactions() { () in
+//            self.tableView.reloadData()
+//        }
+//    }
     
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

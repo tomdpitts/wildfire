@@ -45,6 +45,7 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
     
     var recipientUID: String?
     var sendAmount: Int?
+    var currency: String?
     
     lazy var functions = Functions.functions(region:"europe-west1")
     
@@ -58,10 +59,11 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
         if segue.destination is ConfirmViewController {
             let vc = segue.destination as! ConfirmViewController
 //            vc.finalString2 = finalString
-            if let uid = recipientUID, let send = sendAmount {
+            if let uid = recipientUID, let send = sendAmount, let currency = currency {
                 
                 vc.recipientUID = uid
                 vc.sendAmount = send
+                vc.transactionCurrency = currency
             }
         }
     }
@@ -247,15 +249,23 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
     }
     
     func extractQRData(QRString: String) -> Bool {
+        
+        let uid = String(QRString.suffix(UIDLength))
+        
         // extract the UID (at time of writing, last 28 characters
-        self.recipientUID = String(QRString.suffix(UIDLength))
+        self.recipientUID = uid
+        let remaining = QRString.dropLast(UIDLength)
         
+        // currency codes are always 3 characters long - extract that next
+        let currency = String(remaining.suffix(3))
+        self.currency = currency
+        let amount = remaining.dropLast(3)
         
-        // then extract the transaction amount i.e. how much the transaction is for. Be careful to allow for any number of digits - strip out the UID
+        // then extract the transaction amount i.e. how much the transaction is for. Be careful to allow for any number of digits - strip out the UID and currency code
         
         // safely unwrap the number which has been converted to Int from a string, and divide the number by 7 (in the ReceiveViewController, we multiplied the amount requested by 7 before adding it to the string. Simply another level of security that makes it harder to reverse engineer the QR generation - then someone couldn't even guess that the transaction amount is encoded somewhere in the QR string
         
-        if let m = Int(QRString.dropLast(self.UIDLength)) {
+        if let m = Int(amount) {
             self.sendAmount = m/self.multiplicationFactor
             return true
         } else {

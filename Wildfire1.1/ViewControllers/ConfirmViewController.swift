@@ -28,7 +28,7 @@ class ConfirmViewController: UIViewController {
     var decryptedString = ""
     var sendAmount = 0
     
-    var currency: String?
+    var transactionCurrency: String?
     
     var topupAmount: Int?
 
@@ -39,6 +39,7 @@ class ConfirmViewController: UIViewController {
     var enoughCredit = false
     var existingPaymentMethod = false
     var shouldReloadView = false
+    var transactionCompleted = false
     
     var confirmedTransaction: Transaction?
     
@@ -72,9 +73,12 @@ class ConfirmViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         
-        // note: moved this func call from viewDidLoad so that alerts always play nice (specifically, when tapping a dynamic link)
-        // get the recipient's full name and profile pic
-        setUpRecipientDetails(recipientUID)
+        if transactionCompleted != true {
+            // note: moved this func call from viewDidLoad so that alerts always play nice (specifically, when tapping a dynamic link). Calling a spinner i.e. UIAlertController in viewDidLoad fails because there's nothing for it to load on yet for some reason.
+            // the transactionCompleted check is a hacky workaround because the setupRecipientDetails includes a spinner, and that messes with the segue "showSuccessScreen"
+            
+            setUpRecipientDetails(recipientUID)
+        }
         
         if shouldReloadView == true {
             checkForExistingPaymentMethod()
@@ -160,11 +164,11 @@ class ConfirmViewController: UIViewController {
     }
     
     func getUserBalance() {
-        // TODO double check this func doesn't crash if the user hasn't made an account yet!
+        
         let uid = Auth.auth().currentUser!.uid
         
         let docRef = self.db.collection("users").document(uid)
-        // this balance should be up to date as the 
+        
         docRef.getDocument { (document, error) in
             
             if error != nil {
@@ -188,7 +192,7 @@ class ConfirmViewController: UIViewController {
                     // we'll need this amount available for transact function to access if user wants to top up
                     self.topupAmount = difference*(-1)
                     
-                    // due to the complexities of dealing with closures and async stuff, have resorted to updating class variable 'recipientName' in another function (setUpRecipientDetails) and then referring to it here. This should probably be improved in future but for now, ensure this function is only called after the other..!
+                    //  updating class variable 'recipientName' in another function (setUpRecipientDetails) and then referring to it here. This should probably be improved in future but for now, ensure this function is only called after the other
                     let differenceString = String(format: "%.2f", Float(difference*(-1))/100)
                     let totalCharge = String(format: "%.2f", Float(difference*(-1) + 20)/100)
                     self.dynamicLabel.text = "Tap 'Confirm' to top up £\(differenceString) and pay \(self.recipientName). Card charge is 20p so you'll be charged £\(totalCharge)"
@@ -255,8 +259,7 @@ class ConfirmViewController: UIViewController {
             if enoughCredit == true {
                 
                 // initiate transaction
-                // TODO add spinner
-                // TODO add semaphore or something to wait for result before continuing, with timeout
+                
                 transact(recipientUID: self.recipientUID, amount: self.sendAmount, topup: false, topupAmount: nil) { result in
                     
                     let trunc = result.prefix(7)
@@ -268,7 +271,6 @@ class ConfirmViewController: UIViewController {
                         self.showAlert(title: "Oops!", message: result, segue: nil, cancel: false)
                     }
                     
-//                    self.performSegue(withIdentifier: "showSuccessScreen", sender: self)
                 }
             } else {
                 if existingPaymentMethod == true {
@@ -312,17 +314,15 @@ class ConfirmViewController: UIViewController {
         if topup == true {
             authenticatePayment() { authenticated in
                 if authenticated == true {
-                    
                     self.showSpinner(titleText: "Authorizing", messageText: "Securely transferring funds")
-                    
                     // N.B. topupAmount must be passed if topup == true. Guarding so that this breaks if this condition isn't met.
                     guard let tpa = topupAmount else { return }
                                         
                     self.functions.httpsCallable("createPayin").call(["amount": tpa, "currency": "GBP"]) { (result, error) in
                         if error != nil {
-                            // TODO
-                            self.removeSpinner()
-                            completion("We couldn't top up your account. Please try again.")
+                            self.removeSpinnerWithCompletion() {
+                                completion("We couldn't top up your account. Please try again.")
+                            }
                         } else {
                             
                             self.functions.httpsCallable("getCurrentBalance").call(["foo": "bar"]) { (result, error) in
@@ -337,9 +337,9 @@ class ConfirmViewController: UIViewController {
                                     // in this scenario, the top up went through and only the transaction failed. This means we need to refresh certain parts of the view, and temporarily disable the confirm button until that's done
                                     self.confirmButton.isEnabled = false
                                     self.getUserBalance()
-                                    self.removeSpinner()
-                                    completion("We topped up your account but couldn't complete the transaction. Please try again.")
-                                    
+                                    self.removeSpinnerWithCompletion() {
+                                        completion("We topped up your account but couldn't complete the transaction. Please try again.")
+                                    }
                                 } else {
                                     
                                     if let transactionData = result?.data as? [String: Any] {
@@ -357,9 +357,17 @@ class ConfirmViewController: UIViewController {
                                         
                                         
                                         self.confirmedTransaction = Transaction(amount: amount, currency: currency, datetime: datetime, payerID: payerID, recipientID: recipientID, payerName: payerName, recipientName: recipientName, userIsPayer: userIsPayer)
+                                        
+                                        self.transactionCompleted = true
+                                        
+                                        self.removeSpinnerWithCompletion {
+                                            completion("success (topped up)")
+                                        }
+                                    } else {
+                                        self.removeSpinnerWithCompletion {
+                                            completion("Transaction seems to have been successful but data wasn't returned as expected. Please check your receipts before retrying.")
+                                        }
                                     }
-                                    self.removeSpinner()
-                                    completion("success (topped up)")
                                 }
                             }
                         }
@@ -372,7 +380,6 @@ class ConfirmViewController: UIViewController {
         } else {
             authenticatePayment() { authenticated in
                 if authenticated == true {
-                    
                     self.showSpinner(titleText: "Authorizing", messageText: "Securely transferring funds")
                     
                     self.functions.httpsCallable("transact").call(["recipientUID": recipientUID,  "amount": amount, "currency": "GBP"]) { (result, error) in
@@ -385,8 +392,9 @@ class ConfirmViewController: UIViewController {
                     //                                    let details = error.userInfo[FunctionsErrorDetailsKey]
                     //                                }
                             // ...
-                            self.removeSpinner()
-                            completion("Error in transaction function")
+                            self.removeSpinnerWithCompletion {
+                                completion("Error in transaction function")
+                            }
                         } else {
                             
                             if let transactionData = result?.data as? [String: Any] {
@@ -404,18 +412,25 @@ class ConfirmViewController: UIViewController {
                                 
                                 
                                 self.confirmedTransaction = Transaction(amount: amount, currency: currency, datetime: datetime, payerID: payerID, recipientID: recipientID, payerName: payerName, recipientName: recipientName, userIsPayer: userIsPayer)
+                                
+                                self.transactionCompleted = true
+                                
+                                self.removeSpinnerWithCompletion() {
+                                    completion("success (no topup required)")
+                                }
+                                
+                                
+                            } else {
+                                
+                                self.removeSpinnerWithCompletion() {
+                                    completion("Transaction seems to have been successful but data wasn't returned as expected. Please check your receipts before retrying.")
+                                }
                             }
                             
                             
-                            print(self.confirmedTransaction)
-                            
-                            self.removeSpinner()
-                            completion("success (no topup required)")
                         }
                     }
                 } else {
-                    print("auth failed bro")
-//                    self.showAuthenticationError(title: "Oops", message: "Apologies - we couldn't authenticate this transaction. Please try again. ")
                     completion("Apologies - we couldn't authenticate this transaction. Please try again.")
                 }
             }

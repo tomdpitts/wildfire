@@ -67,11 +67,6 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
         shareLinkButton.imageView?.tintColor = .clear
         loadingSpinner.isHidden = true
         
-//        saveToCameraRoll.tintColor = UIColor(hexString: "#39C3C6")
-//        if #available(iOS 13.0, *) {
-//            saveToCameraRoll.setImage(UIImage(systemName: "square.and.arrow.up")?.withTintColor(UIColor(hexString: "#39C3C6")) , for: .normal)
-//        }
-        
         amountTextField.delegate = self
         amountTextField.keyboardType = .decimalPad
 
@@ -103,9 +98,7 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
         // reset Save to Camera Roll Button
         saveToCameraRoll.setTitle("Save", for: .normal)
         Utilities.styleHollowButton(saveToCameraRoll)
-        if #available(iOS 13.0, *) {
-            saveToCameraRoll.setImage(UIImage(systemName: "square.and.arrow.up"), for: .normal)
-        }
+        saveToCameraRoll.setImage(UIImage(named: "icons8-picture-50"), for: .normal)
         saveToCameraRoll.isEnabled = true
         
     }
@@ -219,9 +212,7 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
             // reset Save to Camera Roll Button (currently hidden)
             saveToCameraRoll.setTitle("Save", for: .normal)
             Utilities.styleHollowButton(saveToCameraRoll)
-            if #available(iOS 13.0, *) {
-                saveToCameraRoll.setImage(UIImage(systemName: "square.and.arrow.up"), for: .normal)
-            }
+            saveToCameraRoll.setImage(UIImage(named: "icons8-picture-50"), for: .normal)
             saveToCameraRoll.isEnabled = true
         }
     }
@@ -229,6 +220,7 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
     func generateQRString() -> String? {
         
         var receiveAmountString = ""
+        var currency = self.currency
         
         // validator is text that will be appended to the beginning of the string - this is a failsafe to essentially ensure that the decrypted string is from Wildfire (lyrics are not all in the right order)
         let validator = """
@@ -244,6 +236,8 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
                 // update class variable with amount in cents, so it can be included in dynamic link
                 // first trim off the ".0" at the end
                 let centsInt = Int(receiveAmountCents)
+                
+                // required for dynamic link
                 self.receiveAmount = String(centsInt)
                 
                 let receiveAmount7 = Int(receiveAmountCents*7)
@@ -256,7 +250,7 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
         
         if let uid = Auth.auth().currentUser?.uid {
         
-            let qrdata = validator + receiveAmountString + uid
+            let qrdata = validator + receiveAmountString + currency + uid
             
             let aes = try? AES(key: "afiretobekindled", iv: "av3s5e12b3fil1ed")
             
@@ -342,9 +336,7 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
         Utilities.styleHollowButtonSELECTED(saveToCameraRoll)
         
         saveToCameraRoll.setTitle("Done!", for: .normal)
-        if #available(iOS 13.0, *) {
-            saveToCameraRoll.setImage(UIImage(systemName: "checkmark.circle"), for: .normal)
-        }
+        saveToCameraRoll.setImage(UIImage(named: "icons8-checked-50"), for: .normal)
     }
     
     func uploadQR(QR: UIImage) {
@@ -413,14 +405,20 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
         
         shareLink.iOSParameters?.appStoreID = "962194608"
         
+        if let homepage = URL(string: "https://www.theverge.com") {
+            shareLink.otherPlatformParameters?.fallbackUrl = homepage
+        }
+        
         // for future Android version!
 //        linkBuilder.androidParameters = DynamicLinkAndroidParameters(packageName: "com.example.android")
         
         shareLink.socialMetaTagParameters = DynamicLinkSocialMetaTagParameters()
-        shareLink.socialMetaTagParameters?.title = "Pay with Wildfire"
+        
+        if let amount = amountTextField.text {
+            shareLink.socialMetaTagParameters?.title = "£\(amount) - Pay with Wildfire"
+        }
         shareLink.socialMetaTagParameters?.descriptionText = "The easiest and fastest way to pay"
         
-        print("ImageURL is: \(imageURL.absoluteString)")
         shareLink.socialMetaTagParameters?.imageURL = imageURL
         
         shareLink.shorten { (url, warnings, error) in

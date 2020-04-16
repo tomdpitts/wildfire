@@ -50,14 +50,14 @@ class TopUpViewController: UIViewController, UITextFieldDelegate {
         
         var workString: String = amountString
         
-        // 1: ensure amount is between 0.50 and 50
+        // 1: ensure amount is between 0.50 and 40
         
         guard let amountFloat = Float(workString) else { return }
         
         var x = amountFloat
         
-        if x > 50.00 {
-            x = 50.00
+        if x > 40.00 {
+            x = 40.00
         }
         
         if x < 0 {

@@ -261,7 +261,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                         
                             confirmViewController.recipientUID = recipientID
                             confirmViewController.sendAmount = amountInt
-                            confirmViewController.currency = currency
+                            confirmViewController.transactionCurrency = currency
                             confirmViewController.isDynamicLinkResponder = true
                             
                             self.window?.rootViewController = initialViewController
@@ -278,7 +278,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                         
                             confirmViewController.recipientUID = recipientID
                             confirmViewController.sendAmount = amountInt
-                            confirmViewController.currency = currency
+                            confirmViewController.transactionCurrency = currency
                             confirmViewController.isDynamicLinkResponder = true
                             
                             currentController.present(confirmViewController, animated: true, completion: nil)

@@ -44,7 +44,7 @@ class DisplayReceiptAfterPaymentViewController: UIViewController {
         
         if isDynamicLinkResponder == true {
             let label = UILabel()
-            label.frame = CGRect(x: 20, y: 40, width: 200, height: 34)
+            label.frame = CGRect(x: 20, y: 40, width: 300, height: 34)
             label.textAlignment = NSTextAlignment.left
             label.font = UIFont.systemFont(ofSize: 34, weight: .bold)
             label.text = "Payment Success"

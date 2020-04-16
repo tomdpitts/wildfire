@@ -1152,9 +1152,13 @@ exports.respondToEventRecord = functions.region('europe-west1').firestore.docume
       currency = currencyCode
     }
 
-    // amount is stored in cents/pence, so needs to be divided by 100
+    // amount returned needs to be factored back to the user amount, and also is in cents/pence
+    // get the float
     const centsAmount = parseFloat(creditedFunds["Amount"])
-    const amount = String(centsAmount/100)
+    // factor back up to the user amount
+    const amountFactored = ((centsAmount*100)/98)
+    // divide by 100 to get whole currency amount and trim to 2dp (usually useful to add the final 0, which otherwise is left out)
+    const amount = (amountFactored/100).toFixed(2)
 
     var authorName = ""
     var creditorToken = ""
