@@ -4,24 +4,20 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>Wildfire1.1.xcscheme_^#shared#^_</key>
+		<key>Wildfire.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>7</integer>
+			<integer>46</integer>
+		</dict>
+		<key>Wildfire1.1.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+			<key>orderHint</key>
+			<integer>0</integer>
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
-	<dict>
-		<key>E21AC95E21EA6BEF00D460A9</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>E21AC97421EA6BF000D460A9</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-	</dict>
+	<dict/>
 </dict>
 </plist>

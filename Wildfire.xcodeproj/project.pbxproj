@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		02B40DBB5BA0E3ABDC608F79 /* Pods_Wildfire1_1.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4483B7785E5EA4F8EEDBA322 /* Pods_Wildfire1_1.framework */; };
 		BA5775FCEF6517559C1353DB /* Pods_Wildfire1_1Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 70977A2D67508CF8EB0AA3E3 /* Pods_Wildfire1_1Tests.framework */; };
+		CF708C6E3C57CC394A962DF4 /* Pods_Wildfire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3D8F0BEBC6D607CD2E3D6C6 /* Pods_Wildfire.framework */; };
 		E20104EC23E93D4F00441040 /* AddCard2TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E20104EB23E93D4F00441040 /* AddCard2TableViewController.swift */; };
 		E20104EE23EB994F00441040 /* AddCardSuccessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E20104ED23EB994F00441040 /* AddCardSuccessViewController.swift */; };
 		E2026709230ED8CF003C0AF4 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2026708230ED8CF003C0AF4 /* LoginViewController.swift */; };
@@ -44,7 +44,6 @@
 		E2676367235614DB00D079C6 /* formStep2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2676366235614DB00D079C6 /* formStep2ViewController.swift */; };
 		E271C0CE23D81EED004245CC /* CardDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E271C0CD23D81EED004245CC /* CardDetailsViewController.swift */; };
 		E271C0D223D99E6F004245CC /* EditProfileTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E271C0D123D99E6F004245CC /* EditProfileTableViewController.swift */; };
-		E278AE0621FCEFDF00A65309 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E278AE0521FCEFDF00A65309 /* GoogleService-Info.plist */; };
 		E279717D231433AF00964F25 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E279717C231433AF00964F25 /* SignUpViewController.swift */; };
 		E279717F231433D500964F25 /* ExistingUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E279717E231433D500964F25 /* ExistingUserViewController.swift */; };
 		E284815D23FA53D500D51462 /* BankAccountsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E284815C23FA53D500D51462 /* BankAccountsViewController.swift */; };
@@ -61,6 +60,8 @@
 		E2B979E3232960B000194E75 /* ConfirmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2B979DE23295DB000194E75 /* ConfirmViewController.swift */; };
 		E2BEF97324468F79002EE61B /* TopUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2BEF97224468F79002EE61B /* TopUpViewController.swift */; };
 		E2BEF9752446DA74002EE61B /* CreditAddedSuccessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2BEF9742446DA74002EE61B /* CreditAddedSuccessViewController.swift */; };
+		E2BEF97A24486055002EE61B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E2BEF97924486055002EE61B /* GoogleService-Info.plist */; };
+		E2BEF97B24486055002EE61B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E2BEF97924486055002EE61B /* GoogleService-Info.plist */; };
 		E2CDF4AB235F2126002E155D /* PhoneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2CDF4AA235F2126002E155D /* PhoneViewController.swift */; };
 		E2CDF4AD235F2859002E155D /* VerificationCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2CDF4AC235F2859002E155D /* VerificationCodeViewController.swift */; };
 		E2DEF201240D0610006A6106 /* DocumentTypeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2DEF200240D0610006A6106 /* DocumentTypeViewController.swift */; };
@@ -84,9 +85,11 @@
 
 /* Begin PBXFileReference section */
 		2E74D15B5FC7AC373C8CDDA2 /* Pods-Wildfire1.1.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Wildfire1.1.release.xcconfig"; path = "Pods/Target Support Files/Pods-Wildfire1.1/Pods-Wildfire1.1.release.xcconfig"; sourceTree = "<group>"; };
-		4483B7785E5EA4F8EEDBA322 /* Pods_Wildfire1_1.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Wildfire1_1.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		70977A2D67508CF8EB0AA3E3 /* Pods_Wildfire1_1Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Wildfire1_1Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		751530234A92A18BF95F2537 /* Pods-Wildfire.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Wildfire.release.xcconfig"; path = "Pods/Target Support Files/Pods-Wildfire/Pods-Wildfire.release.xcconfig"; sourceTree = "<group>"; };
 		B1E15A2B9797B338CC0D02CA /* Pods-Wildfire1.1Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Wildfire1.1Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Wildfire1.1Tests/Pods-Wildfire1.1Tests.debug.xcconfig"; sourceTree = "<group>"; };
+		C3D8F0BEBC6D607CD2E3D6C6 /* Pods_Wildfire.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Wildfire.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D09E9BCCC2AD60710AAC8F2E /* Pods-Wildfire.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Wildfire.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Wildfire/Pods-Wildfire.debug.xcconfig"; sourceTree = "<group>"; };
 		E20104EB23E93D4F00441040 /* AddCard2TableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCard2TableViewController.swift; sourceTree = "<group>"; };
 		E20104ED23EB994F00441040 /* AddCardSuccessViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCardSuccessViewController.swift; sourceTree = "<group>"; };
 		E2026708230ED8CF003C0AF4 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -127,7 +130,6 @@
 		E2676366235614DB00D079C6 /* formStep2ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = formStep2ViewController.swift; sourceTree = "<group>"; };
 		E271C0CD23D81EED004245CC /* CardDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardDetailsViewController.swift; sourceTree = "<group>"; };
 		E271C0D123D99E6F004245CC /* EditProfileTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileTableViewController.swift; sourceTree = "<group>"; };
-		E278AE0521FCEFDF00A65309 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		E279717C231433AF00964F25 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		E279717E231433D500964F25 /* ExistingUserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExistingUserViewController.swift; sourceTree = "<group>"; };
 		E284815C23FA53D500D51462 /* BankAccountsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BankAccountsViewController.swift; sourceTree = "<group>"; };
@@ -141,10 +143,10 @@
 		E2A45D402415D0F100EC7975 /* Wildfire1.1.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Wildfire1.1.entitlements; sourceTree = "<group>"; };
 		E2A45D432419BC9800EC7975 /* InfoViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoViews.swift; sourceTree = "<group>"; };
 		E2AD346721F384430030FA2E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		E2B979DB2329441900194E75 /* Playground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Playground.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		E2B979DE23295DB000194E75 /* ConfirmViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmViewController.swift; sourceTree = "<group>"; };
 		E2BEF97224468F79002EE61B /* TopUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopUpViewController.swift; sourceTree = "<group>"; };
 		E2BEF9742446DA74002EE61B /* CreditAddedSuccessViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreditAddedSuccessViewController.swift; sourceTree = "<group>"; };
+		E2BEF97924486055002EE61B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		E2CDF4AA235F2126002E155D /* PhoneViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneViewController.swift; sourceTree = "<group>"; };
 		E2CDF4AC235F2859002E155D /* VerificationCodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationCodeViewController.swift; sourceTree = "<group>"; };
 		E2DEF200240D0610006A6106 /* DocumentTypeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentTypeViewController.swift; sourceTree = "<group>"; };
@@ -163,7 +165,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				02B40DBB5BA0E3ABDC608F79 /* Pods_Wildfire1_1.framework in Frameworks */,
+				CF708C6E3C57CC394A962DF4 /* Pods_Wildfire.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -185,6 +187,8 @@
 				2E74D15B5FC7AC373C8CDDA2 /* Pods-Wildfire1.1.release.xcconfig */,
 				B1E15A2B9797B338CC0D02CA /* Pods-Wildfire1.1Tests.debug.xcconfig */,
 				E39DF65F0B716BEA2ADC4042 /* Pods-Wildfire1.1Tests.release.xcconfig */,
+				D09E9BCCC2AD60710AAC8F2E /* Pods-Wildfire.debug.xcconfig */,
+				751530234A92A18BF95F2537 /* Pods-Wildfire.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -192,8 +196,8 @@
 		1B3DDA1420FF8A65BC0E53E5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				4483B7785E5EA4F8EEDBA322 /* Pods_Wildfire1_1.framework */,
 				70977A2D67508CF8EB0AA3E3 /* Pods_Wildfire1_1Tests.framework */,
+				C3D8F0BEBC6D607CD2E3D6C6 /* Pods_Wildfire.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -201,7 +205,6 @@
 		E21AC95621EA6BEF00D460A9 = {
 			isa = PBXGroup;
 			children = (
-				E2B979DB2329441900194E75 /* Playground.playground */,
 				E21AC96121EA6BEF00D460A9 /* Wildfire1.1 */,
 				E21AC97821EA6BF000D460A9 /* Wildfire1.1Tests */,
 				E21AC96021EA6BEF00D460A9 /* Products */,
@@ -234,8 +237,8 @@
 				E29925F02437105800AE5D6F /* WildfireLogo1500px.png */,
 				E2AD346721F384430030FA2E /* Assets.xcassets */,
 				E29EA43424062DAA0059C7A4 /* Graphics */,
-				E278AE0521FCEFDF00A65309 /* GoogleService-Info.plist */,
 				E21AC97021EA6BF000D460A9 /* Info.plist */,
+				E2BEF97924486055002EE61B /* GoogleService-Info.plist */,
 			);
 			path = Wildfire1.1;
 			sourceTree = "<group>";
@@ -324,9 +327,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		E21AC95E21EA6BEF00D460A9 /* Wildfire1.1 */ = {
+		E21AC95E21EA6BEF00D460A9 /* Wildfire */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = E21AC97E21EA6BF000D460A9 /* Build configuration list for PBXNativeTarget "Wildfire1.1" */;
+			buildConfigurationList = E21AC97E21EA6BF000D460A9 /* Build configuration list for PBXNativeTarget "Wildfire" */;
 			buildPhases = (
 				DA009A4BC750AD74C31623CC /* [CP] Check Pods Manifest.lock */,
 				E21AC95B21EA6BEF00D460A9 /* Sources */,
@@ -338,7 +341,7 @@
 			);
 			dependencies = (
 			);
-			name = Wildfire1.1;
+			name = Wildfire;
 			productName = Wildfire1.1;
 			productReference = E21AC95F21EA6BEF00D460A9 /* Wildfire.app */;
 			productType = "com.apple.product-type.application";
@@ -383,7 +386,7 @@
 					};
 				};
 			};
-			buildConfigurationList = E21AC95A21EA6BEF00D460A9 /* Build configuration list for PBXProject "Wildfire1-1" */;
+			buildConfigurationList = E21AC95A21EA6BEF00D460A9 /* Build configuration list for PBXProject "Wildfire" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -396,7 +399,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				E21AC95E21EA6BEF00D460A9 /* Wildfire1.1 */,
+				E21AC95E21EA6BEF00D460A9 /* Wildfire */,
 				E21AC97421EA6BF000D460A9 /* Wildfire1.1Tests */,
 			);
 		};
@@ -409,7 +412,7 @@
 			files = (
 				E21AC96F21EA6BF000D460A9 /* LaunchScreen.storyboard in Resources */,
 				E24388AD2315A5AC00948AD5 /* WildfireLogin.mp4 in Resources */,
-				E278AE0621FCEFDF00A65309 /* GoogleService-Info.plist in Resources */,
+				E2BEF97A24486055002EE61B /* GoogleService-Info.plist in Resources */,
 				E25C87C12441AADA003EE6A0 /* Open_Sans in Resources */,
 				E29925EF2437104800AE5D6F /* WILDFIRE.png in Resources */,
 				E29EA43524062DAA0059C7A4 /* Graphics in Resources */,
@@ -423,6 +426,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E2BEF97B24486055002EE61B /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -457,15 +461,15 @@
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Wildfire1.1/Pods-Wildfire1.1-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-Wildfire/Pods-Wildfire-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Wildfire1.1/Pods-Wildfire1.1-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-Wildfire/Pods-Wildfire-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Wildfire1.1/Pods-Wildfire1.1-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Wildfire/Pods-Wildfire-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		DA009A4BC750AD74C31623CC /* [CP] Check Pods Manifest.lock */ = {
@@ -483,7 +487,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Wildfire1.1-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-Wildfire-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -564,7 +568,7 @@
 /* Begin PBXTargetDependency section */
 		E21AC97721EA6BF000D460A9 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = E21AC95E21EA6BEF00D460A9 /* Wildfire1.1 */;
+			target = E21AC95E21EA6BEF00D460A9 /* Wildfire */;
 			targetProxy = E21AC97621EA6BF000D460A9 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -707,19 +711,19 @@
 		};
 		E21AC97F21EA6BF000D460A9 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F9AA015D5574A5F3F757AF97 /* Pods-Wildfire1.1.debug.xcconfig */;
+			baseConfigurationReference = D09E9BCCC2AD60710AAC8F2E /* Pods-Wildfire.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Wildfire1.1/Wildfire1.1.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = D52N54SYXN;
 				INFOPLIST_FILE = Wildfire1.1/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.wildfire.Wildfire;
+				PRODUCT_BUNDLE_IDENTIFIER = com.wildfire.WildfireWallet;
 				PRODUCT_NAME = Wildfire;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -728,19 +732,19 @@
 		};
 		E21AC98021EA6BF000D460A9 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2E74D15B5FC7AC373C8CDDA2 /* Pods-Wildfire1.1.release.xcconfig */;
+			baseConfigurationReference = 751530234A92A18BF95F2537 /* Pods-Wildfire.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Wildfire1.1/Wildfire1.1.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = D52N54SYXN;
 				INFOPLIST_FILE = Wildfire1.1/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.wildfire.Wildfire;
+				PRODUCT_BUNDLE_IDENTIFIER = com.wildfire.WildfireWallet;
 				PRODUCT_NAME = Wildfire;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -794,7 +798,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		E21AC95A21EA6BEF00D460A9 /* Build configuration list for PBXProject "Wildfire1-1" */ = {
+		E21AC95A21EA6BEF00D460A9 /* Build configuration list for PBXProject "Wildfire" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E21AC97C21EA6BF000D460A9 /* Debug */,
@@ -803,7 +807,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		E21AC97E21EA6BF000D460A9 /* Build configuration list for PBXNativeTarget "Wildfire1.1" */ = {
+		E21AC97E21EA6BF000D460A9 /* Build configuration list for PBXNativeTarget "Wildfire" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E21AC97F21EA6BF000D460A9 /* Debug */,

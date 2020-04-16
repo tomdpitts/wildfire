@@ -11,6 +11,6 @@
 #endif
 
 
-FOUNDATION_EXPORT double Pods_Wildfire1_1VersionNumber;
-FOUNDATION_EXPORT const unsigned char Pods_Wildfire1_1VersionString[];
+FOUNDATION_EXPORT double Pods_WildfireVersionNumber;
+FOUNDATION_EXPORT const unsigned char Pods_WildfireVersionString[];
 

@@ -1116,6 +1116,7 @@ exports.respondToEventRecord = functions.region('europe-west1').firestore.docume
       // Send a message to the device corresponding to the provided registration token
       admin.messaging().send(payload)
         .then((response) => {
+          helpers.moveEventRecordTo(eventType,'successful',eventRecord,resourceID, false,'testing')
           return
       })
       .catch((err) => {

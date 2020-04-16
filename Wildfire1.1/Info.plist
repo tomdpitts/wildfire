@@ -29,7 +29,7 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.googleusercontent.apps.989194075636-otnuvhhp65e088shcfqbn2lbh6pl6936</string>
+				<string>com.googleusercontent.apps.989194075636-8odbdegtn81bik9q74e0d6pnq03tlfsi</string>
 			</array>
 		</dict>
 		<dict>
@@ -39,7 +39,7 @@
 			<string>Bundle ID</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.wildfire.Wildfire</string>
+				<string>com.wildfire.WildfireWallet</string>
 			</array>
 		</dict>
 	</array>
