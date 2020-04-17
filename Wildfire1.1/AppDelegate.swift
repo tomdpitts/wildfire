@@ -14,6 +14,7 @@ import FirebaseAuth
 import FirebaseFunctions
 import FirebaseMessaging
 import FirebaseDynamicLinks
+import FirebaseCrashlytics
 import SwiftyJSON
 import UserNotifications
 //import FBSDKCoreKit
@@ -35,6 +36,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         // Override point for customization after application launch.
         
         FirebaseApp.configure()
+        
+        if let currentUserID = Auth.auth().currentUser?.uid {
+            Crashlytics.crashlytics().setUserID(currentUserID)
+        }
         
         if #available(iOS 10.0, *) {
             // For iOS 10 display notification (sent via APNS)
@@ -122,20 +127,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
     
-//
-//    // probably don't need the following 2 funcs
-//    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-//        let tokenParts = deviceToken.map { data in String(format: "%02.2hhx", data) }
-//        let token = tokenParts.joined()
-//        print("Device Token: \(token)")
-//
-//    }
-//
-//    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
-//      print("Failed to register: \(error)")
-//    }
-    
-    
     fileprivate var backgroundTask: UIBackgroundTaskIdentifier = .invalid
     
     // func to deal with Universal Links
@@ -149,10 +140,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }
         
         if let incomingURL = userActivity.webpageURL {
-            print("Incoming URL is: \(incomingURL)")
+            
             let linkHandled = DynamicLinks.dynamicLinks().handleUniversalLink(userActivity.webpageURL!) { (dynamiclink, error) in
                 guard error == nil else {
-                    print("found an error!: \(error)")
                     return
                 }
                 if let dynamicLink = dynamiclink {
@@ -176,8 +166,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
     // func to deal with custom scheme URL - should only be relevant the first time a user installs and opens the app
     func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
-
-        print("Received  URL through a custom scheme!: \(url.absoluteString)")
         
         // this prevents a timing-related bug causing dynamicLinks to fail approx. every other time
         backgroundTask = UIApplication.shared.beginBackgroundTask { [weak self] in
@@ -197,10 +185,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     func handleIncomingDynamicLink(_ dynamicLink: DynamicLink) {
         guard let url = dynamicLink.url else {
-            print("DynamicLink object has no url")
             return
         }
-        print("Incoming link parameter is: \(url)")
         guard let components = URLComponents(url: url, resolvingAgainstBaseURL: false), let queryItems = components.queryItems else { return }
         
         var recipientID: String?
@@ -227,10 +213,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             
             let currentUserID = Auth.auth().currentUser?.uid
             
-//            if recipientID == currentUserID {
-//                // user is trying to pay themselves? Put a stop to it
-//                return
-//            } else {
+            if recipientID == currentUserID {
+                // user is trying to pay themselves? Put a stop to it
+                return
+            } else {
             
                 let storyboard = UIStoryboard(name: "Main", bundle: nil)
                     
@@ -243,7 +229,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                     }
                     
                     if currentController == HomeViewController() {
-                        print("currentController is HomeViewVC")
                         // TODO this needs testing
                         // the idea is that if a user taps on a link when Wildfire wasn't open recently, redirect() will kick in and authenticate user. So far so good, but if auth is successful and the confirmVC is dismissed, the user is dumped on the blank homescreen. Adding this stack of VCs in the case where redirect() has been triggered should mean dismissing ConfirmVC reveals the Pay VC as usual.
                         
@@ -271,9 +256,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                         }
                         
                     } else {
-                        
-                        print("currentController is NOT HomeViewVC")
-                    
+                                            
                         if let confirmViewController = storyboard.instantiateViewController(withIdentifier: "confirmVC") as? ConfirmViewController {
                         
                             confirmViewController.recipientUID = recipientID
@@ -285,9 +268,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                         }
                     }
                 }
-//            }
+            }
         } else {
-            print("parameters didn't come through")
         }
     }
     
@@ -305,14 +287,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                      fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         // If you are receiving a notification message while your app is in the background,
         // this callback will not be fired till the user taps on the notification launching the application.
-        // TODO: Handle data of notification
 
         // With swizzling disabled you must let Messaging know about the message, for Analytics
         // Messaging.messaging().appDidReceiveMessage(userInfo)
-
-
-        // Print full message.
-//        print(userInfo)
         
         guard let eventType = userInfo["eventType"] as? String else { return }
         
@@ -345,11 +322,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             UserDefaults.standard.set(false, forKey: "KYCVerified")
             
             guard let refusedMessage = userInfo["refusedMessage"] as? String else {
-                print("no message")
                 return
             }
             guard let refusedType = userInfo["refusedType"] as? String else {
-                print("no type")
                 return
             }
             
@@ -371,15 +346,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             }
         } else if eventType == "TRANSFER_NORMAL_SUCCEEDED" {
             guard let authorName = userInfo["authorName"] as? String else {
-                print("no name")
                 return
             }
             guard let currency = userInfo["currency"] as? String else {
-                print("no currency")
                 return
             }
             guard let amount = userInfo["amount"] as? String else {
-                print("no currency")
                 return
             }
             
@@ -405,7 +377,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }
         
         if let refusedType = userInfo["refusedType"] as? String {
-            print(refusedType)
         }
 
         completionHandler(UIBackgroundFetchResult.newData)
@@ -475,7 +446,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
     
     func listCardsFromMangopay(completion: @escaping ()->()) {
-        print("listCardsFromMangopay called")
         
         let mpID: String? = UserDefaults.standard.string(forKey: "mangopayID")
         
@@ -506,8 +476,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                         let card = PaymentCard(cardID: cardID, cardNumber: cardNumber, cardProvider: cardProvider, expiryDate: expiryDate)
                         
                         defaults.set(try? PropertyListEncoder().encode(card), forKey: "card\(i)")
-                        print("card \(i)")
-                        print(card)
                     }
                 }
                 completion()

@@ -41,7 +41,6 @@ class Utilities {
             }
         } else {
             UserDefaults.standard.set(false, forKey: "userAccountExists")
-            print("user Account does NOT exist")
         }
     }
     
@@ -63,8 +62,8 @@ class Utilities {
     
     static func getCurrentRegistrationToken() {
         InstanceID.instanceID().instanceID { (result, error) in
-            if let error = error {
-                print("Error fetching remote instance ID: \(error)")
+            if error != nil {
+                return
             } else if let result = result {
 
                 // don't have time to test whether the rest of this func is required, or whether the didReceiveRegistrationToken method in AppDelegate is fired automatically. At worst, this process runs twice which shouldn't break anything.
@@ -417,11 +416,7 @@ extension UIViewController {
                     alertController.dismiss(animated: true, completion: nil)
                     
                 }
-            } else {
-                print("presentedVC is NOT alertController")
             }
-        } else {
-            print("presentedVC is nil")
         }
     }
     
@@ -439,7 +434,6 @@ extension UIViewController {
                     }
                 }
             } else {
-                print("presentedVC is NOT alertController")
                 spinnerCompletion()
             }
         } else {

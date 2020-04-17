@@ -18,6 +18,7 @@ target 'Wildfire' do
   pod 'FirebaseUI/Storage'
   pod 'Firebase/Messaging'
   pod 'Firebase/DynamicLinks'
+  pod 'Firebase/Crashlytics'
   pod 'mangopay'
   pod 'CryptoSwift'
   pod 'Alamofire'

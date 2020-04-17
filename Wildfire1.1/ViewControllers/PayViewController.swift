@@ -8,6 +8,7 @@
 
 import UIKit
 import Contacts
+import FirebaseCrashlytics
 
 class PayViewController: UIViewController {
     
@@ -19,17 +20,29 @@ class PayViewController: UIViewController {
         super.viewDidLoad()
         
         setUpElements()
+//        let button = UIButton(type: .roundedRect)
+//        button.frame = CGRect(x: 20, y: 250, width: 100, height: 30)
+//        button.setTitle("Crash", for: [])
+//        button.addTarget(self, action: #selector(self.crashButtonTapped(_:)), for: .touchUpInside)
+//        view.addSubview(button)
     }
+    
+//    @IBAction func crashButtonTapped(_ sender: AnyObject) {
+//        fatalError()
+//    }
     
     @IBAction func sendButtonTapped(_ sender: Any) {
         
         CNContactStore().requestAccess(for: .contacts) { (granted, error) in
             if let error = error {
-                print(error)
-                return
+                self.universalShowAlert(title: "Error", message: "Something went wrong: \(error.localizedDescription)", segue: nil, cancel: false)
             } else {
-                DispatchQueue.main.async {
-                    self.performSegue(withIdentifier: "goToSend", sender: self)
+                if granted == true {
+                    DispatchQueue.main.async {
+                        self.performSegue(withIdentifier: "goToSend", sender: self)
+                    }
+                } else {
+                    self.universalShowAlert(title: "Permission required", message: "Access to contact list is required to send payments.", segue: nil, cancel: false)
                 }
             }
         }
