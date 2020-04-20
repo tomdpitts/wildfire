@@ -194,8 +194,6 @@ class Account2ViewController: UITableViewController {
     
     func setUpProfilePic() {
         
-        let uid = Auth.auth().currentUser?.uid
-
 //        // set the generic image immediately
 //        profilePicView.image = genericProfilePic
         

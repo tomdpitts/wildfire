@@ -78,10 +78,10 @@ class CardDetailsViewController: UIViewController {
             // update credit cards list
             
             if error != nil {
-                print(error)
-            } else {
-                print(result)
+                
+                self.universalShowAlert(title: "Oops", message: "Something went wrong. Please try to delete the card again.", segue: nil, cancel: false)
             }
+            
             let appDelegate = AppDelegate()
             appDelegate.listCardsFromMangopay() { () in
                 self.removeSpinner()

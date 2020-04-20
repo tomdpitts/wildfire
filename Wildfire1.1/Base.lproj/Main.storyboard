@@ -569,7 +569,7 @@
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="CkK-RD-EqY">
                                 <rect key="frame" x="20" y="112.5" width="280" height="230.5"/>
                                 <subviews>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="16 digit Card Number" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="wPz-vK-2Zs" userLabel="Card Number">
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="4972485830400056" borderStyle="roundedRect" placeholder="16 digit Card Number" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="wPz-vK-2Zs" userLabel="Card Number">
                                         <rect key="frame" x="0.0" y="0.0" width="280" height="50"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="Cq2-oh-WpD"/>
@@ -2318,14 +2318,14 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="About" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="VgR-ZM-H0X">
-                                                    <rect key="frame" x="55" y="0.0" width="249" height="44"/>
+                                                    <rect key="frame" x="56" y="0.0" width="248" height="44"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" image="info.circle" catalog="system" id="zMO-cW-K62">
-                                                    <rect key="frame" x="18" y="12.5" width="20" height="19"/>
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" image="icons8-info-50" id="zMO-cW-K62">
+                                                    <rect key="frame" x="16" y="9.5" width="25" height="25"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </imageView>
                                             </subviews>
@@ -4437,7 +4437,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="17" translatesAutoresizingMaskIntoConstraints="NO" id="BZm-E6-nf7">
-                                <rect key="frame" x="18.5" y="97.5" width="283" height="402"/>
+                                <rect key="frame" x="18.5" y="97.5" width="283" height="403"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icons8-bank-building-100" translatesAutoresizingMaskIntoConstraints="NO" id="NfF-Ny-ZU4">
                                         <rect key="frame" x="116.5" y="0.0" width="50" height="50"/>
@@ -4560,10 +4560,10 @@
                                         </subviews>
                                     </stackView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mb8-7M-HKk">
-                                        <rect key="frame" x="25" y="311" width="233" height="24"/>
+                                        <rect key="frame" x="25" y="311" width="233" height="25"/>
                                         <color key="tintColor" name="tealPrimary"/>
                                         <inset key="titleEdgeInsets" minX="15" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                        <state key="normal" title="Why am I being charged?" image="questionmark.circle" catalog="system">
+                                        <state key="normal" title="Why am I being charged?" image="icons8-help-50">
                                             <color key="titleColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
                                         <connections>
@@ -4571,7 +4571,7 @@
                                         </connections>
                                     </button>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="fmh-TA-1Sj">
-                                        <rect key="frame" x="22" y="352" width="239" height="50"/>
+                                        <rect key="frame" x="22" y="353" width="239" height="50"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LmA-NF-ntg" userLabel="Cancel Button">
                                                 <rect key="frame" x="0.0" y="0.0" width="112" height="50"/>
@@ -5329,8 +5329,10 @@
         <image name="icons8-get-cash-filled-50" width="25" height="25"/>
         <image name="icons8-hand-peace-50" width="25" height="25"/>
         <image name="icons8-headstone-50" width="25" height="25"/>
+        <image name="icons8-help-50" width="25" height="25"/>
         <image name="icons8-identification-documents-100 (1)" width="50" height="50"/>
         <image name="icons8-identification-documents-error-100" width="50" height="50"/>
+        <image name="icons8-info-50" width="25" height="25"/>
         <image name="icons8-initiate-money-transfer-100" width="50" height="50"/>
         <image name="icons8-mastercard-credit-card-100" width="100" height="100"/>
         <image name="icons8-money-50" width="25" height="25"/>
@@ -5347,9 +5349,7 @@
         <image name="icons8-send-letter-50" width="25" height="25"/>
         <image name="icons8-user-50" width="25" height="25"/>
         <image name="icons8Logo" width="307.5" height="128"/>
-        <image name="info.circle" catalog="system" width="128" height="121"/>
         <image name="mangopay-terms" width="802" height="78"/>
-        <image name="questionmark.circle" catalog="system" width="128" height="121"/>
         <namedColor name="tealPrimary">
             <color red="0.1809999942779541" green="0.76599997282028198" blue="0.77999997138977051" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

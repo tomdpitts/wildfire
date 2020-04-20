@@ -141,7 +141,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         if let incomingURL = userActivity.webpageURL {
             
-            let linkHandled = DynamicLinks.dynamicLinks().handleUniversalLink(userActivity.webpageURL!) { (dynamiclink, error) in
+            let linkHandled = DynamicLinks.dynamicLinks().handleUniversalLink(incomingURL) { (dynamiclink, error) in
                 guard error == nil else {
                     return
                 }
@@ -332,7 +332,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             UserDefaults.standard.set(refusedType, forKey: "refusedType")
             
             
-            if let controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "IDRefused") as? UIViewController {
+            if let controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "IDRefused") as? OutcomeIDRefusedViewController {
                 if let window = self.window, let rootViewController = window.rootViewController {
                     if #available(iOS 13.0, *) {
                         window.overrideUserInterfaceStyle = .light
@@ -374,9 +374,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             }
             
             
-        }
-        
-        if let refusedType = userInfo["refusedType"] as? String {
         }
 
         completionHandler(UIBackgroundFetchResult.newData)

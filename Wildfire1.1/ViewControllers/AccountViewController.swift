@@ -77,7 +77,7 @@ class AccountViewController: UIViewController {
         
         // self.accountBalance.text = "edited"
         
-        let balance = snapshot.value!
+        let balance = snapshot.value
         
         if balance != nil {
             self.accountBalance.text = "\(String(describing: balance))"

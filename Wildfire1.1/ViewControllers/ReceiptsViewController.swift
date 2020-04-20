@@ -188,7 +188,6 @@ class ReceiptsViewController: UITableViewController {
         // without this line, the cell remains (visually) selected after end of tap
         tableView.deselectRow(at: indexPath, animated: true)
         self.selectedTransaction = transactionsGrouped[indexPath.section][indexPath.row]
-        print(selectedTransaction)
 //        self.section = indexPath.section
 //        self.row = indexPath.row
 

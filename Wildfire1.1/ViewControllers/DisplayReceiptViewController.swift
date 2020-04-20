@@ -66,7 +66,6 @@ class DisplayReceiptAfterPaymentViewController: UIViewController {
             amountLabel.text = "£" + String(format: "%.2f", xFloat)
         }
         // TODO getting fatal error: unexpectedly found nil while unwrapping an optional value on line 54
-        print(transaction?.datetime)
         dateLabel.text = formatter.string(from: transaction!.datetime)
         timeLabel.text = formatter2.string(from: transaction!.datetime)
     }

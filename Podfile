@@ -26,7 +26,7 @@ target 'Wildfire' do
   pod 'SwiftyJSON'
   # pod 'FacebookCore'
   # pod 'FacebookLogin'
-  pod 'ParticlesLoadingView'
+  # pod 'ParticlesLoadingView'
   pod 'Kingfisher'
   pod 'libPhoneNumber-iOS'
   pod 'BATabBarController'

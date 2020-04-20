@@ -255,7 +255,8 @@ class Send2ViewController: UIViewController, MFMessageComposeViewControllerDeleg
         }
     }
     
-    func messageComposeViewController(_ controller: MFMessageComposeViewController!, didFinishWith result: MessageComposeResult) {
+    // MFMessageComposeViewController used to be force unwrapped i.e. MFMessageComposeViewController! - removed the ! on Xcode's advice, if this bugs out then consider putting it back in
+    func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
         //... handle sms screen actions
         self.dismiss(animated: true, completion: nil)
     }

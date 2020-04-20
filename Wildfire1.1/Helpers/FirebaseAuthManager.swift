@@ -12,7 +12,7 @@ import FirebaseAuth
 class FirebaseAuthManager {
     
     func login(credential: AuthCredential, completionBlock: @escaping (_ success: Bool) -> Void) {
-        Auth.auth().signInAndRetrieveData(with: credential, completion: { (firebaseUser, error) in
+        Auth.auth().signIn(with: credential, completion: { (firebaseUser, error) in
             completionBlock(error == nil)
         })
     }

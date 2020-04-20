@@ -10,7 +10,10 @@ import UIKit
 import CoreGraphics
 import CoreImage
 import CryptoSwift
-import Firebase
+//import Firebase
+import FirebaseFirestore
+import FirebaseStorage
+import FirebaseAuth
 import FirebaseFunctions
 import LocalAuthentication
 import Kingfisher
@@ -385,7 +388,7 @@ class ConfirmViewController: UIViewController {
                     self.functions.httpsCallable("transact").call(["recipientUID": recipientUID,  "amount": amount, "currency": "GBP"]) { (result, error) in
                         // TODO error handling!
                         if error != nil {
-                            print(error)
+                            
                     //                                if error.domain == FunctionsErrorDomain {
                     //                                    let code = FunctionsErrorCode(rawValue: error.code)
                     //                                    let message = error.localizedDescription
@@ -513,13 +516,13 @@ class ConfirmViewController: UIViewController {
                     ])
                 {
                     result in
-                    switch result {
-                        // TODO add better error handling
-                    case .success(let value):
-                       print("Pic loaded")
-                    case .failure(let error):
-                        print("Job failed: \(error.localizedDescription)")
-                    }
+//                    switch result {
+//                        // TODO add better error handling
+//                    case .success(let value):
+//                       print("Pic loaded")
+//                    case .failure(let error):
+//                        print("Job failed: \(error.localizedDescription)")
+//                    }
                 }
             }
         }
