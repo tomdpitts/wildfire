@@ -460,8 +460,8 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
     }
     
     @objc func DismissKeyboard(){
-    //Causes the view to resign from the status of first responder.
-    view.endEditing(true)
+        //Causes the view to resign from the status of first responder.
+        view.endEditing(true)
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {

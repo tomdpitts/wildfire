@@ -13,7 +13,14 @@ import FirebaseFirestore
 
 class VerificationCodeViewController: UIViewController, UITextFieldDelegate {
 
+
+    
     @IBOutlet weak var verificationField: UITextField!
+    
+    @IBOutlet weak var privacySwitch: UISwitch!
+    
+    @IBOutlet weak var termsSwitch: UISwitch!
+    
     
     @IBOutlet weak var verifyButton: UIButton!
     
@@ -27,11 +34,26 @@ class VerificationCodeViewController: UIViewController, UITextFieldDelegate {
         errorLabel.isHidden = true
         
         verificationField.delegate = self
+        verificationField.becomeFirstResponder()
+        
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(DismissKeyboard))
+        view.addGestureRecognizer(tap)
     }
     
+    @IBAction func swipeDownGesture(_ sender: Any) {
+        // swipe down (and only down) hides keyboard
+        self.view.endEditing(true)
+    }
     @IBAction func verifyTapped(_ sender: Any) {
         
-        self.showSpinner(titleText: nil, messageText: nil)
+        let privacy = privacySwitch.isOn
+        let terms = termsSwitch.isOn
+        
+        if privacy == false || terms == false {
+            errorLabel.text = "Please accept both agreements"
+            errorLabel.isHidden = false
+            return
+        }
         
         let check = validateField()
         guard let code = verificationField.text else { return }
@@ -39,7 +61,6 @@ class VerificationCodeViewController: UIViewController, UITextFieldDelegate {
         if check == true {
             signInWithVerificationCode(code: code)
         } else {
-            self.removeSpinner()
             return
         }
     }
@@ -59,6 +80,8 @@ class VerificationCodeViewController: UIViewController, UITextFieldDelegate {
     }
     
     func signInWithVerificationCode(code: String) {
+        
+        self.showSpinner(titleText: "Logging in", messageText: nil)
         if let verificationID = UserDefaults.standard.string(forKey: "authVerificationID") {
             let credential = PhoneAuthProvider.provider().credential(
                 withVerificationID: verificationID,
@@ -79,24 +102,43 @@ class VerificationCodeViewController: UIViewController, UITextFieldDelegate {
                 
                 
                 // check whether the user has previously completed signup flow
+                // if there's no record, check that before moving on as users with existing accounts need to be able to access their existing balance as soon as they log in (i.e. it's worth waiting)
                 if userAccountExists != true {
-                    Utilities.checkForUserAccount()
+                    Utilities.checkForUserAccountWithCompletion() {
+                        
+                        let appDelegate = AppDelegate()
+                        appDelegate.listCardsFromMangopay() {}
+                        appDelegate.fetchBankAccountsListFromMangopay() {}
+                        
+                        Utilities.getCurrentRegistrationToken()
+                        Utilities.getMangopayID()
+                        
+                        
+                        self.removeSpinner()
+                        
+                        // segue to welcome
+                        self.performSegue(withIdentifier: "unwindToWelcome", sender: self)
+                    }
+                    
+                    
                 } else {
-                    // might be worth adding completion to checkForUserAccount
-                    // update credit cards and bank accounts list (user may be returning)
+                    
+                    // update credit cards and bank accounts list (user is returning)
                     let appDelegate = AppDelegate()
-                    appDelegate.listCardsFromMangopay() { () in }
+                    appDelegate.listCardsFromMangopay() {}
                     appDelegate.fetchBankAccountsListFromMangopay() {}
                     
                     Utilities.getCurrentRegistrationToken()
                     Utilities.getMangopayID()
+                    
+                    self.removeSpinner()
+                    
+                    
+                    // segue to welcome
+                    self.performSegue(withIdentifier: "unwindToWelcome", sender: self)
                 }
 
-                self.removeSpinner()
                 
-                
-                // segue to welcome
-                self.performSegue(withIdentifier: "showTerms", sender: self)
             }
         }
     }
@@ -109,5 +151,10 @@ class VerificationCodeViewController: UIViewController, UITextFieldDelegate {
             return allowedCharacters.isSuperset(of: characterSet)
         }
         return true
+    }
+    
+    @objc func DismissKeyboard(){
+        //Causes the view to resign from the status of first responder.
+        view.endEditing(true)
     }
 }

@@ -96,8 +96,10 @@ class Account2ViewController: UITableViewController {
             var message = ""
                 
             if balanceAmount > Float(0.5) {
+                
+                let balanceString = String(format: "%.2f", balanceAmount)
                     
-                message = "Just to let you know, your balance is £\(balanceAmount) - if you want to deposit it to your bank account, tap 'Cancel' and deposit to bank account. You can log back in at any time (with the same phone number), and your credit will still be here."
+                message = "Just to let you know, your balance is £\(balanceString) - if you want to deposit it to your bank account, tap 'Cancel' and deposit to bank account. You can log back in at any time (with the same phone number), and your credit will still be here."
             } else {
                 message = "You can log back in at any time (with the same phone number), and your credit will still be here."
             }

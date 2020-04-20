@@ -45,7 +45,6 @@
 		E271C0CE23D81EED004245CC /* CardDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E271C0CD23D81EED004245CC /* CardDetailsViewController.swift */; };
 		E271C0D223D99E6F004245CC /* EditProfileTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E271C0D123D99E6F004245CC /* EditProfileTableViewController.swift */; };
 		E279717D231433AF00964F25 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E279717C231433AF00964F25 /* SignUpViewController.swift */; };
-		E279717F231433D500964F25 /* ExistingUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E279717E231433D500964F25 /* ExistingUserViewController.swift */; };
 		E284815D23FA53D500D51462 /* BankAccountsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E284815C23FA53D500D51462 /* BankAccountsViewController.swift */; };
 		E29925ED2435B02900AE5D6F /* LaunchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29925EC2435B02900AE5D6F /* LaunchViewController.swift */; };
 		E29925EF2437104800AE5D6F /* WILDFIRE.png in Resources */ = {isa = PBXBuildFile; fileRef = E29925EE2437104700AE5D6F /* WILDFIRE.png */; };
@@ -62,7 +61,6 @@
 		E2BEF9752446DA74002EE61B /* CreditAddedSuccessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2BEF9742446DA74002EE61B /* CreditAddedSuccessViewController.swift */; };
 		E2BEF97A24486055002EE61B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E2BEF97924486055002EE61B /* GoogleService-Info.plist */; };
 		E2BEF97B24486055002EE61B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E2BEF97924486055002EE61B /* GoogleService-Info.plist */; };
-		E2C23A69244D4D6B003B6CEE /* TermsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C23A68244D4D6B003B6CEE /* TermsViewController.swift */; };
 		E2CDF4AB235F2126002E155D /* PhoneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2CDF4AA235F2126002E155D /* PhoneViewController.swift */; };
 		E2CDF4AD235F2859002E155D /* VerificationCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2CDF4AC235F2859002E155D /* VerificationCodeViewController.swift */; };
 		E2DEF201240D0610006A6106 /* DocumentTypeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2DEF200240D0610006A6106 /* DocumentTypeViewController.swift */; };
@@ -132,7 +130,6 @@
 		E271C0CD23D81EED004245CC /* CardDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardDetailsViewController.swift; sourceTree = "<group>"; };
 		E271C0D123D99E6F004245CC /* EditProfileTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileTableViewController.swift; sourceTree = "<group>"; };
 		E279717C231433AF00964F25 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
-		E279717E231433D500964F25 /* ExistingUserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExistingUserViewController.swift; sourceTree = "<group>"; };
 		E284815C23FA53D500D51462 /* BankAccountsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BankAccountsViewController.swift; sourceTree = "<group>"; };
 		E29925EC2435B02900AE5D6F /* LaunchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchViewController.swift; sourceTree = "<group>"; };
 		E29925EE2437104700AE5D6F /* WILDFIRE.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = WILDFIRE.png; path = ../../Downloads/WILDFIRE.png; sourceTree = "<group>"; };
@@ -148,7 +145,6 @@
 		E2BEF97224468F79002EE61B /* TopUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopUpViewController.swift; sourceTree = "<group>"; };
 		E2BEF9742446DA74002EE61B /* CreditAddedSuccessViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreditAddedSuccessViewController.swift; sourceTree = "<group>"; };
 		E2BEF97924486055002EE61B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
-		E2C23A68244D4D6B003B6CEE /* TermsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsViewController.swift; sourceTree = "<group>"; };
 		E2CDF4AA235F2126002E155D /* PhoneViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneViewController.swift; sourceTree = "<group>"; };
 		E2CDF4AC235F2859002E155D /* VerificationCodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationCodeViewController.swift; sourceTree = "<group>"; };
 		E2DEF200240D0610006A6106 /* DocumentTypeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentTypeViewController.swift; sourceTree = "<group>"; };
@@ -280,7 +276,6 @@
 				E29925EC2435B02900AE5D6F /* LaunchViewController.swift */,
 				E2149703231410240048D149 /* HomeViewController.swift */,
 				E2026708230ED8CF003C0AF4 /* LoginViewController.swift */,
-				E279717E231433D500964F25 /* ExistingUserViewController.swift */,
 				E21AC96421EA6BEF00D460A9 /* PayViewController.swift */,
 				E21AC99621EA850C00D460A9 /* ScanViewController.swift */,
 				E2B979DE23295DB000194E75 /* ConfirmViewController.swift */,
@@ -322,7 +317,6 @@
 				E2261D1A242F2F29008170DB /* AccountAddedViewController.swift */,
 				E2BEF97224468F79002EE61B /* TopUpViewController.swift */,
 				E2BEF9742446DA74002EE61B /* CreditAddedSuccessViewController.swift */,
-				E2C23A68244D4D6B003B6CEE /* TermsViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -566,9 +560,7 @@
 				E21AC96521EA6BEF00D460A9 /* PayViewController.swift in Sources */,
 				E222732A23420BBE006D8326 /* AddCardViewController.swift in Sources */,
 				E22D7E0523B04E8A00F86487 /* PaymentMethodsViewController.swift in Sources */,
-				E2C23A69244D4D6B003B6CEE /* TermsViewController.swift in Sources */,
 				E252A5E923F3BD0D0023AEDC /* BankDetails1TableViewController.swift in Sources */,
-				E279717F231433D500964F25 /* ExistingUserViewController.swift in Sources */,
 				E24388A523154A5200948AD5 /* Utilities.swift in Sources */,
 				E20104EE23EB994F00441040 /* AddCardSuccessViewController.swift in Sources */,
 				E2A45D3F240F789D00EC7975 /* ButtonStyleViewController.swift in Sources */,

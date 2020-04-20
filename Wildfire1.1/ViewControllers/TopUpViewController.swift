@@ -181,7 +181,6 @@ class TopUpViewController: UIViewController, UITextFieldDelegate {
             } else {
                 if let m = Float(text) {
                     self.creditAmount = Int(m*100)
-                    print("creditAmount is: \(self.creditAmount)")
                     return true
                 } else {
                     errorLabel.text = "Please enter a valid number"

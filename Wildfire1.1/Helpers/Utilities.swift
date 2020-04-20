@@ -44,6 +44,28 @@ class Utilities {
         }
     }
     
+    static func checkForUserAccountWithCompletion(completion: @escaping ()->()) {
+        let db = Firestore.firestore()
+                
+                if let uid = Auth.auth().currentUser?.uid {
+                    let docRef = db.collection("users").document(uid)
+
+                    docRef.getDocument { (document, error) in
+                        if let document = document, document.exists {
+                            UserDefaults.standard.set(true, forKey: "userAccountExists")
+                            completion()
+                        } else {
+                            UserDefaults.standard.set(false, forKey: "userAccountExists")
+                            completion()
+                        }
+                    }
+                } else {
+                    UserDefaults.standard.set(false, forKey: "userAccountExists")
+                    completion()
+                }
+    }
+    
+    
     static func getMangopayID() {
         let db = Firestore.firestore()
         
