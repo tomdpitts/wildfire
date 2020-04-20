@@ -62,6 +62,7 @@
 		E2BEF9752446DA74002EE61B /* CreditAddedSuccessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2BEF9742446DA74002EE61B /* CreditAddedSuccessViewController.swift */; };
 		E2BEF97A24486055002EE61B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E2BEF97924486055002EE61B /* GoogleService-Info.plist */; };
 		E2BEF97B24486055002EE61B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E2BEF97924486055002EE61B /* GoogleService-Info.plist */; };
+		E2C23A69244D4D6B003B6CEE /* TermsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C23A68244D4D6B003B6CEE /* TermsViewController.swift */; };
 		E2CDF4AB235F2126002E155D /* PhoneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2CDF4AA235F2126002E155D /* PhoneViewController.swift */; };
 		E2CDF4AD235F2859002E155D /* VerificationCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2CDF4AC235F2859002E155D /* VerificationCodeViewController.swift */; };
 		E2DEF201240D0610006A6106 /* DocumentTypeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2DEF200240D0610006A6106 /* DocumentTypeViewController.swift */; };
@@ -147,6 +148,7 @@
 		E2BEF97224468F79002EE61B /* TopUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopUpViewController.swift; sourceTree = "<group>"; };
 		E2BEF9742446DA74002EE61B /* CreditAddedSuccessViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreditAddedSuccessViewController.swift; sourceTree = "<group>"; };
 		E2BEF97924486055002EE61B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		E2C23A68244D4D6B003B6CEE /* TermsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsViewController.swift; sourceTree = "<group>"; };
 		E2CDF4AA235F2126002E155D /* PhoneViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneViewController.swift; sourceTree = "<group>"; };
 		E2CDF4AC235F2859002E155D /* VerificationCodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationCodeViewController.swift; sourceTree = "<group>"; };
 		E2DEF200240D0610006A6106 /* DocumentTypeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentTypeViewController.swift; sourceTree = "<group>"; };
@@ -320,6 +322,7 @@
 				E2261D1A242F2F29008170DB /* AccountAddedViewController.swift */,
 				E2BEF97224468F79002EE61B /* TopUpViewController.swift */,
 				E2BEF9742446DA74002EE61B /* CreditAddedSuccessViewController.swift */,
+				E2C23A68244D4D6B003B6CEE /* TermsViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -563,6 +566,7 @@
 				E21AC96521EA6BEF00D460A9 /* PayViewController.swift in Sources */,
 				E222732A23420BBE006D8326 /* AddCardViewController.swift in Sources */,
 				E22D7E0523B04E8A00F86487 /* PaymentMethodsViewController.swift in Sources */,
+				E2C23A69244D4D6B003B6CEE /* TermsViewController.swift in Sources */,
 				E252A5E923F3BD0D0023AEDC /* BankDetails1TableViewController.swift in Sources */,
 				E279717F231433D500964F25 /* ExistingUserViewController.swift in Sources */,
 				E24388A523154A5200948AD5 /* Utilities.swift in Sources */,

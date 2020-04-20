@@ -96,7 +96,7 @@ class VerificationCodeViewController: UIViewController, UITextFieldDelegate {
                 
                 
                 // segue to welcome
-                self.performSegue(withIdentifier: "unwindToWelcome", sender: self)
+                self.performSegue(withIdentifier: "showTerms", sender: self)
             }
         }
     }
