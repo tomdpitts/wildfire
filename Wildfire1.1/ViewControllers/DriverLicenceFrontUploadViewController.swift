@@ -39,7 +39,7 @@ class DriverLicenceFrontUploadViewController: UIViewController, UINavigationCont
             
             // and scale a version to display (possibly not strictly necessary)
             let size = CGSize(width: self.pictureView.frame.width, height: self.pictureView.frame.height)
-            let aspectScaleImage = image.af_imageAspectScaled(toFill: size)
+            let aspectScaleImage = image.af.imageAspectScaled(toFill: size)
             
             self.pictureView.image = aspectScaleImage
             

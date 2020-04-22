@@ -98,7 +98,12 @@ class BankDetails2TableViewController: UITableViewController, UITextFieldDelegat
                 let cityName = self.cityTextField.text,
                 let region = self.regionTextField.text,
                 let postcode = self.postcodeTextField.text,
-                let country = self.countryTextField.text else { return }
+                let country = self.countryTextField.text else {
+                    
+                self.universalShowAlert(title: "Oops", message: "Please ensure all fields are filled in", segue: nil, cancel: false)
+                    
+                return
+            }
             
             // translate country back to code
             guard let countryCode = Utilities.localeFinder(for: country) else {
@@ -131,11 +136,15 @@ class BankDetails2TableViewController: UITableViewController, UITextFieldDelegat
             // fields have passed validation - so continue
             functions.httpsCallable("addBankAccount").call(bankAccountData) { (result, error) in
                 
-                if let err = error {
+                if let error = error {
+                    self.removeSpinnerWithCompletion() {
+                        self.universalShowAlert(title: "Oops", message: "Something went wrong: \(error.localizedDescription)", segue: nil, cancel: false)
+                    }
                     
                 } else {
-                    self.removeSpinner()
-                    self.performSegue(withIdentifier: "showSuccessScreen", sender: self)
+                    self.removeSpinnerWithCompletion() {
+                        self.performSegue(withIdentifier: "showSuccessScreen", sender: self)
+                    }
                 }
             }
         }
@@ -270,16 +279,6 @@ class BankDetails2TableViewController: UITableViewController, UITextFieldDelegat
         }
             
         return nil
-//                if cardNumber.count != 16 {
-//                    return "Card Number must be 16 digits long"
-//                    }
-//                if expiryDate.count != 4 {
-//                    return "Expiry Date should be in format MMYY"
-//                    }
-//                if csv.count != 3 {
-//                    return "CSV number must be exactly 3 digits"
-//                    }
-        
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

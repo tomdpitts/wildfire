@@ -55,7 +55,6 @@ class PhoneViewController: UIViewController, UITextFieldDelegate {
         PhoneAuthProvider.provider().verifyPhoneNumber(phoneNumber, uiDelegate: nil) { (verificationID, error) in
             self.removeSpinner()
             if error != nil {
-                print(error)
                 self.errorLabel.text = "Could not validate phone number - please check it begins with the country code (e.g. +44)"
                 self.errorLabel.isHidden = false
                 

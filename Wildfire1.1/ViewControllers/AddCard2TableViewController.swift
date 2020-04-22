@@ -119,8 +119,8 @@ class AddCard2TableViewController: UITableViewController, UITextFieldDelegate {
 //                }
                 semaphore.wait()
                 
-                if error != nil {
-                    print(error)
+                if let error = error {
+                    self.universalShowAlert(title: "Oops", message: "Something went wrong: \(error.localizedDescription)", segue: nil, cancel: false)
                     self.removeSpinner()
                 }
                 
@@ -190,16 +190,14 @@ class AddCard2TableViewController: UITableViewController, UITextFieldDelegate {
                             // N.B. we send the wallet ID received earlier so that the Cloud Function can store the final CardID under the user's Firestore wallet entry (the correct wallet - they could have multiple)
                             self.functions.httpsCallable("addCardRegistration").call(["regData": regData, "cardRegID": cardRegID, "walletID": walletID]) { (result, error) in
 
-                                if let err = error {
-                                    //
-                                    print("error occurred")
-                                    print(err)
+                                if let error = error {
+                                    
+                                    self.universalShowAlert(title: "Oops", message: "Something went wrong: \(error.localizedDescription)", segue: nil, cancel: false)
                                     // revive the button to prevent retries
                                     self.submitButton.isEnabled = true
                                     self.removeSpinner()
                                 } else {
-                                    print("success")
-                                    print(result?.data)
+                                    
 //                                    self.submitButton.isEnabled = true
                                     
                                     let cardID = result?.data as! String

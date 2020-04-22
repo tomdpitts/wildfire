@@ -29,7 +29,7 @@ target 'Wildfire' do
   # pod 'ParticlesLoadingView'
   pod 'Kingfisher'
   pod 'libPhoneNumber-iOS'
-  pod 'BATabBarController'
+  # pod 'BATabBarController'
   # pod 'OpenSans'
 
   target 'Wildfire1.1Tests' do

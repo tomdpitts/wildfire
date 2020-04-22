@@ -51,7 +51,7 @@ class ConfirmDepositViewController: UIViewController {
         Utilities.styleHollowButton(confirmDepositButton)
         Utilities.styleHollowButtonRED(cancelButton)
         
-        tapRec.addTarget(self, action: "tappedView")
+        tapRec.addTarget(self, action: #selector(self.tappedView))
         whyAmIBeingCharged.addGestureRecognizer(tapRec)
     }
     
@@ -94,7 +94,7 @@ class ConfirmDepositViewController: UIViewController {
         }
     }
     
-    func tappedView(){
+    @objc func tappedView(){
         self.performSegue(withIdentifier: "showChargesExplainer", sender: self)
     }
     

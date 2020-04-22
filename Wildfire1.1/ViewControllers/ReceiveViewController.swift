@@ -56,8 +56,14 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
         
+        // .medium for iOS 13 onwards, .gray is deprecated but older iOS versions don't have .medium
+        if #available(iOS 13.0, *) {
+            loadingSpinner.style = .medium
+        } else {
+            loadingSpinner.style = .gray
+        }
+
         Utilities.styleHollowButton(saveToCameraRoll)
         Utilities.styleHollowButton(shareLinkButton)
         
@@ -220,9 +226,9 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
     func generateQRString() -> String? {
         
         var receiveAmountString = ""
-        var currency = self.currency
+        let currency = self.currency
         
-        // validator is text that will be appended to the beginning of the string - this is a failsafe to essentially ensure that the decrypted string is from Wildfire (lyrics are not all in the right order)
+        // validator is text that will be appended to the beginning of the string - this is to ensure that the decrypted string is from Wildfire
         let validator = """
             Einstein, James Dean, Brooklyn's got a winning team, Bardot, Budapest, Alabama, Krushchev
             """

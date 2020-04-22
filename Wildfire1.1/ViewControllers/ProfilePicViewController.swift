@@ -49,8 +49,8 @@ class ProfilePicViewController: UIViewController, UINavigationControllerDelegate
         ImagePickerManager().pickImage(self){ image in
             
             let size = CGSize(width: 200.0, height: 200.0)
-            let aspectScaleImage = image.af_imageAspectScaled(toFill: size)
-            let circleImage = aspectScaleImage.af_imageRoundedIntoCircle()
+            let aspectScaleImage = image.af.imageAspectScaled(toFill: size)
+            let circleImage = aspectScaleImage.af.imageRoundedIntoCircle()
             self.pictureView.image = circleImage
             
             self.confirmButton.isHidden = false

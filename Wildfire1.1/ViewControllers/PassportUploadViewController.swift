@@ -40,7 +40,7 @@ class PassportUploadViewController: UIViewController, UINavigationControllerDele
             
             // and scale a version to display (possibly not strictly necessary)
             let size = CGSize(width: self.pictureView.frame.width, height: self.pictureView.frame.height)
-            let aspectScaleImage = image.af_imageAspectScaled(toFit: size)
+            let aspectScaleImage = image.af.imageAspectScaled(toFit: size)
             
             self.pictureView.image = aspectScaleImage
             // contentMode needs to be updated from "center" (which ensures the icons8 'rescan'icon doesn't look stretched or blurry) to scaleAspectFill to best render the image

@@ -42,6 +42,13 @@ class Send2ViewController: UIViewController, MFMessageComposeViewControllerDeleg
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // .medium for iOS 13 onwards, .gray is deprecated but older iOS versions don't have .medium
+        if #available(iOS 13.0, *) {
+            spinner.style = .medium
+        } else {
+            spinner.style = .gray
+        }
+        
         self.confirmationTick.isHidden = true
         self.sendButton.isEnabled = false
         
