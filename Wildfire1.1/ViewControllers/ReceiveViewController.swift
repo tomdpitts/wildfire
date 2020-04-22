@@ -167,7 +167,7 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
             
             amountTextField.resignFirstResponder()
             
-            showAlert(title: "Please set up your account", message: "Just a few quick details are needed to receive transfers")
+            self.universalShowAlert(title: "Please set up your account", message: "Just a few quick details are needed to receive payments", segue: "showAccountSetup", cancel: true)
             
             return
         }
@@ -514,6 +514,11 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
         
         self.present(alert, animated: true)
     }
+    
+        @IBAction func unwindToPrevious(_ unwindSegue: UIStoryboardSegue) {
+    //        let sourceViewController = unwindSegue.source
+            // Use data from the view controller which initiated the unwind segue
+        }
     
 }
 

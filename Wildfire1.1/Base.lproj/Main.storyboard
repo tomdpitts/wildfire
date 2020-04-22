@@ -6,6 +6,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16086"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="Stack View standard spacing" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -490,7 +491,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gZS-Y9-AFt" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="MYV-Q9-SEJ" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="3746" y="4152"/>
+            <point key="canvasLocation" x="3450" y="4242"/>
         </scene>
         <!--Additional Cards-->
         <scene sceneID="Yni-Bi-EeG">
@@ -996,9 +997,9 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PS4-BI-t4O">
-                                                    <rect key="frame" x="50" y="5" width="220" height="50"/>
+                                                    <rect key="frame" x="50" y="0.0" width="220" height="60"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="50" id="7xx-ru-D6K"/>
+                                                        <constraint firstAttribute="height" constant="60" id="7xx-ru-D6K"/>
                                                     </constraints>
                                                     <state key="normal" title="Submit"/>
                                                     <connections>
@@ -1010,7 +1011,6 @@
                                                 <constraint firstItem="PS4-BI-t4O" firstAttribute="leading" secondItem="tI3-V4-FR5" secondAttribute="leading" constant="50" id="99K-ZS-z6L"/>
                                                 <constraint firstItem="PS4-BI-t4O" firstAttribute="centerY" secondItem="tI3-V4-FR5" secondAttribute="centerY" id="CFK-CW-0ia"/>
                                                 <constraint firstAttribute="trailing" secondItem="PS4-BI-t4O" secondAttribute="trailing" constant="50" id="Zmv-Hv-5wF"/>
-                                                <constraint firstItem="PS4-BI-t4O" firstAttribute="centerX" secondItem="tI3-V4-FR5" secondAttribute="centerX" id="rgl-ti-qbu"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -1115,10 +1115,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="fzz-fV-Ev3">
-                                <rect key="frame" x="30" y="92.5" width="260" height="321.5"/>
+                                <rect key="frame" x="10" y="92.5" width="300" height="341.5"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleAspectFill" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="p5q-f4-c0n">
-                                        <rect key="frame" x="36.5" y="0.0" width="187.5" height="61.5"/>
+                                        <rect key="frame" x="56.5" y="0.0" width="187.5" height="61.5"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="mm7-dP-zGu">
                                                 <rect key="frame" x="0.0" y="0.0" width="132.5" height="61.5"/>
@@ -1160,18 +1160,22 @@
                                         </subviews>
                                     </stackView>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="QR Border3 TEAL" translatesAutoresizingMaskIntoConstraints="NO" id="CeM-U1-8D7">
-                                        <rect key="frame" x="0.0" y="61.5" width="260" height="260"/>
+                                        <rect key="frame" x="10" y="61.5" width="280" height="280"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="CeM-U1-8D7" secondAttribute="height" multiplier="1:1" id="dPr-ei-eFs"/>
                                         </constraints>
                                     </imageView>
                                 </subviews>
+                                <constraints>
+                                    <constraint firstItem="CeM-U1-8D7" firstAttribute="leading" secondItem="fzz-fV-Ev3" secondAttribute="leading" constant="10" id="WcM-nW-f8s"/>
+                                    <constraint firstAttribute="trailing" secondItem="CeM-U1-8D7" secondAttribute="trailing" constant="10" id="oKr-hK-Sym"/>
+                                </constraints>
                             </stackView>
-                            <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="A35-Wf-zhP">
-                                <rect key="frame" x="40" y="429" width="240" height="60"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="A35-Wf-zhP">
+                                <rect key="frame" x="30" y="444" width="260" height="60"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eAt-sR-c9T">
-                                        <rect key="frame" x="0.0" y="0.0" width="120" height="60"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="122.5" height="60"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="60" id="OCS-bc-em0"/>
                                         </constraints>
@@ -1186,9 +1190,8 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pkV-WL-wLr">
-                                        <rect key="frame" x="130" y="0.0" width="110" height="60"/>
+                                        <rect key="frame" x="137.5" y="0.0" width="122.5" height="60"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="110" id="MtR-dX-azq"/>
                                             <constraint firstAttribute="height" constant="60" id="ab6-0P-x5F"/>
                                         </constraints>
                                         <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -1202,25 +1205,24 @@
                                         </connections>
                                     </button>
                                 </subviews>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="240" id="jZL-qW-lho"/>
-                                </constraints>
                             </stackView>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="7SB-qw-TLW">
-                                <rect key="frame" x="193" y="450" width="20" height="20"/>
+                                <rect key="frame" x="197" y="464" width="20" height="20"/>
                             </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <gestureRecognizers/>
                         <constraints>
+                            <constraint firstItem="O1u-W8-tvY" firstAttribute="trailing" secondItem="7SB-qw-TLW" secondAttribute="trailing" constant="103" id="6wL-IF-w4N"/>
                             <constraint firstItem="A35-Wf-zhP" firstAttribute="centerX" secondItem="QS5-Rx-YEW" secondAttribute="centerX" id="9hP-BH-1Mz"/>
-                            <constraint firstItem="7SB-qw-TLW" firstAttribute="top" secondItem="fzz-fV-Ev3" secondAttribute="bottom" constant="36" id="YoS-4u-q80"/>
+                            <constraint firstItem="O1u-W8-tvY" firstAttribute="trailing" secondItem="A35-Wf-zhP" secondAttribute="trailing" constant="30" id="Lth-Ie-3eE"/>
+                            <constraint firstItem="A35-Wf-zhP" firstAttribute="leading" secondItem="O1u-W8-tvY" secondAttribute="leading" constant="30" id="RBg-WU-LCr"/>
+                            <constraint firstItem="7SB-qw-TLW" firstAttribute="top" secondItem="fzz-fV-Ev3" secondAttribute="bottom" constant="30" id="YoS-4u-q80"/>
                             <constraint firstItem="fzz-fV-Ev3" firstAttribute="centerX" secondItem="QS5-Rx-YEW" secondAttribute="centerX" id="Zng-yn-YcE"/>
                             <constraint firstItem="fzz-fV-Ev3" firstAttribute="top" secondItem="O1u-W8-tvY" secondAttribute="top" id="eQR-ND-LkI"/>
-                            <constraint firstItem="A35-Wf-zhP" firstAttribute="top" secondItem="fzz-fV-Ev3" secondAttribute="bottom" constant="15" id="ja2-Kd-YGS"/>
-                            <constraint firstItem="fzz-fV-Ev3" firstAttribute="leading" secondItem="QS5-Rx-YEW" secondAttribute="leading" constant="30" id="kGf-ag-4Hh"/>
-                            <constraint firstItem="7SB-qw-TLW" firstAttribute="centerX" secondItem="QS5-Rx-YEW" secondAttribute="centerX" constant="43" id="kTM-nI-oM4"/>
-                            <constraint firstAttribute="trailing" secondItem="fzz-fV-Ev3" secondAttribute="trailing" constant="30" id="vuG-Z1-RpL"/>
+                            <constraint firstItem="A35-Wf-zhP" firstAttribute="top" secondItem="fzz-fV-Ev3" secondAttribute="bottom" constant="10" id="ja2-Kd-YGS"/>
+                            <constraint firstItem="fzz-fV-Ev3" firstAttribute="leading" secondItem="QS5-Rx-YEW" secondAttribute="leading" constant="10" id="kGf-ag-4Hh"/>
+                            <constraint firstAttribute="trailing" secondItem="fzz-fV-Ev3" secondAttribute="trailing" constant="10" id="vuG-Z1-RpL"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="O1u-W8-tvY"/>
                         <connections>
@@ -1235,6 +1237,7 @@
                         <outlet property="loadingSpinner" destination="7SB-qw-TLW" id="EQu-Jk-X2j"/>
                         <outlet property="saveToCameraRoll" destination="eAt-sR-c9T" id="CLL-2s-7IE"/>
                         <outlet property="shareLinkButton" destination="pkV-WL-wLr" id="s0o-YR-lsM"/>
+                        <segue destination="ng8-iT-cq6" kind="show" identifier="showAccountSetup" id="R2W-JZ-F0t"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4Nw-L8-lE0" sceneMemberID="firstResponder"/>
@@ -1889,7 +1892,7 @@
                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="United Kingdom" borderStyle="roundedRect" placeholder="Type until autocorrect completes the name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="iZX-Dv-jd3">
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Type until autocorrect completes the name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="iZX-Dv-jd3">
                                         <rect key="frame" x="0.0" y="37" width="280" height="40"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="40" id="sq6-Qi-hVi"/>
@@ -3038,11 +3041,11 @@ http://www.apache.org/licenses/
                                         <rect key="frame" x="0.0" y="121" width="280" height="83"/>
                                         <subviews>
                                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="YaC-XM-o91">
-                                                <rect key="frame" x="0.0" y="26" width="53" height="31"/>
+                                                <rect key="frame" x="0.0" y="26" width="41.5" height="31"/>
                                                 <color key="onTintColor" name="tealPrimary"/>
                                             </switch>
                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" text="I have read and understood the Privacy Policy: www.wildfirewallet.com/privacy-policy" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="cSK-NM-T1V">
-                                                <rect key="frame" x="71" y="0.0" width="209" height="83"/>
+                                                <rect key="frame" x="59.5" y="0.0" width="220.5" height="83"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                                 <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -3055,11 +3058,11 @@ http://www.apache.org/licenses/
                                         <rect key="frame" x="0.0" y="219" width="280" height="116.5"/>
                                         <subviews>
                                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="3ch-9n-v9C">
-                                                <rect key="frame" x="0.0" y="43" width="53" height="31"/>
+                                                <rect key="frame" x="0.0" y="43" width="41.5" height="31"/>
                                                 <color key="onTintColor" name="tealPrimary"/>
                                             </switch>
                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="nSj-FN-Mrh">
-                                                <rect key="frame" x="71" y="0.0" width="209" height="116.5"/>
+                                                <rect key="frame" x="59.5" y="0.0" width="220.5" height="116.5"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                                 <string key="text">I have read and agree to the Terms and Conditions: www.wildfirewallet.com/terms-and-conditions and License Agreement: https://www.wildfirewallet.com/eula</string>
                                                 <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -5198,7 +5201,7 @@ http://www.apache.org/licenses/
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="3cQ-NQ-tXS">
-                                <rect key="frame" x="10" y="143.5" width="300" height="325"/>
+                                <rect key="frame" x="10" y="138.5" width="300" height="335"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icons8-ok-480" translatesAutoresizingMaskIntoConstraints="NO" id="7id-gK-4c6">
                                         <rect key="frame" x="75" y="0.0" width="150" height="150"/>
@@ -5219,20 +5222,20 @@ http://www.apache.org/licenses/
                                         <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="bXl-TC-lGZ">
-                                        <rect key="frame" x="20" y="275" width="260" height="50"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="bXl-TC-lGZ">
+                                        <rect key="frame" x="20" y="275" width="260" height="60"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fuX-Jb-HwY">
-                                                <rect key="frame" x="0.0" y="0.0" width="120" height="50"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="126" height="60"/>
                                                 <state key="normal" title="Later"/>
                                                 <connections>
                                                     <action selector="cancelTapped:" destination="bFt-Ep-Iwe" eventType="touchUpInside" id="bU4-dj-TUO"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="70b-pK-Gpt">
-                                                <rect key="frame" x="140" y="0.0" width="120" height="50"/>
+                                                <rect key="frame" x="134" y="0.0" width="126" height="60"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="50" id="NIx-ER-MhQ"/>
+                                                    <constraint firstAttribute="height" constant="60" id="NIx-ER-MhQ"/>
                                                 </constraints>
                                                 <state key="normal" title="Add Card"/>
                                                 <connections>
@@ -5243,7 +5246,6 @@ http://www.apache.org/licenses/
                                     </stackView>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="300" id="6Sf-K5-gLH"/>
                                     <constraint firstAttribute="trailing" secondItem="bXl-TC-lGZ" secondAttribute="trailing" constant="20" id="9UP-d9-IIp"/>
                                     <constraint firstItem="bXl-TC-lGZ" firstAttribute="leading" secondItem="3cQ-NQ-tXS" secondAttribute="leading" constant="20" id="BXx-Wi-9Fg"/>
                                 </constraints>
@@ -5251,6 +5253,8 @@ http://www.apache.org/licenses/
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
+                            <constraint firstItem="3cQ-NQ-tXS" firstAttribute="leading" secondItem="vrT-7w-yte" secondAttribute="leading" constant="10" id="GAz-KT-Rbf"/>
+                            <constraint firstAttribute="trailing" secondItem="3cQ-NQ-tXS" secondAttribute="trailing" constant="10" id="VRC-0o-a78"/>
                             <constraint firstItem="3cQ-NQ-tXS" firstAttribute="centerY" secondItem="VtM-Lj-SYJ" secondAttribute="centerY" id="rjX-Oa-1oj"/>
                             <constraint firstItem="3cQ-NQ-tXS" firstAttribute="centerX" secondItem="vrT-7w-yte" secondAttribute="centerX" id="zH6-ek-knc"/>
                         </constraints>
@@ -5268,7 +5272,7 @@ http://www.apache.org/licenses/
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ARM-fg-aY5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="7xH-vi-UUp" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="10247" y="2681"/>
+            <point key="canvasLocation" x="10246.875" y="2680.9859154929577"/>
         </scene>
         <!--Credit Added-->
         <scene sceneID="ZWE-vi-5om">
@@ -5342,8 +5346,8 @@ http://www.apache.org/licenses/
         <segue reference="hWh-Xd-ZQz"/>
         <segue reference="JjY-XQ-ITd"/>
         <segue reference="XkC-zp-HKA"/>
-        <segue reference="ydr-lM-sQk"/>
-        <segue reference="xeb-yR-cYh"/>
+        <segue reference="R2W-JZ-F0t"/>
+        <segue reference="Ql7-vS-atY"/>
         <segue reference="6CO-tz-ak8"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" name="tealPrimary"/>
