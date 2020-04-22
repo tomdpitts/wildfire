@@ -1205,6 +1205,9 @@
                                         </connections>
                                     </button>
                                 </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="260" id="Eq4-Aa-DMj"/>
+                                </constraints>
                             </stackView>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="7SB-qw-TLW">
                                 <rect key="frame" x="197" y="464" width="20" height="20"/>
@@ -1213,10 +1216,8 @@
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <gestureRecognizers/>
                         <constraints>
-                            <constraint firstItem="O1u-W8-tvY" firstAttribute="trailing" secondItem="7SB-qw-TLW" secondAttribute="trailing" constant="103" id="6wL-IF-w4N"/>
                             <constraint firstItem="A35-Wf-zhP" firstAttribute="centerX" secondItem="QS5-Rx-YEW" secondAttribute="centerX" id="9hP-BH-1Mz"/>
-                            <constraint firstItem="O1u-W8-tvY" firstAttribute="trailing" secondItem="A35-Wf-zhP" secondAttribute="trailing" constant="30" id="Lth-Ie-3eE"/>
-                            <constraint firstItem="A35-Wf-zhP" firstAttribute="leading" secondItem="O1u-W8-tvY" secondAttribute="leading" constant="30" id="RBg-WU-LCr"/>
+                            <constraint firstItem="7SB-qw-TLW" firstAttribute="centerX" secondItem="QS5-Rx-YEW" secondAttribute="centerX" constant="47" id="Xhb-YE-njd"/>
                             <constraint firstItem="7SB-qw-TLW" firstAttribute="top" secondItem="fzz-fV-Ev3" secondAttribute="bottom" constant="30" id="YoS-4u-q80"/>
                             <constraint firstItem="fzz-fV-Ev3" firstAttribute="centerX" secondItem="QS5-Rx-YEW" secondAttribute="centerX" id="Zng-yn-YcE"/>
                             <constraint firstItem="fzz-fV-Ev3" firstAttribute="top" secondItem="O1u-W8-tvY" secondAttribute="top" id="eQR-ND-LkI"/>
