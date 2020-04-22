@@ -2457,17 +2457,17 @@
             <objects>
                 <viewController id="9A8-qp-HRY" customClass="AboutViewController" customModule="Wildfire" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="EJ9-7d-jej">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="1500"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="1600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YJR-gW-MzM">
-                                <rect key="frame" x="0.0" y="93" width="320" height="1359"/>
+                                <rect key="frame" x="0.0" y="93" width="320" height="1459"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GlA-EF-yzr" userLabel="Content View">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="1527"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="1483.5"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" alignment="top" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="eeZ-JT-2pq">
-                                                <rect key="frame" x="10" y="10" width="300" height="1497"/>
+                                                <rect key="frame" x="10" y="10" width="300" height="1453.5"/>
                                                 <subviews>
                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="WILDFIRE Logo 1200px" translatesAutoresizingMaskIntoConstraints="NO" id="0BU-4j-sFe">
                                                         <rect key="frame" x="0.0" y="0.0" width="300" height="40"/>
@@ -2476,29 +2476,22 @@
                                                         </constraints>
                                                     </imageView>
                                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" verticalHuggingPriority="249" scrollEnabled="NO" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aUx-Q9-cm4" userLabel="Text - wildfire">
-                                                        <rect key="frame" x="0.0" y="70.5" width="300" height="216.5"/>
+                                                        <rect key="frame" x="0.0" y="70.5" width="300" height="233.5"/>
                                                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                                        <mutableString key="text">Wildfire Wallet is a product of Wildfire Financial Limited, a registered company in the United Kingdom (company number: 12552190).   Your use of this Application is subject to the Privacy Policy (https://www.wildfirewallet.com/privacy-policy) and Terms and Conditions (https://www.wildfirewallet.com/terms-and-conditions) found on the Wildfire website, as well as the Licence Agreement.</mutableString>
+                                                        <mutableString key="text">Wildfire Wallet is a product of Wildfire Financial Limited, a registered company in the United Kingdom (company number: 12552190).   Your use of this Application is subject to the Privacy Policy (https://www.wildfirewallet.com/privacy-policy) and Terms and Conditions (https://www.wildfirewallet.com/terms-and-conditions) found on the Wildfire website, as well as the Licence Agreement: https://www.wildfirewallet.com/eula</mutableString>
                                                         <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
                                                         <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                                         <dataDetectorType key="dataDetectorTypes" link="YES"/>
                                                     </textView>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="61v-bO-2Sg">
-                                                        <rect key="frame" x="0.0" y="317.5" width="186" height="30"/>
-                                                        <state key="normal" title="Licence Agreement (EULA)"/>
-                                                        <connections>
-                                                            <segue destination="1pU-Bp-uQf" kind="show" id="ggB-9g-rat"/>
-                                                        </connections>
-                                                    </button>
                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="mangopay-terms" translatesAutoresizingMaskIntoConstraints="NO" id="rYO-ob-y5n">
-                                                        <rect key="frame" x="0.0" y="378" width="300" height="50"/>
+                                                        <rect key="frame" x="0.0" y="334.5" width="300" height="50"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="50" id="NRe-rD-G7D"/>
                                                         </constraints>
                                                     </imageView>
                                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" text="Wildfire payments are powered by MANGOPAY S.A. Privacy policy: https://www.mangopay.com/terms/PSP/PSP_MANGOPAY_EN.pdf" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="JOk-ZB-BwC" userLabel="text - mangopay">
-                                                        <rect key="frame" x="0.0" y="458.5" width="265.5" height="83"/>
+                                                        <rect key="frame" x="0.0" y="415" width="265.5" height="83"/>
                                                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                                         <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -2506,13 +2499,13 @@
                                                         <dataDetectorType key="dataDetectorTypes" link="YES"/>
                                                     </textView>
                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icons8Logo" translatesAutoresizingMaskIntoConstraints="NO" id="ts9-dC-Otk">
-                                                        <rect key="frame" x="0.0" y="572" width="300" height="80"/>
+                                                        <rect key="frame" x="0.0" y="528.5" width="300" height="80"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="80" id="A4R-kD-dCh"/>
                                                         </constraints>
                                                     </imageView>
                                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" text="Some icons are used courtesy of Icons8. Check them out at https://icons8.com" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="tpW-3R-nKv" userLabel="text - icons8">
-                                                        <rect key="frame" x="0.0" y="682.5" width="276.5" height="49.5"/>
+                                                        <rect key="frame" x="0.0" y="639" width="276.5" height="49.5"/>
                                                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                                         <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -2520,7 +2513,7 @@
                                                         <dataDetectorType key="dataDetectorTypes" link="YES"/>
                                                     </textView>
                                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="gFv-yW-7zC" userLabel="Other credits ">
-                                                        <rect key="frame" x="0.0" y="762.5" width="300" height="734.5"/>
+                                                        <rect key="frame" x="0.0" y="719" width="300" height="734.5"/>
                                                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                                         <mutableString key="text">This product includes software developed by the "Marcin Krzyzanowski" (http://krzyzanowskim.com/).  MIT Licence  Alamofire: Copyright (c) 2014-2020 Alamofire Software Foundation (http://alamofire.org/)  SwiftyJSON: Copyright (c) 2017 Ruoyu Fu  Kingfisher: Copyright (c) 2019 Wei Wang
 
@@ -2580,102 +2573,11 @@ http://www.apache.org/licenses/
                         <viewLayoutGuide key="safeArea" id="adA-Xv-6uC"/>
                     </view>
                     <navigationItem key="navigationItem" title="About" id="MrA-V5-K8Q"/>
-                    <size key="freeformSize" width="320" height="1500"/>
+                    <size key="freeformSize" width="320" height="1600"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="f1s-hr-znl" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1378" y="2621"/>
-        </scene>
-        <!--EULA-->
-        <scene sceneID="LIC-82-iqT">
-            <objects>
-                <viewController id="1pU-Bp-uQf" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="vmN-uo-qYw">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="3200"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rbt-hj-w1c">
-                                <rect key="frame" x="0.0" y="92" width="320" height="3059"/>
-                                <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9Qi-cV-KmW" userLabel="Content View">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="3868"/>
-                                        <subviews>
-                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="fdC-CP-elw">
-                                                <rect key="frame" x="10" y="10" width="300" height="3848"/>
-                                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                                <string key="text">WILDFIRE WALLET MOBILE APPLICATION LICENSE AGREEMENT 
-By using this Wildfire Wallet Mobile Application (this “Application”), you agree to be bound by this Wildfire Wallet Mobile Application License Agreement (this “License Agreement”). This is an agreement between you and Wildfire Financial Limited only. Wildfire Financial Limited is responsible for this Application and the content thereof. Certain features of this Application may require you to be a Wildfire Wallet user or provide personal information.
-Your use of these features and this Application is subject to the Privacy Policy (https://www.wildfirewallet.com/privacy-policy) and Terms and Conditions (https://www.wildfirewallet.com/terms-and-conditions) found on the Wildfire website. 
-Contracting Parties.
-The contracting party and data controller is Wildfire Financial Limited, 7 Bell Yard, London, UK. (“Wildfire”) 
-Uninstall.
-To uninstall this Application, please use the application manager provided with your device. 
-Application Use.
-Wildfire Financial Ltd grants you the right to use this Application only for your personal use on the mobile product that you own or control and as permitted by any terms of use required by the party providing the app store from which you are downloading this Application. You may not modify, copy, publish, license, sell, or otherwise commercialise this Application or any information or software associated with this Application. You must regularly check for and, if available, update the Application software.You may not rent, lease or otherwise transfer rights to this Application. You may not use this Application in any manner that could impair any Wildfire site in any way or interfere with any party’s use or enjoyment of any Wildfire site. You must use the Application in compliance with all applicable laws and regulations.
-You must comply with applicable third party terms of agreement when using this Application (e.g. your wireless data service agreement or other third party services you rely on to use this Application). Your right to use this Application will terminate immediately if you violate any provision of this License Agreement. Wildfire reserves the right to block access to or use of this Application. The party providing your mobile OS has no obligation whatsoever to furnish any maintenance and support services with respect to this Application. 
-Intellectual Property.
-Wildfire Financial Ltd owns, or is the licensee to, all right, title and interest in and to this Application, including all rights under patent, copyright, trade secret, trademark, or unfair competition law, and any and all other proprietary rights, including all applications, renewals, extensions and restorations thereof. Other company, product, or service names mentioned in this Application may be trademarks of their respective companies.
-You will not modify, adapt, translate, prepare derivative works from, decompile, reverse-engineer, disassemble or otherwise attempt to derive source code from this Application and you will not remove, obscure or alter Wildfire’s copyright notice, trademarks or other proprietary rights notices affixed to, contained within or accessed in conjunction with or by this Application. 
-Disclaimer of Warranties.
-This Application and the service(s) accessed by it are provided “as is” and “as available”. Wildfire expressly disclaims to the fullest extent permitted by law all express, implied and statutory warranties, including without limitation the warranties of merchantability, fitness for a particular purpose and non-infringement of proprietary rights, and any warranties regarding the security, reliability, timeliness and performance of this Application.
-You download and use this Application at your own discretion and risk, and you are solely responsible for any damages to your hardware device(s) or loss of data that results from the download or use of this Application. 
-Limitation of Liability.
-Except as otherwise stated in this License Agreement, Wildfire is not liable to you for any harm resulting from any use or misuse of this Application.
-Such limitation of liability: (a) includes direct, indirect, incidental, consequential, special, exemplary and punitive damages, whether such claim is based on contract, tort or otherwise (even if Wildfire has been advised of the possibility of such damages); (b) applies whether damages arise from use or misuse of and reliance on this Application, from inability to use this Application, or from the interruption, suspension, or termination of this Application (including any damages incurred by third parties); and (c) applies notwithstanding a failure of the essential purpose of any limited remedy and to the fullest extent permitted by law.
-Nothing in this License Agreement shall limit our liability towards you for claims for death or personal injury or damages caused by intentional wrongdoing or gross negligence of us, our legal representatives or agents. In case of a breach of a material obligation under this License Agreement which is caused by negligence we shall only be liable for your direct and consequential losses, unless the claim is for death or personal injury in which case our liability towards you shall be unlimited.
-Indemnification.
-You will indemnify and hold harmless Wildfire and its subsidiaries, officers, directors, shareholders, agents and employees, from any claim made by any third party arising in connection with a violation of this License Agreement, for which you are responsible.
-Wildfire reserves the right, at its own expense, to assume the exclusive defense and control of any matter subject to indemnification by you, but doing so will not excuse your indemnity obligations. 
-Export Restrictions.
-This Application or its underlying technology may not be downloaded to or exported or re-exported: (a) into (or to a resident or national of) Cuba, Iran, North Korea, Sudan, Syria or any other country subject to United States embargo or UN Sanctions; (b) to anyone on the OFAC list, US Treasury Department’s list of Specially Designated Nationals or on the US Commerce Department’s Denied Party or Entity List; and (c) to any prohibited country, person, end-user or entity specified by US Export Laws or other similar legislation. 
-Third Party Beneficiary.
-Your mobile OS is a third party beneficiary of this License Agreement, and, upon your acceptance, such third party beneficiary will have the right (and will be deemed to have accepted the right) to enforce this agreement against you. 
-Last Modified: April 22, 2020
-© 2020 Wildfire Financial Limited</string>
-                                                <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                                <dataDetectorType key="dataDetectorTypes" link="YES"/>
-                                            </textView>
-                                        </subviews>
-                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                        <constraints>
-                                            <constraint firstItem="fdC-CP-elw" firstAttribute="top" secondItem="9Qi-cV-KmW" secondAttribute="top" constant="10" id="71B-4X-JNU"/>
-                                            <constraint firstItem="fdC-CP-elw" firstAttribute="leading" secondItem="9Qi-cV-KmW" secondAttribute="leading" constant="10" id="RAf-6b-Zm3"/>
-                                            <constraint firstItem="fdC-CP-elw" firstAttribute="centerX" secondItem="9Qi-cV-KmW" secondAttribute="centerX" id="pys-dU-GDh"/>
-                                            <constraint firstAttribute="trailing" secondItem="fdC-CP-elw" secondAttribute="trailing" constant="10" id="sgd-X6-Tmg"/>
-                                            <constraint firstAttribute="bottom" secondItem="fdC-CP-elw" secondAttribute="bottom" constant="10" id="uhJ-o2-x8h"/>
-                                            <constraint firstAttribute="height" constant="3868" id="vIP-yX-fOj"/>
-                                        </constraints>
-                                    </view>
-                                </subviews>
-                                <constraints>
-                                    <constraint firstAttribute="bottom" secondItem="9Qi-cV-KmW" secondAttribute="bottom" id="9FN-Mj-4bg"/>
-                                    <constraint firstItem="9Qi-cV-KmW" firstAttribute="width" secondItem="rbt-hj-w1c" secondAttribute="width" id="MTx-ID-IDR"/>
-                                    <constraint firstItem="9Qi-cV-KmW" firstAttribute="height" secondItem="rbt-hj-w1c" secondAttribute="height" multiplier="1.00234" priority="250" id="SpQ-aK-gW7"/>
-                                    <constraint firstItem="9Qi-cV-KmW" firstAttribute="leading" secondItem="rbt-hj-w1c" secondAttribute="leading" id="d36-od-O9i"/>
-                                    <constraint firstAttribute="trailing" secondItem="9Qi-cV-KmW" secondAttribute="trailing" id="gVk-pz-bPh"/>
-                                    <constraint firstItem="9Qi-cV-KmW" firstAttribute="top" secondItem="rbt-hj-w1c" secondAttribute="top" id="xr7-OO-GPZ"/>
-                                </constraints>
-                                <viewLayoutGuide key="contentLayoutGuide" id="nsW-0z-lMa"/>
-                                <viewLayoutGuide key="frameLayoutGuide" id="KxM-tj-da5"/>
-                            </scrollView>
-                        </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                        <constraints>
-                            <constraint firstItem="Ela-2u-ChR" firstAttribute="trailing" secondItem="rbt-hj-w1c" secondAttribute="trailing" id="3Hj-gu-WQM"/>
-                            <constraint firstItem="rbt-hj-w1c" firstAttribute="leading" secondItem="Ela-2u-ChR" secondAttribute="leading" id="5kE-IK-H1x"/>
-                            <constraint firstItem="Ela-2u-ChR" firstAttribute="top" secondItem="rbt-hj-w1c" secondAttribute="top" constant="0.5" id="7bS-Sw-ITS"/>
-                            <constraint firstItem="Ela-2u-ChR" firstAttribute="bottom" secondItem="rbt-hj-w1c" secondAttribute="bottom" id="xsm-W1-WA5"/>
-                        </constraints>
-                        <viewLayoutGuide key="safeArea" id="Ela-2u-ChR"/>
-                    </view>
-                    <navigationItem key="navigationItem" title="EULA" id="PL1-4J-puG"/>
-                    <size key="freeformSize" width="320" height="3200"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="F90-Xe-49f" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2145" y="3256"/>
         </scene>
         <!--Receipts-->
         <scene sceneID="jwe-5L-gRO">
