@@ -30,11 +30,21 @@ class PhoneViewController: UIViewController, UITextFieldDelegate {
         errorLabel.isHidden = true
         
         phoneField.delegate = self
+        
+        phoneField.becomeFirstResponder()
+        
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(DismissKeyboard))
+        view.addGestureRecognizer(tap)
     }
     
     @IBAction func verifyTapped(_ sender: Any) {
         triggerPhoneCheck()
     }
+    
+    @IBAction func swipedDown(_ sender: UISwipeGestureRecognizer) {
+        phoneField.resignFirstResponder()
+    }
+    
     
     
     func triggerPhoneCheck() {
@@ -71,11 +81,21 @@ class PhoneViewController: UIViewController, UITextFieldDelegate {
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
+//        // hacky solution to allow autofill
+//        if string.count > 1 {
+//            return true
+//        }
+        
         if textField == phoneField {
-            let allowedCharacters = CharacterSet(charactersIn:"+0123456789")
+            let allowedCharacters = CharacterSet(charactersIn: "+0123456789 ")
             let characterSet = CharacterSet(charactersIn: string)
             return allowedCharacters.isSuperset(of: characterSet)
         }
         return true
+    }
+    
+    @objc func DismissKeyboard(){
+        //Causes the view to resign from the status of first responder.
+        view.endEditing(true)
     }
 }

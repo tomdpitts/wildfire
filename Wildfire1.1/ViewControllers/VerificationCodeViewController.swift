@@ -40,10 +40,11 @@ class VerificationCodeViewController: UIViewController, UITextFieldDelegate {
         view.addGestureRecognizer(tap)
     }
     
-    @IBAction func swipeDownGesture(_ sender: Any) {
-        // swipe down (and only down) hides keyboard
-        self.view.endEditing(true)
+    @IBAction func swipedDown(_ sender: UISwipeGestureRecognizer) {
+        verificationField.resignFirstResponder()
     }
+    
+
     @IBAction func verifyTapped(_ sender: Any) {
         
         let privacy = privacySwitch.isOn

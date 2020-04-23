@@ -421,6 +421,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             
         } else {
             
+            print ("uid was nil")
+            
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let homeVC = storyboard.instantiateViewController(withIdentifier: "HomeVC") as! HomeViewController
             let phoneVC = storyboard.instantiateViewController(withIdentifier: "verifyMobile") as! PhoneViewController
@@ -436,7 +438,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 //            }
             
             // untested change - "homeVC" on this line used to be "navController"
-            self.window?.rootViewController = homeVC
+            self.window?.rootViewController = navController
             self.window?.tintColor = UIColor(named: "tealPrimary")
             self.window?.makeKeyAndVisible()
         }

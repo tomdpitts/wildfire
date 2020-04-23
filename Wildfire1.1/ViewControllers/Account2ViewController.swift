@@ -12,6 +12,7 @@ import FirebaseFirestore
 import FirebaseStorage
 import FirebaseFunctions
 import Kingfisher
+import LocalAuthentication
 
 class Account2ViewController: UITableViewController {
     
@@ -107,14 +108,28 @@ class Account2ViewController: UITableViewController {
             let segue = "unwindToWelcome"
             showLogOutAlert(title: title, message: message, segueIdentifier: segue, deleteAccount: false)
         } else if indexPath.row == 10 {
-            // aka Delete Account selected
-            let title = "Are you sure you want to delete your account?"
-            let message = "Any remaining credit will be deposited to your bank account, less the standard transaction charge."
-            let segue = "unwindToWelcome"
-            // TODO add deposit to Bank Account functionality
-            // TODO add delete account functionality (in the showLogOutAlert func below (and consider renaming it..)
+            if balanceAmount > Float(0) {
+                
+                let balanceString = String(format: "%.2f", balanceAmount)
+                
+                // aka Delete Account selected
+                let title = "Are you sure you want to delete your account?"
+                let message = "You still have £\(balanceString) credit. Remaining credit cannot be reimbursed after deletion, so you are strongly advised to deposit remaining funds to your bank account before deletion."
+                let segue = "unwindToWelcome"
+                
+                showLogOutAlert(title: title, message: message, segueIdentifier: segue, deleteAccount: true)
+                
+                
+            } else {
+                // aka Delete Account selected
+                let title = "Are you sure you want to delete your account?"
+                let message = "This action cannot be undone. You will be able to create a new account for this phone number."
+                let segue = "unwindToWelcome"
+                
+                showLogOutAlert(title: title, message: message, segueIdentifier: segue, deleteAccount: true)
+            }
             
-            showLogOutAlert(title: title, message: message, segueIdentifier: segue, deleteAccount: true)
+            
         } else if indexPath.row == 11 {
             performSegue(withIdentifier: "showAbout", sender: self)
         }
@@ -244,29 +259,17 @@ class Account2ViewController: UITableViewController {
     func showLogOutAlert(title: String, message: String?, segueIdentifier: String, deleteAccount: Bool) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
+        alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { (action) in
             do {
                 if deleteAccount == true {
-                    self.showSpinner(titleText: nil, messageText: nil)
-                    
-                    self.functions.httpsCallable("deleteUser").call(["foo": "bar"]) { (result, error) in
+                    self.deleteAccount() { result in
                         
-                        self.removeSpinner()
-
-                        if let err = error {
-                            print(err)
-                        } else {
-                            // might be a timing thing, but in testing, user was usually still signed in even after calling deleteUser
-                            do {
-                                    try Auth.auth().signOut()
-                            } catch {
-                                print(error)
-                            }
-
-                            self.resetUserDefaults()
-
+                        if result == true {
                             self.performSegue(withIdentifier: segueIdentifier, sender: self)
+                        } else {
+                            // deletion didn't happen, deleteAccount() has already shown appropriate alerts to the user, so do nothing
                         }
+                        
                     }
                 } else {
                     
@@ -290,26 +293,74 @@ class Account2ViewController: UITableViewController {
         self.present(alert, animated: true)
     }
     
-//    func deleteAccount() {
-//        self.functions.httpsCallable("foober").call(["foo": "bar"]) { (result, error) in
-//
-//            if let err = error {
-//                print(err)
-//            } else {
-//                // surprisingly enough, it seems the currentUser persists on the client even when deletion has been triggered, so we'll always call signOut()
-//                do {
-//        //                                try Auth.auth().signOut()
-//                } catch {
-//                    print(error)
-//                }
-//
-//                // update the userAccountExists flag (if user signs in with a different number, we don't want this flag to persist in memory and mess things up
-//                self.resetUserDefaults()
-//
-//                self.performSegue(withIdentifier: "unwindToWelcome", sender: self)
-//            }
-//        }
-//    }
+    fileprivate func deleteAccount(completion: @escaping (Bool) -> Void) {
+        self.authenticateUser() { result in
+            if result == true {
+                self.showSpinner(titleText: nil, messageText: nil)
+                
+                self.functions.httpsCallable("deleteUser").call(["foo": "bar"]) { (result, error) in
+                    
+                    self.removeSpinner()
+
+                    if let error = error {
+                        self.universalShowAlert(title: "Something went wrong", message: "Your account was not deleted, please try again", segue: nil, cancel: false)
+                        completion(false)
+                    } else {
+                        
+                        
+                        // might be a timing thing, but in testing, user was usually still signed in even after calling deleteUser
+                        do {
+                                try Auth.auth().signOut()
+                        } catch {
+                            print(error)
+                        }
+
+                        self.resetUserDefaults()
+
+                        completion(true)
+                    }
+                }
+            } else {
+                
+                // authentication failed, assume user changed their mind.
+                self.universalShowAlert(title: "Authentication Failed", message: "Your account was not deleted, please try again.", segue: nil, cancel: false)
+                
+                completion(false)
+                
+            }
+        }
+    }
+    
+    func authenticateUser(completion: @escaping (Bool) -> Void) {
+            let context = LAContext()
+            var error: NSError?
+            context.localizedFallbackTitle = "Enter Passcode"
+    //        context.localizedCancelTitle = "Logout"
+            
+            context.touchIDAuthenticationAllowableReuseDuration = 5
+            
+            if context.canEvaluatePolicy(LAPolicy.deviceOwnerAuthentication, error: &error) {
+                let reason = "Confirm Account Deletion"
+                
+                context.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: reason) {
+                    [unowned self] success, authenticationError in
+                    
+                    DispatchQueue.main.async {
+                        if success {
+                            
+                            completion(true)
+                        } else {
+                            completion(false)
+                        }
+                    }
+                }
+            } else {
+                let ac = UIAlertController(title: "Touch ID not available", message: "Please try restarting the app.", preferredStyle: .alert)
+                ac.addAction(UIAlertAction(title: "OK", style: .default))
+                present(ac, animated: true)
+                completion(false)
+            }
+        }
     
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

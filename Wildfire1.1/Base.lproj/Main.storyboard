@@ -2482,7 +2482,7 @@
                                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" verticalHuggingPriority="249" scrollEnabled="NO" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aUx-Q9-cm4" userLabel="Text - wildfire">
                                                         <rect key="frame" x="0.0" y="70.5" width="300" height="233.5"/>
                                                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                                        <mutableString key="text">Wildfire Wallet is a product of Wildfire Financial Limited, a registered company in the United Kingdom (company number: 12552190).   Your use of this Application is subject to the Privacy Policy (https://www.wildfirewallet.com/privacy-policy) and Terms and Conditions (https://www.wildfirewallet.com/terms-and-conditions) found on the Wildfire website, as well as the Licence Agreement: https://www.wildfirewallet.com/eula</mutableString>
+                                                        <string key="text">Wildfire Wallet is a product of Wildfire Financial Limited, a registered company in the United Kingdom (company number: 12552190).   Your use of this Application is subject to the Privacy Policy (https://www.wildfirewallet.com/privacy-policy) and Terms and Conditions (https://www.wildfirewallet.com/terms-and-conditions) found on the Wildfire website, as well as the Licence Agreement: https://www.wildfirewallet.com/eula</string>
                                                         <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
                                                         <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -2519,7 +2519,7 @@
                                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="gFv-yW-7zC" userLabel="Other credits ">
                                                         <rect key="frame" x="0.0" y="719" width="300" height="734.5"/>
                                                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                                        <mutableString key="text">This product includes software developed by the "Marcin Krzyzanowski" (http://krzyzanowskim.com/).  MIT Licence  Alamofire: Copyright (c) 2014-2020 Alamofire Software Foundation (http://alamofire.org/)  SwiftyJSON: Copyright (c) 2017 Ruoyu Fu  Kingfisher: Copyright (c) 2019 Wei Wang
+                                                        <string key="text">This product includes software developed by the "Marcin Krzyzanowski" (http://krzyzanowskim.com/).  MIT Licence  Alamofire: Copyright (c) 2014-2020 Alamofire Software Foundation (http://alamofire.org/)  SwiftyJSON: Copyright (c) 2017 Ruoyu Fu  Kingfisher: Copyright (c) 2019 Wei Wang
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -2533,7 +2533,7 @@ all copies or substantial portions of the Software.  libPhoneNumber-iOS: A
 Version 2.0, January 2004
 http://www.apache.org/licenses/
    
- </mutableString>
+ </string>
                                                         <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -2947,17 +2947,17 @@ http://www.apache.org/licenses/
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="19" translatesAutoresizingMaskIntoConstraints="NO" id="Xtt-mB-ebY">
                                 <rect key="frame" x="20" y="112.5" width="280" height="158.5"/>
                                 <subviews>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="with country code e.g. +44" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="GZT-gZ-ufH">
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="with prefix e.g. +44" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="GZT-gZ-ufH">
                                         <rect key="frame" x="0.0" y="0.0" width="280" height="50"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="nAp-fL-csJ"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="30"/>
-                                        <textInputTraits key="textInputTraits" keyboardType="phonePad" textContentType="tel"/>
+                                        <textInputTraits key="textInputTraits" autocorrectionType="yes" keyboardType="phonePad" textContentType="tel"/>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="maxLength">
-                                                <integer key="value" value="13"/>
+                                                <integer key="value" value="15"/>
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
                                     </textField>
@@ -2988,6 +2988,7 @@ http://www.apache.org/licenses/
                             </stackView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="Xtt-mB-ebY" firstAttribute="leading" secondItem="zyl-1U-Kpu" secondAttribute="leading" constant="20" id="AqX-II-HMK"/>
                             <constraint firstItem="zyl-1U-Kpu" firstAttribute="trailing" secondItem="Xtt-mB-ebY" secondAttribute="trailing" constant="20" id="aOd-Ip-nIf"/>
@@ -2995,6 +2996,9 @@ http://www.apache.org/licenses/
                             <constraint firstItem="Xtt-mB-ebY" firstAttribute="centerX" secondItem="IQk-SR-yQZ" secondAttribute="centerX" id="sDP-yc-Q6l"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="zyl-1U-Kpu"/>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="nMp-l1-0C0" appends="YES" id="NCU-Pr-q99"/>
+                        </connections>
                     </view>
                     <navigationItem key="navigationItem" title="Confirm Number" id="i76-0h-3q9"/>
                     <connections>
@@ -3005,6 +3009,11 @@ http://www.apache.org/licenses/
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ghD-fv-EbR" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <swipeGestureRecognizer direction="down" id="nMp-l1-0C0">
+                    <connections>
+                        <action selector="swipedDown:" destination="xal-Cf-0cP" id="V6U-Mg-V1s"/>
+                    </connections>
+                </swipeGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="1861.875" y="-1255.9859154929577"/>
         </scene>
@@ -3042,11 +3051,11 @@ http://www.apache.org/licenses/
                                         <rect key="frame" x="0.0" y="121" width="280" height="83"/>
                                         <subviews>
                                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="YaC-XM-o91">
-                                                <rect key="frame" x="0.0" y="26" width="41.5" height="31"/>
+                                                <rect key="frame" x="0.0" y="26" width="53" height="31"/>
                                                 <color key="onTintColor" name="tealPrimary"/>
                                             </switch>
                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" text="I have read and understood the Privacy Policy: www.wildfirewallet.com/privacy-policy" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="cSK-NM-T1V">
-                                                <rect key="frame" x="59.5" y="0.0" width="220.5" height="83"/>
+                                                <rect key="frame" x="71" y="0.0" width="209" height="83"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                                 <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -3059,11 +3068,11 @@ http://www.apache.org/licenses/
                                         <rect key="frame" x="0.0" y="219" width="280" height="116.5"/>
                                         <subviews>
                                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="3ch-9n-v9C">
-                                                <rect key="frame" x="0.0" y="43" width="41.5" height="31"/>
+                                                <rect key="frame" x="0.0" y="43" width="53" height="31"/>
                                                 <color key="onTintColor" name="tealPrimary"/>
                                             </switch>
                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="nSj-FN-Mrh">
-                                                <rect key="frame" x="59.5" y="0.0" width="220.5" height="116.5"/>
+                                                <rect key="frame" x="71" y="0.0" width="209" height="116.5"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                                 <string key="text">I have read and agree to the Terms and Conditions: www.wildfirewallet.com/terms-and-conditions and License Agreement: https://www.wildfirewallet.com/eula</string>
                                                 <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -3100,6 +3109,7 @@ http://www.apache.org/licenses/
                             </stackView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <gestureRecognizers/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="pNz-Kt-k97" secondAttribute="trailing" constant="20" id="FKo-s6-O4Y"/>
                             <constraint firstItem="pNz-Kt-k97" firstAttribute="centerX" secondItem="FY8-Zg-YSQ" secondAttribute="centerX" id="MJ8-5A-132"/>
@@ -3107,6 +3117,9 @@ http://www.apache.org/licenses/
                             <constraint firstItem="pNz-Kt-k97" firstAttribute="top" secondItem="TDy-HD-ic8" secondAttribute="top" constant="10" id="xVg-Gj-8g0"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="TDy-HD-ic8"/>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="jJv-Y7-dww" appends="YES" id="ibu-Pj-gnm"/>
+                        </connections>
                     </view>
                     <navigationItem key="navigationItem" title="Verify" id="BrS-BK-Oln"/>
                     <connections>
@@ -3119,12 +3132,12 @@ http://www.apache.org/licenses/
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="c3P-Ez-B5s" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <swipeGestureRecognizer direction="down" id="aD8-kP-A2L">
+                <exit id="4p1-9w-iHz" userLabel="Exit" sceneMemberID="exit"/>
+                <swipeGestureRecognizer direction="down" id="jJv-Y7-dww">
                     <connections>
-                        <action selector="swipeDownGesture:" destination="ulI-eW-qCk" id="ESC-vo-1H7"/>
+                        <action selector="swipedDown:" destination="ulI-eW-qCk" id="dPg-g4-Gyf"/>
                     </connections>
                 </swipeGestureRecognizer>
-                <exit id="4p1-9w-iHz" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="2806.875" y="-1255.9859154929577"/>
         </scene>
