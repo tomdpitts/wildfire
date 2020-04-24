@@ -296,14 +296,14 @@ class Account2ViewController: UITableViewController {
     fileprivate func deleteAccount(completion: @escaping (Bool) -> Void) {
         self.authenticateUser() { result in
             if result == true {
-                self.showSpinner(titleText: nil, messageText: nil)
+                self.showSpinner(titleText: "Deleting Account", messageText: nil)
                 
                 self.functions.httpsCallable("deleteUser").call(["foo": "bar"]) { (result, error) in
                     
                     self.removeSpinner()
 
                     if let error = error {
-                        self.universalShowAlert(title: "Something went wrong", message: "Your account was not deleted, please try again", segue: nil, cancel: false)
+                        self.universalShowAlert(title: "Something went wrong", message: "Your account was not deleted.", segue: nil, cancel: false)
                         completion(false)
                     } else {
                         
@@ -323,7 +323,7 @@ class Account2ViewController: UITableViewController {
             } else {
                 
                 // authentication failed, assume user changed their mind.
-                self.universalShowAlert(title: "Authentication Failed", message: "Your account was not deleted, please try again.", segue: nil, cancel: false)
+                self.universalShowAlert(title: "Authentication Failed", message: "Your account was not deleted.", segue: nil, cancel: false)
                 
                 completion(false)
                 
@@ -340,7 +340,7 @@ class Account2ViewController: UITableViewController {
             context.touchIDAuthenticationAllowableReuseDuration = 5
             
             if context.canEvaluatePolicy(LAPolicy.deviceOwnerAuthentication, error: &error) {
-                let reason = "Confirm Account Deletion"
+                let reason = "Please confirm you want to delete your Account"
                 
                 context.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: reason) {
                     [unowned self] success, authenticationError in

@@ -21,6 +21,8 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
     
     var shareLink: URL?
     
+    let arrowUp = UIImage(named: "icons8-send-letter-50")
+    
     // TODO prevent users from generating QR codes when no account (and crucially, no MangoPay wallet) exists yet
     // TODO in future, would be nice to add functionality to handle pending payments, so users can receive payments quickly upon first download, and add account info after the fact
 
@@ -37,21 +39,6 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
     @IBAction func swipeGestureRecognizer(_ sender: Any) {
         // swipe down (and only down) hides keyboard
         self.view.endEditing(true)
-    }
-    override func viewWillAppear(_ animated: Bool) {
-//        Auth.auth().addStateDidChangeListener { (auth, user) in
-//            if let user = user {
-//                // The user's ID, unique to the Firebase project.
-//                // Do NOT use this value to authenticate with your backend server,
-//                // if you have one. Use getTokenWithCompletion:completion: instead.
-//                let uid = user.uid
-//                let email = user.email
-//                let photoURL = user.photoURL
-//                // ...
-//            }
-//        }
-        
-//        amountTextField.becomeFirstResponder()
     }
 
     override func viewDidLoad() {
@@ -70,7 +57,7 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
         saveToCameraRoll.isHidden = true
 //        scanToPayLabel.isHidden = true
         shareLinkButton.isHidden = true
-        shareLinkButton.imageView?.alpha = 0
+        shareLinkButton.setImage(arrowUp?.changeAlpha(alpha: 0.0), for: .normal)
         loadingSpinner.isHidden = true
         
         amountTextField.delegate = self
@@ -98,7 +85,7 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
 //        scanToPayLabel.isHidden = true
         shareLinkButton.isHidden = true
         shareLinkButton.isEnabled = false
-        shareLinkButton.imageView?.alpha = 0
+        shareLinkButton.setImage(arrowUp?.changeAlpha(alpha: 0.0), for: .normal)
         loadingSpinner.isHidden = true
         
         // reset Save to Camera Roll Button
@@ -205,6 +192,7 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
             saveToCameraRoll.isHidden = false
 //            scanToPayLabel.isHidden = false
             shareLinkButton.isHidden = false
+            // show the buttons but don't enable shareLinkButton yet
             shareLinkButton.isEnabled = false
             
         }
@@ -219,7 +207,7 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
             saveToCameraRoll.isHidden = true
 //            scanToPayLabel.isHidden = true
             shareLinkButton.isHidden = true
-            shareLinkButton.imageView?.alpha = 0
+            shareLinkButton.setImage(arrowUp?.changeAlpha(alpha: 0.0), for: .normal)
             loadingSpinner.isHidden = true
             
             // reset Save to Camera Roll Button (currently hidden)
@@ -450,7 +438,7 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
             
             self.shareLink = url
             
-            self.shareLinkButton.imageView?.alpha = 1
+            self.shareLinkButton.setImage(self.arrowUp?.changeAlpha(alpha: 1.0), for: .normal)
             self.loadingSpinner.isHidden = true
             self.loadingSpinner.stopAnimating()
             self.shareLinkButton.isEnabled = true

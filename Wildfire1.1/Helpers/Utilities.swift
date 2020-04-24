@@ -519,6 +519,17 @@ extension NSLayoutConstraint {
     }
 }
 
+// used to set alpha of an image
+extension UIImage {
+    func changeAlpha(alpha: CGFloat) -> UIImage? {
+        UIGraphicsBeginImageContextWithOptions(size, false, scale)
+        draw(at: CGPoint.zero, blendMode: .normal, alpha: alpha)
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return newImage
+    }
+}
+
 //class GradientView: UIView {
 //
 //    /* Overriding default layer class to use CAGradientLayer */
