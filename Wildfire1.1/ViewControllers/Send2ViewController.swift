@@ -67,6 +67,7 @@ class Send2ViewController: UIViewController, MFMessageComposeViewControllerDeleg
         Utilities.styleHollowButton(sendButton)
         
         amountTextField.delegate = self
+        amountTextField.becomeFirstResponder()
         
         errorLabel.isHidden = true
         smsLabel.isHidden = true

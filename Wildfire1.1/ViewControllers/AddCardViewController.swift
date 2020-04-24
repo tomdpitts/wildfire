@@ -17,6 +17,7 @@ class AddCardViewController: UIViewController, UITextFieldDelegate {
     
     private let networkingClient = NetworkingClient()
     lazy var functions = Functions.functions(region:"europe-west1")
+    
 
     @IBOutlet weak var cardNumberField: UITextField!
     @IBOutlet weak var expiryDateField: UITextField!

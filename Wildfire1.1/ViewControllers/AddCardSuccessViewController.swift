@@ -36,4 +36,11 @@ class AddCardSuccessViewController: UIViewController {
         
         performSegue(withIdentifier: "unwindToPrevious", sender: self)
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.destination is ConfirmViewController {
+            let vc = segue.destination as! ConfirmViewController
+            vc.shouldReloadView = true
+        }
+    }
 }
