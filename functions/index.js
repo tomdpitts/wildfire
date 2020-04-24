@@ -170,13 +170,32 @@ exports.isRegistered = functions.region('europe-west1').https.onCall( async (dat
 
   const phoneNumber = data.phone
 
-  const recipient = await admin.auth().getUserByPhoneNumber(phoneNumber)
+  // strip out any spaces, brackets, or dashes
+  const phoneNumberStripped = phoneNumber.replace(/[.()\s-.]+/g, '')
+
+  const recipient = await admin.auth().getUserByPhoneNumber(phoneNumberStripped)
   .catch(error => {
+    console.log(error)
     return null
   })
 
   if (recipient !== null) {
-    return recipient.uid
+
+    const userRef = admin.firestore().collection("users").doc(recipient.uid)
+
+    let outcome = await userRef.get().then(docSnapshot => {
+      if (docSnapshot.exists) {
+        return recipient.uid
+      } else {
+        return null
+      }
+    })
+    .catch( error => {
+      return null
+    })
+    
+    return outcome
+    
   } else {
     return null
   }
@@ -1270,7 +1289,9 @@ exports.deleteUser = functions.region('europe-west1').https.onCall( async (data,
   }).then( () => {
     resultOutput = "deleted User in Auth"
     // delete user in Firestore database
-    userRef.delete()
+    userRef.set({
+      deleted: true
+    }, {merge: true})
     console.log('currentBalance in function flow is: ' + currentBalance)
     return console.log(`Successfully deleted user ${userID}`)
   }).catch( error => {

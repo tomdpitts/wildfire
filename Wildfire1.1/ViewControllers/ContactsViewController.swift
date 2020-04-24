@@ -142,23 +142,22 @@ class ContactsViewController: UITableViewController, UISearchResultsUpdating {
                         // if they don't have a mobile number we don't need to include them in the list
                         if number.isEmpty == false {
                             var mobile = ""
+                            if number.count == 1 {
+                                mobile = number[0].value.stringValue
+                            }
                             for n in number {
                                 if n.label == CNLabelPhoneNumberMobile {
                                     mobile = n.value.stringValue
                                 }
                             }
-//                            let allowedCharset = CharacterSet
-//                                .decimalDigits
-//                            let mobileClean = String(mobile.unicodeScalars.filter(allowedCharset.contains))
                             
-                            
-                            let person = Contact(givenName: contact.givenName, familyName: contact.familyName, fullName: name, phoneNumber: mobile, uid: nil)
-                            
-                            
-                            self.contactsList.append(person)
+                            if mobile.prefix(1) == "+" {
+                                let person = Contact(givenName: contact.givenName, familyName: contact.familyName, fullName: name, phoneNumber: mobile, uid: nil)
+                                
+                                print("mobile number is: \(mobile)")
+                                self.contactsList.append(person)
+                            }
                         }
-//                        self.names.append(name)
-//                        self.phonebook[name] = mobile
                     })
                 } catch let err {
                     print("error fetching contact", err)

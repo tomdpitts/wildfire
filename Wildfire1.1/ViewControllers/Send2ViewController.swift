@@ -139,7 +139,7 @@ class Send2ViewController: UIViewController, MFMessageComposeViewControllerDeleg
         functions.httpsCallable("isRegistered").call(["phone": phoneNumber]) { (result, error) in
             self.spinner.isHidden = true
             self.spinner.stopAnimating()
-            
+                        
             if let error = error as NSError? {
                 
                 print(error)
