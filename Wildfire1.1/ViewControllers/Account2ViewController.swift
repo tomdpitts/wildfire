@@ -302,7 +302,7 @@ class Account2ViewController: UITableViewController {
                     
                     self.removeSpinner()
 
-                    if let error = error {
+                    if error != nil {
                         self.universalShowAlert(title: "Something went wrong", message: "Your account was not deleted.", segue: nil, cancel: false)
                         completion(false)
                     } else {
