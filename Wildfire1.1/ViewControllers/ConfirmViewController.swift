@@ -208,7 +208,7 @@ class ConfirmViewController: UIViewController {
                     let differenceString = String(format: "%.2f", Float(difference*(-1))/100)
                     let totalCharge = String(format: "%.2f", Float(difference*(-1) + 20)/100)
                     self.dynamicLabel.text = "Tap 'Confirm' to top up £\(differenceString) and pay."
-                    self.dynamicLabel2.text = "(Card charge: 20p. Total charge: \(totalCharge)."
+                    self.dynamicLabel2.text = "(Card charge: 20p. Total charge: \(totalCharge))."
                     
                     self.enoughCredit = false
                 } else {
