@@ -72,6 +72,8 @@ class ConfirmViewController: UIViewController {
         }
         
         checkForExistingPaymentMethod()
+        
+        currentBalance.isHidden = true
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -187,7 +189,10 @@ class ConfirmViewController: UIViewController {
                 
                 // N.B. all database amounts are in cents i.e. £43.50 is '4350'
                 let userBalanceFloat = Float(userBalance)/100
-                self.currentBalance.text = "Your current balance is £\(String(format: "%.2f", (userBalanceFloat)))"
+                self.currentBalance.text = "Current balance: £\(String(format: "%.2f", (userBalanceFloat)))"
+                // run this style again to account for new label width
+                Utilities.styleLabel(self.currentBalance)
+                self.currentBalance.isHidden = false
                 let difference = userBalance - self.sendAmount
                 
                 // TODO: add logic to handle the minimum top up amount so users don't authenticate a card payment for very small amounts

@@ -21,6 +21,7 @@ class Account2ViewController: UITableViewController {
     static var listener: ListenerRegistration?
 
     var justCompletedSignUp = false
+    var imageWasChanged = false
     
     var genericProfilePic = UIImage(named: "Logo70px")
     var balance: Int?
@@ -32,6 +33,7 @@ class Account2ViewController: UITableViewController {
     var balanceString: String?
 
     @IBOutlet weak var profilePicView: UIImageView!
+    @IBOutlet weak var loadingIndicator: UIActivityIndicatorView!
     @IBOutlet weak var userNameLabel: UILabel!
     @IBOutlet weak var balanceAmountLabel: UILabel!
     
@@ -51,6 +53,8 @@ class Account2ViewController: UITableViewController {
             setUpProfilePic()
         }
         
+        loadingIndicator.isHidden = true
+        
         
 //        // TODO roll this out across the board?
 //        tableView.backgroundView = GradientView()
@@ -62,8 +66,6 @@ class Account2ViewController: UITableViewController {
         if UserDefaults.standard.bool(forKey: "userAccountExists") == true {
             noAccountYetCell.isHidden = true
         }
-        
-//        gradientBackground()
     }
     
     // this exists only for the case where user has just completed sign up flow, and we want to refresh the account view. Without this code, user still only sees the 'set up account' tableview cell. In all other cases, justCompletedSignUp is false
@@ -74,6 +76,12 @@ class Account2ViewController: UITableViewController {
             setUpProfilePic()
             noAccountYetCell.isHidden = true
             justCompletedSignUp = false
+        }
+        
+        if imageWasChanged == true {
+            profilePicView.alpha = 0.4
+            loadingIndicator.startAnimating()
+            loadingIndicator.isHidden = false
         }
     }
     
@@ -247,7 +255,18 @@ class Account2ViewController: UITableViewController {
                    
                     self.profilePic = value.image
                     self.genericProfilePic = value.image
+                    
+                    if self.loadingIndicator.isHidden == false {
+                        self.profilePicView.alpha = 1.0
+                        self.imageWasChanged = false
+                        self.loadingIndicator.isHidden = true
+                        self.loadingIndicator.stopAnimating()
+                    }
                 case .failure(let error):
+                    self.profilePicView.alpha = 1.0
+                    self.imageWasChanged = false
+                    self.loadingIndicator.isHidden = true
+                    self.loadingIndicator.stopAnimating()
                     print("Job failed: \(error.localizedDescription)")
                 }
             }
@@ -389,22 +408,6 @@ class Account2ViewController: UITableViewController {
         UserDefaults.standard.removePersistentDomain(forName: domain)
         UserDefaults.standard.synchronize()
         print(Array(UserDefaults.standard.dictionaryRepresentation().keys).count)
-    }
-    
-    
-    func gradientBackground() {
-        // Create a gradient layer
-        let gradientLayer = CAGradientLayer()
-        // Set the size of the layer to be equal to size of the display
-        gradientLayer.frame = view.bounds
-        // Set an array of Core Graphics colors (.cgColor) to create the gradient
-        gradientLayer.colors = [Style.secondaryThemeColour.cgColor, Style.secondaryThemeColourHighlighted.cgColor]
-
-//        gradientLayer.locations = [0.0, 0.35]
-        // Rasterize this static layer to improve app performance
-        gradientLayer.shouldRasterize = true
-        // Apply the gradient to the backgroundGradientView
-        self.view.layer.insertSublayer(gradientLayer, at: 0)
     }
     
     @IBAction func unwindToPrevious(_ unwindSegue: UIStoryboardSegue) {

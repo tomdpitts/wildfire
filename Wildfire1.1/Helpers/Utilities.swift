@@ -125,6 +125,20 @@ class Utilities {
         
     }
     
+    static func styleLabel(_ label:UILabel) {
+        
+        // Create the bottom line
+        let bottomLine = CALayer()
+        
+        bottomLine.frame = CGRect(x: 0, y: label.frame.height - 2, width: label.frame.width, height: 2)
+        
+        bottomLine.backgroundColor = UIColor.init(red: 57/255, green: 195/255, blue: 198/255, alpha: 1).cgColor
+        
+        // Add the line to the text field
+        label.layer.addSublayer(bottomLine)
+        
+    }
+    
     static func styleFilledButton(_ button:UIButton) {
         
         // Filled rounded corner style
@@ -529,6 +543,22 @@ extension UIImage {
         return newImage
     }
 }
+
+// One to come back to perhaps:
+//    func gradientBackground() {
+//        // Create a gradient layer
+//        let gradientLayer = CAGradientLayer()
+//        // Set the size of the layer to be equal to size of the display
+//        gradientLayer.frame = view.bounds
+//        // Set an array of Core Graphics colors (.cgColor) to create the gradient
+//        gradientLayer.colors = [Style.secondaryThemeColour.cgColor, Style.secondaryThemeColourHighlighted.cgColor]
+//
+////        gradientLayer.locations = [0.0, 0.35]
+//        // Rasterize this static layer to improve app performance
+//        gradientLayer.shouldRasterize = true
+//        // Apply the gradient to the backgroundGradientView
+//        self.view.layer.insertSublayer(gradientLayer, at: 0)
+//    }
 
 //class GradientView: UIView {
 //
