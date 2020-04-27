@@ -144,8 +144,9 @@ class ConfirmViewController: UIViewController {
         docRef.getDocument { (document, error) in
             
             if error != nil {
-                self.removeSpinner()
-                self.showAlert(title: "Hmm..", message: "Apologies - we're having connectivity issues. Please try again.", segue: nil, cancel: false)
+                self.removeSpinnerWithCompletion() {
+                    self.showAlert(title: "Hmm..", message: "Apologies - we're having connectivity issues. Please try again.", segue: nil, cancel: false)
+                }
                 return
             }
             
@@ -157,6 +158,8 @@ class ConfirmViewController: UIViewController {
                 
                 self.recipientLabel.text = "\(recipientName)"
                 
+                // more often than not, getUserBalance will finish later than setUpRecipientDetails. Except for errors (which come with alerts), let's let getUserBalance handle the removeSpinner() so the spinner remains onscreen while elements are still loading
+//                self.removeSpinner()
 //
 //                self.recipientName = "\(recipientName)"
                 
