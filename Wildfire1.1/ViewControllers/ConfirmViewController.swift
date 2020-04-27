@@ -36,7 +36,9 @@ class ConfirmViewController: UIViewController {
     var topupAmount: Int?
 
     var recipientUID = ""
-    var recipientName = ""
+    
+    // no longer needed
+//    var recipientName = ""
     
     // these variables are flags to determine logic triggered by the confirm button on the page
     var enoughCredit = false
@@ -84,17 +86,14 @@ class ConfirmViewController: UIViewController {
             // the transactionCompleted check is a hacky workaround because the setupRecipientDetails includes a spinner, and that messes with the segue "showSuccessScreen" after the transaction has been completed (since the view technically appears again once the spinner is dismissed)
             
             setUpRecipientDetails(recipientUID)
+            getUserBalance()
         }
         
         if shouldReloadView == true {
             checkForExistingPaymentMethod()
+            getUserBalance()
         }
     }
-
-//        // update the labels to explain current balance and what the user can expect to happen next
-//        // for reasons explained in the func itself, this should be called AFTER setUpRecipientDetails, as they both refer to class variable sendAmount
-//        getUserBalance()
-//    }
     
     func setUpElements() {
         
@@ -154,20 +153,18 @@ class ConfirmViewController: UIViewController {
 //              let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
                 let userData = document.data()
                 
-                let recipientFirstname = userData?["firstname"] as! String
-                let recipientLastname = userData?["lastname"] as! String
+                guard let recipientName = userData?["fullname"] else { return }
                 
-                self.recipientLabel.text = "\(recipientFirstname) \(recipientLastname)"
+                self.recipientLabel.text = "\(recipientName)"
                 
-                // important to update the class variable recipientName because at present, the getUserBalance function relies on it
-                // TODO: replace this clunky solution?
-                self.recipientName = "\(recipientFirstname) \(recipientLastname)"
+//
+//                self.recipientName = "\(recipientName)"
                 
-                // this func can be called now that the recipient data is available
-                self.getUserBalance()
             } else {
-                self.removeSpinner()
-                self.showAlert(title: "Hmm..", message: "Apologies - we're having connectivity issues. Please try again.", segue: nil, cancel: false)
+                // something has gone wrong? - user should not have been able to initiate a payment to recipient if recipient doesn't have an account set up
+                self.removeSpinnerWithCompletion() {
+                    self.showAlert(title: "Hmm..", message: "Apologies - we're having connectivity issues. Please try again.", segue: nil, cancel: false)
+                }
             }
         }
     }
@@ -181,8 +178,9 @@ class ConfirmViewController: UIViewController {
         docRef.getDocument { (document, error) in
             
             if error != nil {
-                self.removeSpinner()
-                self.showAlert(title: "Hmm..", message: "Apologies - we're having connectivity issues. Please try again.", segue: nil, cancel: false)
+                self.removeSpinnerWithCompletion() {
+                    self.showAlert(title: "Hmm..", message: "Apologies - we're having connectivity issues. Please try again.", segue: nil, cancel: false)
+                }
                 return
             }
             if let document = document, document.exists {
@@ -204,18 +202,17 @@ class ConfirmViewController: UIViewController {
                     // we'll need this amount available for transact function to access if user wants to top up
                     self.topupAmount = difference*(-1)
                     
-                    //  updating class variable 'recipientName' in another function (setUpRecipientDetails) and then referring to it here. This should probably be improved in future but for now, ensure this function is only called after the other
                     let differenceString = String(format: "%.2f", Float(difference*(-1))/100)
                     let totalCharge = String(format: "%.2f", Float(difference*(-1) + 20)/100)
                     self.dynamicLabel.text = "Tap 'Confirm' to top up £\(differenceString) and pay."
-                    self.dynamicLabel2.text = "(Card charge: 20p. Total charge: \(totalCharge))."
+                    self.dynamicLabel2.text = "(Card charge: 20p. Total charge: £\(totalCharge).)"
                     
                     self.enoughCredit = false
                 } else {
                     
                     
                     let diffFloat = String(format: "%.2f", Float(difference)/100)
-                    self.dynamicLabel.text = "Your remaining balance will be £\(diffFloat)"
+                    self.dynamicLabel.text = "Your remaining balance will be £\(diffFloat)."
                     self.enoughCredit = true
                 }
                 

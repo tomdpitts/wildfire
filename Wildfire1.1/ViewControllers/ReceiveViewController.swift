@@ -121,7 +121,6 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
         // 2: round to nearest 0.50
         
         let y = (Float(Int((2*x) + 0.5)))/2
-        print(y)
         
         if x != y {
             self.universalShowAlert(title: "Apologies", message: "Only amounts in 50p increments can be transacted e.g. £3, £3.50, £4 etc.", segue: nil, cancel: false)

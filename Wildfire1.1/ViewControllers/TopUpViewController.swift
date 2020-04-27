@@ -58,15 +58,21 @@ class TopUpViewController: UIViewController, UITextFieldDelegate {
         
         if x > 40.00 {
             x = 40.00
+            self.universalShowAlert(title: "Max amount £40", message: "At this time, Wildfire can only transact amounts up to £40. This limit will be raised soon.", segue: nil, cancel: false)
         }
         
-        if x < 0 {
+        if x < 0.5 {
             x = 0.5
+            self.universalShowAlert(title: "Min amount £0.50", message: "At this time, Wildfire can only transact amounts above £0.50", segue: nil, cancel: false)
         }
         
         // 2: round to nearest 0.50
         
         let y = (Float(Int((2*x) + 0.5)))/2
+        
+        if x != y {
+            self.universalShowAlert(title: "Apologies", message: "Only amounts in 50p increments can be transacted e.g. £3, £3.50, £4 etc.", segue: nil, cancel: false)
+        }
         
         // 3: round to 2 decimal places
         
@@ -96,7 +102,7 @@ class TopUpViewController: UIViewController, UITextFieldDelegate {
         let totalCharge = String(format: "%.2f", amount + 0.20)
 //        let chargedAmount = amount + 0.20
 //        let finalChargedAmount = String(chargedAmount) + "0"
-        cardChargeLabel.text = "Card charge is 20p so you'll be charged £\(totalCharge)"
+        cardChargeLabel.text = "The card charge is 20p so you'll be charged £\(totalCharge)"
         
         
     }
