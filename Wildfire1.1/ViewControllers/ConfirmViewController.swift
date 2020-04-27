@@ -58,6 +58,7 @@ class ConfirmViewController: UIViewController {
     
     @IBOutlet weak var currentBalance: UILabel!
     @IBOutlet weak var dynamicLabel: UILabel!
+    @IBOutlet weak var dynamicLabel2: UILabel!
     
     
     // TODO add a timeout (60s? 120s?)
@@ -73,7 +74,7 @@ class ConfirmViewController: UIViewController {
         
         checkForExistingPaymentMethod()
         
-        currentBalance.isHidden = true
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -96,14 +97,17 @@ class ConfirmViewController: UIViewController {
 //    }
     
     func setUpElements() {
+        
 
         // Style the elements
         Utilities.styleHollowButtonRED(self.backButton)
         Utilities.styleFilledButton(self.confirmButton)
         
+        currentBalance.isHidden = true
         
 //        currentBalance.isHidden = true
 //        dynamicLabel.isHidden = true
+//        dynamicLabel2.isHidden = true
         
         // disable confirm button until recipient details are fully loaded
         confirmButton.isEnabled = false
@@ -153,7 +157,7 @@ class ConfirmViewController: UIViewController {
                 let recipientFirstname = userData?["firstname"] as! String
                 let recipientLastname = userData?["lastname"] as! String
                 
-                self.recipientLabel.text = "to \(recipientFirstname) \(recipientLastname)"
+                self.recipientLabel.text = "\(recipientFirstname) \(recipientLastname)"
                 
                 // important to update the class variable recipientName because at present, the getUserBalance function relies on it
                 // TODO: replace this clunky solution?
@@ -203,9 +207,12 @@ class ConfirmViewController: UIViewController {
                     //  updating class variable 'recipientName' in another function (setUpRecipientDetails) and then referring to it here. This should probably be improved in future but for now, ensure this function is only called after the other
                     let differenceString = String(format: "%.2f", Float(difference*(-1))/100)
                     let totalCharge = String(format: "%.2f", Float(difference*(-1) + 20)/100)
-                    self.dynamicLabel.text = "Tap 'Confirm' to top up £\(differenceString) and pay \(self.recipientName). Card charge is 20p so you'll be charged £\(totalCharge)"
+                    self.dynamicLabel.text = "Tap 'Confirm' to top up £\(differenceString) and pay."
+                    self.dynamicLabel2.text = "(Card charge: 20p. Total charge: \(totalCharge)."
+                    
                     self.enoughCredit = false
                 } else {
+                    
                     
                     let diffFloat = String(format: "%.2f", Float(difference)/100)
                     self.dynamicLabel.text = "Your remaining balance will be £\(diffFloat)"
