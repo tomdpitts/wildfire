@@ -42,9 +42,6 @@ class BankDetails2TableViewController: UITableViewController, UITextFieldDelegat
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        navigationItem.title = "Address Details"
-        navigationController?.navigationBar.prefersLargeTitles = true
         
         tableView.tableFooterView = UIView()
         tableView.backgroundColor = .groupTableViewBackground
@@ -78,7 +75,6 @@ class BankDetails2TableViewController: UITableViewController, UITextFieldDelegat
     }
     
 
-    // TODO rewrite this using Promise
     @IBAction func submitPressed(_ sender: Any) {
             
         // API guide https://docs.mangopay.com/endpoints/v2.01/cards#e177_the-card-registration-object
@@ -92,25 +88,33 @@ class BankDetails2TableViewController: UITableViewController, UITextFieldDelegat
             showError(error!)
         } else {
             
-            self.showSpinner(onView: self.view)
+            self.showSpinner(titleText: "Securely adding details", messageText: nil)
             
             // kill the button to prevent retries
             submitButton.isEnabled = false
-            
-            // Semaphore is used to ensure async API calls aren't triggered before all the relevant data is ready - they have to be sequential
-            let semaphore = DispatchSemaphore(value: 1)
             
             guard let line1 = self.line1TextField.text,
                 let line2 = self.line2TextField.text,
                 let cityName = self.cityTextField.text,
                 let region = self.regionTextField.text,
                 let postcode = self.postcodeTextField.text,
-                let country = self.countryTextField.text else { return }
+                let country = self.countryTextField.text else {
+                    
+                self.universalShowAlert(title: "Oops", message: "Please ensure all fields are filled in", segue: nil, cancel: false)
+                    
+                return
+            }
             
             // translate country back to code
             guard let countryCode = Utilities.localeFinder(for: country) else {
                 print("countryCode couldn't be generated")
                 return
+            }
+            
+            var mangopayID = ""
+            
+            if let mpID = UserDefaults.standard.string(forKey: "mangopayID") {
+                mangopayID = mpID
             }
             
             let bankAccountData: [String: String] = [
@@ -124,19 +128,23 @@ class BankDetails2TableViewController: UITableViewController, UITextFieldDelegat
                 "city": cityName,
                 "region": region,
                 "postcode": postcode,
-                "countryCode": countryCode
+                "countryCode": countryCode,
+                
+                "mpID": mangopayID
             ]
-            
-            print(bankAccountData)
             
             // fields have passed validation - so continue
             functions.httpsCallable("addBankAccount").call(bankAccountData) { (result, error) in
                 
-                if let err = error {
+                if let error = error {
+                    self.removeSpinnerWithCompletion() {
+                        self.universalShowAlert(title: "Oops", message: "Something went wrong: \(error.localizedDescription)", segue: nil, cancel: false)
+                    }
                     
                 } else {
-                    self.removeSpinner()
-                    self.performSegue(withIdentifier: "showSuccessScreen", sender: self)
+                    self.removeSpinnerWithCompletion() {
+                        self.performSegue(withIdentifier: "showSuccessScreen", sender: self)
+                    }
                 }
             }
         }
@@ -153,7 +161,6 @@ class BankDetails2TableViewController: UITableViewController, UITextFieldDelegat
         } else {
             // Not found, so remove keyboard.
             textField.resignFirstResponder()
-            submitPressed(self)
         }
         return true
     }
@@ -272,16 +279,6 @@ class BankDetails2TableViewController: UITableViewController, UITextFieldDelegat
         }
             
         return nil
-//                if cardNumber.count != 16 {
-//                    return "Card Number must be 16 digits long"
-//                    }
-//                if expiryDate.count != 4 {
-//                    return "Expiry Date should be in format MMYY"
-//                    }
-//                if csv.count != 3 {
-//                    return "CSV number must be exactly 3 digits"
-//                    }
-        
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

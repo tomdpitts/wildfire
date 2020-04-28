@@ -21,7 +21,7 @@ class EditProfileTableViewController: UITableViewController {
     @IBOutlet weak var emailTextField: UITextField!
     
     @IBOutlet weak var profilePicView: UIImageView!
-    
+        
     @IBOutlet weak var saveButton: UIBarButtonItem!
     
     @IBAction func nameEdited(_ sender: Any) {
@@ -57,9 +57,6 @@ class EditProfileTableViewController: UITableViewController {
         super.viewDidLoad()
         
         setUpTextFields()
-        
-        navigationItem.title = "Edit Profile"
-        navigationController?.navigationBar.prefersLargeTitles = true
 
         tableView.tableFooterView = UIView()
         tableView.backgroundColor = .groupTableViewBackground
@@ -67,6 +64,7 @@ class EditProfileTableViewController: UITableViewController {
         saveButton.isEnabled = false
         saveButton.title = ""
         showProfilePic()
+        
     }
 
     override func numberOfSections(in tableView: UITableView) -> Int {

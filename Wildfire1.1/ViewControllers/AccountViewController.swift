@@ -44,16 +44,11 @@ class AccountViewController: UIViewController {
         
         // check whether the user has completed signup flow
         if UserDefaults.standard.bool(forKey: "userAccountExists") != true {
-            let utilities = Utilities()
-            utilities.checkForUserAccount()
+            
+            Utilities.checkForUserAccount()
         }
         
         navigationController?.interactivePopGestureRecognizer?.delegate = nil
-        
-        navigationItem.title = "Account"
-        navigationController?.navigationBar.prefersLargeTitles = true
-        
-        
         
         
         // this all needs to be updated to point to Firestore, not RT database
@@ -82,7 +77,7 @@ class AccountViewController: UIViewController {
         
         // self.accountBalance.text = "edited"
         
-        let balance = snapshot.value!
+        let balance = snapshot.value
         
         if balance != nil {
             self.accountBalance.text = "\(String(describing: balance))"

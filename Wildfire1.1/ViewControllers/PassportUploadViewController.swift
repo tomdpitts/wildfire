@@ -40,11 +40,16 @@ class PassportUploadViewController: UIViewController, UINavigationControllerDele
             
             // and scale a version to display (possibly not strictly necessary)
             let size = CGSize(width: self.pictureView.frame.width, height: self.pictureView.frame.height)
-            let aspectScaleImage = image.af_imageAspectScaled(toFill: size)
+            let aspectScaleImage = image.af.imageAspectScaled(toFit: size)
             
             self.pictureView.image = aspectScaleImage
             // contentMode needs to be updated from "center" (which ensures the icons8 'rescan'icon doesn't look stretched or blurry) to scaleAspectFill to best render the image
-            self.pictureView.contentMode = .scaleAspectFill
+            self.pictureView.contentMode = .scaleAspectFit
+            
+            let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .heavy)
+            impactFeedbackgenerator.prepare()
+            impactFeedbackgenerator.impactOccurred()
+            
             self.editImageButton.setTitle("Change Image", for: .normal)
             self.confirmButton.isHidden = false
         }
@@ -80,7 +85,7 @@ class PassportUploadViewController: UIViewController, UINavigationControllerDele
         
         guard let mangopayID = UserDefaults.standard.string(forKey: "mangopayID") else { return }
     
-        self.showSpinner(onView: self.view)
+        self.showSpinner(titleText: "Securely uploading", messageText: "Please allow up to 60 seconds")
         
         let imageToUpload = convertImageToBase64(image)
         

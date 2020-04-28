@@ -24,49 +24,36 @@ class PaymentMethodsViewController: UITableViewController {
     var section = 0
     var row = 0
     var cardCount = 0
-        
-//            var transactionDates = [String]()
+    
     var paymentMethodsList = [PaymentCard]()
-//            var transactionsGrouped = [[Transaction]]()
         
         
             
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationItem.title = "Payment Methods"
-        navigationController?.navigationBar.prefersLargeTitles = true
-        
         tableView.tableFooterView = UIView()
         tableView.backgroundColor = .groupTableViewBackground
         
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellID)
         
-        fetchCards() { () in
-//                if self.transactionsList.isEmpty == true {
-//                    let title = "Looks like you haven't made any transactions yet"
-//                    let message = "When you pay someone or get paid, it'll show up here"
-//                    self.showAlert(title: title, message: message)
-//                }
-            self.tableView.reloadData()
-        }
+        self.refreshControl?.addTarget(self, action: #selector(refresh), for: UIControl.Event.valueChanged)
         
     }
     
-//        override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-//            let label = UILabel()
-//            label.backgroundColor = UIColor(red: 218/255.0, green: 218/255.0, blue: 218/255.0, alpha: 1)
-//            label.text = " " + transactionDates[section]
-//            return label
-//        }
+    override func viewWillAppear(_ animated: Bool) {
+        fetchCardsFromUserDefaults() { () in
+            self.tableView.reloadData()
+        }
+    }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // tableView needs to include a cell for each card, plus 1 cell for "Add new card"
-        if paymentMethodsList.count == 0 {
-            return 1
-        } else {
-            return paymentMethodsList.count
-        }
+//        if paymentMethodsList.count == 0 {
+//            return 1
+//        } else {
+//            return paymentMethodsList.count
+//        }
+        return 1
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -75,22 +62,12 @@ class PaymentMethodsViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-//            if indexPath.row == paymentMethodsList.count + 1 {
-//                var cell = tableView.dequeueReusableCell(withIdentifier: self.cellID, for: indexPath)
-//
-//                cell = UITableViewCell(style: .subtitle, reuseIdentifier: self.cellID)
-//
-//                cell.textLabel?.text = "Add new card"
-//
-//                return cell
-//
-//            } else {
             var cell = tableView.dequeueReusableCell(withIdentifier: self.cellID, for: indexPath)
                      
             cell = UITableViewCell(style: .subtitle, reuseIdentifier: self.cellID)
         
         if paymentMethodsList.count == 0 {
-            cell.textLabel?.text = "You haven't added any cards yet"
+            cell.textLabel?.text = "You haven't added any cards"
             cell.imageView?.image = UIImage(named: "icons8-mastercard-credit-card-50")
         } else {
             let found = paymentMethodsList[indexPath.row]
@@ -112,17 +89,21 @@ class PaymentMethodsViewController: UITableViewController {
 
         if paymentMethodsList.count != 0 {
             performSegue(withIdentifier: "showCardDetails", sender: self)
+        } else {
+            performSegue(withIdentifier: "showAddCardView", sender: self)
         }
     }
+    
+    @IBAction func addCardPressed(_ sender: Any) {
         
-    func fetchCards(completion: @escaping ()->()) {
-        // TODO add mangopay call to fetch list of cards
-        // OR store them locally?
-        // UPDATE: decided to store in UserDefaults and have an API call in AppDelegate on AppDidEnterForeground to check the list is up to date in the background
-        
-//        let storedCards = UserDefaults.standard.object(forKey: "storedCards") as? [PaymentCard] ?? [PaymentCard]()
-//
-//        self.paymentMethodsList = storedCards
+        if paymentMethodsList.count != 0 {
+            performSegue(withIdentifier: "showCardLimitReachedView", sender: self)
+        } else {
+            performSegue(withIdentifier: "showAddCardView", sender: self)
+        }
+    }
+    
+    func fetchCardsFromUserDefaults(completion: @escaping ()->()) {
         
         let defaults = UserDefaults.standard
         
@@ -142,11 +123,22 @@ class PaymentMethodsViewController: UITableViewController {
                 
                 paymentMethodsList.append(card)
             }
+        } else {
+            paymentMethodsList = []
         }
-        
         completion()
     }
+    
+    @objc func refresh(sender:AnyObject) {
         
+        let appDelegate = AppDelegate()
+        appDelegate.listCardsFromMangopay() { () in
+            self.fetchCardsFromUserDefaults {
+                self.tableView.reloadData()
+                self.refreshControl?.endRefreshing()
+            }
+        }
+    }
     
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -168,5 +160,8 @@ class PaymentMethodsViewController: UITableViewController {
         }))
         
         self.present(alert, animated: true)
+    }
+    
+    @IBAction func unwindToPrevious(_ unwindSegue: UIStoryboardSegue) {
     }
 }

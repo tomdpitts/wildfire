@@ -39,12 +39,18 @@ class DriverLicenceFrontUploadViewController: UIViewController, UINavigationCont
             
             // and scale a version to display (possibly not strictly necessary)
             let size = CGSize(width: self.pictureView.frame.width, height: self.pictureView.frame.height)
-            let aspectScaleImage = image.af_imageAspectScaled(toFill: size)
+            let aspectScaleImage = image.af.imageAspectScaled(toFill: size)
             
             self.pictureView.image = aspectScaleImage
-            self.frontImage = aspectScaleImage
+            
             // contentMode needs to be updated from "center" (which ensures the icons8 'rescan'icon doesn't look stretched or blurry) to scaleAspectFill to best render the image
             self.pictureView.contentMode = .scaleAspectFill
+            
+            let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .heavy)
+            impactFeedbackgenerator.prepare()
+            impactFeedbackgenerator.impactOccurred()
+            
+            self.frontImage = aspectScaleImage
             self.editImageButton.setTitle("Change Image", for: .normal)
             self.nextButton.isHidden = false
         }

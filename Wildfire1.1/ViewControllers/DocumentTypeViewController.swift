@@ -24,7 +24,7 @@ class DocumentTypeViewController: UIViewController {
         
         // to guard against edge case where user creates an account and immediately tries to deposit funds - they'll need mangopayID stored in UserDefaults
         if UserDefaults.standard.string(forKey: "mangopayID") == nil {
-            Utilities().getMangopayID()
+            Utilities.getMangopayID()
         }
     }
 }

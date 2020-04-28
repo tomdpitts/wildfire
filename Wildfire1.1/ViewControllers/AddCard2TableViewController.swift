@@ -36,21 +36,31 @@ class AddCard2TableViewController: UITableViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        navigationItem.title = "Billing Address"
-        navigationController?.navigationBar.prefersLargeTitles = true
         
         tableView.tableFooterView = UIView()
         tableView.backgroundColor = .groupTableViewBackground
         
         errorLabel.isHidden = true
-        Utilities.styleFilledButton(submitButton)
+        
+        Utilities.styleTextField(line1TextField)
+        Utilities.styleTextField(line2TextField)
+        Utilities.styleTextField(cityTextField)
+        Utilities.styleTextField(regionTextField)
+        Utilities.styleTextField(postcodeTextField)
+        Utilities.styleTextField(countryTextField)
+        Utilities.styleHollowButton(submitButton)
         
         for code in NSLocale.isoCountryCodes  {
             let id = NSLocale.localeIdentifier(fromComponents: [NSLocale.Key.countryCode.rawValue: code])
             let name = NSLocale(localeIdentifier: "en_UK").displayName(forKey: NSLocale.Key.identifier, value: id) ?? "Country not found for code: \(code)"
             self.countries.append(name)
         }
+        
+        line1TextField.delegate = self
+        line2TextField.delegate = self
+        cityTextField.delegate = self
+        regionTextField.delegate = self
+        postcodeTextField.delegate = self
         countryTextField.delegate = self
     }
     
@@ -62,6 +72,7 @@ class AddCard2TableViewController: UITableViewController, UITextFieldDelegate {
 
     // TODO rewrite this using Promise
     @IBAction func submitPressed(_ sender: Any) {
+        self.resignFirstResponder()
             
         // API guide https://docs.mangopay.com/endpoints/v2.01/cards#e177_the-card-registration-object
         
@@ -74,7 +85,7 @@ class AddCard2TableViewController: UITableViewController, UITextFieldDelegate {
             showError(error!)
         } else {
             
-            self.showSpinner(onView: self.view)
+            self.showSpinner(titleText: "Adding card", messageText: "Please allow up to 30 seconds")
             
             // kill the button to prevent retries
             submitButton.isEnabled = false
@@ -89,8 +100,15 @@ class AddCard2TableViewController: UITableViewController, UITextFieldDelegate {
             // Semaphore is used to ensure async API calls aren't triggered before all the relevant data is ready - they have to be sequential
             let semaphore = DispatchSemaphore(value: 1)
             
+            var mangopayID = ""
+            
+            if let mpID = UserDefaults.standard.string(forKey: "mangopayID") {
+                mangopayID = mpID
+                print(mpID)
+            }
+            
             // fields have passed validation - so continue
-            functions.httpsCallable("createPaymentMethodHTTPS").call(["text": "Euros"]) { (result, error) in
+            functions.httpsCallable("createPaymentMethod").call(["walletName": "defaultWallet", "mpID": mangopayID]) { (result, error) in
 //                if let error = error as NSError? {
 //                    if error.domain == FunctionsErrorDomain {
 //                        let code = FunctionsErrorCode(rawValue: error.code)
@@ -100,6 +118,11 @@ class AddCard2TableViewController: UITableViewController, UITextFieldDelegate {
 //                    // ...
 //                }
                 semaphore.wait()
+                
+                if let error = error {
+                    self.universalShowAlert(title: "Oops", message: "Something went wrong: \(error.localizedDescription)", segue: nil, cancel: false)
+                    self.removeSpinner()
+                }
                 
                 if let returnedArray = result?.data as? [[String: Any]] {
                 // the result includes the bits we need (this is the result of step 4 in the diagram found at the API doc link above)
@@ -140,9 +163,7 @@ class AddCard2TableViewController: UITableViewController, UITextFieldDelegate {
                             "cardExpirationDate": self.expiryDateField,
                             "cardCvx": self.csvField
                             ]
-                        
-                        print(body)
-                        
+                                                
                         // send card details to Mangopay's tokenization server, and get a RegistrationData object back as response
                         self.networkingClient.postCardInfo(url: cardRegURL, parameters: body) { (response, error) in
                             
@@ -168,28 +189,34 @@ class AddCard2TableViewController: UITableViewController, UITextFieldDelegate {
                             // now pass the RegistrationData object to callable Cloud Function which will complete the Card Registration and store the CardId in Firestore (this whole process is a secure way to store the user's card without having their sensitive info ever touch our server)
                             // N.B. we send the wallet ID received earlier so that the Cloud Function can store the final CardID under the user's Firestore wallet entry (the correct wallet - they could have multiple)
                             self.functions.httpsCallable("addCardRegistration").call(["regData": regData, "cardRegID": cardRegID, "walletID": walletID]) { (result, error) in
-                                
-                                self.removeSpinner()
 
-                                if let err = error {
-                                    print(err)
-                                } else {
-                                    let cardID = result?.data as! String
+                                if let error = error {
                                     
+                                    self.universalShowAlert(title: "Oops", message: "Something went wrong: \(error.localizedDescription)", segue: nil, cancel: false)
+                                    // revive the button to prevent retries
+                                    self.submitButton.isEnabled = true
+                                    self.removeSpinner()
+                                } else {
+                                    
+//                                    self.submitButton.isEnabled = true
+                                    
+                                    let cardID = result?.data as! String
+
                                     // When the card has been added, trigger the API call to MangoPay to update UserDefaults with the card data (so that it shows up in the PaymentMethods View)
                                     // N.B. one benefit of NOT saving it directly is that MangoPay can handle any validation - this way, we only save it when it's definitely been correctly added to their MP account
                                     let appDelegate = AppDelegate()
-                                    appDelegate.fetchPaymentMethodsListFromMangopay()
-                                    
+                                    appDelegate.listCardsFromMangopay() { () in
+                                        
+                                        self.removeSpinner()
+                                        
+                                        self.performSegue(withIdentifier: "showSuccessScreen", sender: self)
+                                        
+                                    }
+
                                     // leaving makeDefault as true by default for now
                                     self.addAddressToCard(walletID: walletID, cardID: cardID, makeDefault: true)
-                                    
-                                    
-                                    
-                                    self.performSegue(withIdentifier: "showSuccessScreen", sender: self)
                                 }
                             }
-                            // TODO add loading spinner to wait for responseURL
                         }
                     }
                 }
@@ -203,12 +230,11 @@ class AddCard2TableViewController: UITableViewController, UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         // Try to find next responder
-        if let nextField = textField.superview?.superview?.viewWithTag(textField.tag + 1) as? UITextField {
+        if let nextField = textField.superview?.superview?.superview?.viewWithTag(textField.tag + 1) as? UITextField {
             nextField.becomeFirstResponder()
         } else {
             // Not found, so remove keyboard.
             textField.resignFirstResponder()
-            submitPressed(self)
         }
         return true
     }
@@ -269,8 +295,6 @@ class AddCard2TableViewController: UITableViewController, UITextFieldDelegate {
     func addAddressToCard(walletID: String, cardID: String, makeDefault: Bool) {
         if let uid = Auth.auth().currentUser?.uid {
             
-            print("trying to add address")
-            
             guard let line1 = self.line1TextField.text else { return }
             // N.B. line2 is not required - if nothing entered then pass empty string
             let line2 = self.line2TextField.text ?? ""
@@ -280,17 +304,17 @@ class AddCard2TableViewController: UITableViewController, UITextFieldDelegate {
             guard let postcode = self.postcodeTextField.text else { return }
             // TODO country needs to be converted to appropriate format
             guard let country = self.countryTextField.text else { return }
+            let countryCode = localeFinder(for: country)
             
             let addressData : [String: [String: String]] = [
-                "billingAddress": ["line1": line1, "line2": line2,"city": cityName, "region": region,"postcode": postcode,"country": country]
+                "billingAddress": ["line1": line1, "line2": line2,"city": cityName, "region": region,"postcode": postcode,"country": countryCode!]
             ]
             // separate variable name because that's how it shows up in Firestore
-            let defaultAddressData : [String: [String: String]] = [
-                "defaultBillingAddress": ["line1": line1, "line2": line2,"city": cityName, "region": region,"postcode": postcode,"country": country]
+            let defaultAddressData : [String: Any] = [
+                "defaultBillingAddress": ["line1": line1, "line2": line2,"city": cityName, "region": region,"postcode": postcode,"country": countryCode!], "defaultCardID": cardID
             ]
             
-            print("trying to add address2")
-            print(addressData)
+            // adding cardID to database here because async functions aren't working as expected and this is easier 
             
         Firestore.firestore().collection("users").document(uid).collection("wallets").document(walletID).collection("cards").document(cardID).setData(addressData
             // merge: true is IMPORTANT - prevents complete overwriting of a document if a user logs in for a second time, for example, which could wipe important data (including the balance..)
@@ -335,7 +359,8 @@ class AddCard2TableViewController: UITableViewController, UITextFieldDelegate {
             country == ""
             {
             return "Please fill in all fields."
-            
+        } else if localeFinder(for: country) == nil {
+            return "Country was not recognised - please re-enter country until autocorrect completes it"
         } else {
             return nil
 //                if cardNumber.count != 16 {
@@ -348,6 +373,17 @@ class AddCard2TableViewController: UITableViewController, UITextFieldDelegate {
 //                    return "CSV number must be exactly 3 digits"
 //                    }
         }
+    }
+    
+    func showAlert(title: String?, message: String?, progress: Bool) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
+            if progress == true {
+                self.performSegue(withIdentifier: "unwindToPrevious", sender: self)
+            }
+        }))
+        self.present(alert, animated: true)
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

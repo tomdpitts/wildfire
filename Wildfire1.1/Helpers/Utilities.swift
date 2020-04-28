@@ -10,12 +10,14 @@ import Foundation
 import UIKit
 import FirebaseAuth
 import FirebaseFirestore
+import FirebaseInstanceID
 
 class Utilities {
     
     // run check to see if user has set up their account i.e. completed the signup flow
     // this should run everytime user opens app while the value for key userAccountExists is false - thereafter we can ignore the func
-    func checkForUserAccount() {
+    static func checkForUserAccount() {
+        
         
         let db = Firestore.firestore()
         
@@ -25,18 +27,46 @@ class Utilities {
             docRef.getDocument { (document, error) in
                 if let document = document, document.exists {
                     UserDefaults.standard.set(true, forKey: "userAccountExists")
-                    
+//                    let userData = doc.data()
+//
+//                    // somewhat hacky, but fcmToken is now written to the user record in firebase, so can no longer use the document.exists test to determine whether or not the user has completed the signup flow
+//                    if (userData?["email"]) != nil {
+//                        UserDefaults.standard.set(true, forKey: "userAccountExists")
+//                    } else {
+//                        UserDefaults.standard.set(false, forKey: "userAccountExists")
+//                    }
                 } else {
                     UserDefaults.standard.set(false, forKey: "userAccountExists")
                 }
             }
         } else {
-            // perhaps overkill
             UserDefaults.standard.set(false, forKey: "userAccountExists")
         }
     }
     
-    func getMangopayID() {
+    static func checkForUserAccountWithCompletion(completion: @escaping ()->()) {
+        let db = Firestore.firestore()
+                
+                if let uid = Auth.auth().currentUser?.uid {
+                    let docRef = db.collection("users").document(uid)
+
+                    docRef.getDocument { (document, error) in
+                        if let document = document, document.exists {
+                            UserDefaults.standard.set(true, forKey: "userAccountExists")
+                            completion()
+                        } else {
+                            UserDefaults.standard.set(false, forKey: "userAccountExists")
+                            completion()
+                        }
+                    }
+                } else {
+                    UserDefaults.standard.set(false, forKey: "userAccountExists")
+                    completion()
+                }
+    }
+    
+    
+    static func getMangopayID() {
         let db = Firestore.firestore()
         
         if let uid = Auth.auth().currentUser?.uid {
@@ -47,12 +77,36 @@ class Utilities {
                 if let document = document {
                     let ID = document["mangopayID"]
                     UserDefaults.standard.set(ID, forKey: "mangopayID")
-                    print(ID)
                 }
             }
         }
     }
     
+    static func getCurrentRegistrationToken() {
+        InstanceID.instanceID().instanceID { (result, error) in
+            if error != nil {
+                return
+            } else if let result = result {
+
+                // don't have time to test whether the rest of this func is required, or whether the didReceiveRegistrationToken method in AppDelegate is fired automatically. At worst, this process runs twice which shouldn't break anything.
+
+                let fcmToken = result.token
+
+                // update current saved token
+                UserDefaults.standard.set(fcmToken, forKey: "fcmToken")
+                
+                // we don't want to save the token to cloud just yet as it would trigger mangopay user creation before the required data is available. The fcmToken will be added to the user profile when user account is created
+
+//                guard let uid = Auth.auth().currentUser?.uid else { return }
+//
+//                let tokenData = [
+//                    "fcmToken": fcmToken
+//                ]
+//
+//                Firestore.firestore().collection("users").document(uid).setData(tokenData, merge: true)
+            }
+        }
+    }
     
     static func styleTextField(_ textfield:UITextField) {
         
@@ -68,6 +122,20 @@ class Utilities {
         
         // Add the line to the text field
         textfield.layer.addSublayer(bottomLine)
+        
+    }
+    
+    static func styleLabel(_ label:UILabel) {
+        
+        // Create the bottom line
+        let bottomLine = CALayer()
+        
+        bottomLine.frame = CGRect(x: 0, y: label.frame.height - 2, width: label.frame.width, height: 2)
+        
+        bottomLine.backgroundColor = UIColor.init(red: 57/255, green: 195/255, blue: 198/255, alpha: 1).cgColor
+        
+        // Add the line to the text field
+        label.layer.addSublayer(bottomLine)
         
     }
     
@@ -110,7 +178,7 @@ class Utilities {
     static func styleHollowButtonRED(_ button:UIButton) {
         
         // Hollow rounded corner style
-        button.layer.borderWidth = 2
+        button.layer.borderWidth = 3
         button.layer.borderColor = UIColor(hexString: "#C63C39").cgColor
         button.layer.cornerRadius = 25.0
         button.tintColor = UIColor.black
@@ -326,27 +394,134 @@ extension UIColor {
 var vSpinner : UIView?
 
 extension UIViewController {
-    func showSpinner(onView : UIView) {
-        let spinnerView = UIView.init(frame: onView.bounds)
-        spinnerView.backgroundColor = UIColor.init(red: 0.5, green: 0.5, blue: 0.5, alpha: 0.5)
-        let ai = UIActivityIndicatorView.init(style: .whiteLarge)
-        ai.startAnimating()
-        ai.center = spinnerView.center
-        
+    
+    func universalShowAlert(title: String, message: String?, segue: String?, cancel: Bool) {
         DispatchQueue.main.async {
-            spinnerView.addSubview(ai)
-            onView.addSubview(spinnerView)
+            let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+            
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
+                if let seg = segue {
+                    self.performSegue(withIdentifier: seg, sender: self)
+                }
+            }))
+
+            if cancel == true {
+                alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
+                }))
+            }
+            
+            self.present(alert, animated: true)
+        }
+    }
+       
+    func showSpinner(titleText: String?, messageText: String?) {
+        
+        var title = "Just a moment"
+        var message = ""
+        
+        if let text = titleText {
+            title = text
         }
         
-        vSpinner = spinnerView
+        if let textM = messageText {
+            message = textM
+        }
+        
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        
+        let loadingIndicator = UIActivityIndicatorView(frame: CGRect(x: 5, y: 5, width: 50, height: 50))
+        loadingIndicator.hidesWhenStopped = true
+        loadingIndicator.style = UIActivityIndicatorView.Style.gray
+        loadingIndicator.startAnimating();
+
+        alert.view.addSubview(loadingIndicator)
+        DispatchQueue.main.async {
+            self.present(alert, animated: true, completion: nil)
+        }
     }
     
     func removeSpinner() {
-        DispatchQueue.main.async {
-            vSpinner?.removeFromSuperview()
-            vSpinner = nil
+        
+        let presentedVC : UIViewController? = self.presentedViewController
+
+        if presentedVC != nil {
+            
+            if let alertController: UIAlertController = presentedVC as? UIAlertController {
+                
+                DispatchQueue.main.async {
+                    alertController.dismiss(animated: true, completion: nil)
+                    
+                }
+            }
         }
     }
+    
+    func removeSpinnerWithCompletion(spinnerCompletion: @escaping ()->()) {
+        
+        let presentedVC : UIViewController? = self.presentedViewController as UIViewController?
+
+        if presentedVC != nil {
+            
+            if let alertController : UIAlertController = presentedVC as? UIAlertController {
+                
+                DispatchQueue.main.async {
+                    alertController.dismiss(animated: true) {
+                        spinnerCompletion()
+                    }
+                }
+            } else {
+                spinnerCompletion()
+            }
+        } else {
+            spinnerCompletion()
+        }
+    }
+//    func addRectAndWhiteOpenSans() {
+//
+//        // get screen size object.
+//        let screenSize: CGRect = UIScreen.main.bounds
+//        
+//        // get screen width.
+//        let screenWidth = screenSize.width
+//        
+//        // get screen height.
+//        let screenHeight = screenSize.height
+//        
+//        // the rectangle top left point x axis position.
+//        let xPos = 0
+//        
+//        // the rectangle top left point y axis position.
+//        let yPos = 60
+//        
+//        // the rectangle width.
+//        let rectWidth = Int(screenWidth) - 2 * xPos
+//        
+//        // the rectangle height.
+//        let rectHeight = 60
+//        
+//        // Create a CGRect object which is used to render a rectangle.
+//        let rectFrame: CGRect = CGRect(x:CGFloat(xPos), y:CGFloat(yPos), width:CGFloat(rectWidth), height:CGFloat(rectHeight))
+//        
+//        // Create a UIView object which use above CGRect object.
+//        let blackView = UIView(frame: rectFrame)
+//        
+//        // Set UIView background color.
+//        blackView.backgroundColor = UIColor.black
+//        
+//        let attributes = [NSAttributedString.Key.foregroundColor: UIColor.white, NSAttributedString.Key.font: UIFont(name: "OpenSans-ExtraBoldItalic", size: 36)!]
+//        navigationController?.navigationBar.largeTitleTextAttributes = attributes
+//        
+////        self.navigationController?.navigationBar.insertSubview(blackView, at: 0)
+//        self.view.addSubview(blackView)
+//    }
+//    
+//    func revertToBlackOpenSans() {
+//        let largeTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.darkText, NSAttributedString.Key.font: UIFont(name: "OpenSans-ExtraBoldItalic", size: 36)!]
+//        let normalTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.darkText, NSAttributedString.Key.font: UIFont(name: "OpenSans-ExtraBoldItalic", size: 26)!]
+//        
+//        navigationController?.navigationBar.titleTextAttributes = normalTextAttributes
+//        navigationController?.navigationBar.largeTitleTextAttributes = largeTextAttributes
+//    }
 }
 
 // this extension helps with debugging layout conflicts and issues
@@ -357,3 +532,150 @@ extension NSLayoutConstraint {
         return "id: \(id), constant: \(constant)" //you may print whatever you want here
     }
 }
+
+// used to set alpha of an image
+extension UIImage {
+    func changeAlpha(alpha: CGFloat) -> UIImage? {
+        UIGraphicsBeginImageContextWithOptions(size, false, scale)
+        draw(at: CGPoint.zero, blendMode: .normal, alpha: alpha)
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return newImage
+    }
+}
+
+// One to come back to perhaps:
+//    func gradientBackground() {
+//        // Create a gradient layer
+//        let gradientLayer = CAGradientLayer()
+//        // Set the size of the layer to be equal to size of the display
+//        gradientLayer.frame = view.bounds
+//        // Set an array of Core Graphics colors (.cgColor) to create the gradient
+//        gradientLayer.colors = [Style.secondaryThemeColour.cgColor, Style.secondaryThemeColourHighlighted.cgColor]
+//
+////        gradientLayer.locations = [0.0, 0.35]
+//        // Rasterize this static layer to improve app performance
+//        gradientLayer.shouldRasterize = true
+//        // Apply the gradient to the backgroundGradientView
+//        self.view.layer.insertSublayer(gradientLayer, at: 0)
+//    }
+
+//class GradientView: UIView {
+//
+//    /* Overriding default layer class to use CAGradientLayer */
+//    override class var layerClass: AnyClass {
+//        return CAGradientLayer.self
+//    }
+//
+//    /* Handy accessor to avoid unnecessary casting */
+//    private var gradientLayer: CAGradientLayer {
+//        return layer as! CAGradientLayer
+//    }
+//
+//    /* Public properties to manipulate colors */
+//    public var fromColor: UIColor = UIColor.red {
+//        didSet {
+//            var currentColors = gradientLayer.colors
+//            currentColors![0] = fromColor.cgColor
+//            gradientLayer.colors = currentColors
+//        }
+//    }
+//
+//    public var toColor: UIColor = UIColor.blue {
+//        didSet {
+//            var currentColors = gradientLayer.colors
+//            currentColors![1] = toColor.cgColor
+//            gradientLayer.colors = currentColors
+//        }
+//    }
+//
+//    /* Initializers overriding to have appropriately configured layer after creation */
+//    override init(frame: CGRect) {
+//        super.init(frame: frame)
+//        gradientLayer.colors = [fromColor.cgColor, toColor.cgColor]
+//        gradientLayer.startPoint = CGPoint(x: 0, y: 0.5)
+//        gradientLayer.endPoint = CGPoint(x: 1.0, y: 0.5)
+//    }
+//
+//    required init?(coder aDecoder: NSCoder) {
+//        super.init(coder: aDecoder)
+//        gradientLayer.colors = [fromColor.cgColor, toColor.cgColor]
+//        gradientLayer.startPoint = CGPoint(x: 0, y: 0.5)
+//        gradientLayer.endPoint = CGPoint(x: 1.0, y: 0.5)
+//    }
+//}
+
+//class UINavigationBarGradientView: UIView {
+//
+//    enum Point {
+//        case topRight, topLeft, top
+//        case bottomRight, bottomLeft, bottom
+//        case custion(point: CGPoint)
+//
+//        var point: CGPoint {
+//            switch self {
+//                case .topRight: return CGPoint(x: 1, y: 0)
+//                case .topLeft: return CGPoint(x: 0, y: 0)
+//                case .top: return CGPoint(x: 0.5, y: 0)
+//                case .bottomRight: return CGPoint(x: 1, y: 1)
+//                case .bottomLeft: return CGPoint(x: 0, y: 1)
+//                case .bottom: return CGPoint(x:0.5, y: 1)
+//                case .custion(let point): return point
+//            }
+//        }
+//    }
+//
+//    private weak var gradientLayer: CAGradientLayer!
+//    convenience init(colors: [UIColor], startPoint: Point = .topLeft,
+//                     endPoint: Point = .bottomLeft, locations: [NSNumber] = [0, 1]) {
+//        self.init(frame: .zero)
+//        let gradientLayer = CAGradientLayer()
+//        gradientLayer.frame = frame
+//        layer.addSublayer(gradientLayer)
+//        self.gradientLayer = gradientLayer
+//        set(colors: colors, startPoint: startPoint, endPoint: endPoint, locations: locations)
+//        backgroundColor = .clear
+//    }
+//
+//    func set(colors: [UIColor], startPoint: Point = .topLeft,
+//             endPoint: Point = .bottomLeft, locations: [NSNumber] = [0, 1]) {
+//        gradientLayer.colors = colors.map { $0.cgColor }
+//        gradientLayer.startPoint = startPoint.point
+//        gradientLayer.endPoint = endPoint.point
+//        gradientLayer.locations = locations
+//    }
+//
+//    func setupConstraints() {
+//        guard let parentView = superview else { return }
+//        translatesAutoresizingMaskIntoConstraints = false
+//        topAnchor.constraint(equalTo: parentView.topAnchor).isActive = true
+//        leftAnchor.constraint(equalTo: parentView.leftAnchor).isActive = true
+//        parentView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+//        parentView.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
+//    }
+//
+//    override func layoutSubviews() {
+//        super.layoutSubviews()
+//        guard let gradientLayer = gradientLayer else { return }
+//        gradientLayer.frame = frame
+//        superview?.addSubview(self)
+//    }
+//}
+//
+//extension UINavigationBar {
+//    func setGradientBackground(colors: [UIColor],
+//                               startPoint: UINavigationBarGradientView.Point = .topLeft,
+//                               endPoint: UINavigationBarGradientView.Point = .bottomLeft,
+//                               locations: [NSNumber] = [0, 1]) {
+//        guard let backgroundView = value(forKey: "backgroundView") as? UIView else { return }
+//        guard let gradientView = backgroundView.subviews.first(where: { $0 is UINavigationBarGradientView }) as? UINavigationBarGradientView else {
+//            let gradientView = UINavigationBarGradientView(colors: colors, startPoint: startPoint,
+//                                                           endPoint: endPoint, locations: locations)
+//            backgroundView.addSubview(gradientView)
+//            gradientView.setupConstraints()
+//            return
+//        }
+//        gradientView.set(colors: colors, startPoint: startPoint, endPoint: endPoint, locations: locations)
+//    }
+//}
+

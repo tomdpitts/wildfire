@@ -31,31 +31,34 @@ class ConfirmDepositViewController: UIViewController {
     @IBOutlet weak var countryStack: UIStackView!
 
     @IBOutlet weak var amountLabel: UILabel!
+    @IBOutlet weak var whyAmIBeingCharged: UIStackView!
     @IBOutlet weak var confirmDepositButton: UIButton!
     @IBOutlet weak var cancelButton: UIButton!
+    
+    let tapRec = UITapGestureRecognizer()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         displayBankInfo()
         
-        if let n = depositAmount {
-            amountLabel.text = String(format: "%.2f", n)
+        if let amount = depositAmount {
+            let actualAmount = 0.98*amount + 0.45
+            amountLabel.text = String(format: "%.2f", actualAmount)
         } else {
             amountLabel.text = "not found"
         }
         Utilities.styleHollowButton(confirmDepositButton)
         Utilities.styleHollowButtonRED(cancelButton)
         
-        navigationItem.title = "Confirm Deposit"
-        navigationController?.navigationBar.prefersLargeTitles = true
-        
+        tapRec.addTarget(self, action: #selector(self.tappedView))
+        whyAmIBeingCharged.addGestureRecognizer(tapRec)
     }
     
     // TODO finish this func
     @IBAction func confirmDepositTapped(_ sender: Any) {
         
-        self.showSpinner(onView: self.view)
+        self.showSpinner(titleText: "Ordering deposit", messageText: nil)
         
         // prevent double taps!
         confirmDepositButton.isEnabled = false
@@ -71,8 +74,8 @@ class ConfirmDepositViewController: UIViewController {
                 if error != nil {
                     
                     // TODO
-//                            self.showAuthenticationError(title: "Oops!", message: "We couldn't top up your account. Please try again.")
-                    print("There was an issue in processing your deposit, please try again")
+                    self.showAuthenticationError(title: "Oops!", message: "Top up didn't complete. Please try again.")
+                    
                     self.confirmDepositButton.isEnabled = true
                 } else {
                     
@@ -91,7 +94,9 @@ class ConfirmDepositViewController: UIViewController {
         }
     }
     
-    
+    @objc func tappedView(){
+        self.performSegue(withIdentifier: "showChargesExplainer", sender: self)
+    }
     
     @IBAction func cancelButtonTapped(_ sender: Any) {
         performSegue(withIdentifier: "unwindToPrevious", sender: self)
@@ -114,5 +119,13 @@ class ConfirmDepositViewController: UIViewController {
             }
         }
     }
-
+    
+    func showAuthenticationError(title: String, message: String?) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
+        }))
+        
+        self.present(alert, animated: true)
+    }
 }

@@ -10,11 +10,42 @@ import Foundation
 import UIKit
 //import LBTAComponents
 
-//class GlobalVariables {
-//    var userAccountExists = false
-//    var enoughCredit = false
-//    var existingPaymentMethod = false
-//}
+let blockedCountriesList = ["Afghanistan", "Bahamas", "Bosnia & Herzegovina", "Botswana", "Cambodia", "North Korea", "Ethiopia", "Ghana", "Guyana", "Iran", "Iraq", "Laos", "Uganda", "Pakistan", "Serbia", "Sri Lanka", "Syria", "Trinidad & Tobago", "Tunisia", "Vanuatu", "Yemen"]
+
+struct Style {
+    
+    // default values
+    static var primaryThemeColour = UIColor(hexString: "#39C3C6")
+    static var primaryThemeColourHighlighted = UIColor(hexString: "#39C3C6")
+    
+    static var black = UIColor(hexString: "#000000")
+    static var secondaryThemeColour = UIColor(hexString: "#12263e")
+    static var secondaryThemeColourHighlighted = UIColor(hexString: "#2c5b94")
+    
+    
+    
+    static var headerColour = UIColor(hexString: "#250B0B")
+    static var bodyColour = UIColor(hexString: "#F1FBFB")
+    
+    static var sectionHeaderTitleColour = UIColor(hexString: "#F1FBFB")
+    static var sectionHeaderTitleFont = UIFont(name: "System", size: 17)
+    static var sectionHeaderAlpha: CGFloat = 1.0
+    
+    // not in use now, but leaving for future reference
+    static func alternativeTheme1() {
+        
+        primaryThemeColour = UIColor(hexString: "#39C3C6")
+        primaryThemeColourHighlighted = UIColor(hexString: "#39C3C6")
+        
+        secondaryThemeColour = UIColor(hexString: "#C63C39")
+        secondaryThemeColourHighlighted = UIColor(hexString: "#C63C39")
+        
+        sectionHeaderTitleColour = UIColor(hexString: "#F1FBFB")
+        sectionHeaderTitleFont = UIFont(name: "System", size: 17)
+        sectionHeaderAlpha = 1.0
+        
+    }
+}
 
 struct Constants {
     
@@ -55,13 +86,15 @@ struct Transaction: Codable {
 }
 
 struct PaymentCard: Codable {
+    let cardID: String
     let cardNumber: String
     let cardProvider: String
     let expiryDate: String
 //    let icon: UIImage?
     
-    // this simply translates MangoPay's naming system to our (clearer) system
+    // this simply translates MangoPay's     naming system to our (clearer) system
     enum CodingKeys: String, CodingKey {
+        case cardID = "Id"
         case cardNumber = "Alias"
         case cardProvider = "CardProvider"
         case expiryDate = "ExpirationDate"
@@ -69,6 +102,7 @@ struct PaymentCard: Codable {
 }
 
 struct BankAccount: Codable {
+    let accountID: String
     let accountHolderName: String
     let type: String
     let IBAN: String?
@@ -78,6 +112,7 @@ struct BankAccount: Codable {
     
     // this simply translates MangoPay's naming system to our (clearer) system
     enum CodingKeys: String, CodingKey {
+        case accountID = "Id"
         case accountHolderName = "OwnerName"
         case type = "Type"
         case IBAN

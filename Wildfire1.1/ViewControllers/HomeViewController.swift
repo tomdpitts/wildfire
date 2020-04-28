@@ -39,7 +39,7 @@ class HomeViewController: UIViewController {
         if loggedInUser == true {
             authenticateUser()
         } else {
-            self.performSegue(withIdentifier: "goToPay", sender: self)
+            self.performSegue(withIdentifier: "goToPhoneVerification", sender: self)
         }
     }
     
@@ -59,26 +59,16 @@ class HomeViewController: UIViewController {
                 
                 DispatchQueue.main.async {
                     if success {
+                        
                         self.performSegue(withIdentifier: "goToPay", sender: self)
                     } else {
-                        // just try again. Previously failure to auth triggered signOut which is just a terrible UX cos it happens more often than you might think
+                        // just try again. Previously auth failure triggered signOut which is just a terrible UX and it happens more often than you might think
                         self.authenticateUser()
-//                        do {
-//                            try Auth.auth().signOut()
-//                        } catch let err {
-//                            print(err)
-//                        }
-//
-//                        let ac = UIAlertController(title: "Continue", message: "Login didn't work - you'll need to verify your phone number", preferredStyle: .alert)
-//
-//                        ac.addAction(UIAlertAction(title: "OK", style: .default, handler: {(alert: UIAlertAction!) in self.performSegue(withIdentifier: "goToPhoneVerification", sender: self)}
-//                        ))
-//                        self.present(ac, animated: true)
                     }
                 }
             }
         } else {
-            let ac = UIAlertController(title: "Touch ID not available", message: "Your device is not configured for Touch ID.", preferredStyle: .alert)
+            let ac = UIAlertController(title: "Touch ID not available", message: "Please try restarting the app.", preferredStyle: .alert)
             ac.addAction(UIAlertAction(title: "OK", style: .default))
             present(ac, animated: true)
         }
@@ -87,6 +77,11 @@ class HomeViewController: UIViewController {
     @IBAction func progressToMainApp(_ sender: UIButton) {
         
         performSegue(withIdentifier: "goToPay", sender: self)
+    }
+    
+    @IBAction func unwindToWelcome(_ unwindSegue: UIStoryboardSegue) {
+        //        let sourceViewController = unwindSegue.source
+        // Use data from the view controller which initiated the unwind segue
     }
 
 }

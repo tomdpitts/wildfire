@@ -38,10 +38,6 @@ class formStep3ViewController: UIViewController, UITextFieldDelegate {
         
         navigationController?.interactivePopGestureRecognizer?.delegate = nil
         
-        navigationItem.title = "Legal Info"
-        navigationController?.navigationBar.prefersLargeTitles = true
-
-        
         for code in NSLocale.isoCountryCodes  {
             let id = NSLocale.localeIdentifier(fromComponents: [NSLocale.Key.countryCode.rawValue: code])
             let name = NSLocale(localeIdentifier: "en_UK").displayName(forKey: NSLocale.Key.identifier, value: id) ?? "Country not found for code: \(code)"
@@ -55,6 +51,9 @@ class formStep3ViewController: UIViewController, UITextFieldDelegate {
         residenceField.delegate = self
         
         setUpElements()
+        
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(DismissKeyboard))
+        view.addGestureRecognizer(tap)
     }
     
     @IBAction func confirmButtonTapped(_ sender: Any) {
@@ -87,7 +86,6 @@ class formStep3ViewController: UIViewController, UITextFieldDelegate {
         } else {
             // Not found, so remove keyboard.
             textField.resignFirstResponder()
-            confirmButtonTapped(self)
         }
         return true
     }
@@ -111,7 +109,7 @@ class formStep3ViewController: UIViewController, UITextFieldDelegate {
             
             var fixedCountries: [String] = []
             for country in matches  {
-                let reverted = country.firstUppercased
+                let reverted = country.localizedCapitalized
                 fixedCountries.append(reverted)
             }
             
@@ -132,9 +130,15 @@ class formStep3ViewController: UIViewController, UITextFieldDelegate {
     // not adding validation to check for existing doc as that should already be covered
     func addNewUserToDatabases(firstname: String, lastname: String, email: String, dob: Int64, nationality: String, residence: String) {
         
-        self.showSpinner(onView: self.view)
+        self.showSpinner(titleText: nil, messageText: nil)
         
         let fullname = firstname + " " + lastname
+        
+        var fcmToken = ""
+        
+        if let token = UserDefaults.standard.string(forKey: "fcmToken") {
+            fcmToken = token
+        }
         
         if let uid = Auth.auth().currentUser?.uid {
             
@@ -147,10 +151,10 @@ class formStep3ViewController: UIViewController, UITextFieldDelegate {
             "residence": residence,
             // I tried having the balance added via Cloud Function (onCreate for user in Firestore) but it's just too slow - frequent crashes in testing due to the Account Listener being too quick..
             "balance": 0,
+            "fcmToken": fcmToken,
             // TODO if facebook login, use profile pic here
                 "photoURL": "https://cdn.pixabay.com/photo/2014/05/21/20/17/icon-350228_1280.png" ]
             
-            // merge: true is IMPORTANT - prevents complete overwriting of a document if a user logs in for a second time, for example, which could wipe important data (including the balance..)
             Firestore.firestore().collection("users").document(uid).setData(newUserData, merge: true) { (error) in
                 
                 self.removeSpinner()
@@ -162,27 +166,10 @@ class formStep3ViewController: UIViewController, UITextFieldDelegate {
                     
                     // update saved userAccountExists flag
                     if UserDefaults.standard.bool(forKey: "userAccountExists") != true {
-                        let utilities = Utilities()
-                        utilities.checkForUserAccount()
+                        Utilities.checkForUserAccount()
                     }
                     
-//                    // we use this info to create a MangoPay user as well, to which card details can (later) be added
-//                    self.functions.httpsCallable("createNewMangopayCustomerONCALL").call() { (result, error) in
-//                        // TODO error handling!
-//                        //                if let error = error as NSError? {
-//                        //                    if error.domain == FunctionsErrorDomain {
-//                        //                        let code = FunctionsErrorCode(rawValue: error.code)
-//                        //                        let message = error.localizedDescription
-//                        //                        let details = error.userInfo[FunctionsErrorDetailsKey]
-//                        //                    }
-//                        //                    // ...
-//                        //                }
-//                    }
-                    
-                        // progress: true presents next screen
-                        self.showAlert(title: "Great! You're signed up.", message: nil, progress: true)
-                    
-                    
+                    self.performSegue(withIdentifier: "showAccountAdded", sender: self)
                      
                     
                     // the user is already logged in with their phone number, but adding email address gives a killswitch option
@@ -198,44 +185,15 @@ class formStep3ViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
-    // UPDATE don't think this is needed anymore - leaving for reference:
-    
-    // all users of the app are signed in via Phone Authentication, but we want to add email to the auth as well for the killswitch functionality i.e. if users ever lose their phone and want to terminate their account & deposit all credit to their bank account
-//    func addEmailToFirebaseUser() {
-//
-//        let credential = EmailAuthProvider.credential(withEmail: email, password: password)
-//
-//        if let user = Auth.auth().currentUser {
-//
-//            user.linkAndRetrieveData(with: credential) { (authResult, error) in
-//                // ...
-//                if let err = error {
-//                    // TODO
-//                    // what are the error options here?
-//                    self.showAlert(title: "This email is already registered, please use another", message: "You can delete old accounts at wildfirewallet.com", progress: false)
-//                }
-//            }
-//        }
-//    }
-    
     func showAlert(title: String?, message: String?, progress: Bool) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         
         alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: { (action) in
-            if progress == true {
-                self.progressUser()
-            }
+//            if progress == true {
+//                self.progressUser()
+//            }
         }))
         self.present(alert, animated: true)
-    }
-    
-    func progressUser() {
-        if self.userIsInPaymentFlow == true {
-            // Transition to step 2 aka PaymentSetUp VC
-            self.performSegue(withIdentifier: "goToAddPayment", sender: self)
-        } else {
-            self.performSegue(withIdentifier: "unwindToPrevious", sender: self)
-        }
     }
     
     private func localeFinder(for fullCountryName : String) -> String? {
@@ -277,10 +235,32 @@ class formStep3ViewController: UIViewController, UITextFieldDelegate {
         
         if nationality == nil {
             return "Please enter a valid Nationality"
-            
         }
+        
         if residence == nil {
             return "Please enter a valid Country of Residence"
+        } else {
+        
+            // blockedCountriesList is a universal constant
+            let list = blockedCountriesList
+            
+            var localeList: [String] = []
+            
+            for x in list {
+                if let y = localeFinder(for: x) {
+                    localeList.append(y)
+                }
+            }
+        
+            let result = localeList.filter { $0 == residence }
+            
+            print(list)
+            print(result)
+            print(result.isEmpty)
+            
+            if result.isEmpty == false {
+                return "Regrettably, due to the anti-money laundering policies of our payment processor, we are unable to add users with Residence in \(residenceField.text!)."
+            }
         }
         
         return nil
@@ -297,6 +277,17 @@ class formStep3ViewController: UIViewController, UITextFieldDelegate {
         Utilities.styleFilledButton(confirmButton)
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.destination is AccountAddedViewController {
+            let vc = segue.destination as! AccountAddedViewController
+            vc.userIsInPaymentFlow = self.userIsInPaymentFlow
+        }
+    }
+    
+    @objc func DismissKeyboard(){
+        // Causes the view to resign from the status of first responder.
+        view.endEditing(true)
+    }
 }
 
 extension StringProtocol {

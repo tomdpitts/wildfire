@@ -17,6 +17,8 @@ class ProfilePicViewController: UIViewController, UINavigationControllerDelegate
     
     var currentProfilePic: UIImage?
     
+    var imageToUpload: UIImage?
+    
     @IBOutlet weak var pictureView: UIImageView!
     
     @IBOutlet weak var confirmButton: UIButton!
@@ -26,9 +28,6 @@ class ProfilePicViewController: UIViewController, UINavigationControllerDelegate
         
         confirmButton.isHidden = true
         confirmButton.isEnabled = false
-        
-        navigationItem.title = "Profile Picture"
-        navigationController?.navigationBar.prefersLargeTitles = true
         
         // set the profile pic, if it exists
         if let cpp = currentProfilePic {
@@ -41,20 +40,31 @@ class ProfilePicViewController: UIViewController, UINavigationControllerDelegate
     
 
     @IBAction func confirmButtonTapped(_ sender: Any) {
-        let image = self.pictureView.image
+        guard let image = self.imageToUpload else { return }
         uploadProfilePic(imageToUpload: image)
         performSegue(withIdentifier: "unwindToPrevious", sender: self)
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.destination is Account2ViewController {
+            let vc = segue.destination as! Account2ViewController
+            vc.imageWasChanged = true
+        }
+    }
     
     
     @IBAction func editProfilePicButton(_ sender: Any) {
         ImagePickerManager().pickImage(self){ image in
             
-            let size = CGSize(width: 200.0, height: 200.0)
-            let aspectScaleImage = image.af_imageAspectScaled(toFill: size)
-            let circleImage = aspectScaleImage.af_imageRoundedIntoCircle()
+            let size = CGSize(width: 700.0, height: 700.0)
+            let aspectScaleImage = image.af.imageAspectScaled(toFill: size)
+            let circleImage = aspectScaleImage.af.imageRoundedIntoCircle()
             self.pictureView.image = circleImage
+            
+            let sizeUpload = CGSize(width: 250.0, height: 250.0)
+            let aspectScaleImageUpload = image.af.imageAspectScaled(toFill: sizeUpload)
+            let circleImageUpload = aspectScaleImageUpload.af.imageRoundedIntoCircle()
+            self.imageToUpload = circleImageUpload
             
             self.confirmButton.isHidden = false
             self.confirmButton.isEnabled = true
@@ -94,6 +104,16 @@ class ProfilePicViewController: UIViewController, UINavigationControllerDelegate
                 print(err)
                 return
             }
+            
+            storageRef.downloadURL { url, error in
+                if error != nil {
+                // Handle any errors
+                } else {
+                    guard let URL = url else { return }
+                    UserDefaults.standard.set(URL, forKey: "profilePicURL")
+                    NotificationCenter.default.post(name: Notification.Name("newProfilePicUploaded"), object: nil)
+                }
+            }
         }
         
         
@@ -122,9 +142,9 @@ class ProfilePicViewController: UIViewController, UINavigationControllerDelegate
                 }
             }
         }
-        uploadTask.observe(.success) { snapshot in
-            NotificationCenter.default.post(name: Notification.Name("newProfilePicUploaded"), object: nil)
-
-        }
+//        uploadTask.observe(.success) { snapshot in
+//            NotificationCenter.default.post(name: Notification.Name("newProfilePicUploaded"), object: nil)
+//            // Fetch the download URL
+//        }
     }
 }

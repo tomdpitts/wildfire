@@ -35,8 +35,9 @@ class ReceiptsViewController: UITableViewController {
 //        var namesDict = [[String: String]]()
     var section = 0
     var row = 0
+    var selectedTransaction: Transaction?
     
-    // I've tried using dictionaries for this but they are inherently unordered so don't play nice with table view
+    // dictionaries are unordered, arrays play nicer w Tableview
     var transactionDates = [String]()
     var transactionsList = [Transaction]()
     var transactionsGrouped = [[Transaction]]()
@@ -46,13 +47,13 @@ class ReceiptsViewController: UITableViewController {
         transactionDates = []
         transactionsList = []
         transactionsGrouped = []
-        navigationItem.title = "Receipts"
-        navigationController?.navigationBar.prefersLargeTitles = true
         
         tableView.tableFooterView = UIView()
         tableView.backgroundColor = .groupTableViewBackground
         
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellID)
+        
+//        self.refreshControl?.addTarget(self, action: #selector(refresh), for: UIControl.Event.valueChanged)
         
         fetchTransactions() { () in
             if self.transactionsList.isEmpty == true {
@@ -60,7 +61,6 @@ class ReceiptsViewController: UITableViewController {
                 let message = "When you pay someone or get paid, it'll show up here"
                 self.showAlert(title: title, message: message)
             }
-            self.tableView.reloadData()
         }
         
     }
@@ -109,16 +109,18 @@ class ReceiptsViewController: UITableViewController {
         let formatter = DateFormatter()
         formatter.dateFormat = "E, d MMM yyyy"
         
-        var transactionDates = [String]()
-        var transactionsList = [Transaction]()
-        var transactionsGrouped = [[Transaction]]()
         
         if let uid = uid {
             db.collection("users").document(uid).collection("receipts").order(by: "datetime", descending: true).addSnapshotListener { querySnapshot, error in
+                
                 guard (querySnapshot?.documents) != nil else {
                     print("Error fetching documents: \(error!)")
                     return
                 }
+                
+                var transactionDates = [String]()
+                var transactionsList = [Transaction]()
+                var transactionsGrouped = [[Transaction]]()
                 
                 for document in querySnapshot!.documents {
                     
@@ -167,14 +169,15 @@ class ReceiptsViewController: UITableViewController {
                             group.append(i)
                         }
                    }
-                    
-                   transactionsGrouped.append(group)
+                       transactionsGrouped.append(group)
                    }
                 
                 // we've just been adding these transactions to local arrays, now need to update the class variables to allow the tableview to refresh with the right data
                 self.transactionDates = transactionDates
                 self.transactionsList = transactionsList
                 self.transactionsGrouped = transactionsGrouped
+                
+                self.tableView.reloadData()
                 
                 completion()
             }
@@ -184,20 +187,33 @@ class ReceiptsViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // without this line, the cell remains (visually) selected after end of tap
         tableView.deselectRow(at: indexPath, animated: true)
-        self.section = indexPath.section
-        self.row = indexPath.row
+        self.selectedTransaction = transactionsGrouped[indexPath.section][indexPath.row]
+//        self.section = indexPath.section
+//        self.row = indexPath.row
 
         
         performSegue(withIdentifier: "displayReceipt", sender: self)
     }
     
+//    @objc func refresh(sender:AnyObject) {
+//
+//        fetchTransactions() { () in
+//            self.tableView.reloadData()
+//        }
+//    }
+    
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-
-        if let displayReceiptVC = segue.destination as? DisplayReceiptViewController {
-            let selectedTransaction = transactionsGrouped[self.section][self.row]
-            displayReceiptVC.transaction = selectedTransaction
+        if segue.destination is DisplayReceiptViewController {
+            if let displayReceiptVC = segue.destination as? DisplayReceiptViewController {
+                
+                displayReceiptVC.transaction = self.selectedTransaction
+            }
+            
         }
     }
+    
+    
     
     func showAlert(title: String, message: String?) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)

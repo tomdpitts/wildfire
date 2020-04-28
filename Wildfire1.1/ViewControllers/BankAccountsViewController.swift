@@ -16,10 +16,8 @@ import SwiftyJSON
 
 class BankAccountsViewController: UITableViewController {
     
-    @IBOutlet var noBankAccountsView: UIView!
-    
-    @IBOutlet weak var addAccountButton: UIButton!
-    
+    @IBOutlet weak var addDetailsButton: UIBarButtonItem!
+        
     lazy var functions = Functions.functions(region:"europe-west1")
     let db = Firestore.firestore()
     let uid = Auth.auth().currentUser?.uid
@@ -29,17 +27,10 @@ class BankAccountsViewController: UITableViewController {
     var row = 0
     var cardCount = 0
         
-//            var transactionDates = [String]()
     var bankAccountsList = [BankAccount]()
-//            var transactionsGrouped = [[Transaction]]()
-        
-        
             
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        navigationItem.title = "Bank Accounts"
-        navigationController?.navigationBar.prefersLargeTitles = true
         
         tableView.tableFooterView = UIView()
         tableView.backgroundColor = .groupTableViewBackground
@@ -47,16 +38,13 @@ class BankAccountsViewController: UITableViewController {
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellID)
         
         fetchBankAccounts() { () in
-//                if self.transactionsList.isEmpty == true {
-//                    let title = "Looks like you haven't made any transactions yet"
-//                    let message = "When you pay someone or get paid, it'll show up here"
-//                    self.showAlert(title: title, message: message)
-//                }
-            self.tableView.reloadData()
-            if self.bankAccountsList.count == 0 {
-                self.tableView.backgroundView = self.noBankAccountsView
-                Utilities.styleHollowButton(self.addAccountButton)
+
+            if self.bankAccountsList.count > 0 {
+                self.addDetailsButton.isEnabled = false
+                self.addDetailsButton.tintColor = UIColor.clear
+
             }
+            self.tableView.reloadData()
         }
     }
     
@@ -69,7 +57,12 @@ class BankAccountsViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // tableView needs to include a cell for each card, plus 1 cell for "Add new card"
-        return bankAccountsList.count
+        
+        if bankAccountsList.count == 0 {
+            return 1
+        } else {
+            return bankAccountsList.count
+        }
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -78,22 +71,13 @@ class BankAccountsViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-//            if indexPath.row == paymentMethodsList.count + 1 {
-//                var cell = tableView.dequeueReusableCell(withIdentifier: self.cellID, for: indexPath)
-//
-//                cell = UITableViewCell(style: .subtitle, reuseIdentifier: self.cellID)
-//
-//                cell.textLabel?.text = "Add new card"
-//
-//                return cell
-//
-//            } else {
-            var cell = tableView.dequeueReusableCell(withIdentifier: self.cellID, for: indexPath)
-                     
-            cell = UITableViewCell(style: .subtitle, reuseIdentifier: self.cellID)
+
+        var cell = tableView.dequeueReusableCell(withIdentifier: self.cellID, for: indexPath)
+                 
+        cell = UITableViewCell(style: .subtitle, reuseIdentifier: self.cellID)
         
         if bankAccountsList.count == 0 {
-            cell.textLabel?.text = "You haven't added any cards yet"
+            cell.textLabel?.text = "Account details not yet added"
             cell.imageView?.image = UIImage(named: "icons8-bank-building-50")
         } else {
             let found = bankAccountsList[indexPath.row]
@@ -106,10 +90,8 @@ class BankAccountsViewController: UITableViewController {
             }
             cell.imageView?.image = UIImage(named: "icons8-bank-building-50")
         }
-            return cell
-//            }
-
-     
+        
+        return cell
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

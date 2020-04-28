@@ -9,7 +9,8 @@
 import UIKit
 import Contacts
 
-class ContactsViewController: UITableViewController {
+class ContactsViewController: UITableViewController, UISearchResultsUpdating {
+    
 
     let cellID = "cell123123"
     
@@ -17,55 +18,103 @@ class ContactsViewController: UITableViewController {
     var namesList = [[String]]()
     var contactsList = [Contact]()
     var contactsGrouped = [[Contact]]()
+    var filteredTableData = [Contact]()
     
     var phonebook = [String: String]()
     var namesDict = [[String: String]]()
+    
+    var selectedContact: Contact?
+    
     var section = 0
     var row = 0
+    
+    var resultSearchController = UISearchController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // can't remember what this does - try google
         navigationController?.interactivePopGestureRecognizer?.delegate = nil
-        
-        navigationItem.title = "Send"
-        navigationController?.navigationBar.prefersLargeTitles = true
     
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellID)
         
         fetchContacts()
+        
+        resultSearchController = ({
+            let controller = UISearchController(searchResultsController: nil)
+            controller.searchResultsUpdater = self
+            controller.obscuresBackgroundDuringPresentation = false
+            controller.searchBar.sizeToFit()
+
+            tableView.tableHeaderView = controller.searchBar
+            
+            self.definesPresentationContext = true
+
+            return controller
+        })()
+
+        tableView.reloadData()
     }
     
-    func backAction() -> Void {
-        performSegue(withIdentifier: "unwindToPay", sender: self)
+//    func backAction() -> Void {
+//        performSegue(withIdentifier: "unwindToPay", sender: self)
+//    }
+    
+    func updateSearchResults(for searchController: UISearchController) {
+        filteredTableData.removeAll(keepingCapacity: false)
+
+        let searchText = searchController.searchBar.text!
+        let filteredList = contactsList.filter { $0.fullName.range(of: searchText, options: [.caseInsensitive]) != nil}
+
+        filteredTableData = filteredList
+
+        self.tableView.reloadData()
     }
     
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let label = UILabel()
         label.backgroundColor = UIColor.lightGray
-        if let startsWith = contactsGrouped[section].first?.givenName.prefix(1) {
-            label.text = String(startsWith)
+        
+        if (resultSearchController.isActive) {
+            label.text = " Results"
+        } else {
+            if let startsWith = contactsGrouped[section].first?.givenName.prefix(1) {
+                label.text = String(" " + startsWith)
+            }
         }
+        
         return label
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return contactsGrouped[section].count
+        if  (resultSearchController.isActive) {
+            return filteredTableData.count
+        } else {
+            return contactsGrouped[section].count
+        }
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return contactsGrouped.count
+        if (resultSearchController.isActive) {
+            return 1
+        } else {
+            return contactsGrouped.count
+        }
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath)
         
-        let nameLocation = contactsGrouped[indexPath.section][indexPath.row]
-        // slightly safer than using fullName as these two are non-optional
-        cell.textLabel?.text = nameLocation.givenName + " " + nameLocation.familyName
-        cell.detailTextLabel?.text = "test"
         
+        if (resultSearchController.isActive) {
+            let nameLocation = filteredTableData[indexPath.row]
+            cell.textLabel?.text = nameLocation.givenName + " " + nameLocation.familyName
+        } else {
+            let nameLocation = contactsGrouped[indexPath.section][indexPath.row]
+            // slightly safer than using fullName as these two are non-optional
+            cell.textLabel?.text = nameLocation.givenName + " " + nameLocation.familyName
+//            cell.detailTextLabel?.text = "test"
+        }
         return cell
     }
     
@@ -93,23 +142,22 @@ class ContactsViewController: UITableViewController {
                         // if they don't have a mobile number we don't need to include them in the list
                         if number.isEmpty == false {
                             var mobile = ""
+                            if number.count == 1 {
+                                mobile = number[0].value.stringValue
+                            }
                             for n in number {
                                 if n.label == CNLabelPhoneNumberMobile {
                                     mobile = n.value.stringValue
                                 }
                             }
-                            let allowedCharset = CharacterSet
-                                .decimalDigits
-                            let mobileClean = String(mobile.unicodeScalars.filter(allowedCharset.contains))
                             
-                            
-                            let person = Contact(givenName: contact.givenName, familyName: contact.familyName, fullName: name, phoneNumber: mobileClean, uid: nil)
-                            
-                            
-                            self.contactsList.append(person)
+                            if mobile.prefix(1) == "+" {
+                                let person = Contact(givenName: contact.givenName, familyName: contact.familyName, fullName: name, phoneNumber: mobile, uid: nil)
+                                
+                                print("mobile number is: \(mobile)")
+                                self.contactsList.append(person)
+                            }
                         }
-//                        self.names.append(name)
-//                        self.phonebook[name] = mobile
                     })
                 } catch let err {
                     print("error fetching contact", err)
@@ -202,6 +250,10 @@ class ContactsViewController: UITableViewController {
                     }
                     self.contactsGrouped.append(group)
                 }
+                // TODO does this solution prevent crashing?
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
             } else {
                 // denied access
             }
@@ -211,18 +263,20 @@ class ContactsViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // without this line, the cell remains (visually) selected after end of tap
         tableView.deselectRow(at: indexPath, animated: true)
-        self.section = indexPath.section
-        self.row = indexPath.row
         
+        if (resultSearchController.isActive) {
+            self.selectedContact = self.filteredTableData[indexPath.row]
+        } else {
+            self.selectedContact = self.contactsGrouped[indexPath.section][indexPath.row]
+        }
+
         performSegue(withIdentifier: "goToSend2", sender: self)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
-        let selectedContact = contactsGrouped[self.section][self.row]
-
         if let Send2ViewController = segue.destination as? Send2ViewController {
-            Send2ViewController.contact = selectedContact
+            Send2ViewController.contact = self.selectedContact
         }
     }
     

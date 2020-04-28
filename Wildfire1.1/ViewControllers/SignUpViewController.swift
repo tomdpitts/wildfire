@@ -22,7 +22,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var email: UITextField!
     
-    @IBOutlet weak var password: UITextField!
+//    @IBOutlet weak var password: UITextField!
     
     @IBOutlet weak var signUpButton: UIButton!
     
@@ -37,9 +37,6 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         super.viewDidLoad()
         
         navigationController?.interactivePopGestureRecognizer?.delegate = nil
-        
-        navigationItem.title = "About me"
-        navigationController?.navigationBar.prefersLargeTitles = true
 
         // Do any additional setup after loading the view.
         setUpElements()
@@ -48,6 +45,9 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         lastName.delegate = self
         email.delegate = self
 //        password.delegate = self
+        
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(DismissKeyboard))
+        view.addGestureRecognizer(tap)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -72,26 +72,6 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         }
         return true
     }
-    
-     // for time being, leave this out as it's causing an issue because I'm always logged in
-//
-//    override func viewWillAppear(_ animated: Bool) {
-//        handle = Auth.auth().addStateDidChangeListener { (auth, user) in
-//
-//
-//            if (Auth.auth().currentUser?.uid) != nil {
-//                self.loggedInUser = true
-//            } else {
-//                self.loggedInUser = false
-//            }
-//
-//
-//        }
-//    }
-//
-//    override func viewWillDisappear(_ animated: Bool) {
-//        Auth.auth().removeStateDidChangeListener(handle!)
-//    }
     
     func setUpElements() {
         
@@ -167,8 +147,12 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
     }
     
     func showError(_ message:String) {
-        
         errorLabel.text = message
         errorLabel.isHidden = false
+    }
+    
+    @objc func DismissKeyboard(){
+        //Causes the view to resign from the status of first responder.
+        view.endEditing(true)
     }
 }

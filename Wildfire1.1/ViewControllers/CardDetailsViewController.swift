@@ -8,8 +8,11 @@
 
 import UIKit
 import Alamofire
+import FirebaseFunctions
 
 class CardDetailsViewController: UIViewController {
+    
+    lazy var functions = Functions.functions(region:"europe-west1")
     
     @IBOutlet weak var cardNumberLabel: UILabel!
     
@@ -33,42 +36,67 @@ class CardDetailsViewController: UIViewController {
         }
         
         Utilities.styleHollowButtonRED(deleteButton)
-        
-        let red = UIColor(hexString: "#C63C39")
-        deleteButton.setTitleColor(red, for: UIControl.State.normal)
-        
-        
-        
-        
-        navigationItem.title = "Card Details"
-        navigationController?.navigationBar.prefersLargeTitles = true
-        
-    }
-    
-    @IBAction func deleteCard(_ sender: Any) {
-        
-        
-    }
-    
 //
-//    func showAlert(title: String, message: String?, segueIdentifier: String) {
-//        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-//        
-//        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
-//            do {
-//                try Auth.auth().signOut()
-//                // update the userAccountExists flag (if user signs in with a different number, we don't want this flag to persist in memory and mess things up
-//                UserDefaults.standard.set(false, forKey: "userAccountExists")
-//            } catch let err {
-//                // TODO what if signout fails e.g. no connection
-//            }
-//            self.performSegue(withIdentifier: segueIdentifier, sender: self)
-//        }))
-//        
-//        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
-//        }))
-//        
-//        self.present(alert, animated: true)
-//    }
+//        let red = UIColor(hexString: "#C63C39")
+//        deleteButton.setTitleColor(red, for: UIControl.State.normal)
+        
+    }
+    
+    @IBAction func deleteCardButtonTapped(_ sender: Any) {
+        
+        let title = "Delete Card"
+        let message = "Are you sure you want to delete this card information? This cannot be undone."
+        let segueID = "unwindToPrevious"
+        
+        showAlert(title: title, message: message, segueIdentifier: segueID)
+    }
+    
+    
+    func showAlert(title: String, message: String?, segueIdentifier: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
+            
+            self.deleteCard() {
+                self.performSegue(withIdentifier: "unwindToPrevious", sender: self)
+            }
+            
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
+        }))
+        
+        self.present(alert, animated: true)
+    }
+    
+    
+    func deleteCard(completion: @escaping ()->()) {
+        
+        self.showSpinner(titleText: nil, messageText: nil)
+        
+        self.functions.httpsCallable("deleteCard").call() { (result, error) in
+            // update credit cards list
+            
+            if error != nil {
+                
+                self.universalShowAlert(title: "Oops", message: "Something went wrong. Please try to delete the card again.", segue: nil, cancel: false)
+            }
+            
+            let appDelegate = AppDelegate()
+            appDelegate.listCardsFromMangopay() { () in
+                self.removeSpinner()
+                completion()
+            }
+        }
+        
+        if let id = self.card?.cardID {
+            UserDefaults.standard.removeObject(forKey: "card\(id)")
+            let count = UserDefaults.standard.integer(forKey: "numberOfCards")
+            if count > 0 {
+                let newCount = count - 1
+                UserDefaults.standard.set(newCount, forKey: "numberOfCards")
+            }
+        }
+    }
     
 }

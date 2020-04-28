@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+    <device id="retina3_5" orientation="portrait" appearance="dark"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16086"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -15,19 +13,21 @@
             <objects>
                 <viewController id="01J-lp-oVM" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo Wildfire vertical-1" translatesAutoresizingMaskIntoConstraints="NO" id="gv6-GR-ids">
-                                <rect key="frame" x="61" y="112" width="253" height="311"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="WILDFIRE Logo 1200px" translatesAutoresizingMaskIntoConstraints="NO" id="n4I-g9-g4x">
+                                <rect key="frame" x="0.0" y="115" width="320" height="80"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="n4I-g9-g4x" secondAttribute="height" multiplier="4:1" id="AiH-Lo-Hre"/>
+                                </constraints>
                             </imageView>
                         </subviews>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="gv6-GR-ids" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="92" id="4m7-lN-HTP"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="gv6-GR-ids" secondAttribute="bottom" constant="244" id="Eyg-Kt-pTG"/>
-                            <constraint firstItem="gv6-GR-ids" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="61" id="Fbh-bC-ouf"/>
-                            <constraint firstItem="gv6-GR-ids" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="O8m-El-I6x"/>
+                            <constraint firstItem="n4I-g9-g4x" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="0xr-Uv-bU5"/>
+                            <constraint firstItem="n4I-g9-g4x" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" constant="115" id="JST-Vm-fWu"/>
+                            <constraint firstAttribute="trailing" secondItem="n4I-g9-g4x" secondAttribute="trailing" id="eGF-ve-NFI"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
@@ -37,7 +37,11 @@
             <point key="canvasLocation" x="52" y="374.66266866566718"/>
         </scene>
     </scenes>
+    <color key="tintColor" name="tealPrimary"/>
     <resources>
-        <image name="logo Wildfire vertical-1" width="2564" height="2495"/>
+        <image name="WILDFIRE Logo 1200px" width="600" height="125"/>
+        <namedColor name="tealPrimary">
+            <color red="0.1809999942779541" green="0.76599997282028198" blue="0.77999997138977051" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
     </resources>
 </document>

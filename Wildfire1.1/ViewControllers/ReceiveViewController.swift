@@ -8,10 +8,20 @@
 
 import UIKit
 import FirebaseAuth
+import FirebaseDynamicLinks
+import FirebaseStorage
 import CryptoSwift
 
 
 class ReceiveViewController: UIViewController, UITextFieldDelegate {
+    
+    var receiveAmount: String?
+    let uid = Auth.auth().currentUser?.uid
+    let currency = "GBP"
+    
+    var shareLink: URL?
+    
+    let arrowUp = UIImage(named: "icons8-send-letter-50")
     
     // TODO prevent users from generating QR codes when no account (and crucially, no MangoPay wallet) exists yet
     // TODO in future, would be nice to add functionality to handle pending payments, so users can receive payments quickly upon first download, and add account info after the fact
@@ -22,44 +32,33 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var btnAction: UIButton!
     @IBOutlet weak var saveToCameraRoll: UIButton!
-    @IBOutlet weak var scanToPayLabel: UILabel!
+//    @IBOutlet weak var scanToPayLabel: UILabel!
+    @IBOutlet weak var shareLinkButton: UIButton!
+    @IBOutlet weak var loadingSpinner: UIActivityIndicatorView!
     
     @IBAction func swipeGestureRecognizer(_ sender: Any) {
         // swipe down (and only down) hides keyboard
         self.view.endEditing(true)
     }
-    override func viewWillAppear(_ animated: Bool) {
-        Auth.auth().addStateDidChangeListener { (auth, user) in
-            if let user = user {
-                // The user's ID, unique to the Firebase project.
-                // Do NOT use this value to authenticate with your backend server,
-                // if you have one. Use getTokenWithCompletion:completion: instead.
-                let uid = user.uid
-                let email = user.email
-                let photoURL = user.photoURL
-                // ...
-            }
-        }
-        
-        amountTextField.becomeFirstResponder()
-    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
         
-        navigationItem.title = "Receive"
-        navigationController?.navigationBar.prefersLargeTitles = true
-        
+        // .medium for iOS 13 onwards, .gray is deprecated but older iOS versions don't have .medium
+        if #available(iOS 13.0, *) {
+            loadingSpinner.style = .medium
+        } else {
+            loadingSpinner.style = .gray
+        }
+
         Utilities.styleHollowButton(saveToCameraRoll)
+        Utilities.styleHollowButton(shareLinkButton)
         
         saveToCameraRoll.isHidden = true
-        scanToPayLabel.isHidden = true
-        
-        saveToCameraRoll.tintColor = UIColor(hexString: "#39C3C6")
-        if #available(iOS 13.0, *) {
-            saveToCameraRoll.setImage(UIImage(systemName: "square.and.arrow.up")?.withTintColor(UIColor(hexString: "#39C3C6")) , for: .normal)
-        }
+//        scanToPayLabel.isHidden = true
+        shareLinkButton.isHidden = true
+        shareLinkButton.setImage(arrowUp?.changeAlpha(alpha: 0.0), for: .normal)
+        loadingSpinner.isHidden = true
         
         amountTextField.delegate = self
         amountTextField.keyboardType = .decimalPad
@@ -71,6 +70,9 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(DismissKeyboard))
         view.addGestureRecognizer(tap)
         
+        
+//        gradientBackground()
+        
     }
     
     @IBAction func amountChanged(_ sender: Any) {
@@ -80,14 +82,16 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
 //        btnAction.setTitle("Show code",for: .normal)
         btnAction.isHidden = false
         saveToCameraRoll.isHidden = true
-        scanToPayLabel.isHidden = true
+//        scanToPayLabel.isHidden = true
+        shareLinkButton.isHidden = true
+        shareLinkButton.isEnabled = false
+        shareLinkButton.setImage(arrowUp?.changeAlpha(alpha: 0.0), for: .normal)
+        loadingSpinner.isHidden = true
         
         // reset Save to Camera Roll Button
-        saveToCameraRoll.setTitle("Save to Camera Roll", for: .normal)
+        saveToCameraRoll.setTitle("Save", for: .normal)
         Utilities.styleHollowButton(saveToCameraRoll)
-        if #available(iOS 13.0, *) {
-            saveToCameraRoll.setImage(UIImage(systemName: "square.and.arrow.up"), for: .normal)
-        }
+        saveToCameraRoll.setImage(UIImage(named: "icons8-picture-50"), for: .normal)
         saveToCameraRoll.isEnabled = true
         
     }
@@ -96,38 +100,84 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
         
         guard let amountString = amountTextField.text else { return }
         
-        let numberOfDecimalDigits: Int
+        var workString: String = amountString
         
-        if let dotIndex = amountString.firstIndex(of: ".") {
-            // prevent more than 2 digits after the decimal
-            numberOfDecimalDigits = amountString.distance(from: dotIndex, to: amountString.endIndex) - 1
-            
-            if numberOfDecimalDigits == 1 {
-                let replacementString = amountString + "0"
-                amountTextField.text = replacementString
-                
-            } else if numberOfDecimalDigits == 0 {
-                let replacementString = String(amountString.dropLast())
-                amountTextField.text = replacementString
-            }
+        // 1: ensure amount is between 0.50 and 50
+        
+        guard let amountFloat = Float(workString) else { return }
+        
+        var x = amountFloat
+        
+        if x > 40.00 {
+            x = 40
+            self.universalShowAlert(title: "Max amount £40", message: "At this time, Wildfire can only transact amounts up to £40. This limit will be raised soon.", segue: nil, cancel: false)
         }
+        
+        if x < 0.5 {
+            x = 0.5
+            self.universalShowAlert(title: "Min amount £0.50", message: "At this time, Wildfire can only transact amounts above £0.50", segue: nil, cancel: false)
+        }
+        
+        // 2: round to nearest 0.50
+        
+        let y = (Float(Int((2*x) + 0.5)))/2
+        
+        if x != y {
+            self.universalShowAlert(title: "Apologies", message: "Only amounts in 50p increments can be transacted e.g. £3, £3.50, £4 etc.", segue: nil, cancel: false)
+        }
+        
+        // 3: round to 2 decimal places
+        
+        let z = String(y)
+        
+        let numberOfDecimalDigits: Int
+         
+        if let dotIndex = z.firstIndex(of: ".") {
+             // prevent more than 2 digits after the decimal
+             numberOfDecimalDigits = z.distance(from: dotIndex, to: z.endIndex) - 1
+             
+             if numberOfDecimalDigits == 1 {
+                 let replacementString = z + "0"
+                 workString = replacementString
+                 
+             } else if numberOfDecimalDigits == 0 {
+                 let replacementString = String(z.dropLast())
+                 workString = replacementString
+             }
+        }
+        
+        amountTextField.text = workString
     }
     
     
     var qrcodeImage: CIImage!;
     
     @IBAction func pressedButton(_ sender: Any) {
+        
+        let userAccountExists: Bool? = UserDefaults.standard.bool(forKey: "userAccountExists")
+        
+        if userAccountExists == false || userAccountExists == nil {
+            
+            amountTextField.resignFirstResponder()
+            
+            self.universalShowAlert(title: "Please set up your account", message: "Just a few quick details are needed to receive payments", segue: "showAccountSetup", cancel: true)
+            
+            return
+        }
+        
         if qrcodeImage == nil {
             
             if amountTextField.text == "" {
                 return
             }
             
-            let qrdata = generateQRString().data(using: String.Encoding.isoLatin1, allowLossyConversion: false)
+            guard let qrString = generateQRString() else { return }
+            
+            let qrData = qrString.data(using: String.Encoding.isoLatin1, allowLossyConversion: false)
             
             let filter = CIFilter(name: "CIQRCodeGenerator")
             
-            filter!.setValue(qrdata, forKey: "inputMessage")
+            filter!.setValue(qrData, forKey: "inputMessage")
             filter!.setValue("Q", forKey: "inputCorrectionLevel")
             
             qrcodeImage = filter!.outputImage
@@ -139,7 +189,10 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
             btnAction.isHidden = true
             
             saveToCameraRoll.isHidden = false
-            scanToPayLabel.isHidden = false
+//            scanToPayLabel.isHidden = false
+            shareLinkButton.isHidden = false
+            // show the buttons but don't enable shareLinkButton yet
+            shareLinkButton.isEnabled = false
             
         }
             
@@ -151,20 +204,68 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
 //            btnAction.setTitle("Show code",for: .normal)
             btnAction.isHidden = false
             saveToCameraRoll.isHidden = true
-            scanToPayLabel.isHidden = true
+//            scanToPayLabel.isHidden = true
+            shareLinkButton.isHidden = true
+            shareLinkButton.setImage(arrowUp?.changeAlpha(alpha: 0.0), for: .normal)
+            loadingSpinner.isHidden = true
             
             // reset Save to Camera Roll Button (currently hidden)
-            saveToCameraRoll.setTitle("Save to Camera Roll", for: .normal)
+            saveToCameraRoll.setTitle("Save", for: .normal)
             Utilities.styleHollowButton(saveToCameraRoll)
-            if #available(iOS 13.0, *) {
-                saveToCameraRoll.setImage(UIImage(systemName: "square.and.arrow.up"), for: .normal)
-            }
+            saveToCameraRoll.setImage(UIImage(named: "icons8-picture-50"), for: .normal)
             saveToCameraRoll.isEnabled = true
         }
     }
     
+    func generateQRString() -> String? {
+        
+        var receiveAmountString = ""
+        let currency = self.currency
+        
+        // validator is text that will be appended to the beginning of the string - this is to ensure that the decrypted string is from Wildfire
+        let validator = """
+            Einstein, James Dean, Brooklyn's got a winning team, Bardot, Budapest, Alabama, Krushchev
+            """
+        
+        if let receiveAmount = amountTextField.text {
+            
+            if let float = Float(receiveAmount) {
+                
+                let receiveAmountCents = float*100
+                
+                // update class variable with amount in cents, so it can be included in dynamic link
+                // first trim off the ".0" at the end
+                let centsInt = Int(receiveAmountCents)
+                
+                // required for dynamic link
+                self.receiveAmount = String(centsInt)
+                
+                let receiveAmount7 = Int(receiveAmountCents*7)
+                receiveAmountString = String(receiveAmount7)
+            }
+        } else {
+            receiveAmountString = ""
+        }
+        
+        
+        if let uid = Auth.auth().currentUser?.uid {
+        
+            let qrdata = validator + receiveAmountString + currency + uid
+            
+            let aes = try? AES(key: "afiretobekindled", iv: "av3s5e12b3fil1ed")
+            
+            let encryptedString = try? aes!.encrypt(Array(qrdata.utf8))
+            
+            guard let stringQR = encryptedString?.toHexString() else { return nil }
+            
+            return stringQR
+            
+        } else {
+            return nil
+        }
+    }
+    
     func displayQRCodeImage() {
-
         
         let border = UIImage(named: "QR Border3 TEAL")!
         let logo = UIImage(named: "Logo70pxTEALBORDER")!
@@ -180,41 +281,12 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
         let overlayWildfireLogo = mergeImage(bottomImage: overlayQR, topImage: logo, scalePercentage: 23)
         
         QRCodeImageView.image = overlayWildfireLogo
-    }
-    
-    func generateQRString() -> String {
         
-        var receiveAmountString = ""
+        self.uploadQR(QR: overlayWildfireLogo)
         
-        // validator is text that will be appended to the beginning of the string - this is a failsafe to essentially ensure that the decrypted string is from Wildfire (lyrics are not all in the right order)
-        let validator = """
-            Einstein, James Dean, Brooklyn's got a winning team, Bardot, Budapest, Alabama, Krushchev
-            """
-        
-        if let receiveAmount = amountTextField.text {
-            if let float = Float(receiveAmount) {
-                
-                let receiveAmountCents = float*100
-                let receiveAmount7 = Int(receiveAmountCents*7)
-                receiveAmountString = String(receiveAmount7)
-            }
-        } else {
-            receiveAmountString = ""
-        }
-        
-        
-        let uid = Auth.auth().currentUser!.uid
-        
-        let qrdata = validator + receiveAmountString + uid
-        
-        let aes = try? AES(key: "afiretobekindled", iv: "av3s5e12b3fil1ed")
-        
-        let encryptedString = try? aes!.encrypt(Array(qrdata.utf8))
-        
-        let stringQR = encryptedString?.toHexString()
-
-        
-        return stringQR!
+        let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .heavy)
+        impactFeedbackgenerator.prepare()
+        impactFeedbackgenerator.impactOccurred()
     }
     
     func mergeImage(bottomImage: UIImage, topImage: UIImage, scalePercentage: Int) -> UIImage {
@@ -264,14 +336,132 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
         Utilities.styleHollowButtonSELECTED(saveToCameraRoll)
         
         saveToCameraRoll.setTitle("Done!", for: .normal)
-        if #available(iOS 13.0, *) {
-            saveToCameraRoll.setImage(UIImage(systemName: "checkmark.circle"), for: .normal)
+        saveToCameraRoll.setImage(UIImage(named: "icons8-checked-50"), for: .normal)
+    }
+    
+    func uploadQR(QR: UIImage) {
+        
+        guard let uid = self.uid else { return }
+        
+        loadingSpinner.isHidden = false
+        loadingSpinner.startAnimating()
+        
+        let storage = Storage.storage()
+        let nowString = "\(Date().timeIntervalSince1970)"
+        
+        // QR codes will be stored in user's folder under "QRCodes", with the current datetime as a filename (to more or less guarantee uniqueness)
+        let storageRef = storage.reference().child("QRCodes/\(uid)/\(nowString).jpg")
+        
+        
+        guard let uploadData = QR.jpegData(compressionQuality: 0.9) else { return }
+
+        // Upload the file
+        storageRef.putData(uploadData, metadata: nil) { (metadata, error) in
+          
+            if error != nil {
+                self.loadingSpinner.isHidden = true
+                self.loadingSpinner.stopAnimating()
+                self.shareLinkButton.imageView?.image = UIImage(named: "exclamationmark.triangle")
+                self.shareLinkButton.imageView?.alpha = 1
+            }
+            
+            storageRef.downloadURL { (url, error) in
+                if let downloadURL = url {
+                    self.generateLink(imageURL: downloadURL)
+                }
+            }
         }
     }
     
+    func generateLink(imageURL: URL) {
+        
+        guard let uid = self.uid else { return }
+        guard let amount = self.receiveAmount else { return }
+        
+        
+        var components = URLComponents()
+        components.scheme = "https"
+        components.host = "www.wildfirewallet.com"
+        components.path = "/imglink"
+        
+        let transactionQuery1 = URLQueryItem(name: "userID", value: uid)
+        let transactionQuery2 = URLQueryItem(name: "amount", value: amount)
+        let transactionQuery3 = URLQueryItem(name: "currency", value: self.currency)
+        
+        components.queryItems = [transactionQuery1, transactionQuery2, transactionQuery3]
+        
+        guard let linkParameter = components.url else { return }
+        
+        let dynamicLinksDomainURIPrefix = "https://wildfire.page.link"
+        
+        guard let shareLink = DynamicLinkComponents.init(link: linkParameter, domainURIPrefix: dynamicLinksDomainURIPrefix) else {
+            print("Couldn't create FDL components")
+            return
+        }
+        
+        if let bundleID = Bundle.main.bundleIdentifier {
+            shareLink.iOSParameters = DynamicLinkIOSParameters(bundleID: bundleID)
+        }
+        
+        shareLink.iOSParameters?.appStoreID = "962194608"
+        
+        if let homepage = URL(string: "https://www.theverge.com") {
+            shareLink.otherPlatformParameters?.fallbackUrl = homepage
+        }
+        
+        // for future Android version!
+//        linkBuilder.androidParameters = DynamicLinkAndroidParameters(packageName: "com.example.android")
+        
+        shareLink.socialMetaTagParameters = DynamicLinkSocialMetaTagParameters()
+        
+        if let amount = amountTextField.text {
+            shareLink.socialMetaTagParameters?.title = "£\(amount) - Pay with Wildfire"
+        }
+        shareLink.socialMetaTagParameters?.descriptionText = "The easiest and fastest way to pay"
+        
+        shareLink.socialMetaTagParameters?.imageURL = imageURL
+        
+        shareLink.shorten { (url, warnings, error) in
+            if let error = error {
+                print("Error in url shortener: \(error)")
+                return
+            }
+            
+            if let warnings = warnings {
+                for warning in warnings {
+                    print("FDL Warning: \(warning)")
+                }
+            }
+            
+            guard let url = url else { return }
+            
+            self.shareLink = url
+            
+            self.shareLinkButton.setImage(self.arrowUp?.changeAlpha(alpha: 1.0), for: .normal)
+            self.loadingSpinner.isHidden = true
+            self.loadingSpinner.stopAnimating()
+            self.shareLinkButton.isEnabled = true
+        }
+    }
+    
+    @IBAction func shareLinkButtonTapped(_ sender: Any) {
+        
+        guard let shareURL = shareLink else { return }
+        
+        showShareMenu(url: shareURL)
+    }
+    
+    
+    func showShareMenu(url: URL) {
+        
+        let text = "Here's a link to send me £\(amountTextField.text!) with Wildfire"
+        let activityVC = UIActivityViewController(activityItems: [text, url], applicationActivities: nil)
+        present(activityVC, animated: true)
+    }
+    
     @objc func DismissKeyboard(){
-    //Causes the view to resign from the status of first responder.
-    view.endEditing(true)
+        //Causes the view to resign from the status of first responder.
+        view.endEditing(true)
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
@@ -292,6 +482,37 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
         }
 
         return isNumeric && numberOfDots <= 1 && numberOfDecimalDigits <= 2
-    }  
+    }
+    
+    func gradientBackground() {
+        // Create a gradient layer
+        let gradientLayer = CAGradientLayer()
+        // Set the size of the layer to be equal to size of the display
+        gradientLayer.frame = view.bounds
+        // Set an array of Core Graphics colors (.cgColor) to create the gradient
+        gradientLayer.colors = [Style.secondaryThemeColour.cgColor, UIColor(hexString: "#ffffff").cgColor]
+
+        gradientLayer.locations = [0.0, 0.25]
+        // Rasterize this static layer to improve app performance
+        gradientLayer.shouldRasterize = true
+        // Apply the gradient to the backgroundGradientView
+        self.view.layer.insertSublayer(gradientLayer, at: 0)
+    }
+    
+    func showAlert(title: String, message: String?) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
+            
+        }))
+        
+        self.present(alert, animated: true)
+    }
+    
+        @IBAction func unwindToPrevious(_ unwindSegue: UIStoryboardSegue) {
+    //        let sourceViewController = unwindSegue.source
+            // Use data from the view controller which initiated the unwind segue
+        }
+    
 }
 
