@@ -745,7 +745,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.9.9;
+				MARKETING_VERSION = 0.9.10;
 				PRODUCT_BUNDLE_IDENTIFIER = com.wildfire.WildfireWallet;
 				PRODUCT_NAME = Wildfire;
 				SWIFT_VERSION = 5.0;
@@ -768,7 +768,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.9.9;
+				MARKETING_VERSION = 0.9.10;
 				PRODUCT_BUNDLE_IDENTIFIER = com.wildfire.WildfireWallet;
 				PRODUCT_NAME = Wildfire;
 				SWIFT_VERSION = 5.0;
