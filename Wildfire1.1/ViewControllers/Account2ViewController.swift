@@ -54,6 +54,12 @@ class Account2ViewController: UITableViewController {
         }
         
         loadingIndicator.isHidden = true
+        // .medium for iOS 13 onwards, .gray is deprecated but older iOS versions don't have .medium
+        if #available(iOS 13.0, *) {
+            loadingIndicator.style = .medium
+        } else {
+            loadingIndicator.style = .gray
+        }
         
         
 //        // TODO roll this out across the board?
