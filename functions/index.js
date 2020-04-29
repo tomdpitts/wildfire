@@ -747,11 +747,11 @@ exports.addBankAccount = functions.region('europe-west1').https.onCall( async (d
   }
 
   const bankAccountData = {
-    Type: 'OTHER',
+    Type: 'GB',
     "OwnerName": name,
     "Country": countryCode,
     // N.B. BIC is equivalent to SWIFT code
-    "BIC": sortCode,
+    "SortCode": sortCode,
     "AccountNumber": accountNumber,
 
     "OwnerAddress": {
