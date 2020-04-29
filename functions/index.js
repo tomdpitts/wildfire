@@ -722,7 +722,7 @@ exports.addBankAccount = functions.region('europe-west1').https.onCall( async (d
   var mangopayID = ""
 
   const name = data.name
-  const swiftCode = data.swiftCode
+  const sortCode = data.sortCode
   const accountNumber = data.accountNumber
 
   const line1 = data.line1
@@ -751,7 +751,7 @@ exports.addBankAccount = functions.region('europe-west1').https.onCall( async (d
     "OwnerName": name,
     "Country": countryCode,
     // N.B. BIC is equivalent to SWIFT code
-    "BIC": swiftCode,
+    "BIC": sortCode,
     "AccountNumber": accountNumber,
 
     "OwnerAddress": {

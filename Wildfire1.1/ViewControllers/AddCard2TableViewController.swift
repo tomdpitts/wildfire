@@ -227,8 +227,11 @@ class AddCard2TableViewController: UITableViewController, UITextFieldDelegate {
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
-        // problem 1
-        return !autoCompleteText(in: textField, using: string, suggestions: self.countries)
+        if textField == countryTextField {
+            return !autoCompleteText(in: textField, using: string, suggestions: self.countries)
+        } else {
+            return true
+        }
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -363,7 +366,7 @@ class AddCard2TableViewController: UITableViewController, UITextFieldDelegate {
             {
             return "Please fill in all fields."
         } else if localeFinder(for: country) == nil {
-            return "Country was not recognised - please re-enter country until autocorrect completes it"
+            return "Please re-enter country until autocorrect completes it"
         } else {
             return nil
 //                if cardNumber.count != 16 {

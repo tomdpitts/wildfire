@@ -14,7 +14,7 @@ import FirebaseFunctions
 class BankDetails2TableViewController: UITableViewController, UITextFieldDelegate {
     
     var name = ""
-    var swiftCode = ""
+    var sortCode = ""
     var accountNumber = ""
     
     var line1 = ""
@@ -47,6 +47,12 @@ class BankDetails2TableViewController: UITableViewController, UITextFieldDelegat
         tableView.backgroundColor = .groupTableViewBackground
         
         errorLabel.isHidden = true
+        Utilities.styleTextField(line1TextField)
+        Utilities.styleTextField(line2TextField)
+        Utilities.styleTextField(cityTextField)
+        Utilities.styleTextField(regionTextField)
+        Utilities.styleTextField(postcodeTextField)
+        Utilities.styleTextField(countryTextField)
         Utilities.styleFilledButton(submitButton)
         
         // prefill text fields
@@ -58,12 +64,18 @@ class BankDetails2TableViewController: UITableViewController, UITextFieldDelegat
         // prefill country name (it arrives from the db as a country code, so needs to be converted)
         countryTextField.text = Utilities.countryName(from: self.country)
         
+        line1TextField.delegate = self
+        line2TextField.delegate = self
+        cityTextField.delegate = self
+        regionTextField.delegate = self
+        postcodeTextField.delegate = self
+        countryTextField.delegate = self
+        
         for code in NSLocale.isoCountryCodes  {
             let id = NSLocale.localeIdentifier(fromComponents: [NSLocale.Key.countryCode.rawValue: code])
             let name = NSLocale(localeIdentifier: "en_UK").displayName(forKey: NSLocale.Key.identifier, value: id) ?? "Country not found for code: \(code)"
             self.countries.append(name)
         }
-        countryTextField.delegate = self
         
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(DismissKeyboard))
         view.addGestureRecognizer(tap)
@@ -120,7 +132,7 @@ class BankDetails2TableViewController: UITableViewController, UITextFieldDelegat
             let bankAccountData: [String: String] = [
                 "name": self.name,
                 "country": countryCode,
-                "swiftCode": self.swiftCode,
+                "sortCode": self.sortCode,
                 "accountNumber": self.accountNumber,
                 
                 "line1": line1,
@@ -151,7 +163,13 @@ class BankDetails2TableViewController: UITableViewController, UITextFieldDelegat
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        return !autoCompleteText(in: textField, using: string, suggestions: self.countries)
+        
+        if textField == countryTextField {
+            return !autoCompleteText(in: textField, using: string, suggestions: self.countries)
+        } else {
+            return true
+        }
+        
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {

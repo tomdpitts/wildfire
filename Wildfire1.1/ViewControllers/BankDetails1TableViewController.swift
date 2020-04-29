@@ -13,9 +13,7 @@ import FirebaseFirestore
 class BankDetails1TableViewController: UITableViewController, UITextFieldDelegate {
     
     @IBOutlet weak var nameField: UITextField!
-    
-    @IBOutlet weak var swiftField: UITextField!
-    
+    @IBOutlet weak var sortCodeField: UITextField!
     @IBOutlet weak var accountField: UITextField!
     
     @IBOutlet weak var errorLabel: UILabel!
@@ -33,6 +31,10 @@ class BankDetails1TableViewController: UITableViewController, UITextFieldDelegat
     override func viewDidLoad() {
         super.viewDidLoad()
         errorLabel.isHidden = true
+        
+        Utilities.styleTextField(nameField)
+        Utilities.styleTextField(sortCodeField)
+        Utilities.styleTextField(accountField)
         
         Utilities.styleHollowButton(nextButton)
         
@@ -120,21 +122,21 @@ class BankDetails1TableViewController: UITableViewController, UITextFieldDelegat
     func validateFields() -> String? {
         
         let name = nameField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
-        let swiftCode = swiftField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
+        let sortCode = sortCodeField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
         let accountNumber = accountField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
         
         
         // Check that all fields are filled in
         if name == "" ||
-            swiftCode == "" ||
+            sortCode == "" ||
             accountNumber == ""
             {
             return "Please fill in all fields."
             
         } else {
     
-            if swiftCode.count != 6 {
-                return "SWIFT/BIC code should be 6 digits"
+            if sortCode.count != 6 {
+                return "Sort code should be 6 digits"
                 }
             if accountNumber.count > 9 || accountNumber.count < 8 {
                 return "Account number must be either 8 or 9 digits"
@@ -153,9 +155,14 @@ class BankDetails1TableViewController: UITableViewController, UITextFieldDelegat
         
          if segue.destination is BankDetails2TableViewController {
             let vc = segue.destination as! BankDetails2TableViewController
-            vc.name = nameField.text!
-            vc.swiftCode = swiftField.text!
-            vc.accountNumber = accountField.text!
+            
+            guard let name = nameField.text, let sortCode = sortCodeField.text, let accountNumber = accountField.text else { return }
+            
+            let sortCodeFormatted = sortCode.replacingOccurrences(of: "-", with: "")
+            
+            vc.name = name
+            vc.sortCode = sortCodeFormatted
+            vc.accountNumber = accountNumber
             
             vc.line1 = self.line1
             vc.line2 = self.line2
@@ -169,12 +176,39 @@ class BankDetails1TableViewController: UITableViewController, UITextFieldDelegat
         
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
-        if textField == swiftField || textField == accountField {
-            let allowedCharacters = CharacterSet(charactersIn:"0123456789")
-            let characterSet = CharacterSet(charactersIn: string)
-            return allowedCharacters.isSuperset(of: characterSet)
+        // allow deletion
+        if string == "" {
+            return true
         }
-        return true
+        
+        if textField == sortCodeField || textField == accountField {
+            
+            if let sortCodeString = sortCodeField.text {
+                
+                if sortCodeString.count == 1 {
+                    var replacement = sortCodeString + string
+                    replacement.append("-")
+                    sortCodeField.text = replacement
+                    return false
+                }
+                
+                if sortCodeString.count == 3 {
+                    var replacement = sortCodeString + string
+                    replacement.append("-")
+                    sortCodeField.text = replacement
+                    return false
+                }
+                
+                
+                let allowedCharacters = CharacterSet(charactersIn:"0123456789-")
+                let characterSet = CharacterSet(charactersIn: string)
+                return allowedCharacters.isSuperset(of: characterSet)
+                
+                
+            }
+        } else {
+            return true
+        }
     }
 
     @objc func DismissKeyboard(){

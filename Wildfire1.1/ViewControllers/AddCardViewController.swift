@@ -137,7 +137,7 @@ class AddCardViewController: UIViewController, UITextFieldDelegate {
             
             // remove the slash from the MM/YY string to get MMYY (how Mangopay expects to receive it)
             let expiryFormatted = expiry.replacingOccurrences(of: "/", with: "")
-            print(expiryFormatted)
+            
             
             vc.cardNumberField = cardNumber
             vc.expiryDateField = expiryFormatted
