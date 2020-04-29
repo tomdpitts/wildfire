@@ -83,6 +83,8 @@ class AddCard2TableViewController: UITableViewController, UITextFieldDelegate {
             
             // This means there's something wrong with the fields, so show error message
             showError(error!)
+            return
+            
         } else {
             
             self.showSpinner(titleText: "Adding card", messageText: "Please allow up to 30 seconds")
@@ -235,14 +237,18 @@ class AddCard2TableViewController: UITableViewController, UITextFieldDelegate {
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        // Try to find next responder
-        if let nextField = textField.superview?.superview?.superview?.viewWithTag(textField.tag + 1) as? UITextField {
-            nextField.becomeFirstResponder()
-        } else {
-            // Not found, so remove keyboard.
-            textField.resignFirstResponder()
+        
+        switch textField {
+            case line1TextField: line2TextField.becomeFirstResponder()
+            case line2TextField: cityTextField.becomeFirstResponder()
+            case cityTextField: regionTextField.becomeFirstResponder()
+            case regionTextField: postcodeTextField.becomeFirstResponder()
+            case postcodeTextField: countryTextField.becomeFirstResponder()
+            case countryTextField: countryTextField.resignFirstResponder()
+            default: textField.resignFirstResponder()
         }
-        return true
+        
+        return false
     }
     
     func autoCompleteText(in textField: UITextField, using string: String, suggestions: [String]) -> Bool {
@@ -264,7 +270,7 @@ class AddCard2TableViewController: UITableViewController, UITextFieldDelegate {
             
             var fixedCountries: [String] = []
             for country in matches  {
-                let reverted = country.firstUppercased
+                let reverted = country.localizedCapitalized
                 fixedCountries.append(reverted)
             }
             
@@ -320,7 +326,7 @@ class AddCard2TableViewController: UITableViewController, UITextFieldDelegate {
                 "defaultBillingAddress": ["line1": line1, "line2": line2,"city": cityName, "region": region,"postcode": postcode,"country": countryCode!], "defaultCardID": cardID
             ]
             
-            // adding cardID to database here because async functions aren't working as expected and this is easier 
+            // adding cardID to database here because cloud functions aren't working as expected and this is easier
             
         Firestore.firestore().collection("users").document(uid).collection("wallets").document(walletID).collection("cards").document(cardID).setData(addressData
             // merge: true is IMPORTANT - prevents complete overwriting of a document if a user logs in for a second time, for example, which could wipe important data (including the balance..)
@@ -336,7 +342,7 @@ class AddCard2TableViewController: UITableViewController, UITextFieldDelegate {
                        // print(result!.user.uid)
                        if error != nil {
                            // Show error message
-                        print("address adding failed2")
+                    
                        } else {
                            print("address should have been added")
                        }

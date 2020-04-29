@@ -125,6 +125,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
             
             // There's something wrong with the fields, show error message
             showError(error!)
+            return
         } else {
             
             if loggedInUser == false {

@@ -43,6 +43,8 @@ class BankDetails2TableViewController: UITableViewController, UITextFieldDelegat
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        print(sortCode)
+        
         tableView.tableFooterView = UIView()
         tableView.backgroundColor = .groupTableViewBackground
         
@@ -94,13 +96,14 @@ class BankDetails2TableViewController: UITableViewController, UITextFieldDelegat
         // Validate the fields
         let error = validateFields()
         
-        if error != nil {
+        if let error = error {
             
             // This means there's something wrong with the fields, so show error message
-            showError(error!)
+            showError(error)
+            return 
         } else {
             
-            self.showSpinner(titleText: "Securely adding details", messageText: nil)
+            self.showSpinner(titleText: "Adding Account", messageText: nil)
             
             // kill the button to prevent retries
             submitButton.isEnabled = false
@@ -169,18 +172,21 @@ class BankDetails2TableViewController: UITableViewController, UITextFieldDelegat
         } else {
             return true
         }
-        
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        // Try to find next responder
-        if let nextField = textField.superview?.superview?.viewWithTag(textField.tag + 1) as? UITextField {
-            nextField.becomeFirstResponder()
-        } else {
-            // Not found, so remove keyboard.
-            textField.resignFirstResponder()
+        
+        switch textField {
+            case line1TextField: line2TextField.becomeFirstResponder()
+            case line2TextField: cityTextField.becomeFirstResponder()
+            case cityTextField: regionTextField.becomeFirstResponder()
+            case regionTextField: postcodeTextField.becomeFirstResponder()
+            case postcodeTextField: countryTextField.becomeFirstResponder()
+            case countryTextField: countryTextField.resignFirstResponder()
+            default: textField.resignFirstResponder()
         }
-        return true
+        
+        return false
     }
     
     func autoCompleteText(in textField: UITextField, using string: String, suggestions: [String]) -> Bool {
@@ -202,7 +208,7 @@ class BankDetails2TableViewController: UITableViewController, UITextFieldDelegat
             
             var fixedCountries: [String] = []
             for country in matches  {
-                let reverted = country.firstUppercased
+                let reverted = country.localizedCapitalized
                 fixedCountries.append(reverted)
             }
             
@@ -278,6 +284,7 @@ class BankDetails2TableViewController: UITableViewController, UITextFieldDelegat
         let cityName = cityTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
         let region = regionTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
         let postcode = postcodeTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
+        
         let country = Utilities.localeFinder(for: countryTextField.text!)
 //        let country = countryTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
         
@@ -293,9 +300,9 @@ class BankDetails2TableViewController: UITableViewController, UITextFieldDelegat
         }
         
         if country == nil {
-            showError("Please enter a valid Nationality")
+            return "Please enter a valid Nationality"
         }
-            
+        
         return nil
     }
     

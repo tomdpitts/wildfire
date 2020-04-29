@@ -76,6 +76,9 @@ class formStep3ViewController: UIViewController, UITextFieldDelegate {
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        
+        // both fields require this, so no if condition required
+        
         return !autoCompleteText(in: textField, using: string, suggestions: self.countries)
     }
     
@@ -179,9 +182,6 @@ class formStep3ViewController: UIViewController, UITextFieldDelegate {
                     
                 }
             }
-        } else {
-            // TODO error handling
-            print("couldn't find UID")
         }
     }
     
@@ -253,10 +253,6 @@ class formStep3ViewController: UIViewController, UITextFieldDelegate {
             }
         
             let result = localeList.filter { $0 == residence }
-            
-            print(list)
-            print(result)
-            print(result.isEmpty)
             
             if result.isEmpty == false {
                 return "Regrettably, due to the anti-money laundering policies of our payment processor, we are unable to add users with Residence in \(residenceField.text!)."
