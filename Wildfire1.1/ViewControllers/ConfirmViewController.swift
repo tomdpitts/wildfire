@@ -158,8 +158,8 @@ class ConfirmViewController: UIViewController {
                 
                 self.recipientLabel.text = "\(recipientName)"
                 
-                // more often than not, getUserBalance will finish later than setUpRecipientDetails. Except for errors (which come with alerts), let's let getUserBalance handle the removeSpinner() so the spinner remains onscreen while elements are still loading
-//                self.removeSpinner()
+                // removeSpinner is called in two separate funcs - this should be refactored in future but for now, this is the safest option (otherwise the spinner sometimes doesn't get dismissed, if getUserBalance completes before setUpRecipientDetails)
+                self.removeSpinner()
 //
 //                self.recipientName = "\(recipientName)"
                 

@@ -120,8 +120,9 @@ class AddCard2TableViewController: UITableViewController, UITextFieldDelegate {
                 semaphore.wait()
                 
                 if let error = error {
-                    self.universalShowAlert(title: "Oops", message: "Something went wrong: \(error.localizedDescription)", segue: nil, cancel: false)
-                    self.removeSpinner()
+                    self.removeSpinnerWithCompletion {
+                        self.universalShowAlert(title: "Oops", message: "Something went wrong: \(error.localizedDescription)", segue: nil, cancel: false)
+                    }
                 }
                 
                 if let returnedArray = result?.data as? [[String: Any]] {
@@ -225,6 +226,8 @@ class AddCard2TableViewController: UITableViewController, UITextFieldDelegate {
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        
+        // problem 1
         return !autoCompleteText(in: textField, using: string, suggestions: self.countries)
     }
     
