@@ -765,17 +765,28 @@ exports.addBankAccount = functions.region('europe-west1').https.onCall( async (d
     
   }
 
-  const bankAccountMP = await mpAPI.Users.createBankAccount(mangopayID, bankAccountData)
+  var returnValue 
 
-  admin.firestore().collection('users').doc(userID).set({
-    defaultBankAccountID: bankAccountMP.Id
-    // merge (to prevent overwriting other fields) should never be needed, but just in case..
-  }, {merge: true})
-  .catch(err => {
-    console.log('Error saving to database', err);
+
+  const bankAccountMP = await mpAPI.Users.createBankAccount(mangopayID, bankAccountData)
+  .catch( error => {
+    // the error messages in this case are pretty user-friendly e.g. "AccountNumber is invalid or is not applicable for this SortCode", so worth returning
+    console.log(error)
+    console.log(error["errors"])
+
+    returnValue = error["errors"]
+    throw returnValue
   })
 
-  return
+  if (bankAccountMP.id !== undefined) {
+    admin.firestore().collection('users').doc(userID).set({
+      defaultBankAccountID: bankAccountMP.Id
+      // merge (to prevent overwriting other fields) should never be needed, but just in case..
+    }, {merge: true})
+    .catch(err => {
+      console.log('Error saving to database', err);
+    })
+  }
 })
 
 exports.listBankAccounts = functions.region('europe-west1').https.onCall( async (data, context) => {
@@ -799,7 +810,19 @@ exports.listBankAccounts = functions.region('europe-west1').https.onCall( async 
 
   if (mangopayID !== "") {
     const accountsList = await mpAPI.Users.getBankAccounts(mangopayID)
-    return accountsList
+    
+    console.log(accountsList)
+
+    var activeAccountsList = []
+    var x
+
+    for (x of accountsList) {
+      if (x.Active !== false ) {
+        activeAccountsList.push(x)
+      }
+    } 
+
+    return activeAccountsList
   } else {
     return null
   }
@@ -1351,7 +1374,14 @@ exports.deleteBankAccount = functions.region('europe-west1').https.onCall( async
     bankAccountID = data.defaultBankAccountID
     return
   })
-  .then(() => mpAPI.Users.deactivateBankAccount(mangopayID, bankAccountID))
+  // var bankAccount = await mpAPI.Users.getBankAccount(userID, mangopayID)
+
+  // bankAccount.Active = false
+
+  // await mpAPI.Use
+
+  .then( () => mpAPI.Users.deactivateBankAccount(mangopayID, bankAccountID)
+  )
   .then(() => {
     userRef.set({
       defaultBankAccountID: ""
@@ -1360,8 +1390,8 @@ exports.deleteBankAccount = functions.region('europe-west1').https.onCall( async
     return
   })
   .catch(error => {
-    console.log(`deleteBackAccount func: ${userID} tried to delete Bank Account info, but there was an error: `, error)
+    console.log(`deleteBankAccount func: ${userID} tried to delete Bank Account info, but there was an error: `, error)
   })
 
-  return
+  
 })

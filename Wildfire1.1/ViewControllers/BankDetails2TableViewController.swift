@@ -43,7 +43,7 @@ class BankDetails2TableViewController: UITableViewController, UITextFieldDelegat
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        print(sortCode)
+        print("sortCode is: \(sortCode)")
         
         tableView.tableFooterView = UIView()
         tableView.backgroundColor = .groupTableViewBackground
@@ -105,8 +105,6 @@ class BankDetails2TableViewController: UITableViewController, UITextFieldDelegat
             
             self.showSpinner(titleText: "Adding Account", messageText: nil)
             
-            // kill the button to prevent retries
-            submitButton.isEnabled = false
             
             guard let line1 = self.line1TextField.text,
                 let line2 = self.line2TextField.text,
@@ -115,14 +113,18 @@ class BankDetails2TableViewController: UITableViewController, UITextFieldDelegat
                 let postcode = self.postcodeTextField.text,
                 let country = self.countryTextField.text else {
                     
-                self.universalShowAlert(title: "Oops", message: "Please ensure all fields are filled in", segue: nil, cancel: false)
+                self.removeSpinnerWithCompletion() {
+                    self.universalShowAlert(title: "Oops", message: "Please ensure all fields are filled in", segue: nil, cancel: false)
+                }
                     
                 return
             }
             
             // translate country back to code
             guard let countryCode = Utilities.localeFinder(for: country) else {
-                print("countryCode couldn't be generated")
+                self.removeSpinnerWithCompletion() {
+                    self.universalShowAlert(title: "Oops", message: "Please re-enter the country in your address until autocorrect finishes it for you.", segue: nil, cancel: false)
+                }
                 return
             }
             
@@ -151,14 +153,19 @@ class BankDetails2TableViewController: UITableViewController, UITextFieldDelegat
             // fields have passed validation - so continue
             functions.httpsCallable("addBankAccount").call(bankAccountData) { (result, error) in
                 
-                if let error = error {
+                if error != nil {
+                    
                     self.removeSpinnerWithCompletion() {
-                        self.universalShowAlert(title: "Oops", message: "Something went wrong: \(error.localizedDescription)", segue: nil, cancel: false)
+                        self.universalShowAlert(title: "Oops", message: "Something went wrong. This is usually because the bank details are mistyped. Please check them and try again.", segue: nil, cancel: false)
                     }
                     
                 } else {
-                    self.removeSpinnerWithCompletion() {
-                        self.performSegue(withIdentifier: "showSuccessScreen", sender: self)
+                    
+                    // don't wait for this to complete - will take too long
+                    AppDelegate().fetchBankAccountsListFromMangopay() {
+                        self.removeSpinnerWithCompletion() {
+                            self.performSegue(withIdentifier: "showSuccessScreen", sender: self)
+                        }
                     }
                 }
             }

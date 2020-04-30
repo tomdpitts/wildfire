@@ -101,6 +101,7 @@ struct PaymentCard: Codable {
     }
 }
 
+// current fetchBankAccounts func in AppDelegate fills fields with empty strings if they're empty - these don't technically need to be optional but it feels like better practice
 struct BankAccount: Codable {
     let accountID: String
     let accountHolderName: String
@@ -108,9 +109,10 @@ struct BankAccount: Codable {
     let IBAN: String?
     let SWIFTBIC: String?
     let accountNumber: String?
+    let sortCode: String?
     let country: String?
     
-    // this simply translates MangoPay's naming system to our (clearer) system
+    // this simply translates MangoPay's naming system to our (better) system
     enum CodingKeys: String, CodingKey {
         case accountID = "Id"
         case accountHolderName = "OwnerName"
@@ -118,6 +120,7 @@ struct BankAccount: Codable {
         case IBAN
         case SWIFTBIC = "BIC"
         case accountNumber = "AccountNumber"
+        case sortCode = "SortCode"
         case country = "Country"
     }
 }

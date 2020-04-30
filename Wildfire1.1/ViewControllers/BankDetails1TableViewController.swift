@@ -127,12 +127,12 @@ class BankDetails1TableViewController: UITableViewController, UITextFieldDelegat
             
         } else {
     
-            // N.B. Sort code contains two dashes i.e. xx-xx-xx
+            // N.B. Sort code contains two dashes i.e. xx-xx-xx so it's 8 characters not 6
             if sortCode.count != 8 {
                 return "Sort code should be 6 digits"
                 }
-            if accountNumber.count > 9 || accountNumber.count < 8 {
-                return "Account number must be either 8 or 9 digits"
+            if accountNumber.count != 8 {
+                return "Account number must be 8 digits long"
                 }
         }
         
@@ -216,7 +216,7 @@ class BankDetails1TableViewController: UITableViewController, UITextFieldDelegat
             
             // strip out the dashes
             let sortCodeFormatted = sortCode.replacingOccurrences(of: "-", with: "")
-            
+            print("sortCodeFormatted is: \(sortCodeFormatted)")
             vc.name = name
             vc.sortCode = sortCodeFormatted
             vc.accountNumber = accountNumber
@@ -234,10 +234,5 @@ class BankDetails1TableViewController: UITableViewController, UITextFieldDelegat
     @objc func DismissKeyboard(){
     //Causes the view to resign from the status of first responder.
     view.endEditing(true)
-    }
-    
-    @IBAction func unwindToPrevious(_ unwindSegue: UIStoryboardSegue) {
-        //        let sourceViewController = unwindSegue.source
-        // Use data from the view controller which initiated the unwind segue
     }
 }

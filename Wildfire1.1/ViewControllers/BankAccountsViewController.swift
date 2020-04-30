@@ -37,14 +37,39 @@ class BankAccountsViewController: UITableViewController {
         
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellID)
         
+        self.refreshControl?.addTarget(self, action: #selector(refresh), for: UIControl.Event.valueChanged)
+//        fetchBankAccounts() { () in
+//
+//            if self.bankAccountsList.count > 0 {
+//                self.addDetailsButton.isEnabled = false
+//                self.addDetailsButton.tintColor = UIColor.clear
+//
+//            }
+//            self.tableView.reloadData()
+//        }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
         fetchBankAccounts() { () in
 
-            if self.bankAccountsList.count > 0 {
-                self.addDetailsButton.isEnabled = false
-                self.addDetailsButton.tintColor = UIColor.clear
-
-            }
             self.tableView.reloadData()
+        }
+    }
+    
+    @objc func refresh(sender:AnyObject) {
+        
+        let appDelegate = AppDelegate()
+        appDelegate.fetchBankAccountsListFromMangopay() { () in
+            self.fetchBankAccounts {
+                
+                if self.bankAccountsList.count > 0 {
+                    self.addDetailsButton.isEnabled = false
+                    self.addDetailsButton.tintColor = UIColor.clear
+
+                }
+                self.tableView.reloadData()
+                self.refreshControl?.endRefreshing()
+            }
         }
     }
     
@@ -109,16 +134,17 @@ class BankAccountsViewController: UITableViewController {
         // TODO add mangopay call to fetch list of cards
         // OR store them locally?
         // UPDATE: decided to store in UserDefaults and have an API call in AppDelegate on AppDidEnterForeground to check the list is up to date in the background
-        
-//        let storedCards = UserDefaults.standard.object(forKey: "storedCards") as? [PaymentCard] ?? [PaymentCard]()
-//
+
 //        self.paymentMethodsList = storedCards
         
         let defaults = UserDefaults.standard
         
         let count = defaults.integer(forKey: "numberOfBankAccounts")
         
+        var list = [BankAccount]()
+        
         if count > 0 {
+
             for i in 1...count {
                 
                 guard let savedCardData = defaults.object(forKey: "bankAccount\(i)") as? Data else {
@@ -129,9 +155,19 @@ class BankAccountsViewController: UITableViewController {
                 guard let card = try? PropertyListDecoder().decode(BankAccount.self, from: savedCardData) else {
                     return
                 }
-                
-                bankAccountsList.append(card)
+                list.append(card)
             }
+        }
+        
+        bankAccountsList = list
+        
+        if self.bankAccountsList.count > 0 {
+            self.addDetailsButton.isEnabled = false
+            self.addDetailsButton.tintColor = UIColor.clear
+
+        } else {
+            self.addDetailsButton.isEnabled = true
+            self.addDetailsButton.tintColor = UIColor(named: "tealPrimary")
         }
         
         completion()
@@ -158,6 +194,11 @@ class BankAccountsViewController: UITableViewController {
         }))
         
         self.present(alert, animated: true)
+    }
+    
+    @IBAction func unwindToPrevious(_ unwindSegue: UIStoryboardSegue) {
+//        let sourceViewController = unwindSegue.source
+        // Use data from the view controller which initiated the unwind segue
     }
 }
 

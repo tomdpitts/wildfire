@@ -27,11 +27,13 @@ class BankDetailViewController: UIViewController {
     @IBOutlet weak var IBANLabel: UILabel!
     @IBOutlet weak var swiftLabel: UILabel!
     @IBOutlet weak var accountNumberLabel: UILabel!
+    @IBOutlet weak var sortCodeLabel: UILabel!
     @IBOutlet weak var countryLabel: UILabel!
     
     @IBOutlet weak var IBANStack: UIStackView!
     @IBOutlet weak var swiftStack: UIStackView!
     @IBOutlet weak var accountNumberStack: UIStackView!
+    @IBOutlet weak var sortCodeStack: UIStackView!
     @IBOutlet weak var countryStack: UIStackView!
     
     @IBOutlet weak var makeDepositButton: UIButton!
@@ -65,6 +67,33 @@ class BankDetailViewController: UIViewController {
             KYCPendingView.isHidden = false
         }
     }
+    
+    func displayBankInfo() {
+        if let bnk = bankAccount {
+            accountOwnerLabel.text = bnk.accountHolderName
+            IBANLabel.text = bnk.IBAN
+            swiftLabel.text = bnk.SWIFTBIC
+            accountNumberLabel.text = bnk.accountNumber
+            sortCodeLabel.text = bnk.sortCode
+            countryLabel.text = bnk.country
+            
+            // one for later
+            countryStack.isHidden = true
+            
+            if bnk.type == "IBAN" {
+                swiftStack.isHidden = true
+                accountNumberStack.isHidden = true
+                sortCodeStack.isHidden = true
+            } else if bnk.type == "OTHER" {
+                IBANStack.isHidden = true
+                sortCodeStack.isHidden = true
+            } else if bnk.type == "GB" {
+                IBANStack.isHidden = true
+                swiftStack.isHidden = true
+            }
+        }
+    }
+    
     @IBAction func KYCPendingButtonTapped(_ sender: Any) {
         
         if KYCPending == true {
@@ -98,7 +127,6 @@ class BankDetailViewController: UIViewController {
         showAlert(title: title, message: message, segueIdentifier: segueID)
     }
     
-    
     func showAlert(title: String, message: String?, segueIdentifier: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         
@@ -115,41 +143,25 @@ class BankDetailViewController: UIViewController {
         self.present(alert, animated: true)
     }
     
-    
-    func deleteBankAccountInfo(completion: @escaping ()->()) {
+    func deleteBankAccountInfo(completion: @escaping () -> ()) {
+        
+        showSpinner(titleText: nil, messageText: "Deleting bank details")
         
         self.functions.httpsCallable("deleteBankAccount").call() { (result, error) in
-            // update credit cards list
-            let appDelegate = AppDelegate()
-            appDelegate.fetchBankAccountsListFromMangopay() {
-                completion()
-            }
-        }
-        
-        if let id = self.bankAccount?.accountID {
-            UserDefaults.standard.removeObject(forKey: "bankAccount\(id)")
+            
             let count = UserDefaults.standard.integer(forKey: "numberOfBankAccounts")
+            UserDefaults.standard.removeObject(forKey: "bankAccount\(count)")
             if count > 0 {
                 let newCount = count - 1
                 UserDefaults.standard.set(newCount, forKey: "numberOfBankAccounts")
             }
-        }
-    }
-    
-    func displayBankInfo() {
-        if let bnk = bankAccount {
-            accountOwnerLabel.text = bnk.accountHolderName
-            IBANLabel.text = bnk.IBAN
-            swiftLabel.text = bnk.SWIFTBIC
-            accountNumberLabel.text = bnk.accountNumber
-            countryLabel.text = bnk.country
             
-            if bnk.type == "IBAN" {
-                swiftStack.isHidden = true
-                accountNumberStack.isHidden = true
-                countryStack.isHidden = true
-            } else if bnk.type == "OTHER" {
-                IBANStack.isHidden = true
+            // update bank accounts list
+            let appDelegate = AppDelegate()
+            appDelegate.fetchBankAccountsListFromMangopay() {
+                self.removeSpinnerWithCompletion {
+                    completion()
+                }
             }
         }
     }

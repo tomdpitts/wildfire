@@ -444,7 +444,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }
     }
     
-    func listCardsFromMangopay(completion: @escaping ()->()) {
+    func listCardsFromMangopay(completion: @escaping () -> Void) {
         
         let mpID: String? = UserDefaults.standard.string(forKey: "mangopayID")
         
@@ -486,7 +486,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }
     }
     
-    func fetchBankAccountsListFromMangopay(completion: @escaping ()->()) {
+    func fetchBankAccountsListFromMangopay(completion: @escaping () -> Void) {
         
         let mpID: String? = UserDefaults.standard.string(forKey: "mangopayID")
         
@@ -508,6 +508,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                         var IBAN = ""
                         var SWIFTBIC = ""
                         var accountNumber = ""
+                        var sortCode = ""
                         var country = ""
 
                         let blob1 = bankAccountList[i-1]
@@ -534,12 +535,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                         if let an = blob1["AccountNumber"] as? String {
                             accountNumber = an
                         }
+                        
+                        if let sc = blob1["SortCode"] as? String {
+                            sortCode = sc
+                        }
 
                         if let cn = blob1["Country"] as? String {
                             country = cn
                         }
                         
-                        let bankAccount = BankAccount(accountID: accountID, accountHolderName: accountHolderName, type: type, IBAN: IBAN, SWIFTBIC: SWIFTBIC, accountNumber: accountNumber, country: country)
+                        let bankAccount = BankAccount(accountID: accountID, accountHolderName: accountHolderName, type: type, IBAN: IBAN, SWIFTBIC: SWIFTBIC, accountNumber: accountNumber, sortCode: sortCode, country: country)
 
                         // save BankAccount object to User Defaults
                         defaults.set(try? PropertyListEncoder().encode(bankAccount), forKey: "bankAccount\(i)")
