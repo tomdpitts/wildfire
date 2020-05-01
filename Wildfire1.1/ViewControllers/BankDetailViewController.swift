@@ -150,7 +150,9 @@ class BankDetailViewController: UIViewController {
         self.functions.httpsCallable("deleteBankAccount").call() { (result, error) in
             
             let count = UserDefaults.standard.integer(forKey: "numberOfBankAccounts")
+            // this only works for 1 bank account - will need to be changed to support multiple
             UserDefaults.standard.removeObject(forKey: "bankAccount\(count)")
+            
             if count > 0 {
                 let newCount = count - 1
                 UserDefaults.standard.set(newCount, forKey: "numberOfBankAccounts")

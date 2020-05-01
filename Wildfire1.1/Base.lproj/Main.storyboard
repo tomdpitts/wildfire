@@ -588,7 +588,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="CkK-RD-EqY">
-                                <rect key="frame" x="20" y="112.5" width="280" height="230.5"/>
+                                <rect key="frame" x="20" y="111" width="280" height="230.5"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="4972485830400056" borderStyle="roundedRect" placeholder="16 digit Card Number" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="wPz-vK-2Zs" userLabel="Card Number">
                                         <rect key="frame" x="0.0" y="0.0" width="280" height="50"/>
@@ -640,7 +640,7 @@
                                 </constraints>
                             </stackView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LaQ-x4-5JO">
-                                <rect key="frame" x="60" y="393" width="200" height="50"/>
+                                <rect key="frame" x="60" y="391.5" width="200" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="200" id="jOX-JA-qIc"/>
                                     <constraint firstAttribute="height" constant="50" id="nXg-0Z-IkC"/>
@@ -971,7 +971,7 @@
                                         <rect key="frame" x="0.0" y="528" width="320" height="40"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="QS2-Vz-tmy" id="BoP-nA-rde">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="40"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="40"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Country" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SlD-MD-FPa">
@@ -992,11 +992,11 @@
                                         <rect key="frame" x="0.0" y="568" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Ac7-J5-9or" id="kr5-ra-9x8">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Error Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="mec-D8-KKe">
-                                                    <rect key="frame" x="18" y="12" width="378" height="20.5"/>
+                                                    <rect key="frame" x="18" y="12" width="284" height="20.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -1015,11 +1015,11 @@
                                         <rect key="frame" x="0.0" y="612" width="320" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="GTX-Ff-kJp" id="tI3-V4-FR5">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="60"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PS4-BI-t4O">
-                                                    <rect key="frame" x="50" y="0.0" width="314" height="60"/>
+                                                    <rect key="frame" x="50" y="0.0" width="220" height="60"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="60" id="7xx-ru-D6K"/>
                                                     </constraints>
@@ -1070,7 +1070,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="Crn-8f-BAR">
-                                <rect key="frame" x="20" y="132.5" width="280" height="346.5"/>
+                                <rect key="frame" x="20" y="132" width="280" height="346.5"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icons8-ok-480" translatesAutoresizingMaskIntoConstraints="NO" id="We2-ai-gvS">
                                         <rect key="frame" x="65" y="0.0" width="150" height="150"/>
@@ -2927,25 +2927,25 @@ http://www.apache.org/licenses/
                                         </constraints>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="amount" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pOX-B0-hO7">
-                                        <rect key="frame" x="59" y="95" width="162" height="70.5"/>
+                                        <rect key="frame" x="59" y="95" width="162" height="79"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="50"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="just received from" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ixn-XM-fCR">
-                                        <rect key="frame" x="71.5" y="185.5" width="137.5" height="24"/>
+                                        <rect key="frame" x="71.5" y="194" width="137.5" height="27"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="25" translatesAutoresizingMaskIntoConstraints="NO" id="lVj-nG-J2J">
-                                        <rect key="frame" x="80.5" y="229.5" width="119" height="70.5"/>
+                                        <rect key="frame" x="80.5" y="241" width="119" height="78.5"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="50"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You can view the full receipt for this transfer in the Receipts section in the Account tab" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RFd-va-UZj">
-                                        <rect key="frame" x="20" y="320" width="240" height="58"/>
+                                        <rect key="frame" x="20" y="339.5" width="240" height="38.5"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
@@ -3104,11 +3104,11 @@ http://www.apache.org/licenses/
                                         <rect key="frame" x="0.0" y="121" width="280" height="83"/>
                                         <subviews>
                                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="YaC-XM-o91">
-                                                <rect key="frame" x="0.0" y="26" width="41.5" height="31"/>
+                                                <rect key="frame" x="0.0" y="26" width="53" height="31"/>
                                                 <color key="onTintColor" name="tealPrimary"/>
                                             </switch>
                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" text="I have read and understood the Privacy Policy: www.wildfirewallet.com/privacy-policy" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="cSK-NM-T1V">
-                                                <rect key="frame" x="59.5" y="0.0" width="220.5" height="83"/>
+                                                <rect key="frame" x="71" y="0.0" width="209" height="83"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                                 <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -3121,11 +3121,11 @@ http://www.apache.org/licenses/
                                         <rect key="frame" x="0.0" y="219" width="280" height="116.5"/>
                                         <subviews>
                                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="3ch-9n-v9C">
-                                                <rect key="frame" x="0.0" y="43" width="41.5" height="31"/>
+                                                <rect key="frame" x="0.0" y="43" width="53" height="31"/>
                                                 <color key="onTintColor" name="tealPrimary"/>
                                             </switch>
                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="nSj-FN-Mrh">
-                                                <rect key="frame" x="59.5" y="0.0" width="220.5" height="116.5"/>
+                                                <rect key="frame" x="71" y="0.0" width="209" height="116.5"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                                 <string key="text">I have read and agree to the Terms and Conditions: www.wildfirewallet.com/terms-and-conditions and License Agreement: https://www.wildfirewallet.com/eula</string>
                                                 <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -3946,6 +3946,7 @@ http://www.apache.org/licenses/
                         </barButtonItem>
                     </navigationItem>
                     <refreshControl key="refreshControl" opaque="NO" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="svT-vo-942">
+                        <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <attributedString key="attributedTitle">
                             <fragment content="Refreshing">
@@ -4430,7 +4431,7 @@ http://www.apache.org/licenses/
                                             <constraint firstAttribute="height" constant="50" id="jIF-gK-9Re"/>
                                         </constraints>
                                         <state key="normal" title="Delete Account Details">
-                                            <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="titleColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                         <connections>
                                             <action selector="deleteBankAccount:" destination="Qgo-Fg-rxz" eventType="touchUpInside" id="iga-HJ-crz"/>
@@ -5471,7 +5472,7 @@ http://www.apache.org/licenses/
         <segue reference="Huo-pa-P2i"/>
         <segue reference="FIA-qD-1nb"/>
         <segue reference="bGq-l6-Or3"/>
-        <segue reference="JGW-hE-gdx"/>
+        <segue reference="xeb-yR-cYh"/>
         <segue reference="6CO-tz-ak8"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" name="tealPrimary"/>
