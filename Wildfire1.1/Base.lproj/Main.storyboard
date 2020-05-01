@@ -2927,25 +2927,25 @@ http://www.apache.org/licenses/
                                         </constraints>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="amount" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pOX-B0-hO7">
-                                        <rect key="frame" x="59" y="95" width="162" height="79"/>
+                                        <rect key="frame" x="59" y="95" width="162" height="70.5"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="50"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="just received from" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ixn-XM-fCR">
-                                        <rect key="frame" x="71.5" y="194" width="137.5" height="27"/>
+                                        <rect key="frame" x="71.5" y="185.5" width="137.5" height="24"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="25" translatesAutoresizingMaskIntoConstraints="NO" id="lVj-nG-J2J">
-                                        <rect key="frame" x="80.5" y="241" width="119" height="78.5"/>
+                                        <rect key="frame" x="80.5" y="229.5" width="119" height="70.5"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="50"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You can view the full receipt for this transfer in the Receipts section in the Account tab" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RFd-va-UZj">
-                                        <rect key="frame" x="20" y="339.5" width="240" height="38.5"/>
+                                        <rect key="frame" x="20" y="320" width="240" height="58"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
@@ -3850,7 +3850,7 @@ http://www.apache.org/licenses/
         <!--Account Added-->
         <scene sceneID="z3o-eX-Jpq">
             <objects>
-                <viewController id="mAW-s9-gPe" customClass="AddCardSuccessViewController" customModule="Wildfire" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="mAW-s9-gPe" customClass="BankAccountAddedViewController" customModule="Wildfire" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Ebi-tX-WW1">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -3870,7 +3870,7 @@ http://www.apache.org/licenses/
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your Bank details have been securely added." textAlignment="center" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2f2-Sn-2iQ">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your bank details have been securely added." textAlignment="center" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2f2-Sn-2iQ">
                                         <rect key="frame" x="50" y="271" width="200" height="41"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="200" id="bGo-5i-yK6"/>
@@ -3884,9 +3884,9 @@ http://www.apache.org/licenses/
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="7KQ-tH-hAK"/>
                                         </constraints>
-                                        <state key="normal" title="Next"/>
+                                        <state key="normal" title="Done"/>
                                         <connections>
-                                            <action selector="doneButtonTapped:" destination="mAW-s9-gPe" eventType="touchUpInside" id="OUa-BZ-uec"/>
+                                            <segue destination="PF9-up-ht6" kind="unwind" unwindAction="unwindToPrevious:" id="7P5-oa-b4W"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -3906,7 +3906,7 @@ http://www.apache.org/licenses/
                     </view>
                     <navigationItem key="navigationItem" title="Account Added" largeTitleDisplayMode="always" id="Uz3-qx-N5n"/>
                     <connections>
-                        <outlet property="doneButton" destination="Uca-Ir-rNF" id="lea-32-1U7"/>
+                        <outlet property="doneButton" destination="Uca-Ir-rNF" id="KkP-rZ-BeD"/>
                         <segue destination="PF9-up-ht6" kind="unwind" identifier="unwindToPrevious" unwindAction="unwindToPrevious:" id="Wqb-K4-FFX"/>
                     </connections>
                 </viewController>

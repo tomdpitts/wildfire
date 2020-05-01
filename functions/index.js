@@ -578,18 +578,6 @@ exports.createPayin = functions.region('europe-west1').https.onCall( async (data
     console.log('Error getting user info for credit topup', err);
   });
 
-  // for reference: 
-  // "Billing": {
-  //   "Address": {
-  //   "AddressLine1": "1 Mangopay Street",
-  //   "AddressLine2": "The Loop",
-  //   "City": "Paris",
-  //   "Region": "Ile de France",
-  //   "PostalCode": "75001",
-  //   "Country": "FR"
-  //   }
-  // },
-
   const payinData = {
       "AuthorId": mangopayID,
       "CreditedWalletId": walletID,
@@ -716,78 +704,78 @@ exports.getCurrentBalance = functions.region('europe-west1').https.onCall( async
 
 exports.addBankAccount = functions.region('europe-west1').https.onCall( async (data, context) => {
 
-  const userID = context.auth.uid
-  const db = admin.firestore().collection('users').doc(userID)
+  try {
+    const userID = context.auth.uid
+    const db = admin.firestore().collection('users').doc(userID)
 
-  var mangopayID = ""
+    var mangopayID = ""
 
-  const name = data.name
-  const sortCode = data.sortCode
-  const accountNumber = data.accountNumber
+    const name = data.name
+    const sortCode = data.sortCode
+    const accountNumber = data.accountNumber
 
-  const line1 = data.line1
-  const line2 = data.line2
-  const city = data.city
-  const region = data.region
-  const postcode = data.postcode
-  const countryCode = data.countryCode
+    const line1 = data.line1
+    const line2 = data.line2
+    const city = data.city
+    const region = data.region
+    const postcode = data.postcode
+    const countryCode = data.countryCode
 
-  if (typeof data.mpID !== 'undefined') {
-    mangopayID = data.mpID
-  } else {
+    if (typeof data.mpID !== 'undefined') {
+      mangopayID = data.mpID
+    } else {
+      // using the Firebase userID (supplied via 'context' of the request), get the mangopayID 
     // using the Firebase userID (supplied via 'context' of the request), get the mangopayID 
-    await admin.firestore().collection('users').doc(userID).get().then(doc => {
-      userData = doc.data();
-      mangopayID = userData.mangopayID
-      return
-    })
-    .catch(err => {
-      console.log('Error getting mangopayID from Firestore database', err);
-    });
-  }
-
-  const bankAccountData = {
-    Type: 'GB',
-    "OwnerName": name,
-    "Country": countryCode,
-    // N.B. BIC is equivalent to SWIFT code
-    "SortCode": sortCode,
-    "AccountNumber": accountNumber,
-
-    "OwnerAddress": {
-      "AddressLine1": line1,
-      "AddressLine2": line2,
-      "City": city,
-      "Region": region,
-      "PostalCode": postcode,
-      "Country": countryCode
+      // using the Firebase userID (supplied via 'context' of the request), get the mangopayID 
+      await admin.firestore().collection('users').doc(userID).get().then(doc => {
+        userData = doc.data();
+        mangopayID = userData.mangopayID
+        return
+      })
+      .catch(err => {
+        console.log('Error getting mangopayID from Firestore database', err);
+      });
     }
+
+    const bankAccountData = {
+      "Type": 'GB',
+      "OwnerName": name,
+      "Country": countryCode,
+      // N.B. BIC is equivalent to SWIFT code
+      "SortCode": sortCode,
+      "AccountNumber": accountNumber,
+
+      "OwnerAddress": {
+        "AddressLine1": line1,
+        "AddressLine2": line2,
+        "City": city,
+        "Region": region,
+        "PostalCode": postcode,
+        "Country": countryCode
+      }
+    }
+
+    const bankAccountMP = await mpAPI.Users.createBankAccount(mangopayID, bankAccountData)
+
+    if (bankAccountMP.Id !== undefined) {
     
+      // console.log("bankAcccount ID found:" + bankAccountMP.Id)
+      await admin.firestore().collection('users').doc(userID).set({
+        defaultBankAccountID: bankAccountMP.Id
+        // merge (to prevent overwriting other fields) should never be needed, but just in case..
+      }, {merge: true})
+
+      return
+
+    } else {
+      console.log('bankAccountMP.Id was not defined')
+    }
   }
-
-  var returnValue 
-
-
-  const bankAccountMP = await mpAPI.Users.createBankAccount(mangopayID, bankAccountData)
-  .catch( error => {
-    // the error messages in this case are pretty user-friendly e.g. "AccountNumber is invalid or is not applicable for this SortCode", so worth returning
-    console.log(error)
-    console.log(error["errors"])
-
-    returnValue = error["errors"]
-    throw returnValue
-  })
-
-  if (bankAccountMP.id !== undefined) {
-    admin.firestore().collection('users').doc(userID).set({
-      defaultBankAccountID: bankAccountMP.Id
-      // merge (to prevent overwriting other fields) should never be needed, but just in case..
-    }, {merge: true})
-    .catch(err => {
-      console.log('Error saving to database', err);
-    })
+  catch (error) {
+    console.error(error)
   }
 })
+
 
 exports.listBankAccounts = functions.region('europe-west1').https.onCall( async (data, context) => {
 
@@ -810,8 +798,6 @@ exports.listBankAccounts = functions.region('europe-west1').https.onCall( async 
 
   if (mangopayID !== "") {
     const accountsList = await mpAPI.Users.getBankAccounts(mangopayID)
-    
-    console.log(accountsList)
 
     var activeAccountsList = []
     var x
@@ -1368,6 +1354,10 @@ exports.deleteBankAccount = functions.region('europe-west1').https.onCall( async
   var mangopayID = ""
   var bankAccountID = ""
 
+  // const params = {
+  //   "Active": false
+  // }
+
   var output = await userRef.get().then(doc => {
     let data = doc.data()
     mangopayID = data.mangopayID
@@ -1386,7 +1376,6 @@ exports.deleteBankAccount = functions.region('europe-west1').https.onCall( async
     userRef.set({
       defaultBankAccountID: ""
     }, {merge: true})
-    console.log(output)
     return
   })
   .catch(error => {

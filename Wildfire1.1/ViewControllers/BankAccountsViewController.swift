@@ -56,6 +56,13 @@ class BankAccountsViewController: UITableViewController {
         }
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        fetchBankAccounts() { () in
+
+            self.tableView.reloadData()
+        }
+    }
+    
     @objc func refresh(sender:AnyObject) {
         
         let appDelegate = AppDelegate()
@@ -102,7 +109,7 @@ class BankAccountsViewController: UITableViewController {
         cell = UITableViewCell(style: .subtitle, reuseIdentifier: self.cellID)
         
         if bankAccountsList.count == 0 {
-            cell.textLabel?.text = "Account details not yet added"
+            cell.textLabel?.text = "You haven't added any account details"
             cell.imageView?.image = UIImage(named: "icons8-bank-building-50")
         } else {
             let found = bankAccountsList[indexPath.row]

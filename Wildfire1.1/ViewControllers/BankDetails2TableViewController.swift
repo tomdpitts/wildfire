@@ -43,8 +43,6 @@ class BankDetails2TableViewController: UITableViewController, UITextFieldDelegat
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        print("sortCode is: \(sortCode)")
-        
         tableView.tableFooterView = UIView()
         tableView.backgroundColor = .groupTableViewBackground
         

@@ -172,6 +172,7 @@ class formStep3ViewController: UIViewController, UITextFieldDelegate {
                         Utilities.checkForUserAccount()
                     }
                     
+                    Utilities.getMangopayID()
                     self.performSegue(withIdentifier: "showAccountAdded", sender: self)
                      
                     

@@ -493,6 +493,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         functions.httpsCallable("listBankAccounts").call(["mpID": mpID]) { (result, error) in
 
             if let bankAccountList = result?.data as? [[String: Any]] {
+                
+                print(bankAccountList)
+                
                 let defaults = UserDefaults.standard
 
                 defaults.set(bankAccountList.count, forKey: "numberOfBankAccounts")
