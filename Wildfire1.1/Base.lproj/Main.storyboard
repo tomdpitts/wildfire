@@ -652,6 +652,7 @@
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="LaQ-x4-5JO" firstAttribute="centerX" secondItem="OAg-sQ-0Sz" secondAttribute="centerX" id="Hcy-SN-vSY"/>
                             <constraint firstItem="CkK-RD-EqY" firstAttribute="top" secondItem="xwW-7g-PKd" secondAttribute="top" constant="20" id="VfI-tw-0Ih"/>
@@ -660,6 +661,9 @@
                             <constraint firstItem="xwW-7g-PKd" firstAttribute="trailing" secondItem="CkK-RD-EqY" secondAttribute="trailing" constant="20" id="hzs-rn-nga"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="xwW-7g-PKd"/>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="Aa7-8t-wLP" appends="YES" id="GPP-39-NBU"/>
+                        </connections>
                     </view>
                     <navigationItem key="navigationItem" title="Add Card" id="R7G-7H-ymH"/>
                     <connections>
@@ -674,6 +678,11 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5Kl-Tx-muu" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="vyR-YY-5SN" userLabel="Exit" sceneMemberID="exit"/>
+                <swipeGestureRecognizer direction="down" id="Aa7-8t-wLP">
+                    <connections>
+                        <action selector="swipedDown:" destination="lOX-0Y-FSB" id="ZU8-58-8qH"/>
+                    </connections>
+                </swipeGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="3902" y="3379"/>
         </scene>
@@ -2728,7 +2737,7 @@ http://www.apache.org/licenses/
                             <fragment content="Refreshing">
                                 <attributes>
                                     <color key="NSColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                                    <font key="NSFont" metaFont="system" size="14"/>
+                                    <font key="NSFont" metaFont="menu" size="14"/>
                                     <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                 </attributes>
                             </fragment>
@@ -3951,7 +3960,7 @@ http://www.apache.org/licenses/
                         <attributedString key="attributedTitle">
                             <fragment content="Refreshing">
                                 <attributes>
-                                    <font key="NSFont" metaFont="message" size="11"/>
+                                    <font key="NSFont" metaFont="controlContent" size="11"/>
                                     <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                 </attributes>
                             </fragment>

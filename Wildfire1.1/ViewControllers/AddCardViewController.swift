@@ -55,6 +55,11 @@ class AddCardViewController: UIViewController, UITextFieldDelegate {
         cardNumberField.becomeFirstResponder()
     }
     
+    @IBAction func swipedDown(_ sender: UISwipeGestureRecognizer) {
+        // swipe down (and only down) hides keyboard
+        self.view.endEditing(true)
+    }
+    
     @IBAction func submitPressed(_ sender: Any) {
         
         // API guide https://docs.mangopay.com/endpoints/v2.01/cards#e177_the-card-registration-object
