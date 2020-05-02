@@ -45,6 +45,10 @@ class TopUpViewController: UIViewController, UITextFieldDelegate {
         amountField.becomeFirstResponder()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+    }
+    
     @IBAction func amountChanged(_ sender: Any) {
         guard let amountString = amountField.text else { return }
         

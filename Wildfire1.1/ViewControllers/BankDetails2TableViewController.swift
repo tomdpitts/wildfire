@@ -84,6 +84,7 @@ class BankDetails2TableViewController: UITableViewController, UITextFieldDelegat
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         line1TextField.becomeFirstResponder()
+        navigationController?.interactivePopGestureRecognizer?.isEnabled = true
     }
     
 
@@ -145,16 +146,21 @@ class BankDetails2TableViewController: UITableViewController, UITextFieldDelegat
                 "postcode": postcode,
                 "countryCode": countryCode,
                 
-                "mpID": mangopayID
+//                "mpID": mangopayID
             ]
             
             // fields have passed validation - so continue
             functions.httpsCallable("addBankAccount").call(bankAccountData) { (result, error) in
                 
-                if error != nil {
+                if let error = error {
                     
                     self.removeSpinnerWithCompletion() {
-                        self.universalShowAlert(title: "Oops", message: "Something went wrong. This is usually because the bank details are mistyped. Please check them and try again.", segue: nil, cancel: false)
+                        
+                        if error.localizedDescription != "" {
+                            self.universalShowAlert(title: "Oops", message: error.localizedDescription, segue: nil, cancel: false)
+                        } else {
+                            self.universalShowAlert(title: "Oops", message: "Something went wrong. This is usually because the bank details are mistyped. Please check them and try again.", segue: nil, cancel: false)
+                        }
                     }
                     
                 } else {

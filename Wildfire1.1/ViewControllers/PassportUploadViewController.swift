@@ -35,6 +35,10 @@ class PassportUploadViewController: UIViewController, UINavigationControllerDele
         pictureView.layer.borderColor = UIColor(hexString: "#39C3C6").cgColor
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+    }
+    
     @IBAction func editImageButton(_ sender: Any) {
         ImagePickerManager().pickImage(self){ image in
             

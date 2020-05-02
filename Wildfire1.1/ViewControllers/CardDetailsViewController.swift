@@ -42,6 +42,10 @@ class CardDetailsViewController: UIViewController {
         
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+    }
+    
     @IBAction func deleteCardButtonTapped(_ sender: Any) {
         
         let title = "Delete Card"

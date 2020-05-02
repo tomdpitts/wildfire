@@ -67,6 +67,7 @@ class AddCard2TableViewController: UITableViewController, UITextFieldDelegate {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         line1TextField.becomeFirstResponder()
+        navigationController?.interactivePopGestureRecognizer?.isEnabled = true
     }
     
 

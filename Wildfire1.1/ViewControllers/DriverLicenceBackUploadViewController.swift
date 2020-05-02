@@ -35,6 +35,10 @@ class DriverLicenceBackUploadViewController: UIViewController, UINavigationContr
         pictureView.layer.borderColor = UIColor(hexString: "#39C3C6").cgColor
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+    }
+    
     @IBAction func confirmButtonTapped(_ sender: Any) {
         guard let frontImage = self.frontImage else { return }
         guard let backImage = self.pictureView.image else { return }

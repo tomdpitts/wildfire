@@ -1326,58 +1326,8 @@
                                         </tableViewCellContentView>
                                         <inset key="separatorInset" minX="1000" minY="0.0" maxX="0.0" maxY="0.0"/>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="CoC-bK-QsG" userLabel="Sort Code Cell">
-                                        <rect key="frame" x="0.0" y="91.5" width="320" height="43.5"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="CoC-bK-QsG" id="WBq-fx-RfX">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <textField opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="gnM-hN-T4r" userLabel="SWIFT/BIC Field">
-                                                    <rect key="frame" x="17" y="0.5" width="286" height="43.5"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="43.5" id="FgR-eo-NbU"/>
-                                                    </constraints>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <textInputTraits key="textInputTraits" keyboardType="numberPad" returnKeyType="next"/>
-                                                    <userDefinedRuntimeAttributes>
-                                                        <userDefinedRuntimeAttribute type="number" keyPath="maxLength">
-                                                            <integer key="value" value="8"/>
-                                                        </userDefinedRuntimeAttribute>
-                                                    </userDefinedRuntimeAttributes>
-                                                </textField>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="gnM-hN-T4r" firstAttribute="centerY" secondItem="WBq-fx-RfX" secondAttribute="centerY" id="C9q-kd-HR9"/>
-                                                <constraint firstItem="gnM-hN-T4r" firstAttribute="centerX" secondItem="WBq-fx-RfX" secondAttribute="centerX" id="E9L-MQ-N9R"/>
-                                                <constraint firstItem="gnM-hN-T4r" firstAttribute="leading" secondItem="WBq-fx-RfX" secondAttribute="leading" constant="17" id="cEr-9m-xDB"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                        <inset key="separatorInset" minX="1000" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                    </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="20" id="UUB-wu-k8v" userLabel="Title">
-                                        <rect key="frame" x="0.0" y="135" width="320" height="20"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="UUB-wu-k8v" id="cjj-9H-yu6">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="20"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sort Code" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G9k-H2-l0w">
-                                                    <rect key="frame" x="16" y="1.5" width="66" height="17"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="G9k-H2-l0w" firstAttribute="leading" secondItem="cjj-9H-yu6" secondAttribute="leading" constant="16" id="AWv-U0-KKv"/>
-                                                <constraint firstItem="G9k-H2-l0w" firstAttribute="centerY" secondItem="cjj-9H-yu6" secondAttribute="centerY" id="bKi-BV-La8"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                        <inset key="separatorInset" minX="1000" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                    </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="zba-eO-f2t" userLabel="Account Number Cell">
-                                        <rect key="frame" x="0.0" y="155" width="320" height="43.5"/>
+                                        <rect key="frame" x="0.0" y="91.5" width="320" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="zba-eO-f2t" id="Z6F-XA-HFo">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
@@ -1406,7 +1356,7 @@
                                         <inset key="separatorInset" minX="1000" minY="0.0" maxX="0.0" maxY="0.0"/>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="20" id="kxA-ce-G7l" userLabel="Title">
-                                        <rect key="frame" x="0.0" y="198.5" width="320" height="20"/>
+                                        <rect key="frame" x="0.0" y="135" width="320" height="20"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="kxA-ce-G7l" id="fmj-gY-VO9">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="20"/>
@@ -1422,6 +1372,56 @@
                                             <constraints>
                                                 <constraint firstItem="6vh-sF-csL" firstAttribute="centerY" secondItem="fmj-gY-VO9" secondAttribute="centerY" id="93I-rE-cOf"/>
                                                 <constraint firstItem="6vh-sF-csL" firstAttribute="leading" secondItem="fmj-gY-VO9" secondAttribute="leading" constant="16" id="ZaQ-RB-wKo"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <inset key="separatorInset" minX="1000" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="CoC-bK-QsG" userLabel="Sort Code Cell">
+                                        <rect key="frame" x="0.0" y="155" width="320" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="CoC-bK-QsG" id="WBq-fx-RfX">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <textField opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="gnM-hN-T4r" userLabel="SWIFT/BIC Field">
+                                                    <rect key="frame" x="17" y="0.5" width="286" height="43.5"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="43.5" id="FgR-eo-NbU"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <textInputTraits key="textInputTraits" keyboardType="numberPad" returnKeyType="next"/>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="maxLength">
+                                                            <integer key="value" value="8"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                    </userDefinedRuntimeAttributes>
+                                                </textField>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="gnM-hN-T4r" firstAttribute="centerY" secondItem="WBq-fx-RfX" secondAttribute="centerY" id="C9q-kd-HR9"/>
+                                                <constraint firstItem="gnM-hN-T4r" firstAttribute="centerX" secondItem="WBq-fx-RfX" secondAttribute="centerX" id="E9L-MQ-N9R"/>
+                                                <constraint firstItem="gnM-hN-T4r" firstAttribute="leading" secondItem="WBq-fx-RfX" secondAttribute="leading" constant="17" id="cEr-9m-xDB"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <inset key="separatorInset" minX="1000" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="20" id="UUB-wu-k8v" userLabel="Title">
+                                        <rect key="frame" x="0.0" y="198.5" width="320" height="20"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="UUB-wu-k8v" id="cjj-9H-yu6">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="20"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sort Code" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G9k-H2-l0w">
+                                                    <rect key="frame" x="16" y="1.5" width="66" height="17"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="G9k-H2-l0w" firstAttribute="leading" secondItem="cjj-9H-yu6" secondAttribute="leading" constant="16" id="AWv-U0-KKv"/>
+                                                <constraint firstItem="G9k-H2-l0w" firstAttribute="centerY" secondItem="cjj-9H-yu6" secondAttribute="centerY" id="bKi-BV-La8"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <inset key="separatorInset" minX="1000" minY="0.0" maxX="0.0" maxY="0.0"/>

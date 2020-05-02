@@ -45,6 +45,7 @@ class PaymentMethodsViewController: UITableViewController {
         fetchCardsFromUserDefaults() { () in
             self.tableView.reloadData()
         }
+        navigationController?.interactivePopGestureRecognizer?.isEnabled = true
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

@@ -690,11 +690,7 @@ exports.getCurrentBalance = functions.region('europe-west1').https.onCall( async
   const wallet = await mpAPI.Wallets.get(walletID)
   const currentBalance = wallet.Balance.Amount
 
-  console.log(currentBalance)
-
   const balanceFactored = (currentBalance*100)/98
-
-  console.log(balanceFactored)
 
   db.set({balance: balanceFactored}, {merge: true})
 
@@ -724,10 +720,9 @@ exports.addBankAccount = functions.region('europe-west1').https.onCall( async (d
     if (typeof data.mpID !== 'undefined') {
       mangopayID = data.mpID
     } else {
+      // no mangopayID was received in the request, so:
       // using the Firebase userID (supplied via 'context' of the request), get the mangopayID 
-    // using the Firebase userID (supplied via 'context' of the request), get the mangopayID 
-      // using the Firebase userID (supplied via 'context' of the request), get the mangopayID 
-      await admin.firestore().collection('users').doc(userID).get().then(doc => {
+      await db.get().then(doc => {
         userData = doc.data();
         mangopayID = userData.mangopayID
         return
@@ -755,24 +750,51 @@ exports.addBankAccount = functions.region('europe-west1').https.onCall( async (d
       }
     }
 
-    const bankAccountMP = await mpAPI.Users.createBankAccount(mangopayID, bankAccountData)
+    if (mangopayID !== "") {
 
-    if (bankAccountMP.Id !== undefined) {
-    
-      // console.log("bankAcccount ID found:" + bankAccountMP.Id)
-      await admin.firestore().collection('users').doc(userID).set({
-        defaultBankAccountID: bankAccountMP.Id
-        // merge (to prevent overwriting other fields) should never be needed, but just in case..
-      }, {merge: true})
+      console.log("mangopayID is present")
 
-      return
+      const bankAccountMP = await mpAPI.Users.createBankAccount(mangopayID, bankAccountData)
 
+      if (bankAccountMP.Id !== undefined) {
+      
+        // console.log("bankAcccount ID found:" + bankAccountMP.Id)
+        await admin.firestore().collection('users').doc(userID).set({
+          defaultBankAccountID: bankAccountMP.Id
+          // merge (to prevent overwriting other fields) should never be needed, but just in case..
+        }, {merge: true})
+
+        return
+
+      } else {
+        let error = Error("Something went wrong. Please wait a moment and try again.")
+
+        throw error
+      }
     } else {
-      console.log('bankAccountMP.Id was not defined')
+
+      let error = Error("Could not find account ID. If this is the first time you've seen this error, please wait a moment and try again - this should resolve by itself.")
+
+      throw error
     }
   }
   catch (error) {
-    console.error(error)
+
+    if (error.errors !== undefined) {
+      if (error.errors.SortCode !== undefined) {
+
+        throw new functions.https.HttpsError('invalid-argument', error.errors.SortCode)
+      } else if (error.errors.AccountNumber !== undefined) {
+
+        throw new functions.https.HttpsError('invalid-argument', error.errors.AccountNumber)
+      } else {
+
+        throw new functions.https.HttpsError('invalid-argument', "Something went wrong. Please check your bank details and try again.")
+      }
+    } else {
+      
+      throw new functions.https.HttpsError('invalid-argument', error.message)
+    }
   }
 })
 

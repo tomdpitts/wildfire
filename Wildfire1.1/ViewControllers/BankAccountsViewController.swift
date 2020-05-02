@@ -61,6 +61,8 @@ class BankAccountsViewController: UITableViewController {
 
             self.tableView.reloadData()
         }
+
+        navigationController?.interactivePopGestureRecognizer?.isEnabled = true
     }
     
     @objc func refresh(sender:AnyObject) {

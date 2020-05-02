@@ -66,6 +66,10 @@ class EditProfileTableViewController: UITableViewController {
         showProfilePic()
         
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+    }
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections

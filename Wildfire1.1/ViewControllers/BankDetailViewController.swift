@@ -68,6 +68,10 @@ class BankDetailViewController: UIViewController {
         }
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+    }
+    
     func displayBankInfo() {
         if let bnk = bankAccount {
             accountOwnerLabel.text = bnk.accountHolderName
