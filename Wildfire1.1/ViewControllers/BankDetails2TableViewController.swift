@@ -146,7 +146,7 @@ class BankDetails2TableViewController: UITableViewController, UITextFieldDelegat
                 "postcode": postcode,
                 "countryCode": countryCode,
                 
-//                "mpID": mangopayID
+                "mpID": mangopayID
             ]
             
             // fields have passed validation - so continue
