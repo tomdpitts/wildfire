@@ -14,6 +14,17 @@
 		E2026709230ED8CF003C0AF4 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2026708230ED8CF003C0AF4 /* LoginViewController.swift */; };
 		E203BCF5245C1C0F004C8494 /* BankAccountAddedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E203BCF4245C1C0F004C8494 /* BankAccountAddedViewController.swift */; };
 		E2149704231410240048D149 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2149703231410240048D149 /* HomeViewController.swift */; };
+		E2163EDA24655F02001B7CCB /* OpenSans-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E2163ECF24655F00001B7CCB /* OpenSans-SemiBoldItalic.ttf */; };
+		E2163EDB24655F02001B7CCB /* OpenSans-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E2163ED024655F00001B7CCB /* OpenSans-LightItalic.ttf */; };
+		E2163EDC24655F02001B7CCB /* OpenSans-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E2163ED124655F00001B7CCB /* OpenSans-BoldItalic.ttf */; };
+		E2163EDD24655F02001B7CCB /* OpenSans-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E2163ED224655F00001B7CCB /* OpenSans-Italic.ttf */; };
+		E2163EDE24655F02001B7CCB /* LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = E2163ED324655F00001B7CCB /* LICENSE.txt */; };
+		E2163EDF24655F02001B7CCB /* OpenSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E2163ED424655F00001B7CCB /* OpenSans-Light.ttf */; };
+		E2163EE024655F02001B7CCB /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E2163ED524655F01001B7CCB /* OpenSans-Regular.ttf */; };
+		E2163EE124655F02001B7CCB /* OpenSans-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E2163ED624655F01001B7CCB /* OpenSans-ExtraBold.ttf */; };
+		E2163EE224655F02001B7CCB /* OpenSans-ExtraBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E2163ED724655F01001B7CCB /* OpenSans-ExtraBoldItalic.ttf */; };
+		E2163EE324655F02001B7CCB /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E2163ED824655F02001B7CCB /* OpenSans-Bold.ttf */; };
+		E2163EE424655F02001B7CCB /* OpenSans-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E2163ED924655F02001B7CCB /* OpenSans-SemiBold.ttf */; };
 		E21710F9242466D5006B4FAE /* NotificationPaymentReceivedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E21710F8242466D5006B4FAE /* NotificationPaymentReceivedViewController.swift */; };
 		E21AC96321EA6BEF00D460A9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E21AC96221EA6BEF00D460A9 /* AppDelegate.swift */; };
 		E21AC96521EA6BEF00D460A9 /* PayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E21AC96421EA6BEF00D460A9 /* PayViewController.swift */; };
@@ -41,7 +52,6 @@
 		E254470623FB7646005A37A1 /* BankDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E254470523FB7646005A37A1 /* BankDetailViewController.swift */; };
 		E254470823FCC58F005A37A1 /* DepositViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E254470723FCC58F005A37A1 /* DepositViewController.swift */; };
 		E254470A23FCCF63005A37A1 /* ConfirmDepositViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E254470923FCCF63005A37A1 /* ConfirmDepositViewController.swift */; };
-		E25C87C12441AADA003EE6A0 /* Open_Sans in Resources */ = {isa = PBXBuildFile; fileRef = E25C87C02441AAD9003EE6A0 /* Open_Sans */; };
 		E26039782350DABA0031C792 /* ProfilePicViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E26039772350DABA0031C792 /* ProfilePicViewController.swift */; };
 		E26763652355EE6B00D079C6 /* formStep3ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E26763642355EE6B00D079C6 /* formStep3ViewController.swift */; };
 		E2676367235614DB00D079C6 /* formStep2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2676366235614DB00D079C6 /* formStep2ViewController.swift */; };
@@ -95,6 +105,17 @@
 		E2026708230ED8CF003C0AF4 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		E203BCF4245C1C0F004C8494 /* BankAccountAddedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankAccountAddedViewController.swift; sourceTree = "<group>"; };
 		E2149703231410240048D149 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		E2163ECF24655F00001B7CCB /* OpenSans-SemiBoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "OpenSans-SemiBoldItalic.ttf"; path = "Open_Sans/OpenSans-SemiBoldItalic.ttf"; sourceTree = SOURCE_ROOT; };
+		E2163ED024655F00001B7CCB /* OpenSans-LightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "OpenSans-LightItalic.ttf"; path = "Open_Sans/OpenSans-LightItalic.ttf"; sourceTree = SOURCE_ROOT; };
+		E2163ED124655F00001B7CCB /* OpenSans-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "OpenSans-BoldItalic.ttf"; path = "Open_Sans/OpenSans-BoldItalic.ttf"; sourceTree = SOURCE_ROOT; };
+		E2163ED224655F00001B7CCB /* OpenSans-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "OpenSans-Italic.ttf"; path = "Open_Sans/OpenSans-Italic.ttf"; sourceTree = SOURCE_ROOT; };
+		E2163ED324655F00001B7CCB /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = LICENSE.txt; path = Open_Sans/LICENSE.txt; sourceTree = SOURCE_ROOT; };
+		E2163ED424655F00001B7CCB /* OpenSans-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "OpenSans-Light.ttf"; path = "Open_Sans/OpenSans-Light.ttf"; sourceTree = SOURCE_ROOT; };
+		E2163ED524655F01001B7CCB /* OpenSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "OpenSans-Regular.ttf"; path = "Open_Sans/OpenSans-Regular.ttf"; sourceTree = SOURCE_ROOT; };
+		E2163ED624655F01001B7CCB /* OpenSans-ExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "OpenSans-ExtraBold.ttf"; path = "Open_Sans/OpenSans-ExtraBold.ttf"; sourceTree = SOURCE_ROOT; };
+		E2163ED724655F01001B7CCB /* OpenSans-ExtraBoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "OpenSans-ExtraBoldItalic.ttf"; path = "Open_Sans/OpenSans-ExtraBoldItalic.ttf"; sourceTree = SOURCE_ROOT; };
+		E2163ED824655F02001B7CCB /* OpenSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "OpenSans-Bold.ttf"; path = "Open_Sans/OpenSans-Bold.ttf"; sourceTree = SOURCE_ROOT; };
+		E2163ED924655F02001B7CCB /* OpenSans-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "OpenSans-SemiBold.ttf"; path = "Open_Sans/OpenSans-SemiBold.ttf"; sourceTree = SOURCE_ROOT; };
 		E21710F8242466D5006B4FAE /* NotificationPaymentReceivedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationPaymentReceivedViewController.swift; sourceTree = "<group>"; };
 		E21AC95F21EA6BEF00D460A9 /* Wildfire.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Wildfire.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E21AC96221EA6BEF00D460A9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -127,7 +148,6 @@
 		E254470523FB7646005A37A1 /* BankDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankDetailViewController.swift; sourceTree = "<group>"; };
 		E254470723FCC58F005A37A1 /* DepositViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DepositViewController.swift; sourceTree = "<group>"; };
 		E254470923FCCF63005A37A1 /* ConfirmDepositViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmDepositViewController.swift; sourceTree = "<group>"; };
-		E25C87C02441AAD9003EE6A0 /* Open_Sans */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Open_Sans; sourceTree = SOURCE_ROOT; };
 		E26039772350DABA0031C792 /* ProfilePicViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePicViewController.swift; sourceTree = "<group>"; };
 		E26763642355EE6B00D079C6 /* formStep3ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = formStep3ViewController.swift; sourceTree = "<group>"; };
 		E2676366235614DB00D079C6 /* formStep2ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = formStep2ViewController.swift; sourceTree = "<group>"; };
@@ -203,12 +223,31 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		E2163ECE24655EE6001B7CCB /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				E2163ED324655F00001B7CCB /* LICENSE.txt */,
+				E2163ED824655F02001B7CCB /* OpenSans-Bold.ttf */,
+				E2163ED124655F00001B7CCB /* OpenSans-BoldItalic.ttf */,
+				E2163ED624655F01001B7CCB /* OpenSans-ExtraBold.ttf */,
+				E2163ED724655F01001B7CCB /* OpenSans-ExtraBoldItalic.ttf */,
+				E2163ED224655F00001B7CCB /* OpenSans-Italic.ttf */,
+				E2163ED424655F00001B7CCB /* OpenSans-Light.ttf */,
+				E2163ED024655F00001B7CCB /* OpenSans-LightItalic.ttf */,
+				E2163ED524655F01001B7CCB /* OpenSans-Regular.ttf */,
+				E2163ED924655F02001B7CCB /* OpenSans-SemiBold.ttf */,
+				E2163ECF24655F00001B7CCB /* OpenSans-SemiBoldItalic.ttf */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
 		E21AC95621EA6BEF00D460A9 = {
 			isa = PBXGroup;
 			children = (
 				E21AC96121EA6BEF00D460A9 /* Wildfire1.1 */,
 				E21AC97821EA6BF000D460A9 /* Wildfire1.1Tests */,
 				E21AC96021EA6BEF00D460A9 /* Products */,
+				E2163ECE24655EE6001B7CCB /* Fonts */,
 				0237F5F24E5C98FFDA47F9E4 /* Pods */,
 				1B3DDA1420FF8A65BC0E53E5 /* Frameworks */,
 			);
@@ -230,7 +269,6 @@
 				E21AC96221EA6BEF00D460A9 /* AppDelegate.swift */,
 				E21AC96D21EA6BF000D460A9 /* LaunchScreen.storyboard */,
 				E21AC96821EA6BEF00D460A9 /* Main.storyboard */,
-				E25C87C02441AAD9003EE6A0 /* Open_Sans */,
 				E24388A623154A5800948AD5 /* Helpers */,
 				E257EA28230D8A9F003E2A32 /* ViewControllers */,
 				E24388AB2315824D00948AD5 /* Media */,
@@ -413,13 +451,23 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E2163EDA24655F02001B7CCB /* OpenSans-SemiBoldItalic.ttf in Resources */,
+				E2163EE224655F02001B7CCB /* OpenSans-ExtraBoldItalic.ttf in Resources */,
 				E21AC96F21EA6BF000D460A9 /* LaunchScreen.storyboard in Resources */,
+				E2163EDF24655F02001B7CCB /* OpenSans-Light.ttf in Resources */,
 				E24388AD2315A5AC00948AD5 /* WildfireLogin.mp4 in Resources */,
+				E2163EDC24655F02001B7CCB /* OpenSans-BoldItalic.ttf in Resources */,
 				E232189624595D500027A716 /* GoogleService-Info.plist in Resources */,
-				E25C87C12441AADA003EE6A0 /* Open_Sans in Resources */,
+				E2163EDE24655F02001B7CCB /* LICENSE.txt in Resources */,
+				E2163EDB24655F02001B7CCB /* OpenSans-LightItalic.ttf in Resources */,
 				E29925EF2437104800AE5D6F /* WILDFIRE.png in Resources */,
 				E29EA43524062DAA0059C7A4 /* Graphics in Resources */,
+				E2163EE024655F02001B7CCB /* OpenSans-Regular.ttf in Resources */,
+				E2163EE124655F02001B7CCB /* OpenSans-ExtraBold.ttf in Resources */,
 				E2AD346821F384430030FA2E /* Assets.xcassets in Resources */,
+				E2163EE324655F02001B7CCB /* OpenSans-Bold.ttf in Resources */,
+				E2163EDD24655F02001B7CCB /* OpenSans-Italic.ttf in Resources */,
+				E2163EE424655F02001B7CCB /* OpenSans-SemiBold.ttf in Resources */,
 				E29925F12437105900AE5D6F /* WildfireLogo1500px.png in Resources */,
 				E21AC96A21EA6BEF00D460A9 /* Main.storyboard in Resources */,
 			);
@@ -747,7 +795,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.9.11;
+				MARKETING_VERSION = 0.9.12;
 				PRODUCT_BUNDLE_IDENTIFIER = com.wildfire.WildfireWallet;
 				PRODUCT_NAME = Wildfire;
 				SWIFT_VERSION = 5.0;
@@ -770,7 +818,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.9.11;
+				MARKETING_VERSION = 0.9.12;
 				PRODUCT_BUNDLE_IDENTIFIER = com.wildfire.WildfireWallet;
 				PRODUCT_NAME = Wildfire;
 				SWIFT_VERSION = 5.0;

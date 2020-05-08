@@ -476,49 +476,63 @@ extension UIViewController {
             spinnerCompletion()
         }
     }
-//    func addRectAndWhiteOpenSans() {
-//
-//        // get screen size object.
-//        let screenSize: CGRect = UIScreen.main.bounds
-//        
-//        // get screen width.
-//        let screenWidth = screenSize.width
-//        
-//        // get screen height.
-//        let screenHeight = screenSize.height
-//        
-//        // the rectangle top left point x axis position.
-//        let xPos = 0
-//        
-//        // the rectangle top left point y axis position.
-//        let yPos = 60
-//        
-//        // the rectangle width.
-//        let rectWidth = Int(screenWidth) - 2 * xPos
-//        
-//        // the rectangle height.
-//        let rectHeight = 60
-//        
-//        // Create a CGRect object which is used to render a rectangle.
-//        let rectFrame: CGRect = CGRect(x:CGFloat(xPos), y:CGFloat(yPos), width:CGFloat(rectWidth), height:CGFloat(rectHeight))
-//        
-//        // Create a UIView object which use above CGRect object.
-//        let blackView = UIView(frame: rectFrame)
-//        
-//        // Set UIView background color.
-//        blackView.backgroundColor = UIColor.black
-//        
+    
+    func addRectAndWhiteOpenSans(title: String) {
+
+        // get screen size object.
+        let screenSize: CGRect = UIScreen.main.bounds
+        
+        // get screen width.
+        let screenWidth = screenSize.width
+        
+        // get screen height.
+        let screenHeight = screenSize.height
+        
+        // the rectangle top left point x axis position.
+        let xPos = 0
+        let xPosLabel = 15
+        
+        // the rectangle top left point y axis position.
+        let yPos = 40
+        
+        // the rectangle width.
+        let rectWidth = Int(screenWidth) - 2 * xPos
+        
+        // the rectangle height.
+        let rectHeight = 70
+        
+        // Create a CGRect object which is used to render a rectangle.
+        let rectFrame: CGRect = CGRect(x:CGFloat(xPos), y:CGFloat(yPos), width:CGFloat(rectWidth), height:CGFloat(rectHeight))
+        
+        // Create a UIView object which use above CGRect object.
+        let blackView = UIView(frame: rectFrame)
+        
+        // Set UIView background color.
+        blackView.backgroundColor = UIColor.black
+        
+        let labelRectFrame: CGRect = CGRect(x:CGFloat(xPosLabel), y:CGFloat(0), width:CGFloat(rectWidth), height:CGFloat(rectHeight))
+        
+        let titleLabel = UILabel(frame: labelRectFrame)
+        
+        titleLabel.text = title
+        titleLabel.textColor = .white
+        titleLabel.font = UIFont(name: "OpenSans-ExtraBoldItalic", size: 52)
+        titleLabel.backgroundColor = .black
+        titleLabel.textAlignment = NSTextAlignment.left
+        
+        blackView.addSubview(titleLabel)
+        
 //        let attributes = [NSAttributedString.Key.foregroundColor: UIColor.white, NSAttributedString.Key.font: UIFont(name: "OpenSans-ExtraBoldItalic", size: 36)!]
 //        navigationController?.navigationBar.largeTitleTextAttributes = attributes
-//        
-////        self.navigationController?.navigationBar.insertSubview(blackView, at: 0)
-//        self.view.addSubview(blackView)
-//    }
-//    
+        
+//        self.navigationController?.navigationBar.insertSubview(blackView, at: 0)
+        self.view.addSubview(blackView)
+    }
+    
 //    func revertToBlackOpenSans() {
 //        let largeTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.darkText, NSAttributedString.Key.font: UIFont(name: "OpenSans-ExtraBoldItalic", size: 36)!]
 //        let normalTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.darkText, NSAttributedString.Key.font: UIFont(name: "OpenSans-ExtraBoldItalic", size: 26)!]
-//        
+//
 //        navigationController?.navigationBar.titleTextAttributes = normalTextAttributes
 //        navigationController?.navigationBar.largeTitleTextAttributes = largeTextAttributes
 //    }

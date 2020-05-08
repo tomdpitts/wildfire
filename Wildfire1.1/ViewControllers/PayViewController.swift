@@ -19,6 +19,15 @@ class PayViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+//        for family: String in UIFont.familyNames
+//        {
+//            print(family)
+//            for names: String in UIFont.fontNames(forFamilyName: family)
+//            {
+//                print("== \(names)")
+//            }
+//        }
+        
         setUpElements()
 //        let button = UIButton(type: .roundedRect)
 //        button.frame = CGRect(x: 20, y: 250, width: 100, height: 30)
@@ -71,6 +80,8 @@ class PayViewController: UIViewController {
 
     
     func setUpElements() {
+        
+        addRectAndWhiteOpenSans(title: " PAY ")
         
         Utilities.styleHollowButton(sendButton)
         Utilities.styleHollowButton(scanButton)

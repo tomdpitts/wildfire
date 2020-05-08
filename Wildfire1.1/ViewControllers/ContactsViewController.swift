@@ -154,7 +154,6 @@ class ContactsViewController: UITableViewController, UISearchResultsUpdating {
                             if mobile.prefix(1) == "+" {
                                 let person = Contact(givenName: contact.givenName, familyName: contact.familyName, fullName: name, phoneNumber: mobile, uid: nil)
                                 
-                                print("mobile number is: \(mobile)")
                                 self.contactsList.append(person)
                             }
                         }

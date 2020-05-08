@@ -54,6 +54,8 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
         Utilities.styleHollowButton(saveToCameraRoll)
         Utilities.styleHollowButton(shareLinkButton)
         
+        addRectAndWhiteOpenSans(title: " RECEIVE ")
+        
         saveToCameraRoll.isHidden = true
 //        scanToPayLabel.isHidden = true
         shareLinkButton.isHidden = true

@@ -102,6 +102,8 @@ class ConfirmViewController: UIViewController {
         Utilities.styleHollowButtonRED(self.backButton)
         Utilities.styleFilledButton(self.confirmButton)
         
+        Utilities.styleLabel(self.currentBalance)
+        
         currentBalance.isHidden = true
         
 //        currentBalance.isHidden = true
@@ -195,8 +197,6 @@ class ConfirmViewController: UIViewController {
                 // N.B. all database amounts are in cents i.e. £43.50 is '4350'
                 let userBalanceFloat = Float(userBalance)/100
                 self.currentBalance.text = "Current balance: £\(String(format: "%.2f", (userBalanceFloat)))"
-                // run this style again to account for new label width
-                Utilities.styleLabel(self.currentBalance)
                 self.currentBalance.isHidden = false
                 let difference = userBalance - self.sendAmount
                 
