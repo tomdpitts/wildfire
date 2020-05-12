@@ -19,6 +19,13 @@ class PayViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+//        let navbar = self.navigationController?.navigationBar
+//        
+//        navbar?.titleTextAttributes = [.foregroundColor: UIColor.white,
+//        .font: UIFont(name: "OpenSans-ExtraBoldItalic", size: 42)!]
+//        navbar?.barTintColor = .black
+        
+        
 //        for family: String in UIFont.familyNames
 //        {
 //            print(family)
@@ -58,9 +65,11 @@ class PayViewController: UIViewController {
                     
         
     }
-    //    override func viewWillAppear(_ animated: Bool) {
+    
+//    override func viewWillAppear(_ animated: Bool) {
 //        super.viewWillAppear(animated)
-//        navigationController?.setNavigationBarHidden(true, animated: animated)
+////        addRectAndWhiteOpenSans(title: " PAY ")
+////        navigationController?.setNavigationBarHidden(true, animated: animated)
 //    }
     
 //    override func viewWillDisappear(_ animated: Bool) {
@@ -80,8 +89,6 @@ class PayViewController: UIViewController {
 
     
     func setUpElements() {
-        
-        addRectAndWhiteOpenSans(title: " PAY ")
         
         Utilities.styleHollowButton(sendButton)
         Utilities.styleHollowButton(scanButton)

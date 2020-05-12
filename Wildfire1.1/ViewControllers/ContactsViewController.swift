@@ -73,7 +73,8 @@ class ContactsViewController: UITableViewController, UISearchResultsUpdating {
     
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let label = UILabel()
-        label.backgroundColor = UIColor.lightGray
+        label.backgroundColor = .black
+        label.textColor = .white
         
         if (resultSearchController.isActive) {
             label.text = " Results"

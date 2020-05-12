@@ -176,7 +176,7 @@ class BankAccountsViewController: UITableViewController {
 
         } else {
             self.addDetailsButton.isEnabled = true
-            self.addDetailsButton.tintColor = UIColor(named: "tealPrimary")
+            self.addDetailsButton.tintColor = UIColor.white
         }
         
         completion()
