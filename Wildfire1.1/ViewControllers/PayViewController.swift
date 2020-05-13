@@ -9,6 +9,7 @@
 import UIKit
 import Contacts
 import FirebaseCrashlytics
+import FirebaseAnalytics
 
 class PayViewController: UIViewController {
     
@@ -18,6 +19,14 @@ class PayViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+//        if #available(iOS 13.0, *) {
+//            let appearance = UINavigationBarAppearance()
+//
+//            appearance.configureWithOpaqueBackground()
+//
+//            UINavigationBar.appearance().scrollEdgeAppearance = appearance
+//        }
         
 //        let navbar = self.navigationController?.navigationBar
 //        
@@ -48,6 +57,8 @@ class PayViewController: UIViewController {
 //    }
     
     @IBAction func sendButtonTapped(_ sender: Any) {
+        
+        Analytics.logEvent("test_SendTapped", parameters: ["test2": "yessir"])
         
         CNContactStore().requestAccess(for: .contacts) { (granted, error) in
             if let error = error {

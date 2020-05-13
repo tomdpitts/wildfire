@@ -590,11 +590,11 @@
             <objects>
                 <viewController id="lOX-0Y-FSB" customClass="AddCardViewController" customModule="Wildfire" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="OAg-sQ-0Sz">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="548"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="CkK-RD-EqY">
-                                <rect key="frame" x="20" y="20" width="280" height="271"/>
+                                <rect key="frame" x="20" y="135" width="280" height="271"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Visa or Mastercard only" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cgc-c5-e6D">
                                         <rect key="frame" x="50" y="0.0" width="180" height="20.5"/>
@@ -652,7 +652,7 @@
                                 </constraints>
                             </stackView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LaQ-x4-5JO">
-                                <rect key="frame" x="60" y="341" width="200" height="50"/>
+                                <rect key="frame" x="60" y="456" width="200" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="200" id="jOX-JA-qIc"/>
                                     <constraint firstAttribute="height" constant="50" id="nXg-0Z-IkC"/>
@@ -703,7 +703,7 @@
             <objects>
                 <tableViewController id="daH-g4-ejv" customClass="AddCard2TableViewController" customModule="Wildfire" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="interactive" dataMode="static" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="G9J-WK-bT1">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="548"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <sections>
@@ -1087,11 +1087,11 @@
             <objects>
                 <viewController id="C4f-WC-KXH" customClass="AddCardSuccessViewController" customModule="Wildfire" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="brd-L2-4l7">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="548"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="Crn-8f-BAR">
-                                <rect key="frame" x="20" y="35" width="280" height="346.5"/>
+                                <rect key="frame" x="20" y="158.5" width="280" height="346.5"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icons8-ok-480" translatesAutoresizingMaskIntoConstraints="NO" id="We2-ai-gvS">
                                         <rect key="frame" x="65" y="0.0" width="150" height="150"/>
@@ -1158,7 +1158,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="fzz-fV-Ev3">
-                                <rect key="frame" x="10" y="7" width="300" height="341.5"/>
+                                <rect key="frame" x="10" y="10" width="300" height="341.5"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleAspectFill" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="p5q-f4-c0n">
                                         <rect key="frame" x="56.5" y="0.0" width="187.5" height="61.5"/>
@@ -1215,7 +1215,7 @@
                                 </constraints>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="A35-Wf-zhP">
-                                <rect key="frame" x="30" y="348.5" width="260" height="60"/>
+                                <rect key="frame" x="30" y="351.5" width="260" height="60"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eAt-sR-c9T">
                                         <rect key="frame" x="0.0" y="0.0" width="122.5" height="60"/>
@@ -1253,7 +1253,7 @@
                                 </constraints>
                             </stackView>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="7SB-qw-TLW">
-                                <rect key="frame" x="197" y="368.5" width="20" height="20"/>
+                                <rect key="frame" x="197" y="371.5" width="20" height="20"/>
                             </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -1263,7 +1263,7 @@
                             <constraint firstItem="7SB-qw-TLW" firstAttribute="centerX" secondItem="QS5-Rx-YEW" secondAttribute="centerX" constant="47" id="Xhb-YE-njd"/>
                             <constraint firstItem="7SB-qw-TLW" firstAttribute="top" secondItem="fzz-fV-Ev3" secondAttribute="bottom" constant="20" id="YoS-4u-q80"/>
                             <constraint firstItem="fzz-fV-Ev3" firstAttribute="centerX" secondItem="QS5-Rx-YEW" secondAttribute="centerX" id="Zng-yn-YcE"/>
-                            <constraint firstItem="fzz-fV-Ev3" firstAttribute="top" secondItem="O1u-W8-tvY" secondAttribute="top" constant="7" id="eQR-ND-LkI"/>
+                            <constraint firstItem="fzz-fV-Ev3" firstAttribute="top" secondItem="O1u-W8-tvY" secondAttribute="top" constant="10" id="eQR-ND-LkI"/>
                             <constraint firstItem="A35-Wf-zhP" firstAttribute="top" secondItem="fzz-fV-Ev3" secondAttribute="bottom" id="ja2-Kd-YGS"/>
                             <constraint firstItem="fzz-fV-Ev3" firstAttribute="leading" secondItem="QS5-Rx-YEW" secondAttribute="leading" constant="10" id="kGf-ag-4Hh"/>
                             <constraint firstAttribute="trailing" secondItem="fzz-fV-Ev3" secondAttribute="trailing" constant="10" id="vuG-Z1-RpL"/>
@@ -2026,7 +2026,7 @@
             </objects>
             <point key="canvasLocation" x="9442.5" y="2677.8169014084506"/>
         </scene>
-        <!--Home View Controller-->
+        <!--Test-->
         <scene sceneID="5xd-Dx-yS6">
             <objects>
                 <viewController storyboardIdentifier="HomeVC" id="WJV-KB-iYY" customClass="HomeViewController" customModule="Wildfire" customModuleProvider="target" sceneMemberID="viewController">
@@ -2035,19 +2035,19 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" insetsLayoutMarginsFromSafeArea="NO" image="WILDFIRE Logo 1200px" translatesAutoresizingMaskIntoConstraints="NO" id="CKy-PX-uTI">
-                                <rect key="frame" x="0.0" y="70" width="320" height="80"/>
+                                <rect key="frame" x="0.0" y="115" width="320" height="80"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="CKy-PX-uTI" firstAttribute="top" secondItem="1DH-T8-vYc" secondAttribute="top" constant="70" id="hf7-gK-exv"/>
+                            <constraint firstItem="CKy-PX-uTI" firstAttribute="top" secondItem="1DH-T8-vYc" secondAttribute="top" constant="115" id="hf7-gK-exv"/>
                             <constraint firstItem="CKy-PX-uTI" firstAttribute="width" secondItem="CKy-PX-uTI" secondAttribute="height" multiplier="4:1" id="kkr-yD-Z3j"/>
                             <constraint firstItem="CKy-PX-uTI" firstAttribute="leading" secondItem="1DH-T8-vYc" secondAttribute="leading" id="p6r-YD-00h"/>
                             <constraint firstItem="yE7-Zr-t3C" firstAttribute="trailing" secondItem="CKy-PX-uTI" secondAttribute="trailing" id="u1S-6k-ETf"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="yE7-Zr-t3C"/>
                     </view>
-                    <navigationItem key="navigationItem" id="ikU-LA-yRB"/>
+                    <navigationItem key="navigationItem" title="Test" id="ikU-LA-yRB"/>
                     <connections>
                         <segue destination="49e-Tb-3d3" kind="presentation" identifier="goToPay" modalPresentationStyle="fullScreen" modalTransitionStyle="crossDissolve" id="Imv-iW-H17"/>
                         <segue destination="LVs-72-jOY" kind="presentation" identifier="goToPhoneVerification" modalPresentationStyle="fullScreen" modalTransitionStyle="crossDissolve" id="N2R-Fh-136"/>
@@ -2933,7 +2933,7 @@ http://www.apache.org/licenses/
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Received" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L1J-Es-2BO">
-                                <rect key="frame" x="20" y="40" width="175" height="54.5"/>
+                                <rect key="frame" x="20" y="40" width="280" height="54.5"/>
                                 <fontDescription key="fontDescription" name="OpenSans-ExtraBoldItalic" family="Open Sans" pointSize="40"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -2993,6 +2993,7 @@ http://www.apache.org/licenses/
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="L1J-Es-2BO" firstAttribute="leading" secondItem="moQ-R8-21p" secondAttribute="leading" constant="20" id="27j-Di-Knt"/>
+                            <constraint firstItem="moQ-R8-21p" firstAttribute="trailing" secondItem="L1J-Es-2BO" secondAttribute="trailing" constant="20" id="FIX-Es-Yxj"/>
                             <constraint firstItem="moQ-R8-21p" firstAttribute="trailing" secondItem="zy5-V8-dD3" secondAttribute="trailing" constant="20" id="Ls1-oU-h8o"/>
                             <constraint firstItem="L1J-Es-2BO" firstAttribute="top" secondItem="moQ-R8-21p" secondAttribute="top" constant="40" id="Z5N-r0-cH2"/>
                             <constraint firstItem="zy5-V8-dD3" firstAttribute="leading" secondItem="moQ-R8-21p" secondAttribute="leading" constant="20" id="aNg-LU-DSp"/>
@@ -3009,7 +3010,7 @@ http://www.apache.org/licenses/
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4N5-bu-ir4" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="7176" y="-1430"/>
+            <point key="canvasLocation" x="7175.625" y="-1430.2816901408451"/>
         </scene>
         <!--Phone Number-->
         <scene sceneID="9yQ-TI-LVr">
@@ -3126,11 +3127,11 @@ http://www.apache.org/licenses/
                                         <rect key="frame" x="0.0" y="121" width="280" height="83"/>
                                         <subviews>
                                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="YaC-XM-o91">
-                                                <rect key="frame" x="0.0" y="26" width="53" height="31"/>
+                                                <rect key="frame" x="0.0" y="26" width="41.5" height="31"/>
                                                 <color key="onTintColor" name="tealPrimary"/>
                                             </switch>
                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" text="I have read and understood the Privacy Policy: www.wildfirewallet.com/privacy-policy" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="cSK-NM-T1V">
-                                                <rect key="frame" x="71" y="0.0" width="209" height="83"/>
+                                                <rect key="frame" x="59.5" y="0.0" width="220.5" height="83"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                                 <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -3143,11 +3144,11 @@ http://www.apache.org/licenses/
                                         <rect key="frame" x="0.0" y="219" width="280" height="116.5"/>
                                         <subviews>
                                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="3ch-9n-v9C">
-                                                <rect key="frame" x="0.0" y="43" width="53" height="31"/>
+                                                <rect key="frame" x="0.0" y="43" width="41.5" height="31"/>
                                                 <color key="onTintColor" name="tealPrimary"/>
                                             </switch>
                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="nSj-FN-Mrh">
-                                                <rect key="frame" x="71" y="0.0" width="209" height="116.5"/>
+                                                <rect key="frame" x="59.5" y="0.0" width="220.5" height="116.5"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                                 <string key="text">I have read and agree to the Terms and Conditions: www.wildfirewallet.com/terms-and-conditions and License Agreement: https://www.wildfirewallet.com/eula</string>
                                                 <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -3285,6 +3286,7 @@ http://www.apache.org/licenses/
                         <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <color key="barTintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <textAttributes key="titleTextAttributes">
+                            <fontDescription key="fontDescription" name="OpenSans-ExtraBoldItalic" family="Open Sans" pointSize="20"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </textAttributes>
                         <textAttributes key="largeTitleTextAttributes">
@@ -3463,17 +3465,23 @@ http://www.apache.org/licenses/
         <!--Navigation Controller-->
         <scene sceneID="flZ-1N-DDx">
             <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="eBT-4f-V8z" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <navigationController storyboardIdentifier="scanNavVC" automaticallyAdjustsScrollViewInsets="NO" id="hCy-bm-9Jb" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="xmI-0h-aPW">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="115"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" name="tealPrimary"/>
+                        <color key="barTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <textAttributes key="titleTextAttributes">
                             <fontDescription key="fontDescription" name="OpenSans-ExtraBoldItalic" family="Open Sans" pointSize="20"/>
+                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <color key="textShadowColor" name="tealPrimary"/>
                         </textAttributes>
                         <textAttributes key="largeTitleTextAttributes">
                             <fontDescription key="fontDescription" name="OpenSans-ExtraBoldItalic" family="Open Sans" pointSize="40"/>
+                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <color key="textShadowColor" name="tealPrimary"/>
                         </textAttributes>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -3481,7 +3489,6 @@ http://www.apache.org/licenses/
                         <segue destination="tRh-0n-OZd" kind="relationship" relationship="rootViewController" id="D4i-UC-JaJ"/>
                     </connections>
                 </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="eBT-4f-V8z" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="5576.25" y="-322.18309859154931"/>
         </scene>
@@ -4065,7 +4072,7 @@ http://www.apache.org/licenses/
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="wxN-4L-QfU">
-                                <rect key="frame" x="50" y="58" width="220" height="300"/>
+                                <rect key="frame" x="50" y="60.5" width="220" height="300"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="leading" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8d4-kr-Tj0">
                                         <rect key="frame" x="0.0" y="0.0" width="220" height="80"/>
@@ -4217,7 +4224,7 @@ http://www.apache.org/licenses/
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="25" translatesAutoresizingMaskIntoConstraints="NO" id="fiJ-OH-VcC">
-                                <rect key="frame" x="10" y="29" width="300" height="358"/>
+                                <rect key="frame" x="10" y="31.5" width="300" height="358"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icons8-order-history-100.png" translatesAutoresizingMaskIntoConstraints="NO" id="lfX-ee-Tt9">
                                         <rect key="frame" x="112.5" y="0.0" width="75" height="75"/>
@@ -4321,8 +4328,8 @@ http://www.apache.org/licenses/
                                     <constraint firstAttribute="bottomMargin" secondItem="17i-UP-jzo" secondAttribute="bottom" id="thd-io-6Sb"/>
                                 </constraints>
                             </view>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="25" translatesAutoresizingMaskIntoConstraints="NO" id="gzV-IM-7zM">
-                                <rect key="frame" x="18.5" y="56" width="283" height="383"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="gzV-IM-7zM">
+                                <rect key="frame" x="18.5" y="56" width="283" height="350"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icons8-bank-building-100" translatesAutoresizingMaskIntoConstraints="NO" id="cmQ-gN-H58">
                                         <rect key="frame" x="116.5" y="0.0" width="50" height="50"/>
@@ -4332,7 +4339,7 @@ http://www.apache.org/licenses/
                                         </constraints>
                                     </imageView>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="7" translatesAutoresizingMaskIntoConstraints="NO" id="f6U-t9-EBc" userLabel="Bank Info Stack">
-                                        <rect key="frame" x="0.0" y="75" width="283" height="158"/>
+                                        <rect key="frame" x="0.0" y="64" width="283" height="158"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="WXl-Oh-gVF" userLabel="Account Owner Stack">
                                                 <rect key="frame" x="0.0" y="0.0" width="283" height="20.5"/>
@@ -4439,7 +4446,7 @@ http://www.apache.org/licenses/
                                         </subviews>
                                     </stackView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PSM-sA-35j">
-                                        <rect key="frame" x="10" y="258" width="263" height="50"/>
+                                        <rect key="frame" x="10" y="236" width="263" height="50"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="QPV-7y-bH3"/>
                                         </constraints>
@@ -4451,7 +4458,7 @@ http://www.apache.org/licenses/
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HBi-1L-kL1">
-                                        <rect key="frame" x="10" y="333" width="263" height="50"/>
+                                        <rect key="frame" x="10" y="300" width="263" height="50"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="jIF-gK-9Re"/>
                                         </constraints>
@@ -4474,6 +4481,7 @@ http://www.apache.org/licenses/
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="hbU-RM-JDN" firstAttribute="trailing" secondItem="Ha1-25-z9u" secondAttribute="trailing" constant="-20" id="66h-2p-v8s"/>
+                            <constraint firstAttribute="bottom" secondItem="gzV-IM-7zM" secondAttribute="bottom" constant="10" id="D3Q-hT-X0R"/>
                             <constraint firstItem="Ha1-25-z9u" firstAttribute="top" secondItem="hbU-RM-JDN" secondAttribute="top" id="KLq-Z7-Zux"/>
                             <constraint firstItem="gzV-IM-7zM" firstAttribute="top" secondItem="Ha1-25-z9u" secondAttribute="bottom" constant="10" id="RoJ-2x-yHS"/>
                             <constraint firstItem="gzV-IM-7zM" firstAttribute="centerX" secondItem="t2G-rw-58c" secondAttribute="centerX" id="dyD-M9-icJ"/>
@@ -5096,8 +5104,8 @@ http://www.apache.org/licenses/
                                     <constraint firstAttribute="width" constant="300" id="eiG-7V-N4e"/>
                                 </constraints>
                             </stackView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ID Verification" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HYU-RU-5tt">
-                                <rect key="frame" x="20" y="40" width="285" height="54.5"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="ID Verification" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HYU-RU-5tt">
+                                <rect key="frame" x="20" y="40" width="300" height="47"/>
                                 <fontDescription key="fontDescription" name="OpenSans-ExtraBoldItalic" family="Open Sans" pointSize="40"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -5121,7 +5129,7 @@ http://www.apache.org/licenses/
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1fp-V1-2ed" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="zYr-Sb-YkS" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="11046" y="715"/>
+            <point key="canvasLocation" x="11045.625" y="714.08450704225356"/>
         </scene>
         <!--ID Refused Scene-->
         <scene sceneID="oXn-Qr-VTF">
@@ -5275,6 +5283,10 @@ http://www.apache.org/licenses/
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translucent="NO" largeTitles="YES" id="e2E-R5-VqD">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="91"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <textAttributes key="largeTitleTextAttributes">
+                            <fontDescription key="fontDescription" type="system" pointSize="0.0"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </textAttributes>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
@@ -5371,13 +5383,13 @@ http://www.apache.org/licenses/
                                         </constraints>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You've made your account!" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1sk-95-6PY">
-                                        <rect key="frame" x="33" y="170" width="234" height="19"/>
+                                        <rect key="frame" x="33" y="170" width="234" height="20"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Now you just need to add your card details to make a secure payment" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mgd-BO-U60">
-                                        <rect key="frame" x="12.5" y="209" width="275.5" height="47"/>
+                                        <rect key="frame" x="12.5" y="210" width="275.5" height="46"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
@@ -5507,8 +5519,8 @@ http://www.apache.org/licenses/
         <segue reference="hWh-Xd-ZQz"/>
         <segue reference="Huo-pa-P2i"/>
         <segue reference="XkC-zp-HKA"/>
-        <segue reference="bGq-l6-Or3"/>
-        <segue reference="YhI-hf-aZr"/>
+        <segue reference="R2W-JZ-F0t"/>
+        <segue reference="JGW-hE-gdx"/>
         <segue reference="KC7-yY-zWV"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" name="tealPrimary"/>

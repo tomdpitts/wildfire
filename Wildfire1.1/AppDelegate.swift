@@ -35,6 +35,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
+        // this is deprecated but can't find a clean solution
+        UIApplication.shared.isStatusBarHidden = false
+        
         FirebaseApp.configure()
         
         if let currentUserID = Auth.auth().currentUser?.uid {
@@ -116,6 +119,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
 //        listCardsFromMangopay()
 //        redirect()
+//        Analytics.logEvent("app_opened", parameters: nil)
         
     }
 

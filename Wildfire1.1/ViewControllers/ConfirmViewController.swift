@@ -10,7 +10,7 @@ import UIKit
 import CoreGraphics
 import CoreImage
 import CryptoSwift
-//import Firebase
+import FirebaseAnalytics
 import FirebaseFirestore
 import FirebaseStorage
 import FirebaseAuth
@@ -26,7 +26,11 @@ class ConfirmViewController: UIViewController {
     let userUID = Auth.auth().currentUser?.uid
     lazy var functions = Functions.functions(region:"europe-west1")
 
+    // transaction is via dynamic link
     var isDynamicLinkResponder = false
+    
+    // this is to distinguish "send" type transactions from "scan" - this one isn't used in code logic, only for Analytics
+    var isSendTransaction = false
     
     var decryptedString = ""
     var sendAmount = 0
@@ -280,6 +284,13 @@ class ConfirmViewController: UIViewController {
                     let trunc = result.prefix(7)
                     if trunc == "success" {
                         
+                        Analytics.logEvent("paymentSuccess", parameters: [
+                            "topup": true,
+                            "type": "scan",
+                            "amount": self.sendAmount,
+                            "recipient": self.recipientUID
+                        ])
+                        
                         self.performSegue(withIdentifier: "showSuccessScreen", sender: self)
                     } else {
                         
@@ -376,6 +387,7 @@ class ConfirmViewController: UIViewController {
                                         self.transactionCompleted = true
                                         
                                         self.removeSpinnerWithCompletion {
+                                            
                                             completion("success (topped up)")
                                         }
                                     } else {

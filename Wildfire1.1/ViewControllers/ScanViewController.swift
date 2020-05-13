@@ -73,16 +73,16 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
         
         Utilities.styleHollowButton(cancelButton)
         
-        if #available(iOS 13.0, *) {
-            let appearance = UINavigationBarAppearance()
-            
-            appearance.configureWithDefaultBackground()
-            
-            UINavigationBar.appearance().scrollEdgeAppearance = appearance
-        } else {
-            self.navigationController?.navigationBar.tintColor = .white
-            self.navigationController?.navigationBar.isTranslucent = true
-        }
+//        if #available(iOS 13.0, *) {
+//            let appearance = UINavigationBarAppearance()
+//
+//            appearance.configureWithDefaultBackground()
+//
+//            UINavigationBar.appearance().scrollEdgeAppearance = appearance
+//        } else {
+//            self.navigationController?.navigationBar.tintColor = .white
+//            self.navigationController?.navigationBar.isTranslucent = true
+//        }
         
 //        self.navigationController!.navigationBar.setBackgroundImage(UIImage(), for: .default)
 //        self.navigationController!.navigationBar.shadowImage = UIImage()
@@ -146,7 +146,7 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
             qrCodeFrameView = UIView()
             
             if let qrCodeFrameView = qrCodeFrameView {
-                qrCodeFrameView.layer.borderColor = UIColor.blue.cgColor
+                qrCodeFrameView.layer.borderColor = UIColor(named: "tealPrimary")?.cgColor
                 qrCodeFrameView.layer.borderWidth = 2
                 view.addSubview(qrCodeFrameView)
                 view.bringSubviewToFront(qrCodeFrameView)
@@ -167,45 +167,43 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
         
         if runScan {
             
-        if metadataObjects.count == 0 {
-            qrCodeFrameView?.frame = CGRect.zero
+            if metadataObjects.count == 0 {
+                qrCodeFrameView?.frame = CGRect.zero
 
-            return
-        }
-        
-        // Get the metadata object.
-        let metadataObj = metadataObjects[0] as! AVMetadataMachineReadableCodeObject
-        
-        
-        if metadataObj.type == AVMetadataObject.ObjectType.qr {
-            // If the found metadata is equal to the QR code metadata then set the coloured square - we haven't yet established it's a Wildfire code but we know it's a QR code
-            let barCodeObject = videoPreviewLayer?.transformedMetadataObject(for: metadataObj)
-            qrCodeFrameView?.frame = barCodeObject!.bounds
+                return
+            }
             
-            // check there's something in the QR code
-            if metadataObj.stringValue != nil {
-
-                // decrypt the QR data - this will either return valid data or "decryption failed" if it's not a Wildfire code
-                let QRRead = decryptQRString(QRstring: metadataObj.stringValue!)
+            // Get the metadata object.
+            let metadataObj = metadataObjects[0] as! AVMetadataMachineReadableCodeObject
+            
+            
+            if metadataObj.type == AVMetadataObject.ObjectType.qr {
+                // If the found metadata is equal to the QR code metadata then set the coloured square - we haven't yet established it's a Wildfire code but we know it's a QR code
+                let barCodeObject = videoPreviewLayer?.transformedMetadataObject(for: metadataObj)
+                qrCodeFrameView?.frame = barCodeObject!.bounds
                 
-                // now we know what the situation is, we can respond accordingly. If it's valid, segue to ConfirmViewController (check the prepareForSegue method in this VC for more context), otherwise do nothing and let the user continue scanning
-                if QRRead == false {
-                    return
-                } else {
+                // check there's something in the QR code
+                if metadataObj.stringValue != nil {
+
+                    // decrypt the QR data - this will either return valid data or "decryption failed" if it's not a Wildfire code
+                    let QRRead = decryptQRString(QRstring: metadataObj.stringValue!)
                     
-                    let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .heavy)
-                    impactFeedbackgenerator.prepare()
-                    impactFeedbackgenerator.impactOccurred()
-                    
-//                    self.finalString = validatedString
-//                    self.runScan == false
-                    performSegue(withIdentifier: "showConfirmScreen", sender: self)
-                    self.captureSession!.stopRunning()
+                    // now we know what the situation is, we can respond accordingly. If it's valid, segue to ConfirmViewController (check the prepareForSegue method in this VC for more context), otherwise do nothing and let the user continue scanning
+                    if QRRead == false {
+                        return
+                    } else {
+                        
+                        let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .heavy)
+                        impactFeedbackgenerator.prepare()
+                        impactFeedbackgenerator.impactOccurred()
+                        
+    //                    self.finalString = validatedString
+    //                    self.runScan == false
+                        performSegue(withIdentifier: "showConfirmScreen", sender: self)
+                        self.captureSession!.stopRunning()
+                    }
                 }
             }
-        }
-        
-            
         }
     }
     
@@ -273,6 +271,7 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
         }
     }
     @IBAction func cancelButtonTapped(_ sender: Any) {
+//        self.performSegue(withIdentifier: "unwindToPrevious", sender: self)
         self.dismiss(animated: true, completion: nil)
     }
     

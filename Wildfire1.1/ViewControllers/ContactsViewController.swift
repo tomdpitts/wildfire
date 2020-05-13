@@ -75,12 +75,13 @@ class ContactsViewController: UITableViewController, UISearchResultsUpdating {
         let label = UILabel()
         label.backgroundColor = .black
         label.textColor = .white
+        label.font = UIFont(name: "OpenSans-Bold", size: 17)
         
         if (resultSearchController.isActive) {
-            label.text = " Results"
+            label.text = "  Results"
         } else {
             if let startsWith = contactsGrouped[section].first?.givenName.prefix(1) {
-                label.text = String(" " + startsWith)
+                label.text = String("  " + startsWith)
             }
         }
         

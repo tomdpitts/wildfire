@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 //import LBTAComponents
 
+// this is Mangopay's list of countries they can't accept Users with Residency in
 let blockedCountriesList = ["Afghanistan", "Bahamas", "Bosnia & Herzegovina", "Botswana", "Cambodia", "North Korea", "Ethiopia", "Ghana", "Guyana", "Iran", "Iraq", "Laos", "Uganda", "Pakistan", "Serbia", "Sri Lanka", "Syria", "Trinidad & Tobago", "Tunisia", "Vanuatu", "Yemen"]
 
 struct Style {
@@ -54,6 +55,66 @@ struct Constants {
         static let homeViewController = "HomeVC"
     }
 }
+
+enum EventTitle: String {
+    
+    // Event Titles
+    case paymentSuccess = "paymentSuccess"
+    case QRScanned = "QRScanned"
+    case receivedSuccess = "receivedSuccess"
+    case accountSetupCompleted = "accountSetupCompleted"
+    case paymentMethodAdded = "paymentMethodAdded"
+    case paymentMethodDeleted = "paymentMethodDeleted"
+    case bankAccountAdded = "bankAccountAdded"
+    case bankAccountDeleted = "bankAccountDeleted"
+    case KYCUploaded = "KYCUploaded"
+    case KYCAccepted = "KYCAccepted"
+    case KYCRejected = "KYCRejected"
+    case creditAdded = "creditAdded"
+}
+
+
+enum EventVariable: String {
+    
+    // Event: paymentSuccess
+    case paidAmount = "paidAmount"
+    case recipient = "recipient"
+    case transactionType = "transactionType"
+    case topup = "topup"
+    
+        enum transactionTypeOptions: String {
+            // transactionType options
+            case scan = "scan"
+            case send = "send"
+            case dynamicLink = "dynamicLink"
+        }
+    
+    // Event: receivedSuccess
+    case receivedAmount = "receivedAmount"
+    case payer = "payer"
+    
+        // paymentMethodAdded
+        enum paymentMethodType: String {
+            case card = "card"
+            case paypal = "paypal"
+            case other = "other"
+        }
+    
+    // Event: KYCUploaded
+    case kycType = "KYCType"
+    
+        enum kycTypeOptions: String {
+            // kycType options
+            case passport = "passport"
+            case driverLicence = "driverLicence"
+            case IDCard = "IDCard"
+            case other = "other"
+        }
+    
+    // Event: creditAdded
+    case creditedAmount = "creditedAmount"
+}
+
 
 struct Contact {
     var givenName: String
