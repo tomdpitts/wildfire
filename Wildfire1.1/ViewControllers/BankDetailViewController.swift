@@ -8,6 +8,7 @@
 
 import UIKit
 import FirebaseFunctions
+import FirebaseAnalytics
 
 class BankDetailViewController: UIViewController {
     
@@ -153,20 +154,29 @@ class BankDetailViewController: UIViewController {
         
         self.functions.httpsCallable("deleteBankAccount").call() { (result, error) in
             
-            let count = UserDefaults.standard.integer(forKey: "numberOfBankAccounts")
-            // this only works for 1 bank account - will need to be changed to support multiple
-            UserDefaults.standard.removeObject(forKey: "bankAccount\(count)")
-            
-            if count > 0 {
-                let newCount = count - 1
-                UserDefaults.standard.set(newCount, forKey: "numberOfBankAccounts")
-            }
-            
-            // update bank accounts list
-            let appDelegate = AppDelegate()
-            appDelegate.fetchBankAccountsListFromMangopay() {
-                self.removeSpinnerWithCompletion {
-                    completion()
+            if error != nil {
+                
+                self.universalShowAlert(title: "Something went wrong", message: "Sorry about this. It's not clear what happened exactly but it might be your internet connection? Please try deleting again. (If this problem persists, please contact support@wildfirewallet.com)", segue: nil, cancel: false)
+                
+            } else {
+                
+                Analytics.logEvent(Event.bankAccountDeleted, parameters: nil)
+                
+                let count = UserDefaults.standard.integer(forKey: "numberOfBankAccounts")
+                // this only works for 1 bank account - will need to be changed to support multiple
+                UserDefaults.standard.removeObject(forKey: "bankAccount\(count)")
+                
+                if count > 0 {
+                    let newCount = count - 1
+                    UserDefaults.standard.set(newCount, forKey: "numberOfBankAccounts")
+                }
+                
+                // update bank accounts list
+                let appDelegate = AppDelegate()
+                appDelegate.fetchBankAccountsListFromMangopay() {
+                    self.removeSpinnerWithCompletion {
+                        completion()
+                    }
                 }
             }
         }

@@ -39,6 +39,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         UIApplication.shared.isStatusBarHidden = false
         
         FirebaseApp.configure()
+        Analytics.setAnalyticsCollectionEnabled(true)
         
         if let currentUserID = Auth.auth().currentUser?.uid {
             Crashlytics.crashlytics().setUserID(currentUserID)

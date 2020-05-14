@@ -56,13 +56,13 @@ struct Constants {
     }
 }
 
-enum EventTitle: String {
+enum Event: String {
     
     // Event Titles
-    case paymentSuccess = "paymentSuccess"
     case QRScanned = "QRScanned"
+    case paymentSuccess = "paymentSuccess"
     case receivedSuccess = "receivedSuccess"
-    case accountSetupCompleted = "accountSetupCompleted"
+    case accountAdded = "accountAdded"
     case paymentMethodAdded = "paymentMethodAdded"
     case paymentMethodDeleted = "paymentMethodDeleted"
     case bankAccountAdded = "bankAccountAdded"
@@ -71,48 +71,82 @@ enum EventTitle: String {
     case KYCAccepted = "KYCAccepted"
     case KYCRejected = "KYCRejected"
     case creditAdded = "creditAdded"
+    
 }
 
-
-enum EventVariable: String {
+enum EventVar {
     
-    // Event: paymentSuccess
-    case paidAmount = "paidAmount"
-    case recipient = "recipient"
-    case transactionType = "transactionType"
-    case topup = "topup"
+    enum QRScanned: String {
+        
+        case scannedAmount = "scannedAmount"
+        case scannedRecipient = "scannedRecipient"
+    }
     
-        enum transactionTypeOptions: String {
-            // transactionType options
-            case scan = "scan"
-            case send = "send"
-            case dynamicLink = "dynamicLink"
-        }
+    enum paymentSuccess: String {
+        
+        case paidAmount = "paidAmount"
+        case currency = "currency"
+        case recipient = "recipient"
+        case transactionType = "transactionType"
+        case topup = "topup"
+        
+            enum transactionTypeOptions: String {
+                // transactionType options
+                case scan = "scan"
+                case send = "send"
+                case dynamicLink = "dynamicLink"
+            }
+    }
     
-    // Event: receivedSuccess
-    case receivedAmount = "receivedAmount"
-    case payer = "payer"
+    enum receivedSuccess: String {
+        
+        case receivedAmount = "receivedAmount"
+        case currency = "currency"
+        
+    }
     
-        // paymentMethodAdded
-        enum paymentMethodType: String {
-            case card = "card"
-            case paypal = "paypal"
-            case other = "other"
-        }
+    enum paymentMethodAdded: String {
+        
+        case paymentMethodType = "paymentMethodType"
+        
+        // paymentMethodAdded options
+           enum paymentMethodTypeOptions: String {
+               case card = "card"
+               case paypal = "paypal"
+               case other = "other"
+           }
+    }
     
-    // Event: KYCUploaded
-    case kycType = "KYCType"
+    enum paymentMethodDeleted: String {
+        
+        case paymentMethodType = "paymentMethodType"
+        
+        // paymentMethodAdded options
+           enum paymentMethodTypeOptions: String {
+               case card = "card"
+               case paypal = "paypal"
+               case other = "other"
+           }
+    }
+   
     
-        enum kycTypeOptions: String {
-            // kycType options
-            case passport = "passport"
-            case driverLicence = "driverLicence"
-            case IDCard = "IDCard"
-            case other = "other"
-        }
+    enum KYCUploaded: String {
+        // Event: KYCUploaded
+        case kycType = "KYCType"
+        
+            enum kycTypeOptions: String {
+                // kycType options
+                case passport = "passport"
+                case driverLicence = "driverLicence"
+                case IDCard = "IDCard"
+                case other = "other"
+            }
+    }
     
-    // Event: creditAdded
-    case creditedAmount = "creditedAmount"
+    enum creditAdded: String {
+        // Event: creditAdded
+        case creditAmount = "creditAmount"
+    }
 }
 
 

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import FirebaseAnalytics
 
 class NotificationPaymentReceivedViewController: UIViewController {
     
@@ -22,6 +23,12 @@ class NotificationPaymentReceivedViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        Analytics.logEvent(Event.receivedSuccess.rawValue, parameters: [
+            EventVar.receivedSuccess.receivedAmount.rawValue: amount,
+            EventVar.receivedSuccess.currency.rawValue: currency
+        ])
+        
         
         amountLabel.text = currency + amount
         nameLabel.text = authorName

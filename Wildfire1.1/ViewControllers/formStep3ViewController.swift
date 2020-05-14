@@ -10,6 +10,7 @@ import UIKit
 import FirebaseAuth
 import FirebaseFirestore
 import FirebaseFunctions
+import FirebaseAnalytics
 
 class formStep3ViewController: UIViewController, UITextFieldDelegate {
     
@@ -171,6 +172,8 @@ class formStep3ViewController: UIViewController, UITextFieldDelegate {
                     if UserDefaults.standard.bool(forKey: "userAccountExists") != true {
                         Utilities.checkForUserAccount()
                     }
+                    
+                    Analytics.logEvent(Event.accountAdded.rawValue, parameters: nil)
                     
                     Utilities.getMangopayID()
                     self.performSegue(withIdentifier: "showAccountAdded", sender: self)

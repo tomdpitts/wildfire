@@ -8,6 +8,7 @@
 
 import UIKit
 import FirebaseFunctions
+import FirebaseAnalytics
 import LocalAuthentication
 
 class TopUpViewController: UIViewController, UITextFieldDelegate {
@@ -133,6 +134,11 @@ class TopUpViewController: UIViewController, UITextFieldDelegate {
                     if result != "success" {
                         self.universalShowAlert(title: "Oops", message: result, segue: nil, cancel: false)
                     } else {
+                        
+                        Analytics.logEvent(Event.creditAdded.rawValue, parameters: [
+                            EventVar.creditAdded.creditAmount.rawValue: amount
+                        ])
+                        
                         self.newBalance = amount
                         self.performSegue(withIdentifier: "showCreditAdded", sender: self)
                     }

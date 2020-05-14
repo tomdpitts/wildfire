@@ -10,6 +10,7 @@ import UIKit
 import FirebaseAuth
 import FirebaseFirestore
 import FirebaseFunctions
+import FirebaseAnalytics
 
 class BankDetails2TableViewController: UITableViewController, UITextFieldDelegate {
     
@@ -165,7 +166,9 @@ class BankDetails2TableViewController: UITableViewController, UITextFieldDelegat
                     
                 } else {
                     
-                    // don't wait for this to complete - will take too long
+                    Analytics.logEvent(Event.bankAccountAdded.rawValue, parameters: nil)
+                    
+                    // takes a little longer but ensures the account shows up immediately
                     AppDelegate().fetchBankAccountsListFromMangopay() {
                         self.removeSpinnerWithCompletion() {
                             self.performSegue(withIdentifier: "showSuccessScreen", sender: self)

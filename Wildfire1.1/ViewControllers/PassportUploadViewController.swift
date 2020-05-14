@@ -103,6 +103,11 @@ class PassportUploadViewController: UIViewController, UINavigationControllerDele
                 self.editImageButton.isEnabled = true
                 self.confirmButton.isEnabled = true
             } else {
+                
+                Analytics.logEvent(Event.KYCUploaded.rawValue, parameters: [
+                    EventVar.KYCUploaded.kycType.rawValue: EventVar.KYCUploaded.kycTypeOptions.passport.rawValue
+                ])
+                
                 UserDefaults.standard.set(true, forKey: "KYCPending")
                 self.performSegue(withIdentifier: "showKYCSuccessScreen", sender: self)
             }

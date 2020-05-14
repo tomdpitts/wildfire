@@ -32,6 +32,8 @@ class ConfirmViewController: UIViewController {
     // this is to distinguish "send" type transactions from "scan" - this one isn't used in code logic, only for Analytics
     var isSendTransaction = false
     
+    var transactionType: String?
+    
     var decryptedString = ""
     var sendAmount = 0
     
@@ -66,9 +68,6 @@ class ConfirmViewController: UIViewController {
     @IBOutlet weak var dynamicLabel: UILabel!
     @IBOutlet weak var dynamicLabel2: UILabel!
     
-    
-    // TODO add a timeout (60s? 120s?)
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpElements()
@@ -80,6 +79,8 @@ class ConfirmViewController: UIViewController {
         
         checkForExistingPaymentMethod()
         
+        // this checks the isDynamicLinkResponder and isSendTransaction variables to decide what type of transaction it is - only for Analytics, no functional effects
+        determineTransactionType()
         
     }
     
@@ -87,7 +88,7 @@ class ConfirmViewController: UIViewController {
         
         if transactionCompleted != true {
             // note: moved this func call from viewDidLoad so that alerts always play nice (specifically, when tapping a dynamic link). Calling a spinner i.e. UIAlertController in viewDidLoad fails because there's nothing for it to load on yet for some reason.
-            // the transactionCompleted check is a hacky workaround because the setupRecipientDetails includes a spinner, and that messes with the segue "showSuccessScreen" after the transaction has been completed (since the view technically appears again once the spinner is dismissed)
+            // the transactionCompleted check is a workaround because the setupRecipientDetails includes a spinner, and that messes with the segue "showSuccessScreen" after the transaction has been completed (since the view technically appears again once the spinner is dismissed)
             
             setUpRecipientDetails(recipientUID)
             getUserBalance()
@@ -284,12 +285,19 @@ class ConfirmViewController: UIViewController {
                     let trunc = result.prefix(7)
                     if trunc == "success" {
                         
-                        Analytics.logEvent("paymentSuccess", parameters: [
-                            "topup": true,
-                            "type": "scan",
-                            "amount": self.sendAmount,
-                            "recipient": self.recipientUID
-                        ])
+                        
+                        if let type = self.transactionType, let currency = self.transactionCurrency {
+                            
+                            let topupAmount = 0
+                            
+                            Analytics.logEvent(Event.paymentSuccess.rawValue, parameters: [
+                                EventVar.paymentSuccess.paidAmount.rawValue: self.sendAmount,
+                                EventVar.paymentSuccess.currency.rawValue: currency,
+                                EventVar.paymentSuccess.recipient.rawValue: self.recipientUID,
+                                EventVar.paymentSuccess.topup.rawValue: topupAmount,
+                                EventVar.paymentSuccess.transactionType.rawValue: type
+                            ])
+                        }
                         
                         self.performSegue(withIdentifier: "showSuccessScreen", sender: self)
                     } else {
@@ -308,6 +316,23 @@ class ConfirmViewController: UIViewController {
                         if trunc == "success" {
                             
                             // TODO get updated balance
+                            
+                            if let type = self.transactionType {
+                                
+                                var topupAmount = 0
+                                
+                                // since there was a topup, get the amount to add it to the Analytics event
+                                if let topup = self.topupAmount {
+                                    topupAmount = topup
+                                }
+                                
+                                Analytics.logEvent(Event.paymentSuccess.rawValue, parameters: [
+                                    EventVar.paymentSuccess.paidAmount.rawValue: self.sendAmount,
+                                    EventVar.paymentSuccess.recipient.rawValue: self.recipientUID,
+                                    EventVar.paymentSuccess.topup.rawValue: topupAmount,
+                                    EventVar.paymentSuccess.transactionType.rawValue: type
+                                ])
+                            }
 
                             self.performSegue(withIdentifier: "showSuccessScreen", sender: self)
                         } else {
@@ -342,6 +367,7 @@ class ConfirmViewController: UIViewController {
                 if authenticated == true {
                     self.showSpinner(titleText: "Authorizing", messageText: "Securely transferring funds")
                     // N.B. topupAmount must be passed if topup == true. Guarding so that this breaks if this condition isn't met.
+                    //TODO add error message
                     guard let tpa = topupAmount else { return }
                                         
                     self.functions.httpsCallable("createPayin").call(["amount": tpa, "currency": "GBP"]) { (result, error) in
@@ -513,6 +539,16 @@ class ConfirmViewController: UIViewController {
             } else {
                 
             }
+        }
+    }
+    
+    func determineTransactionType() {
+        if isSendTransaction == true {
+            self.transactionType = "send"
+        } else if isDynamicLinkResponder == true {
+            self.transactionType = "dynamicLink"
+        } else {
+            self.transactionType = "scan"
         }
     }
         

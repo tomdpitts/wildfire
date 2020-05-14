@@ -2,8 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>FIREBASE_ANALYTICS_COLLECTION_DEACTIVATED</key>
-	<string>false</string>
+	<key>FIREBASE_ANALYTICS_COLLECTION_ENABLED</key>
+	<true/>
 	<key>CLIENT_ID</key>
 	<string>989194075636-8odbdegtn81bik9q74e0d6pnq03tlfsi.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>

@@ -86,6 +86,11 @@ class CardDetailsViewController: UIViewController {
                 self.universalShowAlert(title: "Oops", message: "Something went wrong. Please try to delete the card again.", segue: nil, cancel: false)
             }
             
+            Analytics.logEvent(Event.paymentMethodDeleted.rawValue, parameters: [
+                EventVar.paymentMethodDeleted.paymentMethodType.rawValue: EventVar.paymentMethodDeleted.paymentMethodTypeOptions.card.rawValue
+            ])
+
+            
             let appDelegate = AppDelegate()
             appDelegate.listCardsFromMangopay() { () in
                 self.removeSpinner()

@@ -10,6 +10,7 @@ import UIKit
 import FirebaseFunctions
 import FirebaseFirestore
 import FirebaseAuth
+import FirebaseAnalytics
 import SwiftyJSON
 
 class AddCard2TableViewController: UITableViewController, UITextFieldDelegate {
@@ -202,6 +203,10 @@ class AddCard2TableViewController: UITableViewController, UITextFieldDelegate {
                                     self.removeSpinner()
                                 } else {
                                     
+                                    Analytics.logEvent(Event.paymentMethodAdded.rawValue, parameters: [
+                                        EventVar.paymentMethodAdded.paymentMethodType.rawValue: EventVar.paymentMethodAdded.paymentMethodTypeOptions.card.rawValue
+                                    ])
+
 //                                    self.submitButton.isEnabled = true
                                     
                                     let cardID = result?.data as! String

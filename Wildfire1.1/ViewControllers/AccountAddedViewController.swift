@@ -17,6 +17,7 @@ class AccountAddedViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
 
         Utilities.styleHollowButton(addCardButton)
         Utilities.styleHollowButtonRED(cancelButton)

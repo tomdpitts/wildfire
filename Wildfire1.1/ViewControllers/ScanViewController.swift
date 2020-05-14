@@ -12,6 +12,7 @@ import UIKit
 import AVFoundation
 import CryptoSwift
 import FirebaseFunctions
+import FirebaseAnalytics
 //import FirebaseDatabase
 
 class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
@@ -196,6 +197,11 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
                         let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .heavy)
                         impactFeedbackgenerator.prepare()
                         impactFeedbackgenerator.impactOccurred()
+                        
+                        Analytics.logEvent(Event.QRScanned.rawValue, parameters: [
+                            EventVar.QRScanned.scannedAmount.rawValue: self.sendAmount,
+                            EventVar.QRScanned.scannedRecipient.rawValue: self.recipientUID
+                        ])
                         
     //                    self.finalString = validatedString
     //                    self.runScan == false

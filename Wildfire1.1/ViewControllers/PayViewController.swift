@@ -10,6 +10,7 @@ import UIKit
 import Contacts
 import FirebaseCrashlytics
 import FirebaseAnalytics
+import Firebase
 
 class PayViewController: UIViewController {
     
@@ -58,7 +59,7 @@ class PayViewController: UIViewController {
     
     @IBAction func sendButtonTapped(_ sender: Any) {
         
-        Analytics.logEvent("test_SendTapped", parameters: ["test2": "yessir"])
+        Analytics.logEvent(Event.KYCAccepted.rawValue, parameters: [Event.bankAccountAdded.rawValue: EventVar.kycTypeOptions.IDCard.rawValue])
         
         CNContactStore().requestAccess(for: .contacts) { (granted, error) in
             if let error = error {

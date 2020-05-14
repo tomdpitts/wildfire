@@ -8,6 +8,7 @@
 
 import UIKit
 import FirebaseFunctions
+import FirebaseAnalytics
 import AlamofireImage
 
 class DriverLicenceBackUploadViewController: UIViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
@@ -90,6 +91,11 @@ class DriverLicenceBackUploadViewController: UIViewController, UINavigationContr
                 self.editImageButton.isEnabled = true
                 self.confirmButton.isEnabled = true
             } else {
+                
+                Analytics.logEvent(Event.KYCUploaded.rawValue, parameters: [
+                    EventVar.KYCUploaded.kycType.rawValue: EventVar.KYCUploaded.kycTypeOptions.driverLicence.rawValue
+                ])
+                
                 UserDefaults.standard.set(true, forKey: "KYCPending")
                 self.performSegue(withIdentifier: "showKYCSuccessScreen", sender: self)
             }

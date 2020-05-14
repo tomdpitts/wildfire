@@ -235,6 +235,7 @@ class Send2ViewController: UIViewController, MFMessageComposeViewControllerDeleg
                 vc.recipientUID = uid
                 guard let amount = sendAmount else { return }
                 vc.sendAmount = Int(amount * Float(100))
+                vc.isSendTransaction = true
             }
         }
     }
