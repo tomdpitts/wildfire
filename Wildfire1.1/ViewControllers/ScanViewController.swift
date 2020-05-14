@@ -18,15 +18,16 @@ import FirebaseAnalytics
 class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
     
     //setup topbar element
-    @IBOutlet var topbar: UIView!
+//    @IBOutlet var topbar: UIView!
     
     //setup label element for testing
 //    @IBOutlet weak var scannedNumber: UILabel!
     
     
-    var captureSession:AVCaptureSession?
-    var videoPreviewLayer:AVCaptureVideoPreviewLayer?
-    var qrCodeFrameView:UIView?
+    var captureSession: AVCaptureSession?
+    var videoPreviewLayer: AVCaptureVideoPreviewLayer?
+    var QRCodeFrameView: UIView?
+    var redQRCodeFrameView: UIView?
     
     @IBOutlet weak var cancelButton: UIButton!
     //    var ref:DatabaseReference?
@@ -93,13 +94,7 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
         
         
         // this func triggers Firestore balance to update from MangoPay - useful for the next screen when balance will be fetched
-        self.functions.httpsCallable("getCurrentBalance").call(["foo": "bar"]) { (result, error) in
-            if error != nil {
-                // TODO error handling?
-            } else {
-                // nothing - happy days
-            }
-        }
+        self.functions.httpsCallable("getCurrentBalance").call(["foo": "bar"]) { (result, error) in }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -141,17 +136,26 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
             captureSession!.startRunning()
             
             // Move the message label and top bar to the front
-            view.bringSubviewToFront(topbar)
+//            view.bringSubviewToFront(topbar)
             
             // Initialize QR Code Frame to highlight the QR code
-            qrCodeFrameView = UIView()
+            QRCodeFrameView = UIView()
             
-            if let qrCodeFrameView = qrCodeFrameView {
+            if let qrCodeFrameView = QRCodeFrameView {
                 qrCodeFrameView.layer.borderColor = UIColor(named: "tealPrimary")?.cgColor
                 qrCodeFrameView.layer.borderWidth = 2
                 view.addSubview(qrCodeFrameView)
                 view.bringSubviewToFront(qrCodeFrameView)
-//                print("green box is live")
+            }
+            
+            // Initialize QR Code Frame to highlight a non-Wildfire QR code with a red border
+            redQRCodeFrameView = UIView()
+            
+            if let qrCodeFrameView = redQRCodeFrameView {
+                qrCodeFrameView.layer.borderColor = UIColor(named: "redPrimary")?.cgColor
+                qrCodeFrameView.layer.borderWidth = 2
+                view.addSubview(qrCodeFrameView)
+                view.bringSubviewToFront(qrCodeFrameView)
             }
             
             
@@ -169,7 +173,8 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
         if runScan {
             
             if metadataObjects.count == 0 {
-                qrCodeFrameView?.frame = CGRect.zero
+                QRCodeFrameView?.frame = CGRect.zero
+                redQRCodeFrameView?.frame = CGRect.zero
 
                 return
             }
@@ -177,11 +182,10 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
             // Get the metadata object.
             let metadataObj = metadataObjects[0] as! AVMetadataMachineReadableCodeObject
             
-            
             if metadataObj.type == AVMetadataObject.ObjectType.qr {
                 // If the found metadata is equal to the QR code metadata then set the coloured square - we haven't yet established it's a Wildfire code but we know it's a QR code
                 let barCodeObject = videoPreviewLayer?.transformedMetadataObject(for: metadataObj)
-                qrCodeFrameView?.frame = barCodeObject!.bounds
+                QRCodeFrameView?.frame = barCodeObject!.bounds
                 
                 // check there's something in the QR code
                 if metadataObj.stringValue != nil {
@@ -191,17 +195,25 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
                     
                     // now we know what the situation is, we can respond accordingly. If it's valid, segue to ConfirmViewController (check the prepareForSegue method in this VC for more context), otherwise do nothing and let the user continue scanning
                     if QRRead == false {
-                        return
+                        QRCodeFrameView?.frame = CGRect.zero
+                        redQRCodeFrameView?.frame = barCodeObject!.bounds
+//                        return
                     } else {
                         
                         let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .heavy)
                         impactFeedbackgenerator.prepare()
                         impactFeedbackgenerator.impactOccurred()
                         
-                        Analytics.logEvent(Event.QRScanned.rawValue, parameters: [
-                            EventVar.QRScanned.scannedAmount.rawValue: self.sendAmount,
-                            EventVar.QRScanned.scannedRecipient.rawValue: self.recipientUID
-                        ])
+                        if let amount = self.sendAmount, let currency = self.currency {
+                            // amount should be human readable i.e. in natual currency amount
+                            let realAmount = Float(amount)/100
+                            
+                            Analytics.logEvent(Event.QRScanned.rawValue, parameters: [
+                                EventVar.QRScanned.scannedAmount.rawValue: realAmount,
+                                EventVar.QRScanned.scannedCurrency.rawValue: currency,
+                                EventVar.QRScanned.scannedRecipient.rawValue: self.recipientUID
+                            ])
+                        }
                         
     //                    self.finalString = validatedString
     //                    self.runScan == false

@@ -115,7 +115,7 @@
 //                return
 //            }
 //        }
-//        // template for deeper error handling TODO: complete this
+//        // template for deeper error handling: complete this
 //        uploadTask.observe(.failure) { snapshot in
 //            if let error = snapshot.error as NSError? {
 //                switch (StorageErrorCode(rawValue: error.code)!) {

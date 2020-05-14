@@ -31,11 +31,8 @@ class ConfirmDepositViewController: UIViewController {
     @IBOutlet weak var countryStack: UIStackView!
 
     @IBOutlet weak var amountLabel: UILabel!
-    @IBOutlet weak var whyAmIBeingCharged: UIStackView!
     @IBOutlet weak var confirmDepositButton: UIButton!
     @IBOutlet weak var cancelButton: UIButton!
-    
-    let tapRec = UITapGestureRecognizer()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,9 +47,6 @@ class ConfirmDepositViewController: UIViewController {
         }
         Utilities.styleHollowButton(confirmDepositButton)
         Utilities.styleHollowButtonRED(cancelButton)
-        
-        tapRec.addTarget(self, action: #selector(self.tappedView))
-        whyAmIBeingCharged.addGestureRecognizer(tapRec)
     }
     
     // TODO finish this func
@@ -73,8 +67,7 @@ class ConfirmDepositViewController: UIViewController {
                 
                 if error != nil {
                     
-                    // TODO
-                    self.showAuthenticationError(title: "Oops!", message: "Top up didn't complete. Please try again.")
+                    self.universalShowAlert(title: "Something went wrong", message: "Sorry about this. It's not clear what went wrong exactly, although it may have been the internet connection. Please check your balance and if it's unchanged, try depositing again. (If the problem persists, contact support@wildfirewallet.com)", segue: nil, cancel: false)
                     
                     self.confirmDepositButton.isEnabled = true
                 } else {
@@ -92,10 +85,6 @@ class ConfirmDepositViewController: UIViewController {
                 }
             }
         }
-    }
-    
-    @objc func tappedView(){
-        self.performSegue(withIdentifier: "showChargesExplainer", sender: self)
     }
     
     @IBAction func cancelButtonTapped(_ sender: Any) {
@@ -118,14 +107,5 @@ class ConfirmDepositViewController: UIViewController {
                 IBANStack.isHidden = true
             }
         }
-    }
-    
-    func showAuthenticationError(title: String, message: String?) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
-        }))
-        
-        self.present(alert, animated: true)
     }
 }

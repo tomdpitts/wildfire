@@ -35,7 +35,6 @@
 		E21AC98521EA6C9E00D460A9 /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E21AC98421EA6C9E00D460A9 /* AccountViewController.swift */; };
 		E222732A23420BBE006D8326 /* AddCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E222732923420BBE006D8326 /* AddCardViewController.swift */; };
 		E2261D1B242F2F29008170DB /* AccountAddedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2261D1A242F2F29008170DB /* AccountAddedViewController.swift */; };
-		E226B1D8246D201A002A527A /* Wildfire.app in Resources */ = {isa = PBXBuildFile; fileRef = E21AC95F21EA6BEF00D460A9 /* Wildfire.app */; };
 		E229FB9E244EF08200F403CA /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E229FB9D244EF08200F403CA /* AboutViewController.swift */; };
 		E22A9CFD239546C400A35EC1 /* Account2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E22A9CFC239546C400A35EC1 /* Account2ViewController.swift */; };
 		E22D7E0323A7393100F86487 /* DisplayReceiptViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E22D7E0223A7393100F86487 /* DisplayReceiptViewController.swift */; };
@@ -461,7 +460,6 @@
 				E232189624595D500027A716 /* GoogleService-Info.plist in Resources */,
 				E2163EDE24655F02001B7CCB /* LICENSE.txt in Resources */,
 				E2163EDB24655F02001B7CCB /* OpenSans-LightItalic.ttf in Resources */,
-				E226B1D8246D201A002A527A /* Wildfire.app in Resources */,
 				E29925EF2437104800AE5D6F /* WILDFIRE.png in Resources */,
 				E29EA43524062DAA0059C7A4 /* Graphics in Resources */,
 				E2163EE024655F02001B7CCB /* OpenSans-Regular.ttf in Resources */,

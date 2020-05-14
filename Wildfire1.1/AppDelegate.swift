@@ -306,6 +306,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             UserDefaults.standard.set(false, forKey: "KYCPending")
             UserDefaults.standard.set(true, forKey: "KYCVerified")
             
+            Analytics.logEvent(Event.KYCAccepted.rawValue, parameters: nil)
             
             if let controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "IDVerified") as? OutcomeIDVerifiedViewController {
                 if let window = self.window, let rootViewController = window.rootViewController {
@@ -325,6 +326,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             UserDefaults.standard.set(true, forKey: "KYCWasRefused")
             UserDefaults.standard.set(false, forKey: "KYCPending")
             UserDefaults.standard.set(false, forKey: "KYCVerified")
+            
+            Analytics.logEvent(Event.KYCRejected.rawValue, parameters: nil)
             
             guard let refusedMessage = userInfo["refusedMessage"] as? String else {
                 return
@@ -350,6 +353,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 }
             }
         } else if eventType == "TRANSFER_NORMAL_SUCCEEDED" {
+            
             guard let authorName = userInfo["authorName"] as? String else {
                 return
             }
@@ -359,6 +363,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             guard let amount = userInfo["amount"] as? String else {
                 return
             }
+            
+            Analytics.logEvent(Event.receivedSuccess.rawValue, parameters: [
+                // amount should already be correctly formatted? 
+                EventVar.receivedSuccess.receivedAmount.rawValue: amount,
+                EventVar.receivedSuccess.currency.rawValue: currency
+            ])
             
             if let controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "NotificationPaymentReceived") as? NotificationPaymentReceivedViewController {
                 
@@ -385,8 +395,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
     
     func redirect() {
-        
-        // TODO if no connectivity, prevent user from progressing
         
         // check if they are logged in already
         let uid = Auth.auth().currentUser?.uid

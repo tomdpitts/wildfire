@@ -10,6 +10,7 @@ import UIKit
 import FirebaseAuth
 import FirebaseDynamicLinks
 import FirebaseStorage
+import FirebaseAnalytics
 import CryptoSwift
 
 
@@ -163,14 +164,12 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
             self.universalShowAlert(title: "Please set up your account", message: "Just a few quick details are needed to receive payments", segue: "showAccountSetup", cancel: true)
             
             return
-        }
-        
-        if qrcodeImage == nil {
+        } else {
             
             if amountTextField.text == "" {
                 return
             }
-            
+                        
             guard let qrString = generateQRString() else { return }
             
             let qrData = qrString.data(using: String.Encoding.isoLatin1, allowLossyConversion: false)
@@ -193,28 +192,27 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
             shareLinkButton.isHidden = false
             // show the buttons but don't enable shareLinkButton yet
             shareLinkButton.isEnabled = false
-            
         }
             
         // old code, redundant now that the 'go' button disappears upon submission, and retries are handled by text field changed function
-        else {
-            // revert to empty state
-            QRCodeImageView.image = UIImage(named: "QR Border3 TEAL")
-            qrcodeImage = nil
-//            btnAction.setTitle("Show code",for: .normal)
-            btnAction.isHidden = false
-            saveToCameraRoll.isHidden = true
-//            scanToPayLabel.isHidden = true
-            shareLinkButton.isHidden = true
-            shareLinkButton.setImage(arrowUp?.changeAlpha(alpha: 0.0), for: .normal)
-            loadingSpinner.isHidden = true
-            
-            // reset Save to Camera Roll Button (currently hidden)
-            saveToCameraRoll.setTitle("Save", for: .normal)
-            Utilities.styleHollowButton(saveToCameraRoll)
-            saveToCameraRoll.setImage(UIImage(named: "icons8-picture-50"), for: .normal)
-            saveToCameraRoll.isEnabled = true
-        }
+//        else {
+//            // revert to empty state
+//            QRCodeImageView.image = UIImage(named: "QR Border3 TEAL")
+//            qrcodeImage = nil
+////            btnAction.setTitle("Show code",for: .normal)
+//            btnAction.isHidden = false
+//            saveToCameraRoll.isHidden = true
+////            scanToPayLabel.isHidden = true
+//            shareLinkButton.isHidden = true
+//            shareLinkButton.setImage(arrowUp?.changeAlpha(alpha: 0.0), for: .normal)
+//            loadingSpinner.isHidden = true
+//
+//            // reset Save to Camera Roll Button (currently hidden)
+//            saveToCameraRoll.setTitle("Save", for: .normal)
+//            Utilities.styleHollowButton(saveToCameraRoll)
+//            saveToCameraRoll.setImage(UIImage(named: "icons8-picture-50"), for: .normal)
+//            saveToCameraRoll.isEnabled = true
+//        }
     }
     
     func generateQRString() -> String? {
@@ -331,6 +329,8 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
         UIImageWriteToSavedPhotosAlbum(QRCodeImageView.image!, nil, nil, nil)
         
         saveToCameraRoll.isEnabled = false
+        
+        Analytics.logEvent(Event.QRImageSaved.rawValue, parameters: nil)
         
         // change the look to show it has been selected and is now disabled as a button
         Utilities.styleHollowButtonSELECTED(saveToCameraRoll)
@@ -457,6 +457,8 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
         let text = "Here's a link to send me £\(amountTextField.text!) with Wildfire"
         let activityVC = UIActivityViewController(activityItems: [text, url], applicationActivities: nil)
         present(activityVC, animated: true)
+        
+        Analytics.logEvent(Event.linkButtonTapped.rawValue, parameters: nil)
     }
     
     @objc func DismissKeyboard(){

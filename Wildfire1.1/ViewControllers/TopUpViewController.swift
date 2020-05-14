@@ -134,10 +134,13 @@ class TopUpViewController: UIViewController, UITextFieldDelegate {
                     if result != "success" {
                         self.universalShowAlert(title: "Oops", message: result, segue: nil, cancel: false)
                     } else {
-                        
-                        Analytics.logEvent(Event.creditAdded.rawValue, parameters: [
-                            EventVar.creditAdded.creditAmount.rawValue: amount
-                        ])
+                        if let amount = amount {
+                            let realAmount = Float(amount)/100
+                            
+                            Analytics.logEvent(Event.creditAdded.rawValue, parameters: [
+                                EventVar.creditAdded.creditAmount.rawValue: realAmount
+                            ])
+                        }
                         
                         self.newBalance = amount
                         self.performSegue(withIdentifier: "showCreditAdded", sender: self)
@@ -160,7 +163,7 @@ class TopUpViewController: UIViewController, UITextFieldDelegate {
                 
                 self.functions.httpsCallable("createPayin").call(["amount": amount, "currency": currency]) { (result, error) in
                     if error != nil {
-                        // TODO
+                        
                         self.removeSpinner()
                         completion("We couldn't top up your account. Please try again.", nil)
                     } else {

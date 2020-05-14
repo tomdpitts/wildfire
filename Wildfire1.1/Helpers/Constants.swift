@@ -59,6 +59,7 @@ struct Constants {
 enum Event: String {
     
     // Event Titles
+    case QRGenerated = "QRGenerated"
     case QRScanned = "QRScanned"
     case paymentSuccess = "paymentSuccess"
     case receivedSuccess = "receivedSuccess"
@@ -71,14 +72,22 @@ enum Event: String {
     case KYCAccepted = "KYCAccepted"
     case KYCRejected = "KYCRejected"
     case creditAdded = "creditAdded"
-    
+    case profilePicChanged = "profilePicChanged"
+    case linkButtonTapped = "linkButtonTapped"
+    case QRImageSaved = "QRImageSaved"
 }
 
 enum EventVar {
     
+    enum QRGenerated: String {
+        case generatedAmount = "generatedAmount"
+        case generatedCurrency = "generatedCurrency"
+    }
+    
     enum QRScanned: String {
         
         case scannedAmount = "scannedAmount"
+        case scannedCurrency = "scannedCurrency"
         case scannedRecipient = "scannedRecipient"
     }
     
@@ -90,12 +99,12 @@ enum EventVar {
         case transactionType = "transactionType"
         case topup = "topup"
         
-            enum transactionTypeOptions: String {
-                // transactionType options
-                case scan = "scan"
-                case send = "send"
-                case dynamicLink = "dynamicLink"
-            }
+        enum transactionTypeOptions: String {
+            // transactionType options
+            case scan = "scan"
+            case send = "send"
+            case dynamicLink = "dynamicLink"
+        }
     }
     
     enum receivedSuccess: String {
@@ -110,23 +119,24 @@ enum EventVar {
         case paymentMethodType = "paymentMethodType"
         
         // paymentMethodAdded options
-           enum paymentMethodTypeOptions: String {
-               case card = "card"
-               case paypal = "paypal"
-               case other = "other"
-           }
+        enum paymentMethodTypeOptions: String {
+            case card = "card"
+            case paypal = "paypal"
+            case other = "other"
+        }
     }
     
     enum paymentMethodDeleted: String {
         
         case paymentMethodType = "paymentMethodType"
         
-        // paymentMethodAdded options
-           enum paymentMethodTypeOptions: String {
-               case card = "card"
-               case paypal = "paypal"
-               case other = "other"
-           }
+        // paymentMethodDeleted options
+        enum paymentMethodTypeOptions: String {
+           case card = "card"
+           case paypal = "paypal"
+           case other = "other"
+            
+        }
     }
    
     
@@ -134,13 +144,13 @@ enum EventVar {
         // Event: KYCUploaded
         case kycType = "KYCType"
         
-            enum kycTypeOptions: String {
-                // kycType options
-                case passport = "passport"
-                case driverLicence = "driverLicence"
-                case IDCard = "IDCard"
-                case other = "other"
-            }
+        enum kycTypeOptions: String {
+            // kycType options
+            case passport = "passport"
+            case driverLicence = "driverLicence"
+            case IDCard = "IDCard"
+            case other = "other"
+        }
     }
     
     enum creditAdded: String {

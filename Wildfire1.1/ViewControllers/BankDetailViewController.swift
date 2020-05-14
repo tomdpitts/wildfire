@@ -54,12 +54,6 @@ class BankDetailViewController: UIViewController {
         
         KYCPendingView.isHidden = true
         
-        // TODO - TAKE THIS OUT! FOR TESTING ONLY
-
-//        UserDefaults.standard.set(false, forKey: "KYCPending")
-//        UserDefaults.standard.set(false, forKey: "KYCVerified")
-//        UserDefaults.standard.set(true, forKey: "KYCRefused")
-        
         if KYCPending == true {
             KYCPendingView.isHidden = false
         } else if KYCRefused == true {
@@ -160,7 +154,7 @@ class BankDetailViewController: UIViewController {
                 
             } else {
                 
-                Analytics.logEvent(Event.bankAccountDeleted, parameters: nil)
+                Analytics.logEvent(Event.bankAccountDeleted.rawValue, parameters: nil)
                 
                 let count = UserDefaults.standard.integer(forKey: "numberOfBankAccounts")
                 // this only works for 1 bank account - will need to be changed to support multiple

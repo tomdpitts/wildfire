@@ -59,7 +59,7 @@ class PayViewController: UIViewController {
     
     @IBAction func sendButtonTapped(_ sender: Any) {
         
-        Analytics.logEvent(Event.KYCAccepted.rawValue, parameters: [Event.bankAccountAdded.rawValue: EventVar.kycTypeOptions.IDCard.rawValue])
+        Analytics.logEvent("test3_sendTapped", parameters: [EventVar.creditAdded.creditAmount.rawValue: EventVar.KYCUploaded.kycTypeOptions.IDCard.rawValue])
         
         CNContactStore().requestAccess(for: .contacts) { (granted, error) in
             if let error = error {

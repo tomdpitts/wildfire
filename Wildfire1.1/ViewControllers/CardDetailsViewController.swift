@@ -9,6 +9,7 @@
 import UIKit
 import Alamofire
 import FirebaseFunctions
+import FirebaseAnalytics
 
 class CardDetailsViewController: UIViewController {
     

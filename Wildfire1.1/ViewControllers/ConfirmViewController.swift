@@ -290,8 +290,11 @@ class ConfirmViewController: UIViewController {
                             
                             let topupAmount = 0
                             
+                            // amount should be human readable i.e. in natual currency amount
+                            let realSendAmount = Float(self.sendAmount)/100
+                            
                             Analytics.logEvent(Event.paymentSuccess.rawValue, parameters: [
-                                EventVar.paymentSuccess.paidAmount.rawValue: self.sendAmount,
+                                EventVar.paymentSuccess.paidAmount.rawValue: realSendAmount,
                                 EventVar.paymentSuccess.currency.rawValue: currency,
                                 EventVar.paymentSuccess.recipient.rawValue: self.recipientUID,
                                 EventVar.paymentSuccess.topup.rawValue: topupAmount,
