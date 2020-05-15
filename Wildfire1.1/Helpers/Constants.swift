@@ -80,6 +80,7 @@ enum Event: String {
 enum EventVar {
     
     enum QRGenerated: String {
+        
         case generatedAmount = "generatedAmount"
         case generatedCurrency = "generatedCurrency"
     }
@@ -100,7 +101,7 @@ enum EventVar {
         case topup = "topup"
         
         enum transactionTypeOptions: String {
-            // transactionType options
+            
             case scan = "scan"
             case send = "send"
             case dynamicLink = "dynamicLink"
@@ -118,7 +119,6 @@ enum EventVar {
         
         case paymentMethodType = "paymentMethodType"
         
-        // paymentMethodAdded options
         enum paymentMethodTypeOptions: String {
             case card = "card"
             case paypal = "paypal"
@@ -130,7 +130,6 @@ enum EventVar {
         
         case paymentMethodType = "paymentMethodType"
         
-        // paymentMethodDeleted options
         enum paymentMethodTypeOptions: String {
            case card = "card"
            case paypal = "paypal"
@@ -141,11 +140,11 @@ enum EventVar {
    
     
     enum KYCUploaded: String {
-        // Event: KYCUploaded
+        
         case kycType = "KYCType"
         
         enum kycTypeOptions: String {
-            // kycType options
+            
             case passport = "passport"
             case driverLicence = "driverLicence"
             case IDCard = "IDCard"

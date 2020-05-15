@@ -94,8 +94,9 @@ class CardDetailsViewController: UIViewController {
             
             let appDelegate = AppDelegate()
             appDelegate.listCardsFromMangopay() { () in
-                self.removeSpinner()
-                completion()
+                self.removeSpinnerWithCompletion {
+                    completion()
+                }
             }
         }
         

@@ -180,8 +180,6 @@ class AddCard2TableViewController: UITableViewController, UITextFieldDelegate {
                                 print(err)
                                 self.removeSpinner()
                             }
-                            print(response)
-                            
                             
                             semaphore.wait()
                             
@@ -197,10 +195,12 @@ class AddCard2TableViewController: UITableViewController, UITextFieldDelegate {
 
                                 if let error = error {
                                     
-                                    self.universalShowAlert(title: "Oops", message: "Something went wrong: \(error.localizedDescription)", segue: nil, cancel: false)
-                                    // revive the button to prevent retries
-                                    self.submitButton.isEnabled = true
-                                    self.removeSpinner()
+                                    self.removeSpinnerWithCompletion {
+                                        
+                                        self.universalShowAlert(title: "Oops", message: "Something went wrong: \(error.localizedDescription)", segue: nil, cancel: false)
+                                        // revive the button to prevent retries
+                                        self.submitButton.isEnabled = true
+                                    }
                                 } else {
                                     
                                     Analytics.logEvent(Event.paymentMethodAdded.rawValue, parameters: [
@@ -216,10 +216,9 @@ class AddCard2TableViewController: UITableViewController, UITextFieldDelegate {
                                     let appDelegate = AppDelegate()
                                     appDelegate.listCardsFromMangopay() { () in
                                         
-                                        self.removeSpinner()
-                                        
-                                        self.performSegue(withIdentifier: "showSuccessScreen", sender: self)
-                                        
+                                        self.removeSpinnerWithCompletion {
+                                            self.performSegue(withIdentifier: "showSuccessScreen", sender: self)
+                                        }
                                     }
 
                                     // leaving makeDefault as true by default for now

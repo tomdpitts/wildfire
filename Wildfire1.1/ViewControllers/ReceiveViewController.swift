@@ -233,16 +233,22 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
                 
                 // update class variable with amount in cents, so it can be included in dynamic link
                 // first trim off the ".0" at the end
-                let centsInt = Int(receiveAmountCents)
+                let centsInt = Int(float)
                 
                 // required for dynamic link
                 self.receiveAmount = String(centsInt)
                 
                 let receiveAmount7 = Int(receiveAmountCents*7)
                 receiveAmountString = String(receiveAmount7)
+                
+                Analytics.logEvent(Event.QRGenerated.rawValue, parameters: [
+                    EventVar.QRGenerated.generatedAmount.rawValue: float,
+                    EventVar.QRGenerated.generatedCurrency.rawValue: currency
+                ])
             }
         } else {
-            receiveAmountString = ""
+            self.universalShowAlert(title: "Something went wrong", message: "Please ensure you've entered a valid amount", segue: nil, cancel: false)
+            return nil
         }
         
         

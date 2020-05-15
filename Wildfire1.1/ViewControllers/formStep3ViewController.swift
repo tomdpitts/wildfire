@@ -161,29 +161,31 @@ class formStep3ViewController: UIViewController, UITextFieldDelegate {
             
             Firestore.firestore().collection("users").document(uid).setData(newUserData, merge: true) { (error) in
                 
-                self.removeSpinner()
-                 // print(result!.user.uid)
-                 if error != nil {
-                     // Show error message
-                     self.showAlert(title: "Error saving user data", message: nil, progress: false)
-                 } else {
-                    
-                    // update saved userAccountExists flag
-                    if UserDefaults.standard.bool(forKey: "userAccountExists") != true {
-                        Utilities.checkForUserAccount()
+                self.removeSpinnerWithCompletion {
+                    // print(result!.user.uid)
+                     if error != nil {
+                        
+                         // Show error message
+                         self.showAlert(title: "Error saving user data", message: nil, progress: false)
+                     } else {
+                        
+                        // update saved userAccountExists flag
+                        if UserDefaults.standard.bool(forKey: "userAccountExists") != true {
+                            Utilities.checkForUserAccount()
+                        }
+                        
+                        Analytics.logEvent(Event.accountAdded.rawValue, parameters: nil)
+                        
+                        Utilities.getMangopayID()
+                        self.performSegue(withIdentifier: "showAccountAdded", sender: self)
+                         
+                        
+                        // the user is already logged in with their phone number, but adding email address gives a killswitch option
+                        // for future ref - we might want to add email to User as well (easy to do, allows for checking of dupe emails... but not sure this is actually something that's needed so commenting out for now)
+                        // self.addEmailToFirebaseUser()
+                        
+                        
                     }
-                    
-                    Analytics.logEvent(Event.accountAdded.rawValue, parameters: nil)
-                    
-                    Utilities.getMangopayID()
-                    self.performSegue(withIdentifier: "showAccountAdded", sender: self)
-                     
-                    
-                    // the user is already logged in with their phone number, but adding email address gives a killswitch option
-                    // for future ref - we might want to add email to User as well (easy to do, allows for checking of dupe emails... but not sure this is actually something that's needed so commenting out for now)
-                    // self.addEmailToFirebaseUser()
-                    
-                    
                 }
             }
         }

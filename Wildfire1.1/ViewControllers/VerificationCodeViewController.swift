@@ -115,10 +115,10 @@ class VerificationCodeViewController: UIViewController, UITextFieldDelegate {
                         Utilities.getMangopayID()
                         
                         
-                        self.removeSpinner()
-                        
-                        // segue to welcome
-                        self.performSegue(withIdentifier: "unwindToWelcome", sender: self)
+                        self.removeSpinnerWithCompletion {
+                            // segue to welcome
+                            self.performSegue(withIdentifier: "unwindToWelcome", sender: self)
+                        }
                     }
                     
                     
@@ -132,14 +132,11 @@ class VerificationCodeViewController: UIViewController, UITextFieldDelegate {
                     Utilities.getCurrentRegistrationToken()
                     Utilities.getMangopayID()
                     
-                    self.removeSpinner()
-                    
-                    
-                    // segue to welcome
-                    self.performSegue(withIdentifier: "unwindToWelcome", sender: self)
+                    self.removeSpinnerWithCompletion {
+                        // segue to welcome
+                        self.performSegue(withIdentifier: "unwindToWelcome", sender: self)
+                    }
                 }
-
-                
             }
         }
     }

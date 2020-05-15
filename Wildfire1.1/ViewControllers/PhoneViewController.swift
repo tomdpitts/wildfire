@@ -52,7 +52,7 @@ class PhoneViewController: UIViewController, UITextFieldDelegate {
         
         if phoneNumber.count < 11 || phoneNumber.prefix(1) != "+" {
             self.removeSpinner()
-            // TODO return error "please enter 11 digit number"..
+
             errorLabel.text = "Please enter a valid 11 or 12 digit phone number, beginning with international dialling code e.g. '+44'"
             errorLabel.isHidden = false
             return

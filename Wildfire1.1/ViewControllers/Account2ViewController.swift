@@ -325,24 +325,24 @@ class Account2ViewController: UITableViewController {
                 
                 self.functions.httpsCallable("deleteUser").call(["foo": "bar"]) { (result, error) in
                     
-                    self.removeSpinner()
-
-                    if error != nil {
-                        self.universalShowAlert(title: "Something went wrong", message: "Your account was not deleted.", segue: nil, cancel: false)
-                        completion(false)
-                    } else {
+                    self.removeSpinnerWithCompletion {
                         
-                        
-                        // might be a timing thing, but in testing, user was usually still signed in even after calling deleteUser
-                        do {
+                        if error != nil {
+                            self.universalShowAlert(title: "Something went wrong", message: "Your account was not deleted.", segue: nil, cancel: false)
+                            completion(false)
+                        } else {
+                            
+                            // might be a timing thing, but in testing, user was usually still signed in even after calling deleteUser
+                            do {
                                 try Auth.auth().signOut()
-                        } catch {
-                            print(error)
+                            } catch {
+                                // should be a limited downside if the signout fails..? 
+                            }
+
+                            self.resetUserDefaults()
+
+                            completion(true)
                         }
-
-                        self.resetUserDefaults()
-
-                        completion(true)
                     }
                 }
             } else {

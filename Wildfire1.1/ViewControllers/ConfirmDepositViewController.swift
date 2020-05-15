@@ -63,25 +63,26 @@ class ConfirmDepositViewController: UIViewController {
             
             self.functions.httpsCallable("triggerPayout").call(["amount": amountInCents, "currency": currency]) { (result, error) in
                 
-                self.removeSpinner()
-                
-                if error != nil {
+                self.removeSpinnerWithCompletion {
                     
-                    self.universalShowAlert(title: "Something went wrong", message: "Sorry about this. It's not clear what went wrong exactly, although it may have been the internet connection. Please check your balance and if it's unchanged, try depositing again. (If the problem persists, contact support@wildfirewallet.com)", segue: nil, cancel: false)
-                    
-                    self.confirmDepositButton.isEnabled = true
-                } else {
-                    
-                    // update balance
-                    self.functions.httpsCallable("getCurrentBalance").call(["foo": "bar"]) { (result, error) in
-                        if error != nil {
-                            // TODO error handling?
-                        } else {
-                            // nothing - happy days
+                    if error != nil {
+                        
+                        self.universalShowAlert(title: "Something went wrong", message: "Sorry about this. It's not clear what went wrong exactly, although it may have been the internet connection. Please check your balance and if it's unchanged, try depositing again. (If the problem persists, contact support@wildfirewallet.com)", segue: nil, cancel: false)
+                        
+                        self.confirmDepositButton.isEnabled = true
+                    } else {
+                        
+                        // update balance
+                        self.functions.httpsCallable("getCurrentBalance").call(["foo": "bar"]) { (result, error) in
+                            if error != nil {
+                                // TODO error handling?
+                            } else {
+                                // nothing - happy days
+                            }
                         }
+                        // don't need to wait for anything to come back
+                        self.performSegue(withIdentifier: "showSuccessScreen", sender: self)
                     }
-                    // don't need to wait for anything to come back
-                    self.performSegue(withIdentifier: "showSuccessScreen", sender: self)
                 }
             }
         }

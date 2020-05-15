@@ -96,21 +96,23 @@ class PassportUploadViewController: UIViewController, UINavigationControllerDele
         
         functions.httpsCallable("addKYCDocument").call(["mangopayID": mangopayID, "pages": pages, "base64Image": imageToUpload]) { (result, error) in
 
-            self.removeSpinner()
-            if error != nil {
+            self.removeSpinnerWithCompletion {
                 
-                self.showAlert(title: "That didn't work for some reason", message: "Sorry about that. This just means we couldn't complete the upload. Please ensure you have an internet connection and try again.")
-                
-                self.editImageButton.isEnabled = true
-                self.confirmButton.isEnabled = true
-            } else {
-                
-                Analytics.logEvent(Event.KYCUploaded.rawValue, parameters: [
-                    EventVar.KYCUploaded.kycType.rawValue: EventVar.KYCUploaded.kycTypeOptions.passport.rawValue
-                ])
-                
-                UserDefaults.standard.set(true, forKey: "KYCPending")
-                self.performSegue(withIdentifier: "showKYCSuccessScreen", sender: self)
+                if error != nil {
+                    
+                    self.showAlert(title: "That didn't work for some reason", message: "Sorry about that. This just means we couldn't complete the upload. Please ensure you have an internet connection and try again.")
+                    
+                    self.editImageButton.isEnabled = true
+                    self.confirmButton.isEnabled = true
+                } else {
+                    
+                    Analytics.logEvent(Event.KYCUploaded.rawValue, parameters: [
+                        EventVar.KYCUploaded.kycType.rawValue: EventVar.KYCUploaded.kycTypeOptions.passport.rawValue
+                    ])
+                    
+                    UserDefaults.standard.set(true, forKey: "KYCPending")
+                    self.performSegue(withIdentifier: "showKYCSuccessScreen", sender: self)
+                }
             }
         }
         return

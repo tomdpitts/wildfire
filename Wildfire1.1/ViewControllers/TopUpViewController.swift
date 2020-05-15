@@ -129,21 +129,24 @@ class TopUpViewController: UIViewController, UITextFieldDelegate {
             errorLabel.isHidden = true
             if let amount = self.creditAmount {
                 
-                topUp(amount: amount, currency: "GBP") { (result, amount) in
+                topUp(amount: amount, currency: "GBP") { (result, newBal) in
                     
                     if result != "success" {
-                        self.universalShowAlert(title: "Oops", message: result, segue: nil, cancel: false)
+                        self.universalShowAlert(title: "Something went wrong", message: result, segue: nil, cancel: false)
                     } else {
-                        if let amount = amount {
-                            let realAmount = Float(amount)/100
+                        if let newBal = newBal {
+                            
+                            // amount should be human readable i.e. in natual currency amount
+                            let realBal = Float(newBal)/100
                             
                             Analytics.logEvent(Event.creditAdded.rawValue, parameters: [
-                                EventVar.creditAdded.creditAmount.rawValue: realAmount
+                                EventVar.creditAdded.creditAmount.rawValue: realBal
                             ])
+                            
+                            self.newBalance = newBal
+                            self.performSegue(withIdentifier: "showCreditAdded", sender: self)
+                            
                         }
-                        
-                        self.newBalance = amount
-                        self.performSegue(withIdentifier: "showCreditAdded", sender: self)
                     }
                 }
             }
@@ -164,23 +167,26 @@ class TopUpViewController: UIViewController, UITextFieldDelegate {
                 self.functions.httpsCallable("createPayin").call(["amount": amount, "currency": currency]) { (result, error) in
                     if error != nil {
                         
-                        self.removeSpinner()
-                        completion("We couldn't top up your account. Please try again.", nil)
+                        self.removeSpinnerWithCompletion {
+                            completion("Your account wasn't credited. It's not clear exactly why this happened, sorry about that. Please check your connection and try again. (If the problem persists, please contact support@wildfirewallet.com)", nil)
+                        }
                     } else {
                         
                         self.functions.httpsCallable("getCurrentBalance").call(["foo": "bar"]) { (result, error) in
                             
                             if error != nil {
-                                self.removeSpinner()
-                                completion("Your account was successfully credited but the connection dropped. Please restart the app to see the correct balance in your account.", nil)
+                                
+                                self.removeSpinnerWithCompletion {
+                                    completion("Your account was successfully credited but the connection dropped. Please restart the app to see the correct balance in your account.", nil)
+                                }
                             } else {
                                 
                                 if let data = result?.data {
                                     let newBalance = data as? Int
-                                    self.removeSpinner()
-                                    completion("success", newBalance)
+                                    self.removeSpinnerWithCompletion {
+                                        completion("success", newBalance)
+                                    }
                                 }
-                                
                             }
                         }
                     }
