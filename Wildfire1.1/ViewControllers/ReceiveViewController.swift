@@ -405,18 +405,30 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
             return
         }
         
+        // bundleID found programmatically
         if let bundleID = Bundle.main.bundleIdentifier {
             shareLink.iOSParameters = DynamicLinkIOSParameters(bundleID: bundleID)
         }
         
         shareLink.iOSParameters?.appStoreID = "962194608"
         
-        if let homepage = URL(string: "https://www.theverge.com") {
-            shareLink.otherPlatformParameters?.fallbackUrl = homepage
-        }
+//        shareLink.link = imageURL
         
-        // for future Android version!
-//        linkBuilder.androidParameters = DynamicLinkAndroidParameters(packageName: "com.example.android")
+        shareLink.androidParameters = DynamicLinkAndroidParameters()
+        shareLink.androidParameters?.fallbackURL = URL(string: "https://www.wildfirewallet.com/android")
+        
+        shareLink.otherPlatformParameters = DynamicLinkOtherPlatformParameters()
+        shareLink.otherPlatformParameters?.fallbackUrl = imageURL
+        
+//        if let homepage = URL(string: "https://www.wildfirewallet.com/signpost") {
+//            shareLink.otherPlatformParameters?.fallbackUrl = homepage
+////            shareLink.link = homepage
+//        }
+        
+        
+        
+//        // for future Android version!
+//        shareLink.androidParameters = DynamicLinkAndroidParameters(packageName: "com.example.android")
         
         shareLink.socialMetaTagParameters = DynamicLinkSocialMetaTagParameters()
         

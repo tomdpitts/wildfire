@@ -351,143 +351,182 @@ exports.transact = functions.region('europe-west1').https.onCall( async (data, c
   const amount98 = (amountRequested*98)/100
   const currency = data.currency
 
-  console.log(amount98)
-
   // now we have all the input we need ^
 
   let userRef = db.collection("users").doc(userID)
   let recipientRef = db.collection("users").doc(recipientID)
 
-  var oldUserBalance = 0
+  // var oldUserBalance = 0
   // var oldRecipientBalance = 0
 
-  var userWalletID = ''
-  var userMangoPayID = ''
-  var recipientWalletID = ''
-  var recipientMangoPayID = ''
+  // var userWalletID = ''
+  // var userMangoPayID = ''
+  // var recipientWalletID = ''
+  // var recipientMangoPayID = ''
 
   var userFullname = ''
   var recipientFullname = ''
 
-  // boolean flag to check the balances have been correctly fetched
-  var balanceFail = false
+  try {
+    // 2: get the user and recipient  wallet ID and MP ID
+    // NB should be refactored to fetch simultaneously
+    let userRefTask = userRef.get().then(doc => {
+      let data = doc.data()
 
-  
-  // 2: get the user and recipient  wallet ID and MP ID
-  // NB should be refactored to fetch simultaneously
-  await userRef.get().then(doc => {
-    let data = doc.data()
-    userMangoPayID = data.mangopayID
-    userFullname = data.fullname
-    return userWalletID = data.defaultWalletID
-    // return oldUserBalance = data.balance;
-  })
-  .catch(err => {
-    balanceFail = true
-    console.log('Error getting user balance', err);
-  });
-  await recipientRef.get().then(doc => {
-    let data = doc.data()
-    recipientMangoPayID = data.mangopayID
-    recipientFullname = data.fullname
-    return recipientWalletID = data.defaultWalletID
-  })
-  .catch(err => {
-    balanceFail = true
-    console.log('Error getting recipient balance', err);
-  });
-
-  // 3: Check balance of payer
-  const userMPWallet = await mpAPI.Wallets.get(userWalletID)
-  .catch(err => {
-    balanceFail = true,
-    console.log('Error getting userMPWallet', err)
-  })
-  oldUserBalance = userMPWallet.Balance.Amount
-
-  // const recipientMPWallet = await mpAPI.Wallets.get(recipientWalletID)
-  // .catch(err => {
-  //   balanceFail = true,
-  //   console.log('Error getting recipientMPWallet', err)
-  // })
-  // oldRecipientBalance = recipientMPWallet.Balance.amount
+      userFullname = data.fullname
 
 
-  // 4: if balance have been correctly retrieved, trigger the transaction
-  if (balanceFail !== true) {
+      let userMangoPayID = data.mangopayID
+      let userWalletID = data.defaultWalletID
+      let userRefData = {
+        'userMangoPayID': userMangoPayID, 
+        'userFullname': userFullname, 
+        'userWalletID': userWalletID}
 
-    if (amount98 <= oldUserBalance && amount98 > 0) {
+      return userRefData
+    })
+    .catch(err => {
+      throw err
+    })
 
-      const MPTransferData =
-        {
-        "AuthorId": userMangoPayID,
-        "CreditedUserId": recipientMangoPayID,
-        "DebitedFunds": {
-          "Currency": currency,
-          "Amount": amount98
-          },
-        // intraplatform transactions are free, so fee is zero
-        "Fees": {
-          "Currency": currency,
-          "Amount": 0
-          },
-        "DebitedWalletId": userWalletID,
-        "CreditedWalletId": recipientWalletID
+    let recipientRefTask = recipientRef.get().then(doc => {
+      let data = doc.data()
+
+      recipientFullname = data.fullname
+
+      let recipientMangoPayID = data.mangopayID
+      let recipientWalletID = data.defaultWalletID
+      let recipientRefData = {
+        'recipientMangoPayID': recipientMangoPayID,
+        'recipientFullname': recipientFullname,
+        'recipientWalletID': recipientWalletID}
+
+      return recipientRefData
+    })
+    .catch(err => {
+      throw err
+    });
+
+    // // 3: Check balance of payer
+    // const userMPWallet = await mpAPI.Wallets.get(userWalletID)
+    // .catch(err => {
+    //   balanceFail = true,
+    //   console.log('Error getting userMPWallet', err)
+
+    //   let error = Error("Something went wrong. Please wait a moment and try again.")
+
+    //   throw error
+    // })
+
+    // this pattern allows the three above calls to run immediately, but waits until all have returned a value before continuing
+    await Promise.all([userRefTask, recipientRefTask])
+    .then( promise => {
+
+      console.log(promise)
+      console.log(promise[0].userFullname)
+      let userWalletID = promise[0].userWalletID
+      let userMangoPayID = promise[0].userMangoPayID
+
+      let recipientWalletID = promise[1].recipientWalletID
+      let recipientMangoPayID = promise[1].recipientMangoPayID
+
+      // old code - this if condition is probably overkill
+        // if (amount98 <= oldUserBalance && amount98 > 0) {
+      if (amount98 > 0) {
+
+        const MPTransferData = {
+          "AuthorId": userMangoPayID,
+          "CreditedUserId": recipientMangoPayID,
+          "DebitedFunds": {
+            "Currency": currency,
+            "Amount": amount98
+            },
+          // intraplatform transactions are free, so fee is zero
+          "Fees": {
+            "Currency": currency,
+            "Amount": 0
+            },
+          "DebitedWalletId": userWalletID,
+          "CreditedWalletId": recipientWalletID
+          }
+
+        return mpAPI.Transfers.create(MPTransferData)
+      } else {
+
+        let error = Error("Transaction amount must be greater than 0")
+        throw error
+      }
+    })
+    .then( transfer => {
+
+      if (transfer.Status === "SUCCEEDED") {
+
+        // 5: Add a new document to FS transaction database with a generated id
+        const transactionData = {
+          from: userID,
+          to: recipientID,
+          datetimeHR: admin.firestore.FieldValue.serverTimestamp(),
+          datetime: Math.round(Date.now()/1000),
+          currency: currency,
+          amount: amountRequested
         }
 
-      const transfer = await mpAPI.Transfers.create(MPTransferData)
-      .catch(err => {
-        console.log(err)
-        return err
-      })
+        db.collection('transactions').add(transactionData)
 
-      // 5: Add a new document to FS transaction database with a generated id
-      const transactionData = {
-        from: userID,
-        to: recipientID,
-        datetimeHR: admin.firestore.FieldValue.serverTimestamp(),
-        datetime: Math.round(Date.now()/1000),
-        currency: currency,
-        amount: amountRequested
+        // 6: update both party's wallets
+
+        helpers.callCloudFunction('getCurrentBalance', {uid: userID})
+        helpers.callCloudFunction('getCurrentBalance', {uid: recipientID})
+
+
+        // 7: return success to Client
+
+        const receiptData = {
+          "amount": amountRequested,
+          "currency": currency,
+          "datetime": Math.round(Date.now()/1000),
+          "payerID": userID,
+          "recipientID": recipientID,
+          "payerName": userFullname,
+          "recipientName": recipientFullname,
+          "userIsPayer": true
+        }
+
+        return receiptData
+      } else {
+
+        let error = Error("Something went wrong. Please wait a moment and then try again. If the problem persists, please contact support@wildfirewallet.com")
+        throw error
       }
+    })
 
-      db.collection('transactions').add(transactionData)
+    // oldUserBalance = userMPWallet.Balance.Amount
 
-      // 6: update both party's wallets
+    // const recipientMPWallet = await mpAPI.Wallets.get(recipientWalletID)
+    // .catch(err => {
+    //   balanceFail = true,
+    //   console.log('Error getting recipientMPWallet', err)
+    // })
+    // oldRecipientBalance = recipientMPWallet.Balance.amount
 
-      helpers.callCloudFunction('getCurrentBalance', {uid: userID})
-      helpers.callCloudFunction('getCurrentBalance', {uid: recipientID})
-      // const newUserWallet = await mpAPI.Wallets.get(userWalletID)
-      // const newUserBalance = newUserWallet.Balance.Amount
 
-      // const newRecipientWallet = await mpAPI.Wallets.get(recipientWalletID)
-      // const newRecipientBalance = newRecipientWallet.Balance.Amount
+    // 4: if balance have been correctly retrieved, trigger the transaction
+    // if (balanceFail !== true) {
 
-      // userRef.set({balance: newUserBalance}, {merge: true})
-      // recipientRef.set({balance: newRecipientBalance}, {merge: true})
+    // } else {
+    //   // TODO there was an error getting one of the balances - abort transaction and inform user
 
-      // 7: return success to Client
-
-      const receiptData = {
-        "amount": amountRequested,
-        "currency": currency,
-        "datetime": Math.round(Date.now()/1000),
-        "payerID": userID,
-        "recipientID": recipientID,
-        "payerName": userFullname,
-        "recipientName": recipientFullname,
-        "userIsPayer": true
-      }
-
-      return receiptData
+    //   let error = Error("User does not have sufficient funds")
+    //   throw error
+    // }
+  }
+  catch (error) {
+    if (error.errors !== undefined) {
+      throw new functions.https.HttpsError('invalid-argument', "The transaction failed")
     } else {
-      console.log("user does not have sufficient funds")
-      return { text: "user does not have sufficient funds"}
+      
+      throw new functions.https.HttpsError('internal', error.message)
     }
-  } else {
-    // TODO there was an error getting one of the balances - abort transaction and inform user
-    console.log('one or more of the balances was not retrieved')
-    return { text: "balance retrieval failed" }
   }
 })
 

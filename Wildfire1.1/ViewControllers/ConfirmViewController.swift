@@ -166,7 +166,7 @@ class ConfirmViewController: UIViewController {
                 self.recipientLabel.text = "\(recipientName)"
                 
                 // removeSpinner is called in two separate funcs - this should be refactored in future but for now, this is the safest option (otherwise the spinner sometimes doesn't get dismissed, if getUserBalance completes before setUpRecipientDetails)
-                self.removeSpinner()
+                self.removeSpinnerWithCompletion() {}
 //
 //                self.recipientName = "\(recipientName)"
                 
@@ -387,13 +387,26 @@ class ConfirmViewController: UIViewController {
                                     
                             self.functions.httpsCallable("transact").call(["recipientUID": recipientUID, "amount": amount, "currency": "GBP"]) { (result, error) in
                                 
-                                if error != nil {
+                                if let error = error {
                                     
                                     // in this scenario, the top up went through and only the transaction failed. This means we need to refresh certain parts of the view, and temporarily disable the confirm button until that's done
-                                    self.confirmButton.isEnabled = false
+//                                    self.confirmButton.isEnabled = false
+//                                    self.getUserBalance()
+//                                    self.removeSpinnerWithCompletion() {
+//                                        completion("We topped up your account but couldn't complete the transaction. Please try again.")
+//                                    }
+                                    
                                     self.getUserBalance()
+                                    
                                     self.removeSpinnerWithCompletion() {
-                                        completion("We topped up your account but couldn't complete the transaction. Please try again.")
+                                        
+                                        if error.localizedDescription != "" {
+                                            
+                                            completion(error.localizedDescription)
+                                        } else {
+                                            
+                                            completion("Something went wrong. Please try again.")
+                                        }
                                     }
                                 } else {
                                     
@@ -440,16 +453,19 @@ class ConfirmViewController: UIViewController {
                     
                     self.functions.httpsCallable("transact").call(["recipientUID": recipientUID,  "amount": amount, "currency": "GBP"]) { (result, error) in
                         // TODO error handling!
-                        if error != nil {
+                        if let error = error {
                             
-                    //                                if error.domain == FunctionsErrorDomain {
-                    //                                    let code = FunctionsErrorCode(rawValue: error.code)
-                    //                                    let message = error.localizedDescription
-                    //                                    let details = error.userInfo[FunctionsErrorDetailsKey]
-                    //                                }
-                            // ...
-                            self.removeSpinnerWithCompletion {
-                                completion("Error in transaction function")
+                            self.getUserBalance()
+                            
+                            self.removeSpinnerWithCompletion() {
+                                
+                                if error.localizedDescription != "" {
+                                    
+                                    completion(error.localizedDescription)
+                                } else {
+                                    
+                                    completion("Something went wrong. Please try again.")
+                                }
                             }
                         } else {
                             

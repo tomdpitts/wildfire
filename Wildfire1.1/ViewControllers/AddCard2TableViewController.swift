@@ -92,7 +92,7 @@ class AddCard2TableViewController: UITableViewController, UITextFieldDelegate {
             self.showSpinner(titleText: "Adding card", messageText: "Please allow up to 30 seconds")
             
             // kill the button to prevent retries
-            submitButton.isEnabled = false
+//            submitButton.isEnabled = false
             
             var accessKey = ""
             var preregistrationData = ""
@@ -102,13 +102,12 @@ class AddCard2TableViewController: UITableViewController, UITextFieldDelegate {
             
             
             // Semaphore is used to ensure async API calls aren't triggered before all the relevant data is ready - they have to be sequential
-            let semaphore = DispatchSemaphore(value: 1)
+//            let semaphore = DispatchSemaphore(value: 1)
             
             var mangopayID = ""
             
             if let mpID = UserDefaults.standard.string(forKey: "mangopayID") {
                 mangopayID = mpID
-                print(mpID)
             }
             
             // fields have passed validation - so continue
@@ -121,12 +120,13 @@ class AddCard2TableViewController: UITableViewController, UITextFieldDelegate {
 //                    }
 //                    // ...
 //                }
-                semaphore.wait()
+//                semaphore.wait()
                 
                 if let error = error {
                     self.removeSpinnerWithCompletion {
                         self.universalShowAlert(title: "Oops", message: "Something went wrong: \(error.localizedDescription)", segue: nil, cancel: false)
                     }
+                    return
                 }
                 
                 if let returnedArray = result?.data as? [[String: Any]] {
@@ -158,9 +158,7 @@ class AddCard2TableViewController: UITableViewController, UITextFieldDelegate {
                     let walletIdData = JSON(returnedArray[1])
                     
                     if let walletID = walletIdData["walletID"].string {
-                    
-                        semaphore.signal()
-                    
+                                        
                         let body = [
                             "accessKeyRef": accessKey,
                             "data": preregistrationData,
@@ -172,22 +170,15 @@ class AddCard2TableViewController: UITableViewController, UITextFieldDelegate {
                         // send card details to Mangopay's tokenization server, and get a RegistrationData object back as response
                         self.networkingClient.postCardInfo(url: cardRegURL, parameters: body) { (response, error) in
                             
-                            
-                            
-                            if let err = error {
+                            if error != nil {
                                 
-                                // TODO error handling
-                                print(err)
-                                self.removeSpinner()
+                                self.removeSpinnerWithCompletion {
+                                    self.universalShowAlert(title: "Something went wrong", message: "Nothing to worry about, the connection seems to have dropped. Please check your internet and try again. (If the problem persists, please contact support@wildfirewallet.com)", segue: nil, cancel: false)
+                                }
+                                return
                             }
                             
-                            semaphore.wait()
-                            
                             regData = String(response)
-                            
-                            semaphore.signal()
-                            
-                            
 
                             // now pass the RegistrationData object to callable Cloud Function which will complete the Card Registration and store the CardId in Firestore (this whole process is a secure way to store the user's card without having their sensitive info ever touch our server)
                             // N.B. we send the wallet ID received earlier so that the Cloud Function can store the final CardID under the user's Firestore wallet entry (the correct wallet - they could have multiple)
@@ -226,6 +217,13 @@ class AddCard2TableViewController: UITableViewController, UITextFieldDelegate {
                                 }
                             }
                         }
+                    }
+                } else {
+                    self.removeSpinnerWithCompletion {
+                        // unlikely to be the connection in this case, instead
+                        self.universalShowAlert(title: "Something went wrong", message: "This is an unusual one - sorry about this. All your details are secure and the tech team has been notified to look into the issue. Please allow 48 hours for this to be resolved. You can also contact us on support@wildfirewallet.com", segue: nil, cancel: false)
+                        
+                        Analytics.logEvent("improperCardInfoReturnedFromMangopay", parameters: nil)
                     }
                 }
             }

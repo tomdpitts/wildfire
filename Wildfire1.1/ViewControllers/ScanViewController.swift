@@ -13,6 +13,7 @@ import AVFoundation
 import CryptoSwift
 import FirebaseFunctions
 import FirebaseAnalytics
+import FirebaseAuth
 //import FirebaseDatabase
 
 class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
@@ -185,6 +186,7 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
             if metadataObj.type == AVMetadataObject.ObjectType.qr {
                 // If the found metadata is equal to the QR code metadata then set the coloured square - we haven't yet established it's a Wildfire code but we know it's a QR code
                 let barCodeObject = videoPreviewLayer?.transformedMetadataObject(for: metadataObj)
+                
                 QRCodeFrameView?.frame = barCodeObject!.bounds
                 
                 // check there's something in the QR code
@@ -218,7 +220,11 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
     //                    self.finalString = validatedString
     //                    self.runScan == false
                         performSegue(withIdentifier: "showConfirmScreen", sender: self)
+//                        QRCodeFrameView?.frame = CGRect.zero
+//                        redQRCodeFrameView?.frame = CGRect.zero
+                        
                         self.captureSession!.stopRunning()
+                        QRCodeFrameView?.frame = CGRect.zero
                     }
                 }
             }
@@ -267,6 +273,12 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
     func extractQRData(QRString: String) -> Bool {
         
         let uid = String(QRString.suffix(UIDLength))
+        
+        
+        // check the QR code isn't to pay the same user! This will fail on Mangopay's end, so better to handle it here
+//        if uid == Auth.auth().currentUser?.uid {
+//            return false
+//        }
         
         // extract the UID (at time of writing, last 28 characters
         self.recipientUID = uid
