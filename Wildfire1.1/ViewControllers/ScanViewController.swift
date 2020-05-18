@@ -130,6 +130,7 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
             videoPreviewLayer?.videoGravity = AVLayerVideoGravity.resizeAspectFill
             videoPreviewLayer?.frame = view.layer.bounds
             videoPreviewLayer?.zPosition = -1
+            
             view.layer.addSublayer(videoPreviewLayer!)
             
             
@@ -276,9 +277,9 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
         
         
         // check the QR code isn't to pay the same user! This will fail on Mangopay's end, so better to handle it here
-//        if uid == Auth.auth().currentUser?.uid {
-//            return false
-//        }
+        if uid == Auth.auth().currentUser?.uid {
+            return false
+        }
         
         // extract the UID (at time of writing, last 28 characters
         self.recipientUID = uid

@@ -78,6 +78,8 @@ class ConfirmViewController: UIViewController {
         }
         
         checkForExistingPaymentMethod()
+        setUpRecipientDetails(recipientUID)
+        getUserBalance()
         
         // this checks the isDynamicLinkResponder and isSendTransaction variables to decide what type of transaction it is - only for Analytics, no functional effects
         determineTransactionType()
@@ -86,13 +88,13 @@ class ConfirmViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         
-        if transactionCompleted != true {
-            // note: moved this func call from viewDidLoad so that alerts always play nice (specifically, when tapping a dynamic link). Calling a spinner i.e. UIAlertController in viewDidLoad fails because there's nothing for it to load on yet for some reason.
-            // the transactionCompleted check is a workaround because the setupRecipientDetails includes a spinner, and that messes with the segue "showSuccessScreen" after the transaction has been completed (since the view technically appears again once the spinner is dismissed)
-            
-            setUpRecipientDetails(recipientUID)
-            getUserBalance()
-        }
+//        if transactionCompleted != true {
+//            // note: moved this func call from viewDidLoad so that alerts always play nice (specifically, when tapping a dynamic link). Calling a spinner i.e. UIAlertController in viewDidLoad fails because there's nothing for it to load on yet for some reason.
+//            // the transactionCompleted check is a workaround because the setupRecipientDetails includes a spinner, and that messes with the segue "showSuccessScreen" after the transaction has been completed (since the view technically appears again once the spinner is dismissed)
+//
+//            setUpRecipientDetails(recipientUID)
+//            getUserBalance()
+//        }
         
         if shouldReloadView == true {
             checkForExistingPaymentMethod()
@@ -274,7 +276,6 @@ class ConfirmViewController: UIViewController {
         if userAccountExists == true {
             
             
-            
             // notice user doesn't strictly need to add card details if they already have sufficient credit to complete payment - this is intentional
             if enoughCredit == true {
                 
@@ -305,7 +306,8 @@ class ConfirmViewController: UIViewController {
                         self.performSegue(withIdentifier: "showSuccessScreen", sender: self)
                     } else {
                         
-                        self.showAlert(title: "Oops!", message: result, segue: nil, cancel: false)
+                        self.universalShowAlert(title: "Something went wrong", message: result, segue: nil, cancel: false)
+//                        self.showAlert(title: "Something went wrong", message: result, segue: nil, cancel: false)
                     }
                     
                 }
@@ -365,6 +367,7 @@ class ConfirmViewController: UIViewController {
         
         
         // for sake of readibility, we first divide into two cases: 1) user wants to topup and transact, 2) user just wants to transact - they already have sufficient credit.
+        // update: refactor this at some point
         if topup == true {
             authenticatePayment() { authenticated in
                 if authenticated == true {
@@ -464,7 +467,7 @@ class ConfirmViewController: UIViewController {
                                     completion(error.localizedDescription)
                                 } else {
                                     
-                                    completion("Something went wrong. Please try again.")
+                                    completion("Please try again.")
                                 }
                             }
                         } else {

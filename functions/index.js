@@ -459,6 +459,8 @@ exports.transact = functions.region('europe-west1').https.onCall( async (data, c
     })
     .then( transfer => {
 
+      console.log(transfer)
+
       if (transfer.Status === "SUCCEEDED") {
 
         // 5: Add a new document to FS transaction database with a generated id
@@ -493,6 +495,10 @@ exports.transact = functions.region('europe-west1').https.onCall( async (data, c
         }
 
         return receiptData
+      } else if (transfer.Status === "FAILED") {
+        
+        let error = Error(transfer.ResultMessage)
+        throw error
       } else {
 
         let error = Error("Something went wrong. Please wait a moment and then try again. If the problem persists, please contact support@wildfirewallet.com")
@@ -521,6 +527,8 @@ exports.transact = functions.region('europe-west1').https.onCall( async (data, c
     // }
   }
   catch (error) {
+
+    console.error(error)
     if (error.errors !== undefined) {
       throw new functions.https.HttpsError('invalid-argument', "The transaction failed")
     } else {

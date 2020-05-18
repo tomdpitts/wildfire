@@ -410,7 +410,7 @@ extension UIViewController {
                 }))
             }
             
-            self.present(alert, animated: true)
+            self.present(alert, animated: false)
         }
     }
        
