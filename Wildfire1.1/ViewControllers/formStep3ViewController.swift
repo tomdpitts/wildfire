@@ -33,11 +33,18 @@ class formStep3ViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var confirmButton: UIButton!
     
     var countries: [String] = []
+    
+    let alternativeUKNames = ["U.K.", "British", "Great Britain", "England"]
+    let alternativeUSNames = ["U.S.", "U.S.A."]
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         navigationController?.interactivePopGestureRecognizer?.delegate = nil
+        
+        // add the alternative names to the list of answers for Nationality and Residence
+        self.countries.append(contentsOf: alternativeUKNames)
+        self.countries.append(contentsOf: alternativeUSNames)
         
         for code in NSLocale.isoCountryCodes  {
             let id = NSLocale.localeIdentifier(fromComponents: [NSLocale.Key.countryCode.rawValue: code])
@@ -202,19 +209,33 @@ class formStep3ViewController: UIViewController, UITextFieldDelegate {
         self.present(alert, animated: true)
     }
     
-    private func localeFinder(for fullCountryName : String) -> String? {
+    func localeFinder(for fullCountryName : String) -> String? {
+        
+        var name = ""
+        
+        // accept common alternative answers for Nationality or Residence
+        if alternativeUKNames.contains(fullCountryName) {
+            name = "United Kingdom"
+        } else if alternativeUSNames.contains(fullCountryName) {
+            name = "United States"
+        } else {
+            name = fullCountryName
+        }
+        
+        let fullCountryNameClean = name.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)
         
         for localeCode in NSLocale.isoCountryCodes {
             let identifier = NSLocale(localeIdentifier: "en_UK")
             let countryName = identifier.displayName(forKey: NSLocale.Key.countryCode, value: localeCode)
             
             let countryNameClean = countryName!.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)
-            let fullCountryNameClean = fullCountryName.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)
             
             if fullCountryNameClean == countryNameClean {
                 return localeCode
             }
         }
+        
+        // if for loop ends without returning a value, the country entered could not be found
         return nil
     }
     

@@ -58,6 +58,7 @@
 		E271C0CE23D81EED004245CC /* CardDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E271C0CD23D81EED004245CC /* CardDetailsViewController.swift */; };
 		E271C0D223D99E6F004245CC /* EditProfileTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E271C0D123D99E6F004245CC /* EditProfileTableViewController.swift */; };
 		E279717D231433AF00964F25 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E279717C231433AF00964F25 /* SignUpViewController.swift */; };
+		E27FEBCF2473B0FF00C5873C /* DeleteAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27FEBCE2473B0FF00C5873C /* DeleteAccountViewController.swift */; };
 		E284815D23FA53D500D51462 /* BankAccountsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E284815C23FA53D500D51462 /* BankAccountsViewController.swift */; };
 		E29925ED2435B02900AE5D6F /* LaunchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29925EC2435B02900AE5D6F /* LaunchViewController.swift */; };
 		E29925EF2437104800AE5D6F /* WILDFIRE.png in Resources */ = {isa = PBXBuildFile; fileRef = E29925EE2437104700AE5D6F /* WILDFIRE.png */; };
@@ -154,6 +155,7 @@
 		E271C0CD23D81EED004245CC /* CardDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardDetailsViewController.swift; sourceTree = "<group>"; };
 		E271C0D123D99E6F004245CC /* EditProfileTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileTableViewController.swift; sourceTree = "<group>"; };
 		E279717C231433AF00964F25 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
+		E27FEBCE2473B0FF00C5873C /* DeleteAccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteAccountViewController.swift; sourceTree = "<group>"; };
 		E284815C23FA53D500D51462 /* BankAccountsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BankAccountsViewController.swift; sourceTree = "<group>"; };
 		E29925EC2435B02900AE5D6F /* LaunchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchViewController.swift; sourceTree = "<group>"; };
 		E29925EE2437104700AE5D6F /* WILDFIRE.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = WILDFIRE.png; path = ../../Downloads/WILDFIRE.png; sourceTree = "<group>"; };
@@ -360,6 +362,7 @@
 				E2BEF9742446DA74002EE61B /* CreditAddedSuccessViewController.swift */,
 				E229FB9D244EF08200F403CA /* AboutViewController.swift */,
 				E203BCF4245C1C0F004C8494 /* BankAccountAddedViewController.swift */,
+				E27FEBCE2473B0FF00C5873C /* DeleteAccountViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -577,6 +580,7 @@
 				E29CF69623586AE700ADC0D0 /* ContactsViewController.swift in Sources */,
 				E2FA9ED62333D70D0068792D /* PaymentSetupViewController.swift in Sources */,
 				E26039782350DABA0031C792 /* ProfilePicViewController.swift in Sources */,
+				E27FEBCF2473B0FF00C5873C /* DeleteAccountViewController.swift in Sources */,
 				E24388A82315532200948AD5 /* Constants.swift in Sources */,
 				E21AC96721EA6BEF00D460A9 /* ReceiveViewController.swift in Sources */,
 				E229FB9E244EF08200F403CA /* AboutViewController.swift in Sources */,

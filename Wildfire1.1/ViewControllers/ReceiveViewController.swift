@@ -21,6 +21,10 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
     let currency = "GBP"
     
     var shareLink: URL?
+    var QRDownloadRef: StorageReference?
+    
+    var linkPressed = false
+    var linkShouldWork = true
     
     let arrowUp = UIImage(named: "icons8-send-letter-50")
     
@@ -71,9 +75,6 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(DismissKeyboard))
         view.addGestureRecognizer(tap)
         
-        
-//        gradientBackground()
-        
     }
     
     @IBAction func amountChanged(_ sender: Any) {
@@ -88,6 +89,9 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
         shareLinkButton.isEnabled = false
         shareLinkButton.setImage(arrowUp?.changeAlpha(alpha: 0.0), for: .normal)
         loadingSpinner.isHidden = true
+        
+        self.linkPressed = false
+        self.linkShouldWork = true
         
         // reset Save to Camera Roll Button
         saveToCameraRoll.setTitle("Save", for: .normal)
@@ -192,6 +196,26 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
             shareLinkButton.isHidden = false
             // show the buttons but don't enable shareLinkButton yet
             shareLinkButton.isEnabled = false
+            
+            // variables to control the auto-delete of the QR after 30 secs if link isn't shared (defined as: the link button being tapped)
+            self.linkPressed = false
+            self.linkShouldWork = true
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(5000)) {
+                // if after 30 secs, the link button wasn't tapped, delete the QR image and disable the button
+                if !self.linkPressed {
+                    
+                    self.linkShouldWork = false
+                    self.shareLinkButton.setImage(self.arrowUp?.changeAlpha(alpha: 0.5), for: .normal)
+
+                    if let QR = self.QRDownloadRef {
+                        // Delete the file
+                        QR.delete { _ in
+                            // an error means the file wasn't deleted. This is a blunt tool anyway, not the end of the world to leave it undeleted
+                        }
+                    }
+                }
+            }
         }
             
         // old code, redundant now that the 'go' button disappears upon submission, and retries are handled by text field changed function
@@ -352,12 +376,13 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
         loadingSpinner.isHidden = false
         loadingSpinner.startAnimating()
         
-        let storage = Storage.storage()
         let nowString = "\(Date().timeIntervalSince1970)"
         
         // QR codes will be stored in user's folder under "QRCodes", with the current datetime as a filename (to more or less guarantee uniqueness)
-        let storageRef = storage.reference().child("QRCodes/\(uid)/\(nowString).jpg")
+        let storageRef = Storage.storage().reference().child("QRCodes/\(uid)/\(nowString).jpg")
         
+        // save the storage ref so that it can be deleted if the link expires
+        self.QRDownloadRef = storageRef
         
         guard let uploadData = QR.jpegData(compressionQuality: 0.9) else { return }
 
@@ -373,6 +398,7 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
             
             storageRef.downloadURL { (url, error) in
                 if let downloadURL = url {
+                    
                     self.generateLink(imageURL: downloadURL)
                 }
             }
@@ -380,7 +406,7 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
     }
     
     func generateLink(imageURL: URL) {
-        
+                
         guard let uid = self.uid else { return }
         guard let amount = self.receiveAmount else { return }
         
@@ -464,9 +490,16 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
     
     @IBAction func shareLinkButtonTapped(_ sender: Any) {
         
-        guard let shareURL = shareLink else { return }
-        
-        showShareMenu(url: shareURL)
+        if linkShouldWork == true {
+            guard let shareURL = shareLink else { return }
+            
+            showShareMenu(url: shareURL)
+            
+            self.linkPressed = true
+        } else {
+            
+            self.universalShowAlert(title: "Please refresh QR", message: "The link has expired. Simply generate the code again and you'll be able to share the link (once you share, it doesn't expire)", segue: nil, cancel: false)
+        }
     }
     
     

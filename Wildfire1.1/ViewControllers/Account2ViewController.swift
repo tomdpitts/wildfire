@@ -120,29 +120,32 @@ class Account2ViewController: UITableViewController {
             }
             
             let segue = "unwindToWelcome"
-            showLogOutAlert(title: title, message: message, segueIdentifier: segue, deleteAccount: false)
+            showLogOutAlert(title: title, message: message, segueIdentifier: segue)
         } else if indexPath.row == 10 {
+            
+            // Delete Account Selected
+            
             if balanceAmount > Float(0) {
                 
                 let balanceString = String(format: "%.2f", balanceAmount)
-                
-                // aka Delete Account selected
+
                 let title = "Are you sure you want to delete your account?"
                 let message = "You still have £\(balanceString) credit. Remaining credit cannot be reimbursed after deletion, so you are strongly advised to deposit remaining funds to your bank account before deletion."
-                let segue = "unwindToWelcome"
                 
-                showLogOutAlert(title: title, message: message, segueIdentifier: segue, deleteAccount: true)
+                let segue = "showDeleteAccount"
                 
-                
+                self.universalShowAlert(title: title, message: message, segue: segue, cancel: true)
+
+
             } else {
-                // aka Delete Account selected
-                let title = "Are you sure you want to delete your account?"
-                let message = "This action cannot be undone. You will be able to create a new account for this phone number."
-                let segue = "unwindToWelcome"
+
+                let title = "Delete Account"
+                let message = "Your account info will be deleted - this action cannot be undone."
                 
-                showLogOutAlert(title: title, message: message, segueIdentifier: segue, deleteAccount: true)
+                let segue = "showDeleteAccount"
+                
+                self.universalShowAlert(title: title, message: message, segue: segue, cancel: true)
             }
-            
             
         } else if indexPath.row == 11 {
             performSegue(withIdentifier: "showAbout", sender: self)
@@ -281,30 +284,17 @@ class Account2ViewController: UITableViewController {
         }
     }
     
-    func showLogOutAlert(title: String, message: String?, segueIdentifier: String, deleteAccount: Bool) {
+    func showLogOutAlert(title: String, message: String?, segueIdentifier: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         
         alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { (action) in
             do {
-                if deleteAccount == true {
-                    self.deleteAccount() { result in
-                        
-                        if result == true {
-                            self.performSegue(withIdentifier: segueIdentifier, sender: self)
-                        } else {
-                            // deletion didn't happen, deleteAccount() has already shown appropriate alerts to the user, so do nothing
-                        }
-                        
-                    }
-                } else {
-                    
-                    // surprisingly enough, it seems the currentUser persists on the client even when deletion has been triggered, so we'll always call signOut()
-                    try Auth.auth().signOut()
-                    // update the userAccountExists flag (if user signs in with a different number, we don't want this flag to persist in memory and mess things up
-                    self.resetUserDefaults()
-                    
-                    self.performSegue(withIdentifier: segueIdentifier, sender: self)
-                }
+                // surprisingly enough, it seems the currentUser persists on the client even when deletion has been triggered, so we'll always call signOut()
+                try Auth.auth().signOut()
+                // update the userAccountExists flag (if user signs in with a different number, we don't want this flag to persist in memory and mess things up
+                self.resetUserDefaults()
+                
+                self.performSegue(withIdentifier: segueIdentifier, sender: self)
                 
             } catch let err {
                 // TODO what if signout fails e.g. no connection
@@ -317,76 +307,6 @@ class Account2ViewController: UITableViewController {
         
         self.present(alert, animated: true)
     }
-    
-    fileprivate func deleteAccount(completion: @escaping (Bool) -> Void) {
-        self.authenticateUser() { result in
-            if result == true {
-                self.showSpinner(titleText: "Deleting Account", messageText: nil)
-                
-                self.functions.httpsCallable("deleteUser").call(["foo": "bar"]) { (result, error) in
-                    
-                    self.removeSpinnerWithCompletion {
-                        
-                        if error != nil {
-                            self.universalShowAlert(title: "Something went wrong", message: "Your account was not deleted.", segue: nil, cancel: false)
-                            completion(false)
-                        } else {
-                            
-                            // might be a timing thing, but in testing, user was usually still signed in even after calling deleteUser
-                            do {
-                                try Auth.auth().signOut()
-                            } catch {
-                                // should be a limited downside if the signout fails..? 
-                            }
-
-                            self.resetUserDefaults()
-
-                            completion(true)
-                        }
-                    }
-                }
-            } else {
-                
-                // authentication failed, assume user changed their mind.
-                self.universalShowAlert(title: "Authentication Failed", message: "Your account was not deleted.", segue: nil, cancel: false)
-                
-                completion(false)
-                
-            }
-        }
-    }
-    
-    func authenticateUser(completion: @escaping (Bool) -> Void) {
-            let context = LAContext()
-            var error: NSError?
-            context.localizedFallbackTitle = "Enter Passcode"
-    //        context.localizedCancelTitle = "Logout"
-            
-            context.touchIDAuthenticationAllowableReuseDuration = 5
-            
-            if context.canEvaluatePolicy(LAPolicy.deviceOwnerAuthentication, error: &error) {
-                let reason = "Please confirm you want to delete your Account"
-                
-                context.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: reason) {
-                    [unowned self] success, authenticationError in
-                    
-                    DispatchQueue.main.async {
-                        if success {
-                            
-                            completion(true)
-                        } else {
-                            completion(false)
-                        }
-                    }
-                }
-            } else {
-                let ac = UIAlertController(title: "Touch ID not available", message: "Please try restarting the app.", preferredStyle: .alert)
-                ac.addAction(UIAlertAction(title: "OK", style: .default))
-                present(ac, animated: true)
-                completion(false)
-            }
-        }
-    
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.destination is EditProfileTableViewController {
@@ -406,7 +326,15 @@ class Account2ViewController: UITableViewController {
             if let currentBalance = self.balanceString {
                 vc.currentBalance = currentBalance
             }
+        } else if segue.destination is DeleteAccountViewController {
+            let vc = segue.destination as! DeleteAccountViewController
+            
+            if self.balanceAmount > 0 {
+                vc.remainingCredit = true
+            }
         }
+        
+        
     }
     
     func resetUserDefaults() {

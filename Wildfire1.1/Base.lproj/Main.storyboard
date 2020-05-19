@@ -1153,7 +1153,7 @@
             <objects>
                 <viewController id="8rJ-Kc-sve" customClass="ReceiveViewController" customModule="Wildfire" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="QS5-Rx-YEW">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="421"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="fzz-fV-Ev3">
@@ -1630,7 +1630,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="bsx-3Z-5HH">
-                                                    <rect key="frame" x="5" y="9.5" width="310" height="25"/>
+                                                    <rect key="frame" x="16" y="9.5" width="288" height="25"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                                     <textInputTraits key="textInputTraits" returnKeyType="next"/>
                                                     <connections>
@@ -1639,7 +1639,7 @@
                                                 </textField>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="bsx-3Z-5HH" firstAttribute="leading" secondItem="rem-4f-9g2" secondAttribute="leading" constant="5" id="VPL-BM-5H2"/>
+                                                <constraint firstItem="bsx-3Z-5HH" firstAttribute="leading" secondItem="rem-4f-9g2" secondAttribute="leadingMargin" id="VPL-BM-5H2"/>
                                                 <constraint firstItem="bsx-3Z-5HH" firstAttribute="centerY" secondItem="rem-4f-9g2" secondAttribute="centerY" id="mUu-0D-Zl8"/>
                                                 <constraint firstItem="bsx-3Z-5HH" firstAttribute="centerX" secondItem="rem-4f-9g2" secondAttribute="centerX" id="sZz-Wd-t0g"/>
                                             </constraints>
@@ -1677,7 +1677,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Ysj-2C-2Es">
-                                                    <rect key="frame" x="5" y="9.5" width="310" height="25"/>
+                                                    <rect key="frame" x="16" y="9.5" width="288" height="25"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                                     <textInputTraits key="textInputTraits" returnKeyType="done"/>
                                                     <connections>
@@ -1687,7 +1687,7 @@
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="Ysj-2C-2Es" firstAttribute="centerY" secondItem="wYB-p7-aa7" secondAttribute="centerY" id="Bcn-di-TDE"/>
-                                                <constraint firstItem="Ysj-2C-2Es" firstAttribute="leading" secondItem="wYB-p7-aa7" secondAttribute="leading" constant="5" id="L6w-I6-IcU"/>
+                                                <constraint firstItem="Ysj-2C-2Es" firstAttribute="leading" secondItem="wYB-p7-aa7" secondAttribute="leadingMargin" id="L6w-I6-IcU"/>
                                                 <constraint firstItem="Ysj-2C-2Es" firstAttribute="centerX" secondItem="wYB-p7-aa7" secondAttribute="centerX" id="mT3-tJ-mJz"/>
                                             </constraints>
                                         </tableViewCellContentView>
@@ -1969,7 +1969,7 @@
                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <textField opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="United Kingdom" borderStyle="roundedRect" placeholder="Type until autocorrect completes the name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0vN-hg-Xvb">
+                                    <textField opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="U.K." borderStyle="roundedRect" placeholder="Type until autocorrect completes the name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0vN-hg-Xvb">
                                         <rect key="frame" x="0.0" y="134" width="280" height="40"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <textInputTraits key="textInputTraits" autocorrectionType="no" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
@@ -2136,7 +2136,7 @@
         <scene sceneID="uzV-4S-pAA">
             <objects>
                 <tableViewController storyboardIdentifier="accountVC" id="4T3-Q5-YEd" userLabel="Account2 View Controller" customClass="Account2ViewController" customModule="Wildfire" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="Wfq-4C-l1H">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" directionalLockEnabled="YES" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" dataMode="static" style="plain" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="Wfq-4C-l1H">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="475"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
@@ -2387,14 +2387,14 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="About" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="VgR-ZM-H0X">
-                                                    <rect key="frame" x="48" y="0.0" width="264" height="44"/>
+                                                    <rect key="frame" x="56" y="0.0" width="248" height="44"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" image="icons8-info-50" id="zMO-cW-K62">
-                                                    <rect key="frame" x="8" y="9.5" width="25" height="25"/>
+                                                    <rect key="frame" x="16" y="9.5" width="25" height="25"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </imageView>
                                             </subviews>
@@ -2419,6 +2419,7 @@
                         <outlet property="userNameLabel" destination="G3B-em-zPH" id="Aqh-sG-dSc"/>
                         <segue destination="81U-Dl-tRT" kind="unwind" identifier="unwindToWelcome" unwindAction="unwindToWelcome:" id="v2k-fR-1wt"/>
                         <segue destination="9A8-qp-HRY" kind="show" identifier="showAbout" id="vsf-j4-ndJ"/>
+                        <segue destination="Wk8-ei-emg" kind="show" identifier="showDeleteAccount" id="v86-pg-dIt"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XbZ-5g-3bj" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -2543,10 +2544,10 @@
                                 <rect key="frame" x="0.0" y="0.5" width="320" height="1448.5"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GlA-EF-yzr" userLabel="Content View">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="1483.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="1466.5"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" alignment="top" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="eeZ-JT-2pq">
-                                                <rect key="frame" x="10" y="10" width="300" height="1453.5"/>
+                                                <rect key="frame" x="10" y="10" width="300" height="1436.5"/>
                                                 <subviews>
                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="WILDFIRE Logo 1200px" translatesAutoresizingMaskIntoConstraints="NO" id="0BU-4j-sFe">
                                                         <rect key="frame" x="0.0" y="0.0" width="300" height="40"/>
@@ -2555,22 +2556,22 @@
                                                         </constraints>
                                                     </imageView>
                                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" verticalHuggingPriority="249" scrollEnabled="NO" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aUx-Q9-cm4" userLabel="Text - wildfire">
-                                                        <rect key="frame" x="0.0" y="70.5" width="300" height="233.5"/>
+                                                        <rect key="frame" x="0.0" y="70.5" width="300" height="216.5"/>
                                                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                                        <string key="text">Wildfire Wallet is a product of Wildfire Financial Limited, a registered company in the United Kingdom (company number: 12552190).   Your use of this Application is subject to the Privacy Policy (https://www.wildfirewallet.com/privacy-policy) and Terms and Conditions (https://www.wildfirewallet.com/terms-and-conditions) found on the Wildfire website, as well as the Licence Agreement: https://www.wildfirewallet.com/eula</string>
+                                                        <mutableString key="text">Wildfire Wallet is a product of Wildfire Financial Limited, a registered company in the United Kingdom.  Your use of this Application is subject to the Privacy Policy (https://www.wildfirewallet.com/privacy-policy) and Terms and Conditions (https://www.wildfirewallet.com/terms-and-conditions) found on the Wildfire website, as well as the Licence Agreement: https://www.wildfirewallet.com/eula</mutableString>
                                                         <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
                                                         <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                                         <dataDetectorType key="dataDetectorTypes" link="YES"/>
                                                     </textView>
                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="mangopay-terms" translatesAutoresizingMaskIntoConstraints="NO" id="rYO-ob-y5n">
-                                                        <rect key="frame" x="0.0" y="334.5" width="300" height="50"/>
+                                                        <rect key="frame" x="0.0" y="317.5" width="300" height="50"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="50" id="NRe-rD-G7D"/>
                                                         </constraints>
                                                     </imageView>
                                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" text="Wildfire payments are powered by MANGOPAY S.A. Privacy policy: https://www.mangopay.com/terms/PSP/PSP_MANGOPAY_EN.pdf" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="JOk-ZB-BwC" userLabel="text - mangopay">
-                                                        <rect key="frame" x="0.0" y="415" width="265.5" height="83"/>
+                                                        <rect key="frame" x="0.0" y="398" width="265.5" height="83"/>
                                                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                                         <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -2578,13 +2579,13 @@
                                                         <dataDetectorType key="dataDetectorTypes" link="YES"/>
                                                     </textView>
                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icons8Logo" translatesAutoresizingMaskIntoConstraints="NO" id="ts9-dC-Otk">
-                                                        <rect key="frame" x="0.0" y="528.5" width="300" height="80"/>
+                                                        <rect key="frame" x="0.0" y="511.5" width="300" height="80"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="80" id="A4R-kD-dCh"/>
                                                         </constraints>
                                                     </imageView>
                                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" text="Some icons are used courtesy of Icons8. Check them out at https://icons8.com" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="tpW-3R-nKv" userLabel="text - icons8">
-                                                        <rect key="frame" x="0.0" y="639" width="276.5" height="49.5"/>
+                                                        <rect key="frame" x="0.0" y="622" width="276.5" height="49.5"/>
                                                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                                         <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -2592,7 +2593,7 @@
                                                         <dataDetectorType key="dataDetectorTypes" link="YES"/>
                                                     </textView>
                                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="gFv-yW-7zC" userLabel="Other credits ">
-                                                        <rect key="frame" x="0.0" y="719" width="300" height="734.5"/>
+                                                        <rect key="frame" x="0.0" y="702" width="300" height="734.5"/>
                                                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                                         <string key="text">This product includes software developed by the "Marcin Krzyzanowski" (http://krzyzanowskim.com/).  MIT Licence  Alamofire: Copyright (c) 2014-2020 Alamofire Software Foundation (http://alamofire.org/)  SwiftyJSON: Copyright (c) 2017 Ruoyu Fu  Kingfisher: Copyright (c) 2019 Wei Wang
 
@@ -2656,7 +2657,7 @@ http://www.apache.org/licenses/
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="f1s-hr-znl" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1378" y="2621"/>
+            <point key="canvasLocation" x="1594" y="2602"/>
         </scene>
         <!--Receipts-->
         <scene sceneID="jwe-5L-gRO">
@@ -3245,6 +3246,83 @@ http://www.apache.org/licenses/
             </objects>
             <point key="canvasLocation" x="3648.75" y="-322.18309859154931"/>
         </scene>
+        <!--Delete Account-->
+        <scene sceneID="JzN-XF-joZ">
+            <objects>
+                <viewController id="Wk8-ei-emg" customClass="DeleteAccountViewController" customModule="Wildfire" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="u78-8b-0jf">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="HCy-xd-7Uk">
+                                <rect key="frame" x="20" y="15" width="280" height="387"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Are you sure you want to delete your account?" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3AK-st-qno">
+                                        <rect key="frame" x="16.5" y="0.0" width="247" height="55"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="23"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="V4G-aM-j7d">
+                                        <rect key="frame" x="1.5" y="70" width="277" height="88"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                        <string key="text">This cannot be undone. Your saved data on our systems will be deleted and your phone number will become available to be used for a new account.</string>
+                                        <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    </textView>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fhb-WC-Jtu">
+                                        <rect key="frame" x="10.5" y="173" width="259.5" height="106"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                        <string key="text">PLEASE NOTE: REMAINING CREDIT CANNOT BE REIMBURSED AFTER ACCOUNT DELETION. PLEASE TRANSFER CREDIT TO YOUR BANK ACCOUNT BEFORE DELETION.</string>
+                                        <color key="textColor" name="redPrimary"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    </textView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Thank you for using Wildfire." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yzq-Mu-ajh">
+                                        <rect key="frame" x="42" y="294" width="196" height="18"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GAu-sv-qki">
+                                        <rect key="frame" x="15" y="327" width="250" height="60"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="60" id="4yp-kb-DGe"/>
+                                        </constraints>
+                                        <state key="normal" title="Yes, I'm sure"/>
+                                        <connections>
+                                            <action selector="confirmTapped:" destination="Wk8-ei-emg" eventType="touchUpInside" id="beP-8F-j4v"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="GAu-sv-qki" firstAttribute="centerX" secondItem="HCy-xd-7Uk" secondAttribute="centerX" id="Xib-Cw-Sbe"/>
+                                    <constraint firstItem="GAu-sv-qki" firstAttribute="leading" secondItem="HCy-xd-7Uk" secondAttribute="leading" constant="15" id="YuO-Uz-pMb"/>
+                                    <constraint firstAttribute="trailing" secondItem="GAu-sv-qki" secondAttribute="trailing" constant="15" id="yNf-Bi-rGA"/>
+                                </constraints>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="HCy-xd-7Uk" firstAttribute="leading" secondItem="gZA-Tw-UgG" secondAttribute="leading" constant="20" id="HlN-mW-XG7"/>
+                            <constraint firstAttribute="trailing" secondItem="HCy-xd-7Uk" secondAttribute="trailing" constant="20" id="nta-g3-4Qm"/>
+                            <constraint firstItem="HCy-xd-7Uk" firstAttribute="top" secondItem="gZA-Tw-UgG" secondAttribute="top" constant="15" id="z6q-GT-A5W"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="gZA-Tw-UgG"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Delete Account" id="BgD-lg-ozR"/>
+                    <connections>
+                        <outlet property="confirmButton" destination="GAu-sv-qki" id="hUY-vL-aWS"/>
+                        <outlet property="remainingCreditText" destination="fhb-WC-Jtu" id="Iu6-6C-Ohy"/>
+                        <segue destination="tHR-gC-15Y" kind="unwind" identifier="unwindToWelcome" unwindAction="unwindToWelcome:" id="DYy-Ca-c1T"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="CaF-e9-x99" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="tHR-gC-15Y" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="514" y="2104"/>
+        </scene>
         <!--Account-->
         <scene sceneID="vKr-hU-IfU">
             <objects>
@@ -3470,6 +3548,7 @@ http://www.apache.org/licenses/
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="xmI-0h-aPW">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="115"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <color key="tintColor" name="tealPrimary"/>
                         <color key="barTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <textAttributes key="titleTextAttributes">
@@ -5394,13 +5473,13 @@ http://www.apache.org/licenses/
                                         </constraints>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You've made your account!" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1sk-95-6PY">
-                                        <rect key="frame" x="33" y="170" width="234" height="20"/>
+                                        <rect key="frame" x="33" y="170" width="234" height="19"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Now you just need to add your card details to make a secure payment" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mgd-BO-U60">
-                                        <rect key="frame" x="12.5" y="210" width="275.5" height="46"/>
+                                        <rect key="frame" x="12.5" y="209" width="275.5" height="47"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
@@ -5530,7 +5609,7 @@ http://www.apache.org/licenses/
         <segue reference="Plu-rG-Syc"/>
         <segue reference="Huo-pa-P2i"/>
         <segue reference="FIA-qD-1nb"/>
-        <segue reference="bGq-l6-Or3"/>
+        <segue reference="R2W-JZ-F0t"/>
         <segue reference="xeb-yR-cYh"/>
         <segue reference="KC7-yY-zWV"/>
     </inferredMetricsTieBreakers>
@@ -5573,6 +5652,9 @@ http://www.apache.org/licenses/
         <image name="icons8-user-50" width="25" height="25"/>
         <image name="icons8Logo" width="307.5" height="128"/>
         <image name="mangopay-terms" width="802" height="78"/>
+        <namedColor name="redPrimary">
+            <color red="0.77600002288818359" green="0.23499999940395355" blue="0.22400000691413879" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <namedColor name="tealPrimary">
             <color red="0.1809999942779541" green="0.76599997282028198" blue="0.77999997138977051" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

@@ -276,11 +276,12 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
         let uid = String(QRString.suffix(UIDLength))
         
         
-        // check the QR code isn't to pay the same user! This will fail on Mangopay's end, so better to handle it here
+        // Guard: check the QR code isn't to pay the same user! This will fail on Mangopay's end, so better to handle it here
         if uid == Auth.auth().currentUser?.uid {
+            
             return false
         }
-        
+
         // extract the UID (at time of writing, last 28 characters
         self.recipientUID = uid
         let remaining = QRString.dropLast(UIDLength)
