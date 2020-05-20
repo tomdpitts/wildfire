@@ -22,7 +22,8 @@ module.exports = {
       db.collection('events').doc(eventType).collection(newCollection).doc(eventRecord).set({
         eventType: eventType,
         resourceID: mangopayResourceID,
-        error: errorLog
+        error: errorLog,
+        timestamp: Math.round(Date.now()/1000)
       })
   
       // and delete it from the eventQueue

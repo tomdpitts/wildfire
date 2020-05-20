@@ -416,26 +416,27 @@ extension UIViewController {
        
     func showSpinner(titleText: String?, messageText: String?) {
         
-        var title = "Just a moment"
-        var message = ""
-        
-        if let text = titleText {
-            title = text
-        }
-        
-        if let textM = messageText {
-            message = textM
-        }
-        
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        
-        let loadingIndicator = UIActivityIndicatorView(frame: CGRect(x: 5, y: 5, width: 50, height: 50))
-        loadingIndicator.hidesWhenStopped = true
-        loadingIndicator.style = UIActivityIndicatorView.Style.gray
-        loadingIndicator.startAnimating();
-
-        alert.view.addSubview(loadingIndicator)
         DispatchQueue.main.async {
+            var title = "Just a moment"
+            var message = ""
+            
+            if let text = titleText {
+                title = text
+            }
+            
+            if let textM = messageText {
+                message = textM
+            }
+            
+            let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+            
+            let loadingIndicator = UIActivityIndicatorView(frame: CGRect(x: 5, y: 5, width: 50, height: 50))
+            loadingIndicator.hidesWhenStopped = true
+            loadingIndicator.style = UIActivityIndicatorView.Style.gray
+            loadingIndicator.startAnimating();
+
+            alert.view.addSubview(loadingIndicator)
+        
             self.present(alert, animated: true, completion: nil)
         }
     }

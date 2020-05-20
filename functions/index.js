@@ -364,9 +364,6 @@ exports.transact = functions.region('europe-west1').https.onCall( async (data, c
   // var recipientWalletID = ''
   // var recipientMangoPayID = ''
 
-  var userFullname = ''
-  var recipientFullname = ''
-
   try {
     // 2: get the user and recipient  wallet ID and MP ID
     // NB should be refactored to fetch simultaneously
@@ -375,9 +372,9 @@ exports.transact = functions.region('europe-west1').https.onCall( async (data, c
 
       userFullname = data.fullname
 
-
       let userMangoPayID = data.mangopayID
       let userWalletID = data.defaultWalletID
+
       let userRefData = {
         'userMangoPayID': userMangoPayID, 
         'userFullname': userFullname, 
@@ -407,124 +404,79 @@ exports.transact = functions.region('europe-west1').https.onCall( async (data, c
       throw err
     });
 
-    // // 3: Check balance of payer
-    // const userMPWallet = await mpAPI.Wallets.get(userWalletID)
-    // .catch(err => {
-    //   balanceFail = true,
-    //   console.log('Error getting userMPWallet', err)
+    // this pattern allows the above calls to run immediately, but waits until all have returned a value before continuing
+    let promise = await Promise.all([userRefTask, recipientRefTask])
 
-    //   let error = Error("Something went wrong. Please wait a moment and try again.")
+    let userWalletID = promise[0].userWalletID
+    let userMangoPayID = promise[0].userMangoPayID
+    let userFullname = promise[0].userFullname
 
-    //   throw error
-    // })
+    let recipientWalletID = promise[1].recipientWalletID
+    let recipientMangoPayID = promise[1].recipientMangoPayID
+    let recipientFullname = promise[1].recipientFullname
 
-    // this pattern allows the three above calls to run immediately, but waits until all have returned a value before continuing
-    await Promise.all([userRefTask, recipientRefTask])
-    .then( promise => {
-
-      console.log(promise)
-      console.log(promise[0].userFullname)
-      let userWalletID = promise[0].userWalletID
-      let userMangoPayID = promise[0].userMangoPayID
-
-      let recipientWalletID = promise[1].recipientWalletID
-      let recipientMangoPayID = promise[1].recipientMangoPayID
-
-      // old code - this if condition is probably overkill
-        // if (amount98 <= oldUserBalance && amount98 > 0) {
-      if (amount98 > 0) {
-
-        const MPTransferData = {
-          "AuthorId": userMangoPayID,
-          "CreditedUserId": recipientMangoPayID,
-          "DebitedFunds": {
-            "Currency": currency,
-            "Amount": amount98
-            },
-          // intraplatform transactions are free, so fee is zero
-          "Fees": {
-            "Currency": currency,
-            "Amount": 0
-            },
-          "DebitedWalletId": userWalletID,
-          "CreditedWalletId": recipientWalletID
-          }
-
-        return mpAPI.Transfers.create(MPTransferData)
-      } else {
-
-        let error = Error("Transaction amount must be greater than 0")
-        throw error
+    const MPTransferData = {
+      "AuthorId": userMangoPayID,
+      "CreditedUserId": recipientMangoPayID,
+      "DebitedFunds": {
+        "Currency": currency,
+        "Amount": amount98
+        },
+      // intraplatform transactions are free, so fee is zero
+      "Fees": {
+        "Currency": currency,
+        "Amount": 0
+        },
+      "DebitedWalletId": userWalletID,
+      "CreditedWalletId": recipientWalletID
       }
-    })
-    .then( transfer => {
 
-      console.log(transfer)
+    let transfer = await mpAPI.Transfers.create(MPTransferData)
 
-      if (transfer.Status === "SUCCEEDED") {
+    if (transfer.Status === "SUCCEEDED") {
 
-        // 5: Add a new document to FS transaction database with a generated id
-        const transactionData = {
-          from: userID,
-          to: recipientID,
-          datetimeHR: admin.firestore.FieldValue.serverTimestamp(),
-          datetime: Math.round(Date.now()/1000),
-          currency: currency,
-          amount: amountRequested
-        }
-
-        db.collection('transactions').add(transactionData)
-
-        // 6: update both party's wallets
-
-        helpers.callCloudFunction('getCurrentBalance', {uid: userID})
-        helpers.callCloudFunction('getCurrentBalance', {uid: recipientID})
-
-
-        // 7: return success to Client
-
-        const receiptData = {
-          "amount": amountRequested,
-          "currency": currency,
-          "datetime": Math.round(Date.now()/1000),
-          "payerID": userID,
-          "recipientID": recipientID,
-          "payerName": userFullname,
-          "recipientName": recipientFullname,
-          "userIsPayer": true
-        }
-
-        return receiptData
-      } else if (transfer.Status === "FAILED") {
-        
-        let error = Error(transfer.ResultMessage)
-        throw error
-      } else {
-
-        let error = Error("Something went wrong. Please wait a moment and then try again. If the problem persists, please contact support@wildfirewallet.com")
-        throw error
+      // 5: Add a new document to FS transaction database with a generated id
+      const transactionData = {
+        from: userID,
+        to: recipientID,
+        datetimeHR: admin.firestore.FieldValue.serverTimestamp(),
+        datetime: Math.round(Date.now()/1000),
+        currency: currency,
+        amount: amountRequested
       }
-    })
 
-    // oldUserBalance = userMPWallet.Balance.Amount
+      db.collection('transactions').add(transactionData)
 
-    // const recipientMPWallet = await mpAPI.Wallets.get(recipientWalletID)
-    // .catch(err => {
-    //   balanceFail = true,
-    //   console.log('Error getting recipientMPWallet', err)
-    // })
-    // oldRecipientBalance = recipientMPWallet.Balance.amount
+      // 6: update both party's wallets
+
+      helpers.callCloudFunction('getCurrentBalance', {uid: userID})
+      helpers.callCloudFunction('getCurrentBalance', {uid: recipientID})
 
 
-    // 4: if balance have been correctly retrieved, trigger the transaction
-    // if (balanceFail !== true) {
+      // 7: return success to Client
 
-    // } else {
-    //   // TODO there was an error getting one of the balances - abort transaction and inform user
+      const receiptData = {
+        "amount": amountRequested,
+        "currency": currency,
+        "datetime": Math.round(Date.now()/1000),
+        "payerID": userID,
+        "recipientID": recipientID,
+        "payerName": userFullname,
+        "recipientName": recipientFullname,
+        "userIsPayer": true
+      }
 
-    //   let error = Error("User does not have sufficient funds")
-    //   throw error
-    // }
+      return receiptData
+
+    } else if (transfer.Status === "FAILED") {
+
+      let error = Error(transfer.ResultMessage)
+      throw error
+    } else {
+
+      let error = Error("Something went wrong. Please wait a moment and then try again. If the problem persists, please contact support@wildfirewallet.com")
+      throw error
+    }
   }
   catch (error) {
 
@@ -1013,329 +965,364 @@ exports.events_FCHK4JM41QgvlwAqzUGHmD89JiH2f0
   let eventType = request.query.EventType
   let resourceID = request.query.RessourceId
 
-  // let's differentiate between the types of triggers that can be received
-  if (eventType === "KYC_SUCCEEDED") {
-    db.doc('KYC_SUCCEEDED').collection('eventQueue').add({
-      eventType: eventType,
-      resourceID: resourceID
-    }).then(ref => {
-      response.send('success')
-      return
-    }).catch(err => {
-      console.log('Error saving KYC_SUCCEEDED event', err);
-    })
+  db.doc(eventType).collection('eventQueue').add({
+    eventType: eventType,
+    resourceID: resourceID,
+    timestamp: Math.round(Date.now()/1000)
+  }).then(ref => {
+    response.send('success')
+    return
+  }).catch(err => {
+    console.log(`Error saving ${eventType} event`, err);
+    // we got the info, just failed to save it. Not responding 'success' too many times will deactivate the webhook on mangopay's side
+    response.send('success')
+  })
 
-  } else if (eventType === "KYC_FAILED") {
+  // // let's differentiate between the types of triggers that can be received
+  // if (eventType === "KYC_SUCCEEDED") {
+  //   db.doc('KYC_SUCCEEDED').collection('eventQueue').add({
+  //     eventType: eventType,
+  //     resourceID: resourceID
+  //   }).then(ref => {
+  //     response.send('success')
+  //     return
+  //   }).catch(err => {
+  //     console.log('Error saving KYC_SUCCEEDED event', err);
+  //   })
 
-    db.doc('KYC_FAILED').collection('eventQueue').add({
-      eventType: eventType,
-      resourceID: resourceID
-    }).then(ref => {
-      response.send('success')
-      return
-    }).catch(err => {
-      console.log('Error saving KYC_FAILED event', err);
-    })
+  // } else if (eventType === "KYC_FAILED") {
 
-  } else if (eventType === "TRANSFER_NORMAL_SUCCEEDED") {
+  //   db.doc('KYC_FAILED').collection('eventQueue').add({
+  //     eventType: eventType,
+  //     resourceID: resourceID
+  //   }).then(ref => {
+  //     response.send('success')
+  //     return
+  //   }).catch(err => {
+  //     console.log('Error saving KYC_FAILED event', err);
+  //   })
 
-    db.doc('TRANSFER_NORMAL_SUCCEEDED').collection('eventQueue').add({
-      eventType: eventType,
-      resourceID: resourceID
-    }).then(ref => {
-      response.send('success')
-      return
-    }).catch(err => {
-      console.log('Error saving TRANSFER_NORMAL_SUCCEEDED event', err);
-    })
+  // } else if (eventType === "TRANSFER_NORMAL_SUCCEEDED") {
 
-  } else if (eventType === "PAYIN_NORMAL_SUCCEEDED") {
+  //   db.doc('TRANSFER_NORMAL_SUCCEEDED').collection('eventQueue').add({
+  //     eventType: eventType,
+  //     resourceID: resourceID
+  //   }).then(ref => {
+  //     response.send('success')
+  //     return
+  //   }).catch(err => {
+  //     console.log('Error saving TRANSFER_NORMAL_SUCCEEDED event', err);
+  //   })
 
-    db.doc('PAYIN_NORMAL_SUCCEEDED').collection('eventQueue').add({
-      eventType: eventType,
-      resourceID: resourceID
-    }).then(ref => {
-      response.send('success')
-      return
-    }).catch(err => {
-      console.log('Error saving PAYIN_NORMAL_SUCCEEDED event', err);
-    })
+  // } else if (eventType === "PAYIN_NORMAL_SUCCEEDED") {
 
-  } else if (eventType === "PAYOUT_NORMAL_SUCCEEDED") {
+  //   db.doc('PAYIN_NORMAL_SUCCEEDED').collection('eventQueue').add({
+  //     eventType: eventType,
+  //     resourceID: resourceID
+  //   }).then(ref => {
+  //     response.send('success')
+  //     return
+  //   }).catch(err => {
+  //     console.log('Error saving PAYIN_NORMAL_SUCCEEDED event', err);
+  //   })
 
-    db.doc('PAYOUT_NORMAL_SUCCEEDED').collection('eventQueue').add({
-      eventType: eventType,
-      resourceID: resourceID
-    }).then(ref => {
-      response.send('success')
-      return
-    }).catch(err => {
-      console.log('Error saving PAYOUT_NORMAL_SUCCEEDED event', err);
-    })
-  }
+  // } else if (eventType === "PAYOUT_NORMAL_SUCCEEDED") {
+
+  //   db.doc('PAYOUT_NORMAL_SUCCEEDED').collection('eventQueue').add({
+  //     eventType: eventType,
+  //     resourceID: resourceID
+  //   }).then(ref => {
+  //     response.send('success')
+  //     return
+  //   }).catch(err => {
+  //     console.log('Error saving PAYOUT_NORMAL_SUCCEEDED event', err);
+  //   })
+  // }
 })
 
 // function to handle what happens when a new eventRecord is created
 exports.respondToEventRecord = functions.region('europe-west1').firestore.document('events/{type}/eventQueue/{record}').onCreate(async (snap, context) => {
 
-  const db = admin.firestore()
+  try {
 
-  const eventType = String(context.params.type)
-  const resourceID = snap.data().resourceID
-  
-  const eventRecord = context.params.record
+    const db = admin.firestore()
 
-  if (eventType === "KYC_SUCCEEDED") {
-    // use the resourceID to get the relevant object
-    const kyc = await mpAPI.KycDocuments.get(resourceID)
+    const eventType = String(context.params.type)
+    const resourceID = snap.data().resourceID
 
-    // we need two things - the status (to check that the doc is validated and also to ensure the request didn't come from a 3rd party), and the mangopayID to send a notification to the correct device and user
-    const status = kyc.Status
-    const mangopayID = kyc.UserId
+    const eventRecord = context.params.record
+
+    if (eventType === "KYC_SUCCEEDED") {
+      // use the resourceID to get the relevant object
+      const kyc = await mpAPI.KycDocuments.get(resourceID)
+
+      // we need two things - the status (to check that the doc is validated and also to ensure the request didn't come from a 3rd party), and the mangopayID to send a notification to the correct device and user
+      const status = kyc.Status
+      const mangopayID = kyc.UserId
 
 
-    if (status === "VALIDATED") {
+      if (status === "VALIDATED") {
 
-      // this will hold the correct token for the user, once it's found in the database
-      var KYCValidatedNotificationToken = ""
+        // this will hold the correct token for the user, once it's found in the database
+        var KYCValidatedNotificationToken = ""
 
+        // search for the user with that mangopayID
+        await db.collection('users').where('mangopayID', '==', mangopayID).get().then(snapshot => {
+
+          if (snapshot.empty) {
+
+            helpers.moveEventRecordTo(eventType, 'couldNotFindMangopayID', eventRecord, resourceID)
+
+          } else {
+            // there should only be one user returned by the .where() function
+            snapshot.forEach(doc => {
+              const data = doc.data()
+              KYCValidatedNotificationToken = data.fcmToken
+            })
+          }
+          return 
+        }).catch(err => {
+
+          helpers.moveEventRecordTo(eventType, 'couldNotFetchUsers', eventRecord, resourceID, false, err)
+
+          throw err
+        }) 
+
+        // Notification details.
+        const payload = {
+          notification: {
+            title: 'Your ID has been verified!',
+            body: 'You can now deposit funds to your bank account'
+            // icon: photoURL
+          },
+          data: {
+            eventType: eventType
+          },
+          token: KYCValidatedNotificationToken
+        }
+
+        console.log(payload)
+
+        // Send a message to the device corresponding to the provided
+        // registration token.
+        admin.messaging().send(payload)
+          .then((response) => {
+            // TEMPORARILY MOVING RECORD INSTEAD OF DELETION - this can probably be switched back at some point
+
+            // let deleteDoc = db.collection('events').doc(eventType).collection('eventQueue').doc(eventRecord).delete()
+            helpers.moveEventRecordTo(eventType,'successful',eventRecord,resourceID, false, null)
+            return
+        })
+        .catch((err) => {
+
+          helpers.moveEventRecordTo(eventType, 'failedToSendNotification', eventRecord, resourceID, false, err)
+          throw err
+        })
+      } else {
+
+        // this means we received a ping to tell us validation was successful, but upon closer inspection, the status of the KYC doc is not VALIDATED. Hopefully this will never happen.
+
+        helpers.moveEventRecordTo(eventType, 'KYCWasNotValidated', eventRecord, resourceID, true)
+
+        let error = Error('KYC was not validated when it was checked against Mangopay database - this implies the webhook was either triggered in error somehow or was deliberately pinged by a third party')
+
+        throw error
+      }
+
+
+    } else if (eventType === "KYC_FAILED") {
+      // use the resourceID to get the relevant object
+      const kyc = await mpAPI.KycDocuments.get(resourceID)
+
+      // we need two things - the status (to check that the doc is validated and also to ensure the request didn't come from a 3rd party), and the mangopayID to send a notification to the correct device and user
+      const status = kyc.Status
+      const mangopayID = kyc.UserId
+      const refusedType = kyc.RefusedReasonType.toString()
+      var refusedMessage = ""
+      if (kyc.RefusedReasonMessage !== null) {
+        refusedMessage = kyc.RefusedReasonMessage.toString()
+      }
+
+
+
+      if (status === "REFUSED") {
+
+        // this will hold the correct token for the user, once it's found in the database
+        var KYCRefusedNotificationToken = ""
+
+        // search for the user with that mangopayID
+        await db.collection('users').where('mangopayID', '==', mangopayID).get().then(snapshot => {
+
+          if (snapshot.empty) {
+            helpers.moveEventRecordTo(eventType, 'couldNotFindMangopayID', eventRecord, resourceID)
+          } else {
+            // there should only be one user returned by the .where() function
+            snapshot.forEach(doc => {
+              const data = doc.data()
+              KYCRefusedNotificationToken = data.fcmToken
+            })
+          }
+          return 
+        }).catch(err => {
+          helpers.moveEventRecordTo(eventType, 'couldNotFetchUsers', eventRecord, resourceID, false, err)
+          throw err
+        }) 
+
+        // Notification details.
+        const payload = {
+          notification: {
+            title: 'Your ID verification could not be accepted',
+            body: 'Sorry about this. More details in the app.'
+            // icon: photoURL
+          },
+          data: {
+            eventType: eventType,
+            refusedType: refusedType,
+            refusedMessage: refusedMessage
+          },
+          token: KYCRefusedNotificationToken
+        }
+
+        console.log(payload)
+
+        // Send a message to the device corresponding to the provided registration token
+        admin.messaging().send(payload)
+          .then((response) => {
+            helpers.moveEventRecordTo(eventType,'successful', eventRecord,resourceID, false, null)
+            return
+        })
+        .catch((err) => {
+          // TODO include the err in the moveEventRecordTo method instead of console.log()
+          helpers.moveEventRecordTo(eventType, 'failedToSendNotification', eventRecord, resourceID, false)
+          throw err
+        })
+      } else {
+
+        // this means we received a ping to tell us validation failed, but upon closer inspection, the status of the KYC doc is not REFUSED. Hopefully this will never happen.
+
+        helpers.moveEventRecordTo(eventType, 'KYCWasNotRefused', eventRecord, resourceID, true)
+
+      }
+    } else if (eventType === "TRANSFER_NORMAL_SUCCEEDED") {
+
+      // use the resourceID to get the relevant object
+      const transfer = await mpAPI.Transfers.get(resourceID)
+
+      // we need two things - the status (to check that the doc is validated and also to ensure the request didn't come from a 3rd party), and the mangopayID to send a notification to the correct device and user
+      const authorID = transfer.AuthorId
+      const creditorID = transfer.CreditedUserId
+      const creditedFunds = transfer.CreditedFunds
+      const currencyCode = creditedFunds["Currency"]
+      var currency = ""
+
+      if (currencyCode === "EUR") {
+        currency = "€"
+      } else if (currencyCode === "GBP") {
+        currency = "£"
+      } else if (currencyCode === "USD" || currencyCode === "CAD" || currencyCode === "AUD" || currencyCode === "NZD") {
+        currency = "$"
+      } else {
+        currency = currencyCode
+      }
+
+      // amount returned needs to be factored back to the user amount, and also is in cents/pence
+      // get the float
+      const centsAmount = parseFloat(creditedFunds["Amount"])
+      // factor back up to the user amount
+      const amountFactored = ((centsAmount*100)/98)
+      // divide by 100 to get whole currency amount and trim to 2dp (usually useful to add the final 0, which otherwise is left out)
+      const amount = (amountFactored/100).toFixed(2)
+
+      var authorName = ""
+      var creditorToken = ""
+
+      
+      // finding the authorID name
       // search for the user with that mangopayID
-      await db.collection('users').where('mangopayID', '==', mangopayID).get().then(snapshot => {
+      await db.collection('users').where('mangopayID', '==', authorID).get().then(snapshot => {
 
         if (snapshot.empty) {
 
-          helpers.moveEventRecordTo(eventType, 'couldNotFindMangopayID', eventRecord, resourceID)
+          helpers.moveEventRecordTo(eventType, 'couldNotFindAuthorID', eventRecord, resourceID)
 
         } else {
           // there should only be one user returned by the .where() function
           snapshot.forEach(doc => {
             const data = doc.data()
-            KYCValidatedNotificationToken = data.fcmToken
+            authorName = data.fullname
           })
         }
         return 
       }).catch(err => {
 
-        helpers.moveEventRecordTo(eventType, 'couldNotFetchUsers', eventRecord, resourceID, false, err)
+        helpers.moveEventRecordTo(eventType, 'couldNotFetchUsersToFindAuthorID', eventRecord, resourceID, false, err)
+
+        throw err
 
       }) 
+      // finding the creditorID token
+      // search for the user with that mangopayID
+      await db.collection('users').where('mangopayID', '==', creditorID).get().then(snapshot => {
 
-      // Notification details.
+        if (snapshot.empty) {
+
+          helpers.moveEventRecordTo(eventType, 'couldNotFindCreditorID', eventRecord, resourceID)
+
+        } else {
+          // there should only be one user returned by the .where() function
+          snapshot.forEach(doc => {
+            const data = doc.data()
+            creditorToken = data.fcmToken
+          })
+        }
+        return 
+      }).catch(err => {
+
+        helpers.moveEventRecordTo(eventType, 'couldNotFetchUsersToFindCreditorToken', eventRecord, resourceID, false, err)
+
+        throw err
+      }) 
+
+      // Notification details to be sent to the Creditor (not the author, who already knows about it)
       const payload = {
         notification: {
-          title: 'Your ID has been verified!',
-          body: 'You can now deposit funds to your bank account'
+          title: `You received ${currency}${amount} from ${authorName}!`,
+          body: 'Open the app to view receipt.',
           // icon: photoURL
         },
         data: {
-          eventType: eventType
+          eventType: eventType,
+          authorName: authorName,
+          currency: currency,
+          amount: amount
         },
-        token: KYCValidatedNotificationToken
+        token: creditorToken
       }
+
+      console.log(payload)
 
       // Send a message to the device corresponding to the provided
       // registration token.
       admin.messaging().send(payload)
         .then((response) => {
-          // TEMPORARILY MOVING RECORD INSTEAD OF DELETION - this can probably be switched back at some point
-
           // let deleteDoc = db.collection('events').doc(eventType).collection('eventQueue').doc(eventRecord).delete()
-          helpers.moveEventRecordTo(eventType,'successful',eventRecord,resourceID, false,'testing')
+          helpers.moveEventRecordTo(eventType,'successful',eventRecord,resourceID, false, null)
+          console.log('notification sent')
           return
       })
       .catch((err) => {
 
-        helpers.moveEventRecordTo(eventType, 'failedToSendNotification', eventRecord, resourceID, false, err)
-
-      })
-    } else {
-
-      // this means we received a ping to tell us validation was successful, but upon closer inspection, the status of the KYC doc is not VALIDATED. Hopefully this will never happen.
-
-      helpers.moveEventRecordTo(eventType, 'KYCWasNotValidated', eventRecord, resourceID, true)
-
-    }
-
-
-  } else if (eventType === "KYC_FAILED") {
-    // use the resourceID to get the relevant object
-    const kyc = await mpAPI.KycDocuments.get(resourceID)
-
-    // we need two things - the status (to check that the doc is validated and also to ensure the request didn't come from a 3rd party), and the mangopayID to send a notification to the correct device and user
-    const status = kyc.Status
-    const mangopayID = kyc.UserId
-    const refusedType = kyc.RefusedReasonType.toString()
-    var refusedMessage = ""
-    if (kyc.RefusedReasonMessage !== null) {
-      refusedMessage = kyc.RefusedReasonMessage.toString()
-    }
-
-
-
-    if (status === "REFUSED") {
-
-      // this will hold the correct token for the user, once it's found in the database
-      var KYCRefusedNotificationToken = ""
-
-      // search for the user with that mangopayID
-      await db.collection('users').where('mangopayID', '==', mangopayID).get().then(snapshot => {
-
-        if (snapshot.empty) {
-          helpers.moveEventRecordTo(eventType, 'couldNotFindMangopayID', eventRecord, resourceID)
-        } else {
-          // there should only be one user returned by the .where() function
-          snapshot.forEach(doc => {
-            const data = doc.data()
-            KYCRefusedNotificationToken = data.fcmToken
-          })
-        }
-        return 
-      }).catch(err => {
-        helpers.moveEventRecordTo(eventType, 'couldNotFetchUsers', eventRecord, resourceID, false, err)
-      }) 
-
-      // Notification details.
-      const payload = {
-        notification: {
-          title: 'Your ID verification could not be accepted',
-          body: 'Sorry about this. More details in the app.'
-          // icon: photoURL
-        },
-        data: {
-          eventType: eventType,
-          refusedType: refusedType,
-          refusedMessage: refusedMessage
-        },
-        token: KYCRefusedNotificationToken
-      }
-
-      
-      // Send a message to the device corresponding to the provided registration token
-      admin.messaging().send(payload)
-        .then((response) => {
-          helpers.moveEventRecordTo(eventType,'successful',eventRecord,resourceID, false,'testing')
-          return
-      })
-      .catch((err) => {
         console.log(err)
-        // TODO include the err in the moveEventRecordTo method instead of console.log()
+        
         helpers.moveEventRecordTo(eventType, 'failedToSendNotification', eventRecord, resourceID, false)
+
+        throw err
       })
-    } else {
-
-      // this means we received a ping to tell us validation failed, but upon closer inspection, the status of the KYC doc is not REFUSED. Hopefully this will never happen.
-
-      helpers.moveEventRecordTo(eventType, 'KYCWasNotRefused', eventRecord, resourceID, true)
-
     }
-  } else if (eventType === "TRANSFER_NORMAL_SUCCEEDED") {
+  } 
+  catch (error) {
 
-    // use the resourceID to get the relevant object
-    const kyc = await mpAPI.Transfers.get(resourceID)
-
-    // we need two things - the status (to check that the doc is validated and also to ensure the request didn't come from a 3rd party), and the mangopayID to send a notification to the correct device and user
-    const authorID = kyc.AuthorId
-    const creditorID = kyc.CreditedUserId
-    const creditedFunds = kyc.CreditedFunds
-    const currencyCode = creditedFunds["Currency"]
-    var currency = ""
-
-    if (currencyCode === "EUR") {
-      currency = "€"
-    } else if (currencyCode === "GBP") {
-      currency = "£"
-    } else if (currencyCode === "USD" || currencyCode === "CAD" || currencyCode === "AUD" || currencyCode === "NZD") {
-      currency = "$"
-    } else {
-      currency = currencyCode
-    }
-
-    // amount returned needs to be factored back to the user amount, and also is in cents/pence
-    // get the float
-    const centsAmount = parseFloat(creditedFunds["Amount"])
-    // factor back up to the user amount
-    const amountFactored = ((centsAmount*100)/98)
-    // divide by 100 to get whole currency amount and trim to 2dp (usually useful to add the final 0, which otherwise is left out)
-    const amount = (amountFactored/100).toFixed(2)
-
-    var authorName = ""
-    var creditorToken = ""
-
-    
-    // finding the authorID name
-    // search for the user with that mangopayID
-    await db.collection('users').where('mangopayID', '==', authorID).get().then(snapshot => {
-
-      if (snapshot.empty) {
-
-        helpers.moveEventRecordTo(eventType, 'couldNotFindAuthorID', eventRecord, resourceID)
-
-      } else {
-        // there should only be one user returned by the .where() function
-        snapshot.forEach(doc => {
-          const data = doc.data()
-          authorName = data.fullname
-        })
-      }
-      return 
-    }).catch(err => {
-
-      helpers.moveEventRecordTo(eventType, 'couldNotFetchUsersToFindAuthorID', eventRecord, resourceID, false, err)
-
-    }) 
-    // finding the creditorID token
-    // search for the user with that mangopayID
-    await db.collection('users').where('mangopayID', '==', creditorID).get().then(snapshot => {
-
-      if (snapshot.empty) {
-
-        helpers.moveEventRecordTo(eventType, 'couldNotFindCreditorID', eventRecord, resourceID)
-
-      } else {
-        // there should only be one user returned by the .where() function
-        snapshot.forEach(doc => {
-          const data = doc.data()
-          creditorToken = data.fcmToken
-        })
-      }
-      return 
-    }).catch(err => {
-
-      helpers.moveEventRecordTo(eventType, 'couldNotFetchUsersToFindCreditorToken', eventRecord, resourceID, false, err)
-
-    }) 
-
-    // Notification details to be sent to the Creditor (not the author, who already knows about it)
-    const payload = {
-      notification: {
-        title: `You received ${currency}${amount} from ${authorName}!`,
-        body: 'Open the app to view receipt.',
-        // icon: photoURL
-      },
-      data: {
-        eventType: eventType,
-        authorName: authorName,
-        currency: currency,
-        amount: amount
-      },
-      token: creditorToken
-    }
-
-    // Send a message to the device corresponding to the provided
-    // registration token.
-    admin.messaging().send(payload)
-      .then((response) => {
-        // let deleteDoc = db.collection('events').doc(eventType).collection('eventQueue').doc(eventRecord).delete()
-        helpers.moveEventRecordTo(eventType,'successful',eventRecord,resourceID, false,'testing')
-        return
-    })
-    .catch((err) => {
-  
-      console.log(err)
-
-      helpers.moveEventRecordTo(eventType, 'failedToSendNotification', eventRecord, resourceID, false)
-
-    })
+    console.error(error)    
   }
 })
 

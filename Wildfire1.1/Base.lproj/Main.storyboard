@@ -259,11 +259,11 @@
             <objects>
                 <viewController storyboardIdentifier="confirmVC" id="pFC-XD-G7v" customClass="ConfirmViewController" customModule="Wildfire" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="mMr-aZ-U69">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="548"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" alignment="center" spacing="14" translatesAutoresizingMaskIntoConstraints="NO" id="vaQ-Le-1R0">
-                                <rect key="frame" x="20" y="120" width="280" height="378"/>
+                                <rect key="frame" x="20" y="5" width="280" height="361"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="0rz-Jq-THd" userLabel="Header Stack">
                                         <rect key="frame" x="11.5" y="0.0" width="257" height="152"/>
@@ -301,7 +301,7 @@
                                         </subviews>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="too-OQ-Cnu" userLabel="Dynamic Labels Stack">
-                                        <rect key="frame" x="15" y="189.5" width="250" height="91.5"/>
+                                        <rect key="frame" x="15" y="181" width="250" height="91.5"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Current balance:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wG4-8b-AdV" userLabel="Current Balance">
                                                 <rect key="frame" x="61.5" y="0.0" width="127.5" height="20.5"/>
@@ -324,7 +324,7 @@
                                         </subviews>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="nhM-pb-9Kl" userLabel="Button Stack view">
-                                        <rect key="frame" x="0.0" y="318" width="280" height="60"/>
+                                        <rect key="frame" x="0.0" y="301" width="280" height="60"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QSV-2X-2nW" userLabel="Back Button">
                                                 <rect key="frame" x="0.0" y="0.0" width="130" height="60"/>
@@ -358,7 +358,7 @@
                                 </constraints>
                             </stackView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="mangopay-terms" translatesAutoresizingMaskIntoConstraints="NO" id="Uza-ty-IdX">
-                                <rect key="frame" x="30" y="508" width="260" height="40"/>
+                                <rect key="frame" x="30" y="376" width="260" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="jdT-EN-u0k"/>
                                     <constraint firstAttribute="width" constant="260" id="uQq-pg-Yz5"/>
@@ -1153,7 +1153,7 @@
             <objects>
                 <viewController id="8rJ-Kc-sve" customClass="ReceiveViewController" customModule="Wildfire" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="QS5-Rx-YEW">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="421"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="fzz-fV-Ev3">
@@ -1313,7 +1313,7 @@
                                                 <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="bqC-Px-9Sc" userLabel="Name Field">
                                                     <rect key="frame" x="17" y="0.0" width="293" height="44"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no" returnKeyType="next"/>
+                                                    <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no" returnKeyType="next" textContentType="name"/>
                                                 </textField>
                                             </subviews>
                                         </tableViewCellContentView>
@@ -1798,12 +1798,12 @@
                                             <constraint firstAttribute="height" constant="50" id="2Kr-A4-NCK"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no" returnKeyType="next"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no" returnKeyType="next" textContentType="given-name"/>
                                     </textField>
                                     <textField opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Last name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="lRS-13-gBD">
                                         <rect key="frame" x="0.0" y="65" width="280" height="50"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no" returnKeyType="next"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no" returnKeyType="next" textContentType="family-name"/>
                                     </textField>
                                     <textField opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Wu8-Dy-78Y">
                                         <rect key="frame" x="0.0" y="130" width="280" height="50"/>
@@ -2025,7 +2025,7 @@
             </objects>
             <point key="canvasLocation" x="9442.5" y="2677.8169014084506"/>
         </scene>
-        <!--Test-->
+        <!--Home View Controller-->
         <scene sceneID="5xd-Dx-yS6">
             <objects>
                 <viewController storyboardIdentifier="HomeVC" id="WJV-KB-iYY" customClass="HomeViewController" customModule="Wildfire" customModuleProvider="target" sceneMemberID="viewController">
@@ -2046,7 +2046,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="yE7-Zr-t3C"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Test" id="ikU-LA-yRB"/>
+                    <navigationItem key="navigationItem" id="ikU-LA-yRB"/>
                     <connections>
                         <segue destination="49e-Tb-3d3" kind="presentation" identifier="goToPay" modalPresentationStyle="fullScreen" modalTransitionStyle="crossDissolve" id="Imv-iW-H17"/>
                         <segue destination="LVs-72-jOY" kind="presentation" identifier="goToPhoneVerification" modalPresentationStyle="fullScreen" modalTransitionStyle="crossDissolve" id="N2R-Fh-136"/>
@@ -2387,14 +2387,14 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="About" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="VgR-ZM-H0X">
-                                                    <rect key="frame" x="56" y="0.0" width="248" height="44"/>
+                                                    <rect key="frame" x="48" y="0.0" width="264" height="44"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" image="icons8-info-50" id="zMO-cW-K62">
-                                                    <rect key="frame" x="16" y="9.5" width="25" height="25"/>
+                                                    <rect key="frame" x="8" y="9.5" width="25" height="25"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </imageView>
                                             </subviews>
@@ -2558,7 +2558,7 @@
                                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" verticalHuggingPriority="249" scrollEnabled="NO" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aUx-Q9-cm4" userLabel="Text - wildfire">
                                                         <rect key="frame" x="0.0" y="70.5" width="300" height="216.5"/>
                                                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                                        <mutableString key="text">Wildfire Wallet is a product of Wildfire Financial Limited, a registered company in the United Kingdom.  Your use of this Application is subject to the Privacy Policy (https://www.wildfirewallet.com/privacy-policy) and Terms and Conditions (https://www.wildfirewallet.com/terms-and-conditions) found on the Wildfire website, as well as the Licence Agreement: https://www.wildfirewallet.com/eula</mutableString>
+                                                        <string key="text">Wildfire Wallet is a product of Wildfire Financial Limited, a registered company in the United Kingdom.  Your use of this Application is subject to the Privacy Policy (https://www.wildfirewallet.com/privacy-policy) and Terms and Conditions (https://www.wildfirewallet.com/terms-and-conditions) found on the Wildfire website, as well as the Licence Agreement: https://www.wildfirewallet.com/eula</string>
                                                         <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
                                                         <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -2775,7 +2775,7 @@ http://www.apache.org/licenses/
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="5f6-CW-gcw">
-                                <rect key="frame" x="20" y="94" width="280" height="380"/>
+                                <rect key="frame" x="20" y="109.5" width="280" height="300"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Logo200px" translatesAutoresizingMaskIntoConstraints="NO" id="5js-x2-4Z0">
                                         <rect key="frame" x="90" y="0.0" width="100" height="75"/>
@@ -2874,17 +2874,6 @@ http://www.apache.org/licenses/
                                             </stackView>
                                         </subviews>
                                     </stackView>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aE1-gl-UEb" userLabel="Done Button">
-                                        <rect key="frame" x="40" y="330" width="200" height="50"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="200" id="PFu-7D-nlK"/>
-                                            <constraint firstAttribute="height" constant="50" id="hlG-HV-pW3"/>
-                                        </constraints>
-                                        <state key="normal" title="Done"/>
-                                        <connections>
-                                            <action selector="doneButtonTapped:" destination="NJi-Gm-iql" eventType="touchUpInside" id="umG-xb-D5Y"/>
-                                        </connections>
-                                    </button>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="OxD-sM-hrA" firstAttribute="centerX" secondItem="5f6-CW-gcw" secondAttribute="centerX" id="C44-Jh-0I6"/>
@@ -2898,15 +2887,28 @@ http://www.apache.org/licenses/
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aE1-gl-UEb" userLabel="Done Button">
+                                <rect key="frame" x="60" y="449.5" width="200" height="60"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="200" id="PFu-7D-nlK"/>
+                                    <constraint firstAttribute="height" constant="60" id="hlG-HV-pW3"/>
+                                </constraints>
+                                <state key="normal" title="Done"/>
+                                <connections>
+                                    <action selector="doneButtonTapped:" destination="NJi-Gm-iql" eventType="touchUpInside" id="umG-xb-D5Y"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
+                            <constraint firstItem="5f6-CW-gcw" firstAttribute="top" secondItem="86k-nw-Pag" secondAttribute="bottom" constant="15" id="BGw-NS-dOd"/>
                             <constraint firstItem="5f6-CW-gcw" firstAttribute="centerX" secondItem="Gho-YL-SR4" secondAttribute="centerX" id="FDx-NY-LJB"/>
                             <constraint firstItem="Vok-h0-pxf" firstAttribute="trailing" secondItem="5f6-CW-gcw" secondAttribute="trailing" constant="20" id="HOi-T7-3lv"/>
                             <constraint firstItem="86k-nw-Pag" firstAttribute="leading" secondItem="Vok-h0-pxf" secondAttribute="leading" constant="20" id="UEb-Ec-GKa"/>
+                            <constraint firstItem="aE1-gl-UEb" firstAttribute="centerX" secondItem="Gho-YL-SR4" secondAttribute="centerX" id="ZIX-f8-hS2"/>
                             <constraint firstItem="86k-nw-Pag" firstAttribute="top" secondItem="Vok-h0-pxf" secondAttribute="top" constant="40" id="c6R-uW-jbV"/>
+                            <constraint firstItem="aE1-gl-UEb" firstAttribute="top" secondItem="5f6-CW-gcw" secondAttribute="bottom" constant="40" id="cKX-n1-ZTT"/>
                             <constraint firstItem="5f6-CW-gcw" firstAttribute="leading" secondItem="Vok-h0-pxf" secondAttribute="leading" constant="20" id="hk1-sj-Oo7"/>
-                            <constraint firstItem="5f6-CW-gcw" firstAttribute="centerY" secondItem="Vok-h0-pxf" secondAttribute="centerY" constant="10" id="yAy-dx-MkZ"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Vok-h0-pxf"/>
                     </view>
@@ -2949,25 +2951,25 @@ http://www.apache.org/licenses/
                                         </constraints>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="amount" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pOX-B0-hO7">
-                                        <rect key="frame" x="59" y="95" width="162" height="77"/>
+                                        <rect key="frame" x="59" y="95" width="162" height="69"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="50"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="just received from" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ixn-XM-fCR">
-                                        <rect key="frame" x="71.5" y="192" width="137.5" height="26.5"/>
+                                        <rect key="frame" x="71.5" y="184" width="137.5" height="23.5"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="25" translatesAutoresizingMaskIntoConstraints="NO" id="lVj-nG-J2J">
-                                        <rect key="frame" x="80.5" y="238.5" width="119" height="77"/>
+                                        <rect key="frame" x="80.5" y="227.5" width="119" height="69"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="50"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You can view the full receipt for this transfer in the Receipts section in the Account tab" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RFd-va-UZj">
-                                        <rect key="frame" x="20" y="335.5" width="240" height="32.5"/>
+                                        <rect key="frame" x="20" y="316.5" width="240" height="51.5"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
@@ -3127,11 +3129,11 @@ http://www.apache.org/licenses/
                                         <rect key="frame" x="0.0" y="121" width="280" height="83"/>
                                         <subviews>
                                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="YaC-XM-o91">
-                                                <rect key="frame" x="0.0" y="26" width="53" height="31"/>
+                                                <rect key="frame" x="0.0" y="26" width="41.5" height="31"/>
                                                 <color key="onTintColor" name="tealPrimary"/>
                                             </switch>
                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" text="I have read and understood the Privacy Policy: www.wildfirewallet.com/privacy-policy" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="cSK-NM-T1V">
-                                                <rect key="frame" x="71" y="0.0" width="209" height="83"/>
+                                                <rect key="frame" x="59.5" y="0.0" width="220.5" height="83"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                                 <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -3144,11 +3146,11 @@ http://www.apache.org/licenses/
                                         <rect key="frame" x="0.0" y="219" width="280" height="116.5"/>
                                         <subviews>
                                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="3ch-9n-v9C">
-                                                <rect key="frame" x="0.0" y="43" width="53" height="31"/>
+                                                <rect key="frame" x="0.0" y="43" width="41.5" height="31"/>
                                                 <color key="onTintColor" name="tealPrimary"/>
                                             </switch>
                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="nSj-FN-Mrh">
-                                                <rect key="frame" x="71" y="0.0" width="209" height="116.5"/>
+                                                <rect key="frame" x="59.5" y="0.0" width="220.5" height="116.5"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                                 <string key="text">I have read and agree to the Terms and Conditions: www.wildfirewallet.com/terms-and-conditions and License Agreement: https://www.wildfirewallet.com/eula</string>
                                                 <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -3386,11 +3388,11 @@ http://www.apache.org/licenses/
             <objects>
                 <viewController modalTransitionStyle="flipHorizontal" modalPresentationStyle="currentContext" id="dMl-Xg-qLO" customClass="DisplayReceiptAfterPaymentViewController" customModule="Wildfire" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Lqs-x6-fZq">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="548"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalCentering" alignment="center" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="td4-fH-TTf">
-                                <rect key="frame" x="20" y="104" width="280" height="400"/>
+                                <rect key="frame" x="20" y="15" width="280" height="275"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Logo200px" translatesAutoresizingMaskIntoConstraints="NO" id="Wly-5B-JJb">
                                         <rect key="frame" x="102.5" y="0.0" width="75" height="100"/>
@@ -3399,7 +3401,7 @@ http://www.apache.org/licenses/
                                         </constraints>
                                     </imageView>
                                     <stackView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="1000" axis="vertical" distribution="fillEqually" alignment="top" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Pdc-9b-DnK" userLabel="Transaction Details Stack">
-                                        <rect key="frame" x="0.0" y="135" width="280" height="155"/>
+                                        <rect key="frame" x="0.0" y="120" width="280" height="155"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="tfF-Ep-NGL">
                                                 <rect key="frame" x="0.0" y="0.0" width="280" height="23"/>
@@ -3497,30 +3499,31 @@ http://www.apache.org/licenses/
                                             <constraint firstAttribute="trailingMargin" secondItem="7Nh-wo-eRg" secondAttribute="trailing" id="yTb-Zf-N8M"/>
                                         </constraints>
                                     </stackView>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jon-bL-RdN" userLabel="Done Button">
-                                        <rect key="frame" x="40" y="350" width="200" height="50"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="50" id="49V-RO-Diy"/>
-                                            <constraint firstAttribute="width" constant="200" id="MFS-Dn-sZo"/>
-                                        </constraints>
-                                        <state key="normal" title="Done"/>
-                                        <connections>
-                                            <action selector="doneButtonTapped:" destination="dMl-Xg-qLO" eventType="touchUpInside" id="fp9-Ck-Ok7"/>
-                                        </connections>
-                                    </button>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="400" id="Ioo-TU-rTU"/>
                                     <constraint firstAttribute="trailingMargin" secondItem="Pdc-9b-DnK" secondAttribute="trailing" id="h3s-rR-IkV"/>
                                     <constraint firstItem="Pdc-9b-DnK" firstAttribute="leading" secondItem="td4-fH-TTf" secondAttribute="leadingMargin" id="p4b-EX-cvV"/>
                                 </constraints>
                             </stackView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jon-bL-RdN" userLabel="Done Button">
+                                <rect key="frame" x="60" y="340" width="200" height="60"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="49V-RO-Diy"/>
+                                    <constraint firstAttribute="width" constant="200" id="MFS-Dn-sZo"/>
+                                </constraints>
+                                <state key="normal" title="Done"/>
+                                <connections>
+                                    <action selector="doneButtonTapped:" destination="dMl-Xg-qLO" eventType="touchUpInside" id="fp9-Ck-Ok7"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="td4-fH-TTf" firstAttribute="leading" secondItem="hdM-2S-6Wv" secondAttribute="leading" constant="20" id="7al-XR-4GT"/>
+                            <constraint firstItem="jon-bL-RdN" firstAttribute="centerX" secondItem="Lqs-x6-fZq" secondAttribute="centerX" id="8vX-ul-Dna"/>
+                            <constraint firstItem="td4-fH-TTf" firstAttribute="top" secondItem="hdM-2S-6Wv" secondAttribute="top" constant="15" id="IlX-75-Auz"/>
                             <constraint firstAttribute="trailing" secondItem="td4-fH-TTf" secondAttribute="trailing" constant="20" id="VEB-6a-ied"/>
-                            <constraint firstItem="td4-fH-TTf" firstAttribute="centerY" secondItem="Lqs-x6-fZq" secondAttribute="centerY" constant="30" id="bcR-7y-IQF"/>
+                            <constraint firstItem="jon-bL-RdN" firstAttribute="top" secondItem="td4-fH-TTf" secondAttribute="bottom" constant="50" id="yx1-Fc-hn4"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="hdM-2S-6Wv"/>
                     </view>
@@ -4062,7 +4065,7 @@ http://www.apache.org/licenses/
                         <attributedString key="attributedTitle">
                             <fragment content="Refreshing">
                                 <attributes>
-                                    <font key="NSFont" metaFont="label" size="11"/>
+                                    <font key="NSFont" metaFont="message" size="11"/>
                                     <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                 </attributes>
                             </fragment>
@@ -5610,8 +5613,8 @@ http://www.apache.org/licenses/
         <segue reference="Huo-pa-P2i"/>
         <segue reference="FIA-qD-1nb"/>
         <segue reference="R2W-JZ-F0t"/>
-        <segue reference="xeb-yR-cYh"/>
-        <segue reference="KC7-yY-zWV"/>
+        <segue reference="JGW-hE-gdx"/>
+        <segue reference="6CO-tz-ak8"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" name="tealPrimary"/>
     <resources>

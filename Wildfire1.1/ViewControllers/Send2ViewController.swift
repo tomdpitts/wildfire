@@ -55,9 +55,6 @@ class Send2ViewController: UIViewController, MFMessageComposeViewControllerDeleg
         
         if let number = contact?.phoneNumber {
             
-            print(number)
-
-            
             guard let name = contact?.givenName else { return }
             
             isRegistered(phoneNumber: number, name: name)

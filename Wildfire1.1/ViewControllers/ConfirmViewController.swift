@@ -428,7 +428,7 @@ class ConfirmViewController: UIViewController {
                                         }
                                     } else {
                                         self.removeSpinnerWithCompletion {
-                                            completion("Transaction seems to have been successful but data wasn't returned as expected. Please check your receipts before retrying.")
+                                            completion("Transaction was successful but the connection dropped - please check your receipts to confirm it went through.")
                                         }
                                     }
                                 }
@@ -460,6 +460,8 @@ class ConfirmViewController: UIViewController {
                             }
                         } else {
                             
+                            print("result is: \(result?.data)")
+                            
                             if let transactionData = result?.data as? [String: Any] {
                                 let amount = transactionData["amount"] as! Int
                                 let currency = transactionData["currency"] as! String
@@ -484,7 +486,7 @@ class ConfirmViewController: UIViewController {
                             } else {
                                 
                                 self.removeSpinnerWithCompletion() {
-                                    completion("Transaction seems to have been successful but data wasn't returned as expected. Please check your receipts before retrying.")
+                                    completion("Transaction was successful but the connection dropped - please check your receipts to confirm it went through.")
                                 }
                             }
                             
