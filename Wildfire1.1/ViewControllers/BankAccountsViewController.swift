@@ -31,13 +31,19 @@ class BankAccountsViewController: UITableViewController {
             
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+                
         tableView.tableFooterView = UIView()
         tableView.backgroundColor = .groupTableViewBackground
         
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellID)
+                
+        // this doesn't work. Trying to get refresh working with opaque navigation bar but just can't make it work.
+//        self.edgesForExtendedLayout = []
+//        self.extendedLayoutIncludesOpaqueBars = true
+
         
         self.refreshControl?.addTarget(self, action: #selector(refresh), for: UIControl.Event.valueChanged)
+                        
 //        fetchBankAccounts() { () in
 //
 //            if self.bankAccountsList.count > 0 {
@@ -56,16 +62,17 @@ class BankAccountsViewController: UITableViewController {
         }
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        fetchBankAccounts() { () in
-
-            self.tableView.reloadData()
-        }
-
-        navigationController?.interactivePopGestureRecognizer?.isEnabled = true
-    }
+//    override func viewDidAppear(_ animated: Bool) {
+//        fetchBankAccounts() { () in
+//
+//            self.tableView.reloadData()
+//        }
+//
+////        navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+//    }
     
-    @objc func refresh(sender:AnyObject) {
+    @IBAction func tableRefreshed(_ sender: Any) {
+        print("refreshing")
         
         let appDelegate = AppDelegate()
         appDelegate.fetchBankAccountsListFromMangopay() { () in
@@ -80,6 +87,12 @@ class BankAccountsViewController: UITableViewController {
                 self.refreshControl?.endRefreshing()
             }
         }
+    }
+    
+    
+    @objc func refresh(sender:AnyObject) {
+        print("refreshing via objC")
+        
     }
     
 //        override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {

@@ -44,9 +44,8 @@ class Account2ViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-                
+        
         tableView.delegate = self
-        navigationController?.navigationBar.prefersLargeTitles = true
         
         if UserDefaults.standard.bool(forKey: "userAccountExists") == true {
             getUserInfo()
@@ -60,8 +59,7 @@ class Account2ViewController: UITableViewController {
         } else {
             loadingIndicator.style = .gray
         }
-        
-        
+                
 //        // TODO roll this out across the board?
 //        tableView.backgroundView = GradientView()
         
@@ -89,6 +87,11 @@ class Account2ViewController: UITableViewController {
             loadingIndicator.startAnimating()
             loadingIndicator.isHidden = false
         }
+    }
+    
+    override func updateViewConstraints() {
+        tableView.heightAnchor.constraint(equalToConstant: tableView.contentSize.height).isActive = true
+        super.updateViewConstraints()
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {

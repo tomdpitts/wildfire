@@ -1107,6 +1107,8 @@ exports.respondToEventRecord = functions.region('europe-west1').firestore.docume
         // registration token.
         admin.messaging().send(payload)
           .then((response) => {
+
+            console.log("payload sent successfully")
             // TEMPORARILY MOVING RECORD INSTEAD OF DELETION - this can probably be switched back at some point
 
             // let deleteDoc = db.collection('events').doc(eventType).collection('eventQueue').doc(eventRecord).delete()
@@ -1114,6 +1116,7 @@ exports.respondToEventRecord = functions.region('europe-west1').firestore.docume
             return
         })
         .catch((err) => {
+          console.log("payload was NOT sent successfully")
 
           helpers.moveEventRecordTo(eventType, 'failedToSendNotification', eventRecord, resourceID, false, err)
           throw err
@@ -1313,7 +1316,7 @@ exports.respondToEventRecord = functions.region('europe-west1').firestore.docume
       .catch((err) => {
 
         console.log(err)
-        
+
         helpers.moveEventRecordTo(eventType, 'failedToSendNotification', eventRecord, resourceID, false)
 
         throw err

@@ -95,9 +95,6 @@ class DisplayReceiptViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        navigationItem.title = "Receipt"
-        navigationController?.navigationBar.prefersLargeTitles = true
         
         Utilities.styleHollowButton(doneButton)
         updateReceipt()

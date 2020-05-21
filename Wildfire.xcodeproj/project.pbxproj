@@ -32,7 +32,6 @@
 		E21AC96A21EA6BEF00D460A9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E21AC96821EA6BEF00D460A9 /* Main.storyboard */; };
 		E21AC96F21EA6BF000D460A9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E21AC96D21EA6BF000D460A9 /* LaunchScreen.storyboard */; };
 		E21AC97A21EA6BF000D460A9 /* Wildfire1_1Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E21AC97921EA6BF000D460A9 /* Wildfire1_1Tests.swift */; };
-		E21AC98521EA6C9E00D460A9 /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E21AC98421EA6C9E00D460A9 /* AccountViewController.swift */; };
 		E222732A23420BBE006D8326 /* AddCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E222732923420BBE006D8326 /* AddCardViewController.swift */; };
 		E2261D1B242F2F29008170DB /* AccountAddedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2261D1A242F2F29008170DB /* AccountAddedViewController.swift */; };
 		E229FB9E244EF08200F403CA /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E229FB9D244EF08200F403CA /* AboutViewController.swift */; };
@@ -128,7 +127,6 @@
 		E21AC97521EA6BF000D460A9 /* Wildfire1.1Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Wildfire1.1Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E21AC97921EA6BF000D460A9 /* Wildfire1_1Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Wildfire1_1Tests.swift; sourceTree = "<group>"; };
 		E21AC97B21EA6BF000D460A9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		E21AC98421EA6C9E00D460A9 /* AccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
 		E21AC99621EA850C00D460A9 /* ScanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanViewController.swift; sourceTree = "<group>"; };
 		E222732923420BBE006D8326 /* AddCardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCardViewController.swift; sourceTree = "<group>"; };
 		E2261D1A242F2F29008170DB /* AccountAddedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountAddedViewController.swift; sourceTree = "<group>"; };
@@ -324,8 +322,8 @@
 				E2B979DE23295DB000194E75 /* ConfirmViewController.swift */,
 				E23331D223328C630039E6A2 /* SuccessViewController.swift */,
 				E21AC96621EA6BEF00D460A9 /* ReceiveViewController.swift */,
+				E22A9CFC239546C400A35EC1 /* Account2ViewController.swift */,
 				E2FA9ED52333D70D0068792D /* PaymentSetupViewController.swift */,
-				E21AC98421EA6C9E00D460A9 /* AccountViewController.swift */,
 				E26039772350DABA0031C792 /* ProfilePicViewController.swift */,
 				E279717C231433AF00964F25 /* SignUpViewController.swift */,
 				E2676366235614DB00D079C6 /* formStep2ViewController.swift */,
@@ -335,7 +333,6 @@
 				E29CF6972359BECD00ADC0D0 /* Send2ViewController.swift */,
 				E2CDF4AA235F2126002E155D /* PhoneViewController.swift */,
 				E2CDF4AC235F2859002E155D /* VerificationCodeViewController.swift */,
-				E22A9CFC239546C400A35EC1 /* Account2ViewController.swift */,
 				E2444DF723A0A7930035674D /* ReceiptsViewController.swift */,
 				E22D7E0223A7393100F86487 /* DisplayReceiptViewController.swift */,
 				E22D7E0423B04E8A00F86487 /* PaymentMethodsViewController.swift */,
@@ -609,7 +606,6 @@
 				E2BEF97324468F79002EE61B /* TopUpViewController.swift in Sources */,
 				E24388AA231575DA00948AD5 /* CustomSegues.swift in Sources */,
 				E23331D323328C630039E6A2 /* SuccessViewController.swift in Sources */,
-				E21AC98521EA6C9E00D460A9 /* AccountViewController.swift in Sources */,
 				E25213B9234E4375003B2160 /* FirebaseAuthManager.swift in Sources */,
 				E29925ED2435B02900AE5D6F /* LaunchViewController.swift in Sources */,
 				E22D7E0323A7393100F86487 /* DisplayReceiptViewController.swift in Sources */,

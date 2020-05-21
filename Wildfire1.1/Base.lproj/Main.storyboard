@@ -2030,7 +2030,7 @@
             <objects>
                 <viewController storyboardIdentifier="HomeVC" id="WJV-KB-iYY" customClass="HomeViewController" customModule="Wildfire" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="1DH-T8-vYc">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="477"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" insetsLayoutMarginsFromSafeArea="NO" image="WILDFIRE Logo 1200px" translatesAutoresizingMaskIntoConstraints="NO" id="CKy-PX-uTI">
@@ -2136,7 +2136,7 @@
         <scene sceneID="uzV-4S-pAA">
             <objects>
                 <tableViewController storyboardIdentifier="accountVC" id="4T3-Q5-YEd" userLabel="Account2 View Controller" customClass="Account2ViewController" customModule="Wildfire" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" directionalLockEnabled="YES" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" dataMode="static" style="plain" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="Wfq-4C-l1H">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" directionalLockEnabled="YES" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" bouncesZoom="NO" dataMode="static" style="plain" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" contentViewInsetsToSafeArea="NO" id="Wfq-4C-l1H">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="475"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
@@ -2409,6 +2409,7 @@
                             <outlet property="delegate" destination="4T3-Q5-YEd" id="Zjo-J3-5Oe"/>
                         </connections>
                     </tableView>
+                    <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <navigationItem key="navigationItem" title="Account" id="4gZ-LQ-YbT"/>
                     <connections>
                         <outlet property="balanceAmountLabel" destination="Sl0-Ff-Sh2" id="liS-lH-C5E"/>
@@ -2425,7 +2426,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XbZ-5g-3bj" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="81U-Dl-tRT" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="2591.25" y="1125"/>
+            <point key="canvasLocation" x="2589" y="960"/>
         </scene>
         <!--Balance-->
         <scene sceneID="WDs-gQ-BWp">
@@ -3129,11 +3130,11 @@ http://www.apache.org/licenses/
                                         <rect key="frame" x="0.0" y="121" width="280" height="83"/>
                                         <subviews>
                                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="YaC-XM-o91">
-                                                <rect key="frame" x="0.0" y="26" width="41.5" height="31"/>
+                                                <rect key="frame" x="0.0" y="26" width="53" height="31"/>
                                                 <color key="onTintColor" name="tealPrimary"/>
                                             </switch>
                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" text="I have read and understood the Privacy Policy: www.wildfirewallet.com/privacy-policy" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="cSK-NM-T1V">
-                                                <rect key="frame" x="59.5" y="0.0" width="220.5" height="83"/>
+                                                <rect key="frame" x="71" y="0.0" width="209" height="83"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                                 <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -3146,11 +3147,11 @@ http://www.apache.org/licenses/
                                         <rect key="frame" x="0.0" y="219" width="280" height="116.5"/>
                                         <subviews>
                                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="3ch-9n-v9C">
-                                                <rect key="frame" x="0.0" y="43" width="41.5" height="31"/>
+                                                <rect key="frame" x="0.0" y="43" width="53" height="31"/>
                                                 <color key="onTintColor" name="tealPrimary"/>
                                             </switch>
                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="nSj-FN-Mrh">
-                                                <rect key="frame" x="59.5" y="0.0" width="220.5" height="116.5"/>
+                                                <rect key="frame" x="71" y="0.0" width="209" height="116.5"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                                 <string key="text">I have read and agree to the Terms and Conditions: www.wildfirewallet.com/terms-and-conditions and License Agreement: https://www.wildfirewallet.com/eula</string>
                                                 <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -3328,12 +3329,14 @@ http://www.apache.org/licenses/
         <!--Account-->
         <scene sceneID="vKr-hU-IfU">
             <objects>
-                <navigationController storyboardIdentifier="accountNavController" automaticallyAdjustsScrollViewInsets="NO" id="PyJ-Ps-24F" sceneMemberID="viewController">
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dgw-qI-Lmz" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <navigationController storyboardIdentifier="accountNavController" id="PyJ-Ps-24F" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Account" image="icons8-secure-50" id="4H4-bh-m9b"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translucent="NO" largeTitles="YES" id="jGA-If-hG9">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="103"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <color key="barTintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <textAttributes key="titleTextAttributes">
@@ -3350,7 +3353,6 @@ http://www.apache.org/licenses/
                         <segue destination="4T3-Q5-YEd" kind="relationship" relationship="rootViewController" id="EC2-lV-AGv"/>
                     </connections>
                 </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="dgw-qI-Lmz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1655" y="1126"/>
         </scene>
@@ -4033,7 +4035,7 @@ http://www.apache.org/licenses/
         <scene sceneID="6rx-Uj-5c6">
             <objects>
                 <tableViewController id="CDk-SW-YDS" customClass="BankAccountsViewController" customModule="Wildfire" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="oU3-br-KuG">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" bouncesZoom="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="oU3-br-KuG">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
@@ -4052,24 +4054,26 @@ http://www.apache.org/licenses/
                             <outlet property="delegate" destination="CDk-SW-YDS" id="reD-4L-weV"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Bank Account" id="EqN-zL-adL">
+                    <navigationItem key="navigationItem" title="Bank Account" largeTitleDisplayMode="always" id="EqN-zL-adL">
                         <barButtonItem key="rightBarButtonItem" title="Add Details" id="YaS-DR-CNm">
                             <connections>
                                 <segue destination="VYa-hN-JH5" kind="show" id="gr2-HT-oDS"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
-                    <refreshControl key="refreshControl" opaque="NO" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="svT-vo-942">
-                        <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
+                    <refreshControl key="refreshControl" opaque="NO" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="6xw-Pn-bm2">
                         <autoresizingMask key="autoresizingMask"/>
                         <attributedString key="attributedTitle">
                             <fragment content="Refreshing">
                                 <attributes>
-                                    <font key="NSFont" metaFont="message" size="11"/>
+                                    <font key="NSFont" metaFont="system" size="14"/>
                                     <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                 </attributes>
                             </fragment>
                         </attributedString>
+                        <connections>
+                            <action selector="tableRefreshed:" destination="CDk-SW-YDS" eventType="valueChanged" id="0tv-Ya-DUF"/>
+                        </connections>
                     </refreshControl>
                     <connections>
                         <outlet property="addDetailsButton" destination="YaS-DR-CNm" id="NPw-hu-okC"/>
@@ -5373,9 +5377,10 @@ http://www.apache.org/licenses/
             <objects>
                 <navigationController storyboardIdentifier="homeNavController" automaticallyAdjustsScrollViewInsets="NO" id="6bI-j5-LK0" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translucent="NO" largeTitles="YES" id="e2E-R5-VqD">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="e2E-R5-VqD">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="91"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="barTintColor" name="redPrimary"/>
                         <textAttributes key="largeTitleTextAttributes">
                             <fontDescription key="fontDescription" type="system" pointSize="0.0"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -5612,8 +5617,8 @@ http://www.apache.org/licenses/
         <segue reference="Plu-rG-Syc"/>
         <segue reference="Huo-pa-P2i"/>
         <segue reference="FIA-qD-1nb"/>
-        <segue reference="R2W-JZ-F0t"/>
-        <segue reference="JGW-hE-gdx"/>
+        <segue reference="bGq-l6-Or3"/>
+        <segue reference="xeb-yR-cYh"/>
         <segue reference="6CO-tz-ak8"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" name="tealPrimary"/>

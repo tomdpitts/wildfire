@@ -86,6 +86,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         redirect()
 //        setupNavigationBarAppearance()
         
+        fetchBankAccountsListFromMangopay {
+        }
+        listCardsFromMangopay {
+        }
         
         
         return true
