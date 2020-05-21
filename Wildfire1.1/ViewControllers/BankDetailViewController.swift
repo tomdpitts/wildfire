@@ -46,7 +46,7 @@ class BankDetailViewController: UIViewController {
         displayBankInfo()
         
         KYCPendingView.clipsToBounds = true
-        KYCPendingView.layer.borderWidth = 2 //Or some other value
+        KYCPendingView.layer.borderWidth = 3 //Or some other value
         KYCPendingView.layer.borderColor = UIColor(hexString: "#39C3C6").cgColor
 
         Utilities.styleHollowButton(makeDepositButton)

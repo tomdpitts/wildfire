@@ -4379,10 +4379,10 @@ http://www.apache.org/licenses/
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ha1-25-z9u" userLabel="KYC Pending View">
-                                <rect key="frame" x="-20" y="0.0" width="360" height="46"/>
+                                <rect key="frame" x="-3" y="0.0" width="326" height="46"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="center" distribution="fillProportionally" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="17i-UP-jzo" userLabel="KYC Pending Stack">
-                                        <rect key="frame" x="40" y="8" width="280" height="30"/>
+                                        <rect key="frame" x="40" y="8" width="246" height="30"/>
                                         <subviews>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" verticalHuggingPriority="251" image="icons8-order-history-100" translatesAutoresizingMaskIntoConstraints="NO" id="JSQ-U2-WQL">
                                                 <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
@@ -4391,7 +4391,7 @@ http://www.apache.org/licenses/
                                                 </constraints>
                                             </imageView>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fIC-gK-l0a">
-                                                <rect key="frame" x="40" y="0.0" width="240" height="30"/>
+                                                <rect key="frame" x="40" y="0.0" width="206" height="30"/>
                                                 <inset key="titleEdgeInsets" minX="10" minY="0.0" maxX="0.0" maxY="0.0"/>
                                                 <state key="normal" title="ID Verification pending">
                                                     <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -4571,12 +4571,12 @@ http://www.apache.org/licenses/
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="hbU-RM-JDN" firstAttribute="trailing" secondItem="Ha1-25-z9u" secondAttribute="trailing" constant="-20" id="66h-2p-v8s"/>
+                            <constraint firstItem="hbU-RM-JDN" firstAttribute="trailing" secondItem="Ha1-25-z9u" secondAttribute="trailing" constant="-3" id="66h-2p-v8s"/>
                             <constraint firstAttribute="bottom" secondItem="gzV-IM-7zM" secondAttribute="bottom" constant="10" id="D3Q-hT-X0R"/>
                             <constraint firstItem="Ha1-25-z9u" firstAttribute="top" secondItem="hbU-RM-JDN" secondAttribute="top" id="KLq-Z7-Zux"/>
                             <constraint firstItem="gzV-IM-7zM" firstAttribute="top" secondItem="Ha1-25-z9u" secondAttribute="bottom" constant="10" id="RoJ-2x-yHS"/>
                             <constraint firstItem="gzV-IM-7zM" firstAttribute="centerX" secondItem="t2G-rw-58c" secondAttribute="centerX" id="dyD-M9-icJ"/>
-                            <constraint firstItem="Ha1-25-z9u" firstAttribute="leading" secondItem="hbU-RM-JDN" secondAttribute="leading" constant="-20" id="lrS-A9-25H"/>
+                            <constraint firstItem="Ha1-25-z9u" firstAttribute="leading" secondItem="hbU-RM-JDN" secondAttribute="leading" constant="-3" id="lrS-A9-25H"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="hbU-RM-JDN"/>
                     </view>

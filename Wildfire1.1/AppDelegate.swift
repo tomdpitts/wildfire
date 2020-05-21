@@ -41,6 +41,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         FirebaseApp.configure()
         Analytics.setAnalyticsCollectionEnabled(true)
         
+        application.registerForRemoteNotifications()
+        Messaging.messaging().delegate = self
+        
         if let currentUserID = Auth.auth().currentUser?.uid {
             Crashlytics.crashlytics().setUserID(currentUserID)
         }
@@ -58,8 +61,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
             application.registerUserNotificationSettings(settings)
         }
-        application.registerForRemoteNotifications()
-        Messaging.messaging().delegate = self
+        
         
         
 //        ApplicationDelegate.sharedInstance()?.application(application, didFinishLaunchingWithOptions: launchOptions)
@@ -100,6 +102,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 //
 //        return ApplicationDelegate.sharedInstance().application(application, open: url, sourceApplication: sourceApplication, annotation: annotation)
 //    }
+    
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        Messaging.messaging().apnsToken = deviceToken
+    }
 
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
@@ -283,6 +289,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
     
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String) {
+        
+        print("fcmToken is: " + fcmToken)
 
         let dataDict:[String: String] = ["token": fcmToken]
         NotificationCenter.default.post(name: Notification.Name("FCMToken"), object: nil, userInfo: dataDict)
@@ -300,9 +308,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         // With swizzling disabled you must let Messaging know about the message, for Analytics
         // Messaging.messaging().appDidReceiveMessage(userInfo)
         
+        print("did receive remote Notification yes")
+        
         guard let eventType = userInfo["eventType"] as? String else { return }
         
 //        let mainStoryboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        
         
         if eventType == "KYC_SUCCEEDED" {
             
@@ -510,8 +521,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         functions.httpsCallable("listBankAccounts").call(["mpID": mpID]) { (result, error) in
 
             if let bankAccountList = result?.data as? [[String: Any]] {
-                
-                print(bankAccountList)
                 
                 let defaults = UserDefaults.standard
 

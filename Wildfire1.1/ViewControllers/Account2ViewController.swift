@@ -250,7 +250,7 @@ class Account2ViewController: UITableViewController {
     @objc func updateProfilePicView() {
         
         if let url = UserDefaults.standard.url(forKey: "profilePicURL") {
-            print(url)
+            
             // using Kingfisher library for tidy handling of image download
             self.profilePicView.kf.setImage(with: url,
                 placeholder: self.genericProfilePic,
@@ -283,7 +283,18 @@ class Account2ViewController: UITableViewController {
                 }
             }
         } else {
-            print("no url to be found")
+            guard let uid = Auth.auth().currentUser?.uid else { return }
+            let storageRef = Storage.storage().reference().child("profilePictures").child(uid)
+                
+            storageRef.downloadURL { url, error in
+                if error != nil {
+                // Handle any errors
+                } else {
+                    guard let URL = url else { return }
+                    UserDefaults.standard.set(URL, forKey: "profilePicURL")
+                    NotificationCenter.default.post(name: Notification.Name("newProfilePicUploaded"), object: nil)
+                }
+            }
         }
     }
     

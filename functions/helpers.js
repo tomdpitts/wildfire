@@ -23,7 +23,7 @@ module.exports = {
         eventType: eventType,
         resourceID: mangopayResourceID,
         error: errorLog,
-        timestamp: Math.round(Date.now()/1000)
+        timestamp: new Date().toISOString()
       })
   
       // and delete it from the eventQueue

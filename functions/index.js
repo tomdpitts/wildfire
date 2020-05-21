@@ -515,7 +515,6 @@ exports.listCards = functions.region('europe-west1').https.onCall( async (data, 
 
     const cardsList = await mpAPI.Users.getCards(mangopayID, JSON)
 
-    console.log(cardsList)
     var activeCardsList = []
     var x
 
@@ -968,7 +967,7 @@ exports.events_FCHK4JM41QgvlwAqzUGHmD89JiH2f0
   db.doc(eventType).collection('eventQueue').add({
     eventType: eventType,
     resourceID: resourceID,
-    timestamp: Math.round(Date.now()/1000)
+    timestamp: new Date().toISOString()
   }).then(ref => {
     response.send('success')
     return
