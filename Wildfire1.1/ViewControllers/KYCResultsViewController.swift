@@ -13,6 +13,7 @@ class KYCVerifiedViewController: UIViewController {
     var refusedMessage: String?
     
     @IBOutlet weak var okButton: UIButton!
+    //    @IBOutlet weak var okButton: UIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -31,11 +32,11 @@ class KYCVerifiedViewController: UIViewController {
 
 class KYCRefusedViewController: UIViewController {
 
-    @IBOutlet weak var refusedReasonTextView: UITextView!
     @IBOutlet weak var titleLabel: UILabel!
     
-    @IBOutlet weak var newImageButton: UIButton!
+    @IBOutlet weak var refusedReasonTextView: UITextView!
     
+    @IBOutlet weak var newImageButton: UIButton!
     @IBOutlet weak var backToHomeButton: UIButton!
     
     override func viewDidLoad() {
@@ -51,7 +52,7 @@ class KYCRefusedViewController: UIViewController {
         
         
         if let refusedMessage = UserDefaults.standard.string(forKey: "refusedMessage") {
-            if refusedMessage != "null" {
+            if refusedMessage != "" {
                 refusedReasonTextView.text = refusedMessage
             } else {
                 refusedReasonTextView.text = "No further reason or clarification was received. Please try again and ensure the image is readable and matches the name you provided."
@@ -80,6 +81,9 @@ class KYCRefusedViewController: UIViewController {
                 titleLabel.text = "ID is not genuine"
             } else if type == "UNDERAGE_PERSON" {
                 titleLabel.text = "User must be 18+"
+            } else {
+                // fallback option
+                titleLabel.text = "Proof of ID rejected"
             }
         }
         
@@ -87,28 +91,10 @@ class KYCRefusedViewController: UIViewController {
     }
     
     @IBAction func newImageButtonTapped(_ sender: Any) {
-        self.performSegue(withIdentifier: "retryKYC", sender: self)
-//        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-//        let vc = storyboard.instantiateViewController(withIdentifier: "KYCNavController") as! UINavigationController
-//        self.present(vc, animated: true, completion: nil)
+        self.performSegue(withIdentifier: "retyrKYC", sender: self)
     }
     
     @IBAction func backToHomeButtonTapped(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)
-    }
-}
-
-class CardLimitReached: UIViewController {
-    
-    @IBOutlet weak var doneButton: UIButton!
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        Utilities.styleHollowButton(doneButton)
-    }
-    
-    @IBAction func doneButtonTapped(_ sender: Any) {
-        self.performSegue(withIdentifier: "unwindToPrevious", sender: self)
     }
 }

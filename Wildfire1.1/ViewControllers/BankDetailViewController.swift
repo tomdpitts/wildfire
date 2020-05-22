@@ -69,26 +69,37 @@ class BankDetailViewController: UIViewController {
     
     func displayBankInfo() {
         if let bnk = bankAccount {
+            
             accountOwnerLabel.text = bnk.accountHolderName
-            IBANLabel.text = bnk.IBAN
-            swiftLabel.text = bnk.SWIFTBIC
-            accountNumberLabel.text = bnk.accountNumber
-            sortCodeLabel.text = bnk.sortCode
-            countryLabel.text = bnk.country
             
-            // one for later
-            countryStack.isHidden = true
+            if let iban = bnk.IBAN {
+                IBANLabel.text = iban
+            } else {
+                IBANStack.isHidden = true
+            }
             
-            if bnk.type == "IBAN" {
+            if let swift = bnk.SWIFTBIC {
+                swiftLabel.text = swift
+            } else {
                 swiftStack.isHidden = true
+            }
+            
+            if let number = bnk.accountNumber {
+                accountNumberLabel.text = number
+            } else {
                 accountNumberStack.isHidden = true
+            }
+            
+            if let sort = bnk.sortCode {
+                sortCodeLabel.text = sort
+            } else {
                 sortCodeStack.isHidden = true
-            } else if bnk.type == "OTHER" {
-                IBANStack.isHidden = true
-                sortCodeStack.isHidden = true
-            } else if bnk.type == "GB" {
-                IBANStack.isHidden = true
-                swiftStack.isHidden = true
+            }
+            
+            if let country = bnk.country {
+                countryLabel.text = country
+            } else {
+                countryStack.isHidden = true
             }
         }
     }

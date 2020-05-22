@@ -49,7 +49,7 @@ class ProfilePicViewController: UIViewController, UINavigationControllerDelegate
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.destination is Account2ViewController {
             let vc = segue.destination as! Account2ViewController
-            vc.imageWasChanged = true
+            vc.imageShouldBeginReloading = true
         }
     }
     

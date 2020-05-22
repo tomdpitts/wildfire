@@ -42,7 +42,7 @@ class BankAccountsViewController: UITableViewController {
 //        self.extendedLayoutIncludesOpaqueBars = true
 
         
-        self.refreshControl?.addTarget(self, action: #selector(refresh), for: UIControl.Event.valueChanged)
+//        self.refreshControl?.addTarget(self, action: #selector(refresh), for: UIControl.Event.valueChanged)
                         
 //        fetchBankAccounts() { () in
 //
@@ -59,6 +59,10 @@ class BankAccountsViewController: UITableViewController {
         fetchBankAccounts() { () in
 
             self.tableView.reloadData()
+            
+            if self.bankAccountsList.count == 0 {
+                self.refresh()
+            }
         }
     }
     
@@ -90,8 +94,21 @@ class BankAccountsViewController: UITableViewController {
     }
     
     
-    @objc func refresh(sender:AnyObject) {
-        print("refreshing via objC")
+    func refresh() {
+        
+        let appDelegate = AppDelegate()
+        appDelegate.fetchBankAccountsListFromMangopay() { () in
+            self.fetchBankAccounts {
+                
+                if self.bankAccountsList.count > 0 {
+                    self.addDetailsButton.isEnabled = false
+                    self.addDetailsButton.tintColor = UIColor.clear
+
+                }
+                self.tableView.reloadData()
+                self.refreshControl?.endRefreshing()
+            }
+        }
         
     }
     
@@ -128,9 +145,9 @@ class BankAccountsViewController: UITableViewController {
             cell.imageView?.image = UIImage(named: "icons8-bank-building-50")
         } else {
             let found = bankAccountsList[indexPath.row]
-            if found.accountNumber != "" {
+            if found.accountNumber != nil {
                 cell.textLabel?.text = found.accountNumber
-            } else if found.IBAN != "" {
+            } else if found.IBAN != nil {
                 cell.textLabel?.text = found.IBAN
             } else {
                 cell.textLabel?.text = "Registered Account \(indexPath.row)"

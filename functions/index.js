@@ -1355,11 +1355,19 @@ exports.checkForKYCUpdate = functions.region('europe-west1').https.onCall( async
 
     let status = validated.Status
 
-    if (status === "VALIDATED" || status === "REFUSED") {
+    if (status === "VALIDATED") {
       return {"status": status}
-    } else {
-      return {"status": ""}
+    } else if (status === "REFUSED") {
+      
+      let response = {
+        "status": "",
+        "refusedMessage": "",
+        "refusedReason": ""
+      }
+
+      return response
     }
+
   } else {
 
     // return info about what was missing to be handled on client

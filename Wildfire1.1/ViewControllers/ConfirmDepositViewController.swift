@@ -23,11 +23,13 @@ class ConfirmDepositViewController: UIViewController {
     @IBOutlet weak var IBANLabel: UILabel!
     @IBOutlet weak var swiftLabel: UILabel!
     @IBOutlet weak var accountNumberLabel: UILabel!
+    @IBOutlet weak var sortCodeLabel: UILabel!
     @IBOutlet weak var countryLabel: UILabel!
     
     @IBOutlet weak var IBANStack: UIStackView!
     @IBOutlet weak var swiftStack: UIStackView!
     @IBOutlet weak var accountNumberStack: UIStackView!
+    @IBOutlet weak var sortCodeStack: UIStackView!
     @IBOutlet weak var countryStack: UIStackView!
 
     @IBOutlet weak var amountLabel: UILabel!
@@ -93,19 +95,39 @@ class ConfirmDepositViewController: UIViewController {
     }
     
     func displayBankInfo() {
+        
         if let bnk = bankAccount {
+                        
             accountOwnerLabel.text = bnk.accountHolderName
-            IBANLabel.text = bnk.IBAN
-            swiftLabel.text = bnk.SWIFTBIC
-            accountNumberLabel.text = bnk.accountNumber
-            countryLabel.text = bnk.country
             
-            if bnk.type == "IBAN" {
-                swiftStack.isHidden = true
-                accountNumberStack.isHidden = true
-                countryStack.isHidden = true
-            } else if bnk.type == "OTHER" {
+            if let iban = bnk.IBAN {
+                IBANLabel.text = iban
+            } else {
                 IBANStack.isHidden = true
+            }
+            
+            if let swift = bnk.SWIFTBIC {
+                swiftLabel.text = swift
+            } else {
+                swiftStack.isHidden = true
+            }
+            
+            if let number = bnk.accountNumber {
+                accountNumberLabel.text = number
+            } else {
+                accountNumberStack.isHidden = true
+            }
+            
+            if let sort = bnk.sortCode {
+                sortCodeLabel.text = sort
+            } else {
+                sortCodeStack.isHidden = true
+            }
+            
+            if let country = bnk.country {
+                countryLabel.text = country
+            } else {
+                countryStack.isHidden = true
             }
         }
     }

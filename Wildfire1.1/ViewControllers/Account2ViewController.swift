@@ -19,9 +19,9 @@ class Account2ViewController: UITableViewController {
     lazy var functions = Functions.functions(region:"europe-west1")
 
     var justCompletedSignUp = false
-    var imageWasChanged = false
+    var imageShouldBeginReloading = false
     
-    var genericProfilePic = UIImage(named: "Logo70px")
+    var genericProfilePic = UIImage(named: "genericProfilePic")
     var balance: Int?
     var fullname: String?
     var email: String?
@@ -78,8 +78,6 @@ class Account2ViewController: UITableViewController {
             guard let uid = Auth.auth().currentUser?.uid else { return }
             Firestore.firestore().collection("users").document(uid).updateData(["fcmToken": token])
         }
-        
-        
     }
     
     // this exists only for the case where user has just completed sign up flow, and we want to refresh the account view. Without this code, user still only sees the 'set up account' tableview cell. In all other cases, justCompletedSignUp is false
@@ -92,7 +90,7 @@ class Account2ViewController: UITableViewController {
             justCompletedSignUp = false
         }
         
-        if imageWasChanged == true {
+        if imageShouldBeginReloading == true {
             profilePicView.alpha = 0.4
             loadingIndicator.startAnimating()
             loadingIndicator.isHidden = false
@@ -280,13 +278,13 @@ class Account2ViewController: UITableViewController {
                     
                     if self.loadingIndicator.isHidden == false {
                         self.profilePicView.alpha = 1.0
-                        self.imageWasChanged = false
+                        self.imageShouldBeginReloading = false
                         self.loadingIndicator.isHidden = true
                         self.loadingIndicator.stopAnimating()
                     }
                 case .failure(let error):
                     self.profilePicView.alpha = 1.0
-                    self.imageWasChanged = false
+                    self.imageShouldBeginReloading = false
                     self.loadingIndicator.isHidden = true
                     self.loadingIndicator.stopAnimating()
                     print("Job failed: \(error.localizedDescription)")

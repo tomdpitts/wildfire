@@ -44,3 +44,34 @@ class AddCardSuccessViewController: UIViewController {
         }
     }
 }
+
+class CardMiscInfoViewController: UIViewController {
+    
+    @IBOutlet weak var doneButton: UIButton!
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        Utilities.styleHollowButton(doneButton)
+    }
+
+    @IBAction func doneButtonTapped(_ sender: Any) {
+        self.performSegue(withIdentifier: "unwindToPrevious", sender: self)
+    }
+}
+
+class MultipleCardsViewController: UIViewController {
+    
+    @IBOutlet weak var doneButton: UIButton!
+    
+    override func viewDidLoad() {
+    super.viewDidLoad()
+        Utilities.styleHollowButton(doneButton)
+    }
+    
+    @IBAction func doneButtonTapped(_ sender: Any) {
+        self.performSegue(withIdentifier: "unwindToPrevious", sender: self)
+    }
+    
+}
+

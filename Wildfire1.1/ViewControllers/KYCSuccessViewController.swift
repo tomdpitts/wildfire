@@ -8,6 +8,8 @@
 
 import UIKit
 
+// N.B. this poorly-named VC is for the View that shows after KYC has been uploaded successfully! Not a dupe of KYCVerified
+
 class KYCSuccessViewController: UIViewController {
     @IBOutlet weak var doneButton: UIButton!
     
