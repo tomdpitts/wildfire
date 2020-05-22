@@ -1,14 +1,14 @@
 //
-//  Outcomes.swift
-//  Wildfire1.1
+//  KYCResultsViewController.swift
+//  Wildfire
 //
-//  Created by Thomas Pitts on 12/03/2020.
+//  Created by Tom Daniel on 22/05/2020.
 //  Copyright © 2020 Wildfire. All rights reserved.
 //
 
 import UIKit
 
-class OutcomeIDVerifiedViewController: UIViewController {
+class KYCVerifiedViewController: UIViewController {
 
     var refusedMessage: String?
     
@@ -27,10 +27,9 @@ class OutcomeIDVerifiedViewController: UIViewController {
     @IBAction func okTapped(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)
     }
-    
 }
 
-class OutcomeIDRefusedViewController: UIViewController {
+class KYCRefusedViewController: UIViewController {
 
     @IBOutlet weak var refusedReasonTextView: UITextView!
     @IBOutlet weak var titleLabel: UILabel!

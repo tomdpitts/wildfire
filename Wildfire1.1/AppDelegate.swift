@@ -27,6 +27,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
     var window: UIWindow?
     var timestamp: Int64?
+    var currentDate: Date?
 
     
     lazy var functions = Functions.functions(region:"europe-west1")
@@ -96,12 +97,87 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         return true
     }
-    // Update: no longer using Facebook integration for time being so parking this
-//    // this is a facebook-specific function required for compatibility with older iOS versions (<9.0 afaik)
-//    func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
-//
-//        return ApplicationDelegate.sharedInstance().application(application, open: url, sourceApplication: sourceApplication, annotation: annotation)
-//    }
+    
+    func checkForKYCCompletion() {
+        
+        if self.currentDate != Date() {
+            
+            self.functions.httpsCallable("checkForKYCUpdate").call(["foo": "bar"]) { (result, error) in
+                
+                if error != nil {
+                    
+                } else {
+                    
+                    if let result = result?.data as? [String: String] {
+                        
+                        if let status = result["status"] {
+                            
+                            if status == "VALIDATED" {
+                                
+                                UserDefaults.standard.set(false, forKey: "KYCPending")
+                                UserDefaults.standard.set(false, forKey: "KYCWasRefused")
+                                UserDefaults.standard.set(true, forKey: "KYCVerified")
+                                
+                                Analytics.logEvent(Event.KYCAccepted.rawValue, parameters: nil)
+                                
+                                if let controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "IDVerified") as? OutcomeIDVerifiedViewController {
+                                    if let window = self.window, let rootViewController = window.rootViewController {
+                                        if #available(iOS 13.0, *) {
+                                            window.overrideUserInterfaceStyle = .light
+                                        }
+                                        var currentController = rootViewController
+                                        while let presentedController = currentController.presentedViewController {
+                                            currentController = presentedController
+                                        }
+                                        currentController.present(controller, animated: true, completion: nil)
+                                    }
+                                }
+                                
+                            } else if status == "REFUSED" {
+                                
+                                UserDefaults.standard.set(false, forKey: "KYCPending")
+                                UserDefaults.standard.set(true, forKey: "KYCWasRefused")
+                                UserDefaults.standard.set(false, forKey: "KYCVerified")
+                                
+                                Analytics.logEvent(Event.KYCRejected.rawValue, parameters: nil)
+                                
+                                var refusedMessage = result["refusedMessage"]
+                                var refusedType = result["refusedType"]
+                                
+                                if refusedMessage == nil {
+                                    refusedMessage = ""
+                                }
+                                
+                                if refusedType == nil {
+                                    refusedType = ""
+                                }
+                                
+                                UserDefaults.standard.set(refusedMessage, forKey: "refusedMessage")
+                                UserDefaults.standard.set(refusedType, forKey: "refusedType")
+                                
+                                if let controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "IDRefused") as? OutcomeIDRefusedViewController {
+                                    if let window = self.window, let rootViewController = window.rootViewController {
+                                        if #available(iOS 13.0, *) {
+                                            window.overrideUserInterfaceStyle = .light
+                                        }
+                                        var currentController = rootViewController
+                                        while let presentedController = currentController.presentedViewController {
+                                            currentController = presentedController
+                                        }
+                                        currentController.present(controller, animated: true, completion: nil)
+                                    }
+                                }
+                                
+                            } else {
+                                // either mangopayID or the KYCDocID couldn't be found in Firestore
+                                // TODO handle this case
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
     
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         Messaging.messaging().apnsToken = deviceToken
@@ -110,14 +186,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
-        Account2ViewController.listener?.remove()
+
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-        
-        Account2ViewController.listener?.remove()
+
         
         self.timestamp = Date().toSeconds()
         
@@ -289,15 +364,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
     
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String) {
+        // Note: This callback is fired at each app startup and whenever a new token is generated.
         
         print("fcmToken is: " + fcmToken)
 
         let dataDict:[String: String] = ["token": fcmToken]
         NotificationCenter.default.post(name: Notification.Name("FCMToken"), object: nil, userInfo: dataDict)
-
-        // Note: This callback is fired at each app startup and whenever a new token is generated.
         
         UserDefaults.standard.set(fcmToken, forKey: "fcmToken")
+        
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        Firestore.firestore().collection("users").document(uid).updateData(["fcmToken": fcmToken])
     }
     
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any],
@@ -367,6 +444,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                     currentController.present(controller, animated: true, completion: nil)
                 }
             }
+            
         } else if eventType == "TRANSFER_NORMAL_SUCCEEDED" {
             
             guard let authorName = userInfo["authorName"] as? String else {

@@ -66,7 +66,7 @@
 		E29CF6982359BECD00ADC0D0 /* Send2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29CF6972359BECD00ADC0D0 /* Send2ViewController.swift */; };
 		E29EA43524062DAA0059C7A4 /* Graphics in Resources */ = {isa = PBXBuildFile; fileRef = E29EA43424062DAA0059C7A4 /* Graphics */; };
 		E2A45D3F240F789D00EC7975 /* ButtonStyleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A45D3E240F789D00EC7975 /* ButtonStyleViewController.swift */; };
-		E2A45D442419BC9800EC7975 /* InfoViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A45D432419BC9800EC7975 /* InfoViews.swift */; };
+		E2A45D442419BC9800EC7975 /* KYCOutcomes.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A45D432419BC9800EC7975 /* KYCOutcomes.swift */; };
 		E2AD346821F384430030FA2E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E2AD346721F384430030FA2E /* Assets.xcassets */; };
 		E2B979E12329609E00194E75 /* ScanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E21AC99621EA850C00D460A9 /* ScanViewController.swift */; };
 		E2B979E3232960B000194E75 /* ConfirmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2B979DE23295DB000194E75 /* ConfirmViewController.swift */; };
@@ -79,6 +79,7 @@
 		E2E283FD240CDDA200D97DDF /* PassportUploadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E283FC240CDDA200D97DDF /* PassportUploadViewController.swift */; };
 		E2E283FF240CDDD400D97DDF /* DriverLicenceFrontUploadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E283FE240CDDD400D97DDF /* DriverLicenceFrontUploadViewController.swift */; };
 		E2E28401240CDDE600D97DDF /* DriverLicenceBackUploadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E28400240CDDE600D97DDF /* DriverLicenceBackUploadViewController.swift */; };
+		E2E937E8247792C400977300 /* KYCResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E937E7247792C400977300 /* KYCResultsViewController.swift */; };
 		E2FA9ED62333D70D0068792D /* PaymentSetupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2FA9ED52333D70D0068792D /* PaymentSetupViewController.swift */; };
 		E2FA9ED82334E6130068792D /* NetworkingClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2FA9ED72334E6130068792D /* NetworkingClient.swift */; };
 /* End PBXBuildFile section */
@@ -163,7 +164,7 @@
 		E29EA43424062DAA0059C7A4 /* Graphics */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Graphics; sourceTree = SOURCE_ROOT; };
 		E2A45D3E240F789D00EC7975 /* ButtonStyleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonStyleViewController.swift; sourceTree = "<group>"; };
 		E2A45D402415D0F100EC7975 /* Wildfire1.1.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Wildfire1.1.entitlements; sourceTree = "<group>"; };
-		E2A45D432419BC9800EC7975 /* InfoViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoViews.swift; sourceTree = "<group>"; };
+		E2A45D432419BC9800EC7975 /* KYCOutcomes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KYCOutcomes.swift; sourceTree = "<group>"; };
 		E2AD346721F384430030FA2E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E2B979DE23295DB000194E75 /* ConfirmViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmViewController.swift; sourceTree = "<group>"; };
 		E2BEF97224468F79002EE61B /* TopUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopUpViewController.swift; sourceTree = "<group>"; };
@@ -175,6 +176,7 @@
 		E2E283FC240CDDA200D97DDF /* PassportUploadViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassportUploadViewController.swift; sourceTree = "<group>"; };
 		E2E283FE240CDDD400D97DDF /* DriverLicenceFrontUploadViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DriverLicenceFrontUploadViewController.swift; sourceTree = "<group>"; };
 		E2E28400240CDDE600D97DDF /* DriverLicenceBackUploadViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DriverLicenceBackUploadViewController.swift; sourceTree = "<group>"; };
+		E2E937E7247792C400977300 /* KYCResultsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KYCResultsViewController.swift; sourceTree = "<group>"; };
 		E2FA9ED52333D70D0068792D /* PaymentSetupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentSetupViewController.swift; sourceTree = "<group>"; };
 		E2FA9ED72334E6130068792D /* NetworkingClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkingClient.swift; sourceTree = "<group>"; };
 		E39DF65F0B716BEA2ADC4042 /* Pods-Wildfire1.1Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Wildfire1.1Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Wildfire1.1Tests/Pods-Wildfire1.1Tests.release.xcconfig"; sourceTree = "<group>"; };
@@ -353,7 +355,8 @@
 				E2DEF200240D0610006A6106 /* DocumentTypeViewController.swift */,
 				E2DEF202240E2C96006A6106 /* KYCSuccessViewController.swift */,
 				E2A45D3E240F789D00EC7975 /* ButtonStyleViewController.swift */,
-				E2A45D432419BC9800EC7975 /* InfoViews.swift */,
+				E2A45D432419BC9800EC7975 /* KYCOutcomes.swift */,
+				E2E937E7247792C400977300 /* KYCResultsViewController.swift */,
 				E21710F8242466D5006B4FAE /* NotificationPaymentReceivedViewController.swift */,
 				E2BEF97224468F79002EE61B /* TopUpViewController.swift */,
 				E2BEF9742446DA74002EE61B /* CreditAddedSuccessViewController.swift */,
@@ -573,7 +576,7 @@
 				E2DEF201240D0610006A6106 /* DocumentTypeViewController.swift in Sources */,
 				E2026709230ED8CF003C0AF4 /* LoginViewController.swift in Sources */,
 				E271C0CE23D81EED004245CC /* CardDetailsViewController.swift in Sources */,
-				E2A45D442419BC9800EC7975 /* InfoViews.swift in Sources */,
+				E2A45D442419BC9800EC7975 /* KYCOutcomes.swift in Sources */,
 				E29CF69623586AE700ADC0D0 /* ContactsViewController.swift in Sources */,
 				E2FA9ED62333D70D0068792D /* PaymentSetupViewController.swift in Sources */,
 				E26039782350DABA0031C792 /* ProfilePicViewController.swift in Sources */,
@@ -600,6 +603,7 @@
 				E2FA9ED82334E6130068792D /* NetworkingClient.swift in Sources */,
 				E284815D23FA53D500D51462 /* BankAccountsViewController.swift in Sources */,
 				E2E283FF240CDDD400D97DDF /* DriverLicenceFrontUploadViewController.swift in Sources */,
+				E2E937E8247792C400977300 /* KYCResultsViewController.swift in Sources */,
 				E254470A23FCCF63005A37A1 /* ConfirmDepositViewController.swift in Sources */,
 				E29CF6982359BECD00ADC0D0 /* Send2ViewController.swift in Sources */,
 				E252A5EC23F3BD220023AEDC /* BankDetails2TableViewController.swift in Sources */,

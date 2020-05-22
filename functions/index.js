@@ -894,6 +894,7 @@ exports.triggerPayout = functions.region('europe-west1').https.onCall( async (da
 exports.addKYCDocument = functions.region('europe-west1').https.onCall( async (data, context) => {
 
   const userID = context.auth.uid
+  const userRef = admin.firestore().collection('users').doc(userID)
 
   const pages = data.pages
   
@@ -910,7 +911,6 @@ exports.addKYCDocument = functions.region('europe-west1').https.onCall( async (d
   const kycDoc = await mpAPI.Users.createKycDocument(mangopayID, parameters)
 
   const kycDocID = kycDoc.Id
-  console.log(kycDocID)
 
   // step 2: create a 'page' for each image to upload. Passports only require 1 image, but Driver's licences, for example, require 2: Front and Back
 
@@ -942,7 +942,6 @@ exports.addKYCDocument = functions.region('europe-west1').https.onCall( async (d
     const secondPage = await mpAPI.Users.createKycPage(mangopayID, kycDoc.Id, backFile)
   }
 
-
   // step 3: upon successful creation of kyc page(s) i.e. upload of images in base64 format, update kyc document status to 'Validation Asked'
   const requestValidationStatus = {
     "Id": kycDocID,
@@ -950,6 +949,11 @@ exports.addKYCDocument = functions.region('europe-west1').https.onCall( async (d
   }
 
   const updatedDoc = await mpAPI.Users.updateKycDocument(mangopayID, requestValidationStatus)
+
+  // step 4: save the KYC Doc ID to Firestore so updates on it can be requested
+  // N.B. webhooks are in place to update the client as soon as KYC is validated or rejected, but a fallback mechanism ("checkForKYCUpdate") requires the ID
+
+  userRef.update({"pendingKYCDocID": kycDocID})
 
   return updatedDoc
 })
@@ -1325,6 +1329,47 @@ exports.respondToEventRecord = functions.region('europe-west1').firestore.docume
   catch (error) {
 
     console.error(error)    
+  }
+})
+
+exports.checkForKYCUpdate = functions.region('europe-west1').https.onCall( async (data, context) => {
+
+  const userID = context.auth.uid
+  const userRef = admin.firestore().collection('users').doc(userID)
+
+  var mangopayID = ""
+  var kycDocID = ""
+
+  await userRef.get().then(doc => {
+    userData = doc.data();
+    mangopayID = userData.mangopayID
+    kycDocID = userData.pendingKYCDocID
+    return
+  })
+  .catch(err => {
+    console.log('Error getting mangopayID from Firestore database', err);
+  });
+
+  if (mangopayID !== "" && kycDocID !== "") {
+    let validated = await mpAPI.Users.getKycDocument(mangopayID, kycDocID)
+
+    let status = validated.Status
+
+    if (status === "VALIDATED" || status === "REFUSED") {
+      return {"status": status}
+    } else {
+      return {"status": ""}
+    }
+  } else {
+
+    // return info about what was missing to be handled on client
+    if (kycDocID === "" && mangopayID !== "") {
+      return {"status": "kycIDMissing"}
+    } else if (kycDocID !== "" && mangopayID === "") {
+      return {"status": "mpIDMissing"}
+    } else {
+      return {"status": "bothMissing"}
+    }
   }
 })
 

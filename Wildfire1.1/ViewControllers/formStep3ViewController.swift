@@ -160,9 +160,10 @@ class formStep3ViewController: UIViewController, UITextFieldDelegate {
             "dob": dob,
             "nationality": nationality,
             "residence": residence,
-            // I tried having the balance added via Cloud Function (onCreate for user in Firestore) but it's just too slow - frequent crashes in testing due to the Account Listener being too quick..
+            // tried having the balance added via Cloud Function (onCreate for user in Firestore) but it's just too slow - frequent crashes in testing due to the Account Listener being too quick..
             "balance": 0,
             "fcmToken": fcmToken,
+            "timestamp": FieldValue.serverTimestamp(),
             // TODO if facebook login, use profile pic here
                 "photoURL": "https://cdn.pixabay.com/photo/2014/05/21/20/17/icon-350228_1280.png" ]
             

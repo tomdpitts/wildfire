@@ -17,8 +17,6 @@ import LocalAuthentication
 class Account2ViewController: UITableViewController {
     
     lazy var functions = Functions.functions(region:"europe-west1")
-    
-    static var listener: ListenerRegistration?
 
     var justCompletedSignUp = false
     var imageWasChanged = false
@@ -70,6 +68,18 @@ class Account2ViewController: UITableViewController {
         if UserDefaults.standard.bool(forKey: "userAccountExists") == true {
             noAccountYetCell.isHidden = true
         }
+        updateFCM()
+    }
+    
+    func updateFCM() {
+        
+        if let token = UserDefaults.standard.string(forKey: "fcmToken") {
+            
+            guard let uid = Auth.auth().currentUser?.uid else { return }
+            Firestore.firestore().collection("users").document(uid).updateData(["fcmToken": token])
+        }
+        
+        
     }
     
     // this exists only for the case where user has just completed sign up flow, and we want to refresh the account view. Without this code, user still only sees the 'set up account' tableview cell. In all other cases, justCompletedSignUp is false

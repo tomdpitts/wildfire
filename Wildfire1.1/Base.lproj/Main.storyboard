@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="6bI-j5-LK0">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="6bI-j5-LK0">
     <device id="retina4_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
@@ -557,9 +557,6 @@
                                             <constraint firstAttribute="height" constant="50" id="dDV-4J-rgt"/>
                                         </constraints>
                                         <state key="normal" title="Done"/>
-                                        <connections>
-                                            <action selector="doneButtonTapped:" destination="2Wc-Ev-4GN" eventType="touchUpInside" id="Fad-vc-OlQ"/>
-                                        </connections>
                                     </button>
                                 </subviews>
                             </stackView>
@@ -575,7 +572,6 @@
                     </view>
                     <navigationItem key="navigationItem" title="Additional Cards" id="EYN-ba-Gzj"/>
                     <connections>
-                        <outlet property="doneButton" destination="wDG-PY-V2M" id="PLQ-aB-waw"/>
                         <segue destination="gp8-dE-aPh" kind="unwind" identifier="unwindToPrevious" unwindAction="unwindToPrevious:" id="YhM-PT-KF4"/>
                     </connections>
                 </viewController>
@@ -2936,7 +2932,7 @@ http://www.apache.org/licenses/
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Received" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L1J-Es-2BO">
-                                <rect key="frame" x="20" y="40" width="280" height="47"/>
+                                <rect key="frame" x="20" y="40" width="280" height="54.5"/>
                                 <fontDescription key="fontDescription" name="OpenSans-ExtraBoldItalic" family="Open Sans" pointSize="40"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -3329,7 +3325,6 @@ http://www.apache.org/licenses/
         <!--Account-->
         <scene sceneID="vKr-hU-IfU">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="dgw-qI-Lmz" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController storyboardIdentifier="accountNavController" id="PyJ-Ps-24F" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Account" image="icons8-secure-50" id="4H4-bh-m9b"/>
                     <toolbarItems/>
@@ -3353,6 +3348,7 @@ http://www.apache.org/licenses/
                         <segue destination="4T3-Q5-YEd" kind="relationship" relationship="rootViewController" id="EC2-lV-AGv"/>
                     </connections>
                 </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dgw-qI-Lmz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1655" y="1126"/>
         </scene>
@@ -4062,11 +4058,12 @@ http://www.apache.org/licenses/
                         </barButtonItem>
                     </navigationItem>
                     <refreshControl key="refreshControl" opaque="NO" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="6xw-Pn-bm2">
+                        <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <attributedString key="attributedTitle">
                             <fragment content="Refreshing">
                                 <attributes>
-                                    <font key="NSFont" metaFont="system" size="14"/>
+                                    <font key="NSFont" metaFont="menu" size="14"/>
                                     <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                 </attributes>
                             </fragment>
@@ -5157,7 +5154,7 @@ http://www.apache.org/licenses/
         <!--ID Verified Scene-->
         <scene sceneID="QEg-QB-s2h">
             <objects>
-                <viewController storyboardIdentifier="IDVerified" id="ESv-KW-pJ8" userLabel="ID Verified Scene" customClass="OutcomeIDVerifiedViewController" customModule="Wildfire" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="IDVerified" id="ESv-KW-pJ8" userLabel="ID Verified Scene" customClass="KYCVerifiedViewController" customModule="Wildfire" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="sUi-rD-pwF">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -5189,9 +5186,6 @@ http://www.apache.org/licenses/
                                             <constraint firstAttribute="height" constant="50" id="Xhj-cQ-pDu"/>
                                         </constraints>
                                         <state key="normal" title="Ok"/>
-                                        <connections>
-                                            <action selector="okTapped:" destination="ESv-KW-pJ8" eventType="touchUpInside" id="rwD-vH-wrT"/>
-                                        </connections>
                                     </button>
                                 </subviews>
                                 <constraints>
@@ -5218,77 +5212,69 @@ http://www.apache.org/licenses/
                     </view>
                     <navigationItem key="navigationItem" title="Outcome" largeTitleDisplayMode="always" id="dG2-LK-4Xy"/>
                     <connections>
-                        <outlet property="okButton" destination="XNu-F4-DMX" id="qWf-Y4-lL9"/>
                         <segue destination="zYr-Sb-YkS" kind="unwind" identifier="unwindToPrevious" unwindAction="unwindToPrevious:" id="uEW-dR-aoa"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1fp-V1-2ed" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="zYr-Sb-YkS" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="11045.625" y="714.08450704225356"/>
+            <point key="canvasLocation" x="10298" y="751"/>
         </scene>
         <!--ID Refused Scene-->
         <scene sceneID="oXn-Qr-VTF">
             <objects>
-                <viewController id="cfh-Mg-Ju6" userLabel="ID Refused Scene" customClass="OutcomeIDRefusedViewController" customModule="Wildfire" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="cfh-Mg-Ju6" userLabel="ID Refused Scene" customClass="KYCRefusedViewController" customModule="Wildfire" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="gnO-EF-MoN">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="xAI-Q6-S9h">
-                                <rect key="frame" x="10" y="38" width="300" height="385"/>
+                                <rect key="frame" x="15" y="15" width="290" height="385"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icons8-identification-documents-error-100" translatesAutoresizingMaskIntoConstraints="NO" id="Grw-X0-dbG">
-                                        <rect key="frame" x="112.5" y="0.0" width="75" height="75"/>
+                                        <rect key="frame" x="107.5" y="0.0" width="75" height="75"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="75" id="sVC-qI-dGy"/>
                                             <constraint firstAttribute="width" secondItem="Grw-X0-dbG" secondAttribute="height" multiplier="1:1" id="tS9-62-P69"/>
                                         </constraints>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Verification Result" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qcN-WX-wjO">
-                                        <rect key="frame" x="34.5" y="95" width="231.5" height="36"/>
+                                        <rect key="frame" x="29.5" y="95" width="231.5" height="36"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Unfortunately your ID could not be accepted." textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HQU-PF-zvN">
-                                        <rect key="frame" x="28" y="151" width="244.5" height="41"/>
+                                        <rect key="frame" x="23" y="151" width="244.5" height="41"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" scrollEnabled="NO" text="Refused Reason" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="mu5-rs-Dto">
-                                        <rect key="frame" x="93" y="212" width="114.5" height="33"/>
+                                        <rect key="frame" x="88" y="212" width="114.5" height="33"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                         <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                     </textView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LWi-TF-9Uy">
-                                        <rect key="frame" x="20" y="265" width="260" height="50"/>
+                                        <rect key="frame" x="20" y="265" width="250" height="50"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="nB7-Gv-Tc4"/>
                                         </constraints>
                                         <state key="normal" title="Try a new image"/>
-                                        <connections>
-                                            <action selector="newImageButtonTapped:" destination="cfh-Mg-Ju6" eventType="touchUpInside" id="9qS-Qv-7tT"/>
-                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iKr-pz-Vtf">
-                                        <rect key="frame" x="20" y="335" width="260" height="50"/>
+                                        <rect key="frame" x="20" y="335" width="250" height="50"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="CEw-SW-r2e"/>
                                         </constraints>
                                         <state key="normal" title="Dismiss"/>
-                                        <connections>
-                                            <action selector="backToHomeButtonTapped:" destination="cfh-Mg-Ju6" eventType="touchUpInside" id="i6l-SQ-c7w"/>
-                                        </connections>
                                     </button>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="LWi-TF-9Uy" firstAttribute="leading" secondItem="xAI-Q6-S9h" secondAttribute="leading" constant="20" symbolic="YES" id="G6r-zl-uhz"/>
                                     <constraint firstItem="iKr-pz-Vtf" firstAttribute="height" secondItem="LWi-TF-9Uy" secondAttribute="height" id="Hdk-QE-5ag"/>
-                                    <constraint firstAttribute="width" constant="300" id="QLf-lp-J23"/>
                                     <constraint firstItem="iKr-pz-Vtf" firstAttribute="width" secondItem="LWi-TF-9Uy" secondAttribute="width" id="Zai-0v-cn2"/>
                                     <constraint firstAttribute="trailing" secondItem="LWi-TF-9Uy" secondAttribute="trailing" constant="20" symbolic="YES" id="vh1-nz-Zbq"/>
                                 </constraints>
@@ -5296,17 +5282,15 @@ http://www.apache.org/licenses/
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
+                            <constraint firstAttribute="trailing" secondItem="xAI-Q6-S9h" secondAttribute="trailing" constant="15" id="8B5-Tr-rcL"/>
+                            <constraint firstItem="xAI-Q6-S9h" firstAttribute="top" secondItem="OC2-lc-po3" secondAttribute="top" constant="15" id="U4S-Jv-KUv"/>
+                            <constraint firstItem="xAI-Q6-S9h" firstAttribute="leading" secondItem="gnO-EF-MoN" secondAttribute="leading" constant="15" id="eEq-dZ-Sa9"/>
                             <constraint firstItem="xAI-Q6-S9h" firstAttribute="centerX" secondItem="gnO-EF-MoN" secondAttribute="centerX" id="erS-t7-dTO"/>
-                            <constraint firstItem="xAI-Q6-S9h" firstAttribute="centerY" secondItem="gnO-EF-MoN" secondAttribute="centerY" constant="20" id="z6F-3C-qe2"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="OC2-lc-po3"/>
                     </view>
                     <navigationItem key="navigationItem" title="ID Verification" largeTitleDisplayMode="always" id="MLU-cP-80S"/>
                     <connections>
-                        <outlet property="backToHomeButton" destination="iKr-pz-Vtf" id="R0a-10-6hd"/>
-                        <outlet property="newImageButton" destination="LWi-TF-9Uy" id="Ihl-c8-lqd"/>
-                        <outlet property="refusedReasonTextView" destination="mu5-rs-Dto" id="tO4-Sd-mjl"/>
-                        <outlet property="titleLabel" destination="qcN-WX-wjO" id="vFY-Ke-w8p"/>
                         <segue destination="b3n-2K-Q49" kind="unwind" identifier="unwindToPrevious" unwindAction="unwindToPrevious:" id="2pj-jh-GGe"/>
                         <segue destination="pub-UR-8Gm" kind="show" identifier="retryKYC" id="XkC-zp-HKA"/>
                     </connections>
@@ -5434,9 +5418,6 @@ http://www.apache.org/licenses/
                                             <constraint firstAttribute="width" constant="200" id="4ll-zV-dPh"/>
                                         </constraints>
                                         <state key="normal" title="Done"/>
-                                        <connections>
-                                            <action selector="doneButtonTapped:" destination="1xb-vy-NoK" eventType="touchUpInside" id="iDK-la-6WT"/>
-                                        </connections>
                                     </button>
                                 </subviews>
                             </stackView>
@@ -5453,7 +5434,6 @@ http://www.apache.org/licenses/
                     </view>
                     <navigationItem key="navigationItem" title="Charges" id="GkX-N5-vwd"/>
                     <connections>
-                        <outlet property="doneButton" destination="AN6-ct-zI2" id="RBf-Do-9tv"/>
                         <segue destination="0Yv-67-mtq" kind="unwind" identifier="unwindToPrevious" unwindAction="unwindToPrevious:" id="NKM-Wl-M5J"/>
                     </connections>
                 </viewController>
@@ -5481,13 +5461,13 @@ http://www.apache.org/licenses/
                                         </constraints>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You've made your account!" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1sk-95-6PY">
-                                        <rect key="frame" x="33" y="170" width="234" height="19"/>
+                                        <rect key="frame" x="33" y="170" width="234" height="20"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Now you just need to add your card details to make a secure payment" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mgd-BO-U60">
-                                        <rect key="frame" x="12.5" y="209" width="275.5" height="47"/>
+                                        <rect key="frame" x="12.5" y="210" width="275.5" height="46"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
@@ -5615,8 +5595,8 @@ http://www.apache.org/licenses/
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="Plu-rG-Syc"/>
-        <segue reference="Huo-pa-P2i"/>
-        <segue reference="FIA-qD-1nb"/>
+        <segue reference="JjY-XQ-ITd"/>
+        <segue reference="XkC-zp-HKA"/>
         <segue reference="bGq-l6-Or3"/>
         <segue reference="xeb-yR-cYh"/>
         <segue reference="6CO-tz-ak8"/>
