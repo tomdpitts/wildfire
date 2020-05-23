@@ -26,13 +26,16 @@ class DisplayReceiptAfterPaymentViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if let navController = self.navigationController {
-            navController.navigationItem.leftBarButtonItem = nil;
-            navController.navigationItem.hidesBackButton = true;
-            navController.navigationItem.backBarButtonItem?.isEnabled = false;
-            navController.interactivePopGestureRecognizer!.isEnabled = false
-        }
+        self.navigationItem.setHidesBackButton(true, animated: false)
+        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
         
+//        if let navController = self.navigationController {
+//            navController.navigationItem.leftBarButtonItem = nil;
+//            navController.navigationItem.hidesBackButton = true;
+//            navController.navigationItem.backBarButtonItem?.isEnabled = false;
+//            navController.interactivePopGestureRecognizer!.isEnabled = false
+//        }
+//
         
         Utilities.styleHollowButton(doneButton)
         updateReceipt()
@@ -50,6 +53,11 @@ class DisplayReceiptAfterPaymentViewController: UIViewController {
             label.text = "Payment Success"
             self.view.addSubview(label)
         }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        self.navigationItem.setHidesBackButton(false, animated: false)
+        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
     }
     
 

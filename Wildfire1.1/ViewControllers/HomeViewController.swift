@@ -14,8 +14,7 @@ import FirebaseAuth
 
 class HomeViewController: UIViewController {
     
-    var loggedInUser = false
-    
+    var loggedInUser = false    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -61,6 +60,7 @@ class HomeViewController: UIViewController {
                     if success {
                         
                         self.performSegue(withIdentifier: "goToPay", sender: self)
+                        
                     } else {
                         // just try again. Previously auth failure triggered signOut which is just a terrible UX and it happens more often than you might think
                         self.authenticateUser()

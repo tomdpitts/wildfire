@@ -459,22 +459,17 @@ extension UIViewController {
     
     func removeSpinnerWithCompletion(spinnerCompletion: @escaping ()->()) {
         
-        let presentedVC : UIViewController? = self.presentedViewController as UIViewController?
+        DispatchQueue.main.async {
+            let presentedVC: UIViewController? = self.presentedViewController as UIViewController?
 
-        if presentedVC != nil {
-            
-            if let alertController : UIAlertController = presentedVC as? UIAlertController {
+            if let alertController: UIAlertController = presentedVC as? UIAlertController {
                 
-                DispatchQueue.main.async {
                     alertController.dismiss(animated: true) {
                         spinnerCompletion()
                     }
-                }
             } else {
                 spinnerCompletion()
             }
-        } else {
-            spinnerCompletion()
         }
     }
     

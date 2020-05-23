@@ -90,13 +90,62 @@ class ConfirmViewController: UIViewController {
             // note: moved this func call from viewDidLoad so that alerts always play nice (specifically, when tapping a dynamic link). Calling a spinner i.e. UIAlertController in viewDidLoad fails because there's nothing for it to load on yet for some reason.
             // the transactionCompleted check is a workaround because the setupRecipientDetails includes a spinner, and that messes with the segue "showSuccessScreen" after the transaction has been completed (since the view technically appears again once the spinner is dismissed)
 
-            setUpRecipientDetails(recipientUID)
-            getUserBalance()
+         
+            self.showSpinner(titleText: nil, messageText: nil)
+            
+            let group = DispatchGroup()
+            // there could potentially be two separate error messages, one from each func. The later one will overwrite the former, think this is acceptable
+            var errorMessage: String?
+            
+            group.enter()
+            setUpRecipientDetails(recipientUID) { (success, error) in
+                if let error = error {
+                    errorMessage = error
+                }
+                
+                group.leave()
+            }
+            
+            group.enter()
+            getUserBalance() { (success, error) in
+                if let error = error {
+                    errorMessage = error
+                }
+                
+                group.leave()
+            }
+            
+            group.notify(queue: .main) {
+                
+                self.removeSpinnerWithCompletion {
+                    
+                    if let error = errorMessage {
+                        
+                        // confirmVC can be presented modally (via dynamic links)
+                        if self.isBeingPresented {
+                            
+                            self.dismiss(animated: true) {
+                                self.universalShowAlert(title: "Something went wrong", message: error, segue: nil, cancel: false)
+                            }
+                        } else {
+                            
+                            self.universalShowAlert(title: "Something went wrong", message: error, segue: "unwindToPay", cancel: false)
+                        }
+                    }
+                }
+            }
         }
         
         if shouldReloadView == true {
+            
+            self.showSpinner(titleText: nil, messageText: nil)
+            
             checkForExistingPaymentMethod()
-            getUserBalance()
+            getUserBalance() { (success, error) in
+                self.removeSpinnerWithCompletion {
+                    self.universalShowAlert(title: "Something went wrong", message: "Apologies - we're having connectivity issues. Please try again.", segue: nil, cancel: false)
+                }
+            }
         }
     }
     
@@ -133,9 +182,7 @@ class ConfirmViewController: UIViewController {
         }
     }
     
-    func setUpRecipientDetails(_ uid: String) {
-        
-        self.showSpinner(titleText: nil, messageText: nil)
+    func setUpRecipientDetails(_ uid: String, completion: @escaping (Bool?, String?)->()) {
         
         loadRecipientProfilePicView(uid)
         
@@ -144,9 +191,8 @@ class ConfirmViewController: UIViewController {
         docRef.getDocument { (document, error) in
             
             if error != nil {
-                self.removeSpinnerWithCompletion() {
-                    self.universalShowAlert(title: "Something went wrong", message: "Apologies - we're having connectivity issues. Please try again.", segue: nil, cancel: false)
-                }
+                
+                completion(nil, "Apologies - there seems to have been a connectivity issue. Please try again.")
                 return
             }
             
@@ -158,21 +204,19 @@ class ConfirmViewController: UIViewController {
                 
                 self.recipientLabel.text = "\(recipientName)"
                 
-                // removeSpinner is called in two separate funcs - this should be refactored in future but for now, this is the safest option (otherwise the spinner sometimes doesn't get dismissed, if getUserBalance completes before setUpRecipientDetails)
-                self.removeSpinnerWithCompletion() {}
+                completion(true, nil)
+                return
                 
             } else {
                 // something has gone wrong? - user should not have been able to initiate a payment to recipient if recipient doesn't have an account set up
-                self.removeSpinnerWithCompletion() {
-                    self.universalShowAlert(title: "Something went wrong", message: "Apologies - we're having connectivity issues. Please try again.", segue: nil, cancel: false)
-                }
+                
+                completion(nil, "Apologies - there seems to have been a connectivity issue. Please try again.")
+                return
             }
         }
     }
     
-    func getUserBalance() {
-        
-        self.showSpinner(titleText: nil, messageText: nil)
+    func getUserBalance(completion: @escaping (Bool?, String?)->()) {
         
         let uid = Auth.auth().currentUser!.uid
         
@@ -181,9 +225,7 @@ class ConfirmViewController: UIViewController {
         docRef.getDocument { (document, error) in
             
             if error != nil {
-                self.removeSpinnerWithCompletion() {
-                    self.universalShowAlert(title: "Something went wrong", message: "Apologies - we're having connectivity issues. Please try again.", segue: nil, cancel: false)
-                }
+                completion(nil, "Apologies - there seems to have been a connectivity issue. Please try again.")
                 return
             }
             if let document = document, document.exists {
@@ -210,18 +252,19 @@ class ConfirmViewController: UIViewController {
                     // this should never be triggered as rules are in place on the receive screen. If it does, it would be better to disrupt users temporarily than let the transactions go through.
                     let check = (Float(Int((Float(difference)*2) + 0.5)))/2
                     if check != Float(difference) || difference < 50 {
-                        self.removeSpinnerWithCompletion {
-                            self.universalShowAlert(title: "Something has gone wrong", message: "The topup system isn't working, and the tech team has been alerted. We're very sorry but this could take a few days to rectify. For help, please contact support@wildfirewallet.com", segue: nil, cancel: false)
-                            
-                            Analytics.logEvent("topUpBroken", parameters: nil)
-                            return
-                        }
+                        
+                        Analytics.logEvent("topUpBroken", parameters: nil)
+                        
+                        completion(false, "The transaction system isn't working, and the tech team has been alerted. We're very sorry but this could take a few days to rectify. For help, please contact support@wildfirewallet.com")
+                        
+                        return
                     }
                     
                     self.dynamicLabel.text = "Tap 'Confirm' to top up £\(differenceString) and pay."
                     self.dynamicLabel2.text = "(Card charge: 20p. Total charge: £\(totalCharge).)"
                     
                     self.enoughCredit = false
+                    
                 } else {
                     
                     
@@ -236,9 +279,8 @@ class ConfirmViewController: UIViewController {
                 
                 self.confirmButton.isEnabled = true
                 
-                self.removeSpinnerWithCompletion {
-                    return
-                }
+                completion(true, nil)
+                return
                 
             } else {
                 // user hasn't added account info yet
@@ -250,9 +292,7 @@ class ConfirmViewController: UIViewController {
                 self.dynamicLabel.isHidden = false
                 self.confirmButton.isEnabled = true
                 
-                self.removeSpinnerWithCompletion {
-                    return
-                }
+                completion(true, nil)
             }
         }
     }
@@ -604,6 +644,9 @@ class ConfirmViewController: UIViewController {
         }))
         
         self.present(alert, animated: true)
+    }
+    
+    @IBAction func backButtonPresed(_ sender: Any) {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

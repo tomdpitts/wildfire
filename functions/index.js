@@ -370,8 +370,7 @@ exports.transact = functions.region('europe-west1').https.onCall( async (data, c
     let userRefTask = userRef.get().then(doc => {
       let data = doc.data()
 
-      userFullname = data.fullname
-
+      let userFullname = data.fullname
       let userMangoPayID = data.mangopayID
       let userWalletID = data.defaultWalletID
 
@@ -389,10 +388,10 @@ exports.transact = functions.region('europe-west1').https.onCall( async (data, c
     let recipientRefTask = recipientRef.get().then(doc => {
       let data = doc.data()
 
-      recipientFullname = data.fullname
-
+      let recipientFullname = data.fullname
       let recipientMangoPayID = data.mangopayID
       let recipientWalletID = data.defaultWalletID
+
       let recipientRefData = {
         'recipientMangoPayID': recipientMangoPayID,
         'recipientFullname': recipientFullname,
@@ -1358,14 +1357,19 @@ exports.checkForKYCUpdate = functions.region('europe-west1').https.onCall( async
     if (status === "VALIDATED") {
       return {"status": status}
     } else if (status === "REFUSED") {
-      
+
       let response = {
         "status": "",
         "refusedMessage": "",
         "refusedReason": ""
       }
 
-      return response
+      return response 
+    } else if (status === "CREATED") {
+      console.error("KYC doc has status CREATED, Validation has not been requested")
+    } else { 
+      // theoretically the only other option is "VALIDATION_ASKED", implies no decision has been made yet
+      return {"status": status}
     }
 
   } else {

@@ -9,9 +9,8 @@
 import UIKit
 import Contacts
 
-class ContactsViewController: UITableViewController, UISearchResultsUpdating {
+class ContactsViewController: UITableViewController, UISearchResultsUpdating, UISearchBarDelegate {
     
-
     let cellID = "cell123123"
     
     var names = [String]()
@@ -33,7 +32,6 @@ class ContactsViewController: UITableViewController, UISearchResultsUpdating {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // can't remember what this does - try google
         navigationController?.interactivePopGestureRecognizer?.delegate = nil
     
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellID)
@@ -43,8 +41,10 @@ class ContactsViewController: UITableViewController, UISearchResultsUpdating {
         resultSearchController = ({
             let controller = UISearchController(searchResultsController: nil)
             controller.searchResultsUpdater = self
-            controller.obscuresBackgroundDuringPresentation = false
+            controller.obscuresBackgroundDuringPresentation = true
             controller.searchBar.sizeToFit()
+            controller.searchBar.barTintColor = .white
+//            controller.searchBar.delegate = self
 
             tableView.tableHeaderView = controller.searchBar
             
@@ -70,6 +70,23 @@ class ContactsViewController: UITableViewController, UISearchResultsUpdating {
 
         self.tableView.reloadData()
     }
+    
+
+//    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+//        // do your thing
+//    }
+//
+//    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+//        resultSearchController.searchBar.resignFirstResponder()
+//    }
+//
+//    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+//        resultSearchController.searchBar.resignFirstResponder()
+//    }
+
+//    func updateSearchResultsForSearchController(searchController: UISearchController) {
+//
+//    }
     
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let label = UILabel()
@@ -267,11 +284,14 @@ class ContactsViewController: UITableViewController, UISearchResultsUpdating {
         
         if (resultSearchController.isActive) {
             self.selectedContact = self.filteredTableData[indexPath.row]
+//            resultSearchController.searchBar.resignFirstResponder()
+            performSegue(withIdentifier: "goToSend2", sender: self)
         } else {
             self.selectedContact = self.contactsGrouped[indexPath.section][indexPath.row]
+            performSegue(withIdentifier: "goToSend2", sender: self)
         }
 
-        performSegue(withIdentifier: "goToSend2", sender: self)
+        
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

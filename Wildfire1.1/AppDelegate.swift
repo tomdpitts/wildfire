@@ -82,31 +82,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         fetchBankAccountsListFromMangopay() {}
         listCardsFromMangopay() {}
+        
         print(Date())
         
-        if self.currentDate != Date() {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 5) { [unowned self] in
-                // 5 second delay allows notification handler to deal with KYC updates
-                // the potential danger to avoid is having two Indentical views presented one after the other - this func is only supposed to be a fallback
-                if UserDefaults.standard.bool(forKey: "KYCPending") {
-                    self.checkForKYCCompletion()
-                } else {
-                    // do nothing - KYC is not pending, no need to check for an update
-                }
-            }
-        } else {
-            // do nothing - KYC is still pending but the function was last run on the same day, no need to do it again
-        }
-        
-        
-        // uncomment this to have KYC status maintained over app uninstall reinstall
-        if UserDefaults.standard.bool(forKey: "KYCVerified") {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [unowned self] in
-                // 2 second delay allows notification handler to deal with KYC updates - this will also set "KYCPending" setting in UserDefaults to false, so this func won't trigger anything
-                // the potential danger to avoid is having two Indentical views presented one after the other - this func is only supposed to be a fallback
-                self.checkForKYCCompletion()
-            }
-        }
+
         
         
         
