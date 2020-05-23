@@ -26,17 +26,6 @@ class DisplayReceiptAfterPaymentViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.navigationItem.setHidesBackButton(true, animated: false)
-        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
-        
-//        if let navController = self.navigationController {
-//            navController.navigationItem.leftBarButtonItem = nil;
-//            navController.navigationItem.hidesBackButton = true;
-//            navController.navigationItem.backBarButtonItem?.isEnabled = false;
-//            navController.interactivePopGestureRecognizer!.isEnabled = false
-//        }
-//
-        
         Utilities.styleHollowButton(doneButton)
         updateReceipt()
         
@@ -55,7 +44,14 @@ class DisplayReceiptAfterPaymentViewController: UIViewController {
         }
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationItem.setHidesBackButton(true, animated: false)
+        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
+    }
+
     override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
         self.navigationItem.setHidesBackButton(false, animated: false)
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
     }

@@ -21,41 +21,15 @@ class PayViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        if #available(iOS 13.0, *) {
-//            let appearance = UINavigationBarAppearance()
-//
-//            appearance.configureWithOpaqueBackground()
-//
-//            UINavigationBar.appearance().scrollEdgeAppearance = appearance
-//        }
-        
-//        let navbar = self.navigationController?.navigationBar
-//        
-//        navbar?.titleTextAttributes = [.foregroundColor: UIColor.white,
-//        .font: UIFont(name: "OpenSans-ExtraBoldItalic", size: 42)!]
-//        navbar?.barTintColor = .black
-        
-        
-//        for family: String in UIFont.familyNames
-//        {
-//            print(family)
-//            for names: String in UIFont.fontNames(forFamilyName: family)
-//            {
-//                print("== \(names)")
-//            }
-//        }
-        
         setUpElements()
-//        let button = UIButton(type: .roundedRect)
-//        button.frame = CGRect(x: 20, y: 250, width: 100, height: 30)
-//        button.setTitle("Crash", for: [])
-//        button.addTarget(self, action: #selector(self.crashButtonTapped(_:)), for: .touchUpInside)
-//        view.addSubview(button)
+
     }
+
     
-//    @IBAction func crashButtonTapped(_ sender: AnyObject) {
-//        fatalError()
-//    }
+    override func viewWillAppear(_ animated: Bool) {
+        navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+        navigationItem.setHidesBackButton(false, animated: false)
+    }
     
     @IBAction func sendButtonTapped(_ sender: Any) {
         

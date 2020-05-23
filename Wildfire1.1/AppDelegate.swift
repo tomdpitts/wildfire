@@ -27,9 +27,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
     var window: UIWindow?
     var timestamp: Int64?
-    var currentDate: Date?
+    var currentDate: String?
 
-    
     lazy var functions = Functions.functions(region:"europe-west1")
 
 
@@ -83,108 +82,45 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         fetchBankAccountsListFromMangopay() {}
         listCardsFromMangopay() {}
         
+        print("Date: ")
         print(Date())
         
+        let date = Date()
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd.MM.yyyy"
+        let today = formatter.string(from: date)
 
-        
-        
+        if self.currentDate != today {
+             DispatchQueue.main.asyncAfter(deadline: .now() + 10) { [unowned self] in
+                 // delay allows notification handler to deal with KYC updates
+                 // the potential danger to avoid is having two Indentical views presented one after the other - this func is only supposed to be a fallback
+                 if UserDefaults.standard.bool(forKey: "KYCPending") {
+                     self.checkForKYCCompletion()
+                 } else {
+                     // do nothing - KYC is not pending, no need to check for an update
+                 }
+             }
+         } else {
+             // do nothing - KYC is still pending but the function was last run on the same day, no need to do it again
+         }
+         
+
+
+        // this checks for KYC status one time upon the app's first launch. This means users who are reinstalling don't have to repeat KYC checks if they're already done
+        if !UserDefaults.standard.bool(forKey: "KYCVerified") && !UserDefaults.standard.bool(forKey: "appHasPreviouslyBeenOpened") {
+
+            DispatchQueue.main.asyncAfter(deadline: .now() + 10) { [unowned self] in
+                // delay allows notification handler to deal with KYC updates - this will also set "KYCPending" setting in UserDefaults to false, so this func won't trigger anything
+                // the potential danger to avoid is having two Indentical views presented one after the other - this func is only supposed to be a fallback
+                self.checkForKYCCompletion()
+
+                UserDefaults.standard.set(true, forKey: "appHasPreviouslyBeenOpened")
+            }
+        }
         
         return true
     }
     
-    // this func is only triggered when user has uploaded KYC and is awaiting verification
-    func checkForKYCCompletion() {
-        
-        self.functions.httpsCallable("checkForKYCUpdate").call(["foo": "bar"]) { (result, error) in
-            
-            if error != nil {
-                
-            } else {
-                
-                print(result?.data)
-                
-                if let result = result?.data as? [String: String] {
-                    
-                    if let status = result["status"] {
-                        
-                        // reset the clock so this func doesn't run again until tomorrow at the earliest
-                        self.currentDate = Date()
-                        
-                        if status == "VALIDATED" {
-                            
-                            UserDefaults.standard.set(false, forKey: "KYCPending")
-                            UserDefaults.standard.set(false, forKey: "KYCWasRefused")
-                            UserDefaults.standard.set(true, forKey: "KYCVerified")
-                            
-                            Analytics.logEvent(Event.KYCAccepted.rawValue, parameters: nil)
-                            
-                            if let controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "IDVerified") as? KYCVerifiedViewController {
-                                if let window = self.window, let rootViewController = window.rootViewController {
-                                    if #available(iOS 13.0, *) {
-                                        window.overrideUserInterfaceStyle = .light
-                                    }
-                                    
-                                    var currentController = rootViewController
-                                    while let presentedController = currentController.presentedViewController {
-                                        currentController = presentedController
-                                    }
-                                    
-                                    currentController.present(controller, animated: true, completion: nil)
-                                }
-                            }
-                            
-                        } else if status == "REFUSED" {
-                            
-                            UserDefaults.standard.set(false, forKey: "KYCPending")
-                            UserDefaults.standard.set(true, forKey: "KYCWasRefused")
-                            UserDefaults.standard.set(false, forKey: "KYCVerified")
-                            
-                            Analytics.logEvent(Event.KYCRejected.rawValue, parameters: nil)
-                            
-                            var refusedMessage = result["refusedMessage"]
-                            var refusedType = result["refusedType"]
-                            
-                            if refusedMessage == nil {
-                                refusedMessage = ""
-                            }
-                            
-                            if refusedType == nil {
-                                refusedType = ""
-                            }
-                            
-                            UserDefaults.standard.set(refusedMessage, forKey: "refusedMessage")
-                            UserDefaults.standard.set(refusedType, forKey: "refusedType")
-                            
-                            if let controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "IDRefused") as? KYCRefusedViewController {
-                                if let window = self.window, let rootViewController = window.rootViewController {
-                                    if #available(iOS 13.0, *) {
-                                        window.overrideUserInterfaceStyle = .light
-                                    }
-                                    
-                                    // this gets the currently presented VC
-                                    var currentController = rootViewController
-                                    while let presentedController = currentController.presentedViewController {
-                                        currentController = presentedController
-                                    }
-                                    
-                                    // programmatically embed the destination VC (in this case, KYCRefusedViewController) in a nav controller
-                                    let navigationController = UINavigationController(rootViewController: controller)
-
-                                    currentController.present(navigationController, animated: true, completion: nil)
-                                }
-                            }
-                            
-                        } else {
-                            // either mangopayID or the KYCDocID couldn't be found in Firestore
-                            // TODO handle this case, leaving for now
-                        }
-                    }
-                } else {
-                    print("result didn't come back in the format expected")
-                }
-            }
-        }
-    }
     
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         Messaging.messaging().apnsToken = deviceToken
@@ -688,6 +624,103 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }
     }
     
+    // this func is only triggered when user has uploaded KYC and is awaiting verification, or is opening app for the first time
+    func checkForKYCCompletion() {
+        
+        self.functions.httpsCallable("checkForKYCUpdate").call(["foo": "bar"]) { (result, error) in
+            
+            if error != nil {
+                
+            } else {
+                
+                if let result = result?.data as? [String: String] {
+                    
+                    if let status = result["status"] {
+                        
+                        let date = Date()
+                        let formatter = DateFormatter()
+                        formatter.dateFormat = "dd.MM.yyyy"
+                        let today = formatter.string(from: date)
+                        
+                        // reset the clock so this func doesn't run again until tomorrow at the earliest
+                        self.currentDate = today
+                        
+                        if status == "VALIDATED" {
+                            
+                            UserDefaults.standard.set(false, forKey: "KYCPending")
+                            UserDefaults.standard.set(false, forKey: "KYCWasRefused")
+                            UserDefaults.standard.set(true, forKey: "KYCVerified")
+                            
+                            Analytics.logEvent(Event.KYCAccepted.rawValue, parameters: nil)
+                            
+                            if let controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "IDVerified") as? KYCVerifiedViewController {
+                                if let window = self.window, let rootViewController = window.rootViewController {
+                                    if #available(iOS 13.0, *) {
+                                        window.overrideUserInterfaceStyle = .light
+                                    }
+                                    
+                                    var currentController = rootViewController
+                                    while let presentedController = currentController.presentedViewController {
+                                        currentController = presentedController
+                                    }
+                                    
+                                    currentController.present(controller, animated: true, completion: nil)
+                                }
+                            }
+                            
+                        } else if status == "REFUSED" {
+                            
+                            UserDefaults.standard.set(false, forKey: "KYCPending")
+                            UserDefaults.standard.set(true, forKey: "KYCWasRefused")
+                            UserDefaults.standard.set(false, forKey: "KYCVerified")
+                            
+                            Analytics.logEvent(Event.KYCRejected.rawValue, parameters: nil)
+                            
+                            var refusedMessage = result["refusedMessage"]
+                            var refusedType = result["refusedType"]
+                            
+                            if refusedMessage == nil {
+                                refusedMessage = ""
+                            }
+                            
+                            if refusedType == nil {
+                                refusedType = ""
+                            }
+                            
+                            UserDefaults.standard.set(refusedMessage, forKey: "refusedMessage")
+                            UserDefaults.standard.set(refusedType, forKey: "refusedType")
+                            
+                            if let controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "IDRefused") as? KYCRefusedViewController {
+                                if let window = self.window, let rootViewController = window.rootViewController {
+                                    if #available(iOS 13.0, *) {
+                                        window.overrideUserInterfaceStyle = .light
+                                    }
+                                    
+                                    // this gets the currently presented VC
+                                    var currentController = rootViewController
+                                    while let presentedController = currentController.presentedViewController {
+                                        currentController = presentedController
+                                    }
+                                    
+                                    // programmatically embed the destination VC (in this case, KYCRefusedViewController) in a nav controller
+                                    let navigationController = UINavigationController(rootViewController: controller)
+
+                                    currentController.present(navigationController, animated: true, completion: nil)
+                                }
+                            }
+                            
+                        } else {
+                            // either mangopayID or the KYCDocID couldn't be found in Firestore
+                            // TODO handle this case, leaving for now
+                        }
+                    }
+                } else {
+                    print("result didn't come back in the format expected")
+                }
+            }
+        }
+    }
+    
 //    func setupNavigationBarAppearance() {
 ////        UINavigationBar.appearance().tintColor = .black
 ////        UINavigationBar.appearance().shadowImage = UIImage.imageFromColor(.black, width: 1.0, height: 1.0)?.resizableImage(withCapInsets: .zero, resizingMode: .tile)
@@ -702,7 +735,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 //    }
     
 
-    func setupNavigationBarAppesds12331233457865arance() {
+//    func setupNavigationBarAppesds12331233457865arance() {
 ////        UINavigationBar.appearance().barTintColor = .blue
 ////        UINavigationBar.appearance().tintColor = .white
 ////        UINavigationBar.appearance().isTranslucent = false
@@ -732,7 +765,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 //
 //
 //        }
-    }
+//    }
 }
 
 extension Date {

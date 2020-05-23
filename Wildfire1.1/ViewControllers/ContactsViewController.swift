@@ -41,7 +41,7 @@ class ContactsViewController: UITableViewController, UISearchResultsUpdating, UI
         resultSearchController = ({
             let controller = UISearchController(searchResultsController: nil)
             controller.searchResultsUpdater = self
-            controller.obscuresBackgroundDuringPresentation = true
+            controller.obscuresBackgroundDuringPresentation = false
             controller.searchBar.sizeToFit()
             controller.searchBar.barTintColor = .white
 //            controller.searchBar.delegate = self
@@ -284,11 +284,13 @@ class ContactsViewController: UITableViewController, UISearchResultsUpdating, UI
         
         if (resultSearchController.isActive) {
             self.selectedContact = self.filteredTableData[indexPath.row]
-//            resultSearchController.searchBar.resignFirstResponder()
-            performSegue(withIdentifier: "goToSend2", sender: self)
+            self.resultSearchController.dismiss(animated: false) {
+                self.performSegue(withIdentifier: "goToSend2", sender: self)
+            }
+            
         } else {
             self.selectedContact = self.contactsGrouped[indexPath.section][indexPath.row]
-            performSegue(withIdentifier: "goToSend2", sender: self)
+            self.performSegue(withIdentifier: "goToSend2", sender: self)
         }
 
         

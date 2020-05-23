@@ -405,7 +405,7 @@
             <objects>
                 <tableViewController title="Contacts View Controller" id="u43-ox-leC" customClass="ContactsViewController" customModule="Wildfire" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="3Ix-oZ-8dH">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="421"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
@@ -1301,7 +1301,7 @@
             <objects>
                 <tableViewController id="VYa-hN-JH5" customClass="BankDetails1TableViewController" customModule="Wildfire" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="HXs-yZ-Ig8">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="421"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <sections>
@@ -1730,7 +1730,7 @@
             <objects>
                 <viewController id="3fx-NT-pZ7" customClass="ButtonStyleViewController" customModule="Wildfire" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="e1Z-vd-HKY">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="421"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" alignment="center" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="gZW-bE-B5h">
@@ -2669,7 +2669,7 @@ http://www.apache.org/licenses/
             <objects>
                 <tableViewController definesPresentationContext="YES" providesPresentationContextTransitionStyle="YES" id="hRv-xs-Og9" customClass="ReceiptsViewController" customModule="Wildfire" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="YTg-0w-I4p">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="421"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <prototypes>
@@ -2723,7 +2723,7 @@ http://www.apache.org/licenses/
             <objects>
                 <tableViewController id="Cy9-Yl-4jQ" customClass="PaymentMethodsViewController" customModule="Wildfire" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="D9h-NB-Qih">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="421"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <prototypes>
@@ -2780,7 +2780,7 @@ http://www.apache.org/licenses/
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="5f6-CW-gcw">
-                                <rect key="frame" x="20" y="102" width="280" height="300"/>
+                                <rect key="frame" x="20" y="109.5" width="280" height="300"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Logo200px" translatesAutoresizingMaskIntoConstraints="NO" id="5js-x2-4Z0">
                                         <rect key="frame" x="90" y="0.0" width="100" height="75"/>
@@ -2887,13 +2887,13 @@ http://www.apache.org/licenses/
                                 </constraints>
                             </stackView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Receipt" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="86k-nw-Pag">
-                                <rect key="frame" x="20" y="40" width="137.5" height="47"/>
+                                <rect key="frame" x="20" y="40" width="148.5" height="54.5"/>
                                 <fontDescription key="fontDescription" name="OpenSans-ExtraBoldItalic" family="Open Sans" pointSize="40"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aE1-gl-UEb" userLabel="Done Button">
-                                <rect key="frame" x="60" y="442" width="200" height="60"/>
+                                <rect key="frame" x="60" y="449.5" width="200" height="60"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="200" id="PFu-7D-nlK"/>
                                     <constraint firstAttribute="height" constant="60" id="hlG-HV-pW3"/>
@@ -3024,7 +3024,7 @@ http://www.apache.org/licenses/
             <objects>
                 <viewController storyboardIdentifier="verifyMobile" modalPresentationStyle="fullScreen" id="xal-Cf-0cP" customClass="PhoneViewController" customModule="Wildfire" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="IQk-SR-yQZ">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="470"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="465"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="19" translatesAutoresizingMaskIntoConstraints="NO" id="Xtt-mB-ebY">
@@ -3105,7 +3105,7 @@ http://www.apache.org/licenses/
             <objects>
                 <viewController modalPresentationStyle="fullScreen" id="ulI-eW-qCk" customClass="VerificationCodeViewController" customModule="Wildfire" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="FY8-Zg-YSQ">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="470"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="465"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="pNz-Kt-k97">
@@ -3134,11 +3134,11 @@ http://www.apache.org/licenses/
                                         <rect key="frame" x="0.0" y="121" width="280" height="83"/>
                                         <subviews>
                                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="YaC-XM-o91">
-                                                <rect key="frame" x="0.0" y="26" width="53" height="31"/>
+                                                <rect key="frame" x="0.0" y="26" width="41.5" height="31"/>
                                                 <color key="onTintColor" name="tealPrimary"/>
                                             </switch>
                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" text="I have read and understood the Privacy Policy: www.wildfirewallet.com/privacy-policy" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="cSK-NM-T1V">
-                                                <rect key="frame" x="71" y="0.0" width="209" height="83"/>
+                                                <rect key="frame" x="59.5" y="0.0" width="220.5" height="83"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                                 <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -3151,11 +3151,11 @@ http://www.apache.org/licenses/
                                         <rect key="frame" x="0.0" y="219" width="280" height="116.5"/>
                                         <subviews>
                                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="3ch-9n-v9C">
-                                                <rect key="frame" x="0.0" y="43" width="53" height="31"/>
+                                                <rect key="frame" x="0.0" y="43" width="41.5" height="31"/>
                                                 <color key="onTintColor" name="tealPrimary"/>
                                             </switch>
                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="nSj-FN-Mrh">
-                                                <rect key="frame" x="71" y="0.0" width="209" height="116.5"/>
+                                                <rect key="frame" x="59.5" y="0.0" width="220.5" height="116.5"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                                 <string key="text">I have read and agree to the Terms and Conditions: www.wildfirewallet.com/terms-and-conditions and License Agreement: https://www.wildfirewallet.com/eula</string>
                                                 <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -3258,7 +3258,7 @@ http://www.apache.org/licenses/
             <objects>
                 <viewController id="Wk8-ei-emg" customClass="DeleteAccountViewController" customModule="Wildfire" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="u78-8b-0jf">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="421"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="HCy-xd-7Uk">
@@ -3394,7 +3394,7 @@ http://www.apache.org/licenses/
             <objects>
                 <viewController modalTransitionStyle="flipHorizontal" modalPresentationStyle="currentContext" id="dMl-Xg-qLO" customClass="DisplayReceiptAfterPaymentViewController" customModule="Wildfire" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Lqs-x6-fZq">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="421"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalCentering" alignment="center" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="td4-fH-TTf">
@@ -3585,7 +3585,7 @@ http://www.apache.org/licenses/
             <objects>
                 <tableViewController id="lS1-eE-cTm" customClass="BankDetails2TableViewController" customModule="Wildfire" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="interactive" dataMode="static" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="gyz-T7-ira">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="421"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <sections>
@@ -4040,7 +4040,7 @@ http://www.apache.org/licenses/
             <objects>
                 <tableViewController id="CDk-SW-YDS" customClass="BankAccountsViewController" customModule="Wildfire" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" bouncesZoom="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="oU3-br-KuG">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="421"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <prototypes>
@@ -4152,18 +4152,18 @@ http://www.apache.org/licenses/
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FVr-Tb-Zid" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5182" y="1126"/>
+            <point key="canvasLocation" x="5608" y="1125"/>
         </scene>
         <!--Document-->
         <scene sceneID="3mN-8y-d43">
             <objects>
                 <viewController id="pub-UR-8Gm" customClass="DocumentTypeViewController" customModule="Wildfire" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="61z-2E-jIe">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="421"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="wxN-4L-QfU">
-                                <rect key="frame" x="50" y="60.5" width="220" height="300"/>
+                                <rect key="frame" x="50" y="58" width="220" height="300"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="leading" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8d4-kr-Tj0">
                                         <rect key="frame" x="0.0" y="0.0" width="220" height="80"/>
@@ -4227,7 +4227,7 @@ http://www.apache.org/licenses/
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oN7-0v-WAK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5955" y="1125"/>
+            <point key="canvasLocation" x="6384" y="1125"/>
         </scene>
         <!--Passport-->
         <scene sceneID="AOA-0o-NDf">
@@ -4311,11 +4311,11 @@ http://www.apache.org/licenses/
             <objects>
                 <viewController id="Nfh-Rr-8gB" customClass="KYCSuccessViewController" customModule="Wildfire" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="OCl-fV-Xus">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="421"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="25" translatesAutoresizingMaskIntoConstraints="NO" id="fiJ-OH-VcC">
-                                <rect key="frame" x="10" y="31.5" width="300" height="358"/>
+                                <rect key="frame" x="10" y="29" width="300" height="358"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icons8-order-history-100.png" translatesAutoresizingMaskIntoConstraints="NO" id="lfX-ee-Tt9">
                                         <rect key="frame" x="112.5" y="0.0" width="75" height="75"/>
@@ -4613,7 +4613,7 @@ http://www.apache.org/licenses/
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hLQ-Xl-DWC" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="oj6-2g-s9X" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="4241" y="1152"/>
+            <point key="canvasLocation" x="4856" y="1125"/>
         </scene>
         <!--Amount-->
         <scene sceneID="A5p-2V-dwg">
@@ -4724,8 +4724,8 @@ http://www.apache.org/licenses/
                         <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="BZm-E6-nf7">
-                                <rect key="frame" x="8.5" y="10" width="303" height="396"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="BZm-E6-nf7">
+                                <rect key="frame" x="8.5" y="10" width="303" height="358.5"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icons8-bank-building-100" translatesAutoresizingMaskIntoConstraints="NO" id="NfF-Ny-ZU4">
                                         <rect key="frame" x="114" y="0.0" width="75" height="75"/>
@@ -4735,7 +4735,7 @@ http://www.apache.org/licenses/
                                         </constraints>
                                     </imageView>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="R8q-ci-ODC" userLabel="Amount Stack">
-                                        <rect key="frame" x="50.5" y="80" width="202" height="60"/>
+                                        <rect key="frame" x="50.5" y="85" width="202" height="60"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="€" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LOX-9L-PVo">
                                                 <rect key="frame" x="0.0" y="0.0" width="36.5" height="60"/>
@@ -4752,13 +4752,13 @@ http://www.apache.org/licenses/
                                         </subviews>
                                     </stackView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="to be deposited to" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="N8V-re-OWn">
-                                        <rect key="frame" x="81.5" y="145" width="140" height="13"/>
+                                        <rect key="frame" x="81.5" y="155" width="140" height="20.5"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="rBh-Bm-phs" userLabel="Bank Info Stack">
-                                        <rect key="frame" x="10" y="163" width="283" height="138"/>
+                                        <rect key="frame" x="10" y="185.5" width="283" height="138"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="EOw-0i-nzv" userLabel="Account Owner Stack">
                                                 <rect key="frame" x="8.5" y="0.0" width="266" height="20.5"/>
@@ -4865,7 +4865,7 @@ http://www.apache.org/licenses/
                                         </subviews>
                                     </stackView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mb8-7M-HKk">
-                                        <rect key="frame" x="25" y="306" width="253" height="25"/>
+                                        <rect key="frame" x="25" y="333.5" width="253" height="25"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="25" id="M59-Ju-f1W"/>
                                         </constraints>
@@ -4878,51 +4878,52 @@ http://www.apache.org/licenses/
                                             <segue destination="1xb-vy-NoK" kind="show" id="2Dv-Ru-038"/>
                                         </connections>
                                     </button>
-                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="fmh-TA-1Sj">
-                                        <rect key="frame" x="0.0" y="336" width="303" height="60"/>
-                                        <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LmA-NF-ntg" userLabel="Cancel Button">
-                                                <rect key="frame" x="0.0" y="0.0" width="146.5" height="60"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="60" id="sz1-wO-B6s"/>
-                                                </constraints>
-                                                <state key="normal" title="Cancel">
-                                                    <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                </state>
-                                                <connections>
-                                                    <action selector="cancelButtonTapped:" destination="Yt2-x3-537" eventType="touchUpInside" id="4H3-oB-Av2"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BOC-93-u9y" userLabel="Confirm Deposit Button">
-                                                <rect key="frame" x="156.5" y="0.0" width="146.5" height="60"/>
-                                                <state key="normal" title="Confirm Deposit">
-                                                    <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                </state>
-                                                <connections>
-                                                    <action selector="confirmDepositTapped:" destination="Yt2-x3-537" eventType="touchUpInside" id="OFp-4l-6LD"/>
-                                                </connections>
-                                            </button>
-                                        </subviews>
-                                        <constraints>
-                                            <constraint firstItem="LmA-NF-ntg" firstAttribute="height" secondItem="BOC-93-u9y" secondAttribute="height" id="FwV-44-9TU"/>
-                                            <constraint firstItem="LmA-NF-ntg" firstAttribute="width" secondItem="BOC-93-u9y" secondAttribute="width" id="hF7-AA-dA2"/>
-                                        </constraints>
-                                    </stackView>
                                 </subviews>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="Mb8-7M-HKk" secondAttribute="trailing" constant="25" id="2gc-3H-fch"/>
-                                    <constraint firstAttribute="trailing" secondItem="fmh-TA-1Sj" secondAttribute="trailing" id="6AZ-G1-cjc"/>
                                     <constraint firstAttribute="trailing" secondItem="rBh-Bm-phs" secondAttribute="trailing" constant="10" id="F6K-go-Pou"/>
                                     <constraint firstItem="rBh-Bm-phs" firstAttribute="leading" secondItem="BZm-E6-nf7" secondAttribute="leading" constant="10" id="L4f-co-VqI"/>
                                     <constraint firstItem="Mb8-7M-HKk" firstAttribute="leading" secondItem="BZm-E6-nf7" secondAttribute="leading" constant="25" id="Laz-Hh-bhQ"/>
-                                    <constraint firstItem="fmh-TA-1Sj" firstAttribute="leading" secondItem="BZm-E6-nf7" secondAttribute="leading" id="yxM-XX-3F4"/>
+                                </constraints>
+                            </stackView>
+                            <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="fmh-TA-1Sj" userLabel="Buttons Stack View">
+                                <rect key="frame" x="20" y="351" width="280" height="60"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LmA-NF-ntg" userLabel="Cancel Button">
+                                        <rect key="frame" x="0.0" y="0.0" width="135" height="60"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="60" id="sz1-wO-B6s"/>
+                                        </constraints>
+                                        <state key="normal" title="Cancel">
+                                            <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="cancelButtonTapped:" destination="Yt2-x3-537" eventType="touchUpInside" id="4H3-oB-Av2"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BOC-93-u9y" userLabel="Confirm Deposit Button">
+                                        <rect key="frame" x="145" y="0.0" width="135" height="60"/>
+                                        <state key="normal" title="Confirm Deposit">
+                                            <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="confirmDepositTapped:" destination="Yt2-x3-537" eventType="touchUpInside" id="OFp-4l-6LD"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="LmA-NF-ntg" firstAttribute="height" secondItem="BOC-93-u9y" secondAttribute="height" id="FwV-44-9TU"/>
+                                    <constraint firstItem="LmA-NF-ntg" firstAttribute="width" secondItem="BOC-93-u9y" secondAttribute="width" id="hF7-AA-dA2"/>
                                 </constraints>
                             </stackView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
+                            <constraint firstItem="Em7-jR-paP" firstAttribute="trailing" secondItem="fmh-TA-1Sj" secondAttribute="trailing" constant="20" id="9vt-Xp-Tox"/>
+                            <constraint firstItem="fmh-TA-1Sj" firstAttribute="centerX" secondItem="K0A-yM-lQ0" secondAttribute="centerX" id="d1p-cn-Nul"/>
+                            <constraint firstItem="fmh-TA-1Sj" firstAttribute="leading" secondItem="Em7-jR-paP" secondAttribute="leading" constant="20" id="k7e-gp-2Px"/>
                             <constraint firstItem="BZm-E6-nf7" firstAttribute="top" secondItem="Em7-jR-paP" secondAttribute="top" constant="10" id="lC3-uW-xv2"/>
-                            <constraint firstItem="Em7-jR-paP" firstAttribute="bottom" secondItem="BZm-E6-nf7" secondAttribute="bottom" constant="10" id="lgO-jZ-rer"/>
+                            <constraint firstAttribute="bottom" secondItem="fmh-TA-1Sj" secondAttribute="bottom" constant="5" id="mHP-pe-9wo"/>
                             <constraint firstItem="BZm-E6-nf7" firstAttribute="centerX" secondItem="K0A-yM-lQ0" secondAttribute="centerX" id="xRE-U7-Cqe"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Em7-jR-paP"/>
@@ -5097,7 +5098,7 @@ http://www.apache.org/licenses/
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="slT-BE-Gqm" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="6769" y="1125"/>
+            <point key="canvasLocation" x="7198" y="1125"/>
         </scene>
         <!--Back-->
         <scene sceneID="bG5-CU-QLQ">
@@ -5174,7 +5175,7 @@ http://www.apache.org/licenses/
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XTs-Bq-9Ox" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="7534" y="1125"/>
+            <point key="canvasLocation" x="7963" y="1125"/>
         </scene>
         <!--ID Verified Scene-->
         <scene sceneID="QEg-QB-s2h">
@@ -5346,7 +5347,7 @@ http://www.apache.org/licenses/
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="eBH-bb-KLw"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translucent="NO" largeTitles="YES" id="Pte-sN-ObQ">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="98"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="103"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <color key="barTintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -5373,7 +5374,7 @@ http://www.apache.org/licenses/
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="LVs-72-jOY" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translucent="NO" largeTitles="YES" id="hV3-zS-kkM">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="98"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="103"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <color key="barTintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -5490,7 +5491,7 @@ http://www.apache.org/licenses/
             <objects>
                 <viewController id="bFt-Ep-Iwe" customClass="AccountAddedViewController" customModule="Wildfire" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="vrT-7w-yte">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="421"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" alignment="center" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="3cQ-NQ-tXS">
@@ -5639,7 +5640,7 @@ http://www.apache.org/licenses/
     <inferredMetricsTieBreakers>
         <segue reference="Plu-rG-Syc"/>
         <segue reference="Huo-pa-P2i"/>
-        <segue reference="XkC-zp-HKA"/>
+        <segue reference="FIA-qD-1nb"/>
         <segue reference="ydr-lM-sQk"/>
         <segue reference="JGW-hE-gdx"/>
         <segue reference="6CO-tz-ak8"/>
