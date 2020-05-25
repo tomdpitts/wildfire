@@ -123,7 +123,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 //        Messaging.messaging().apnsToken = deviceToken
 //        print("Device Token: ")
 //        print(deviceToken)
-//        
+//
 //    }
 //
 //    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
@@ -343,18 +343,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
         // With swizzling disabled you must let Messaging know about the message, for Analytics
         // Messaging.messaging().appDidReceiveMessage(userInfo)
-        
-        print("did receive remote Notification yes")
-        
+                
         guard let eventType = userInfo["eventType"] as? String else { return }
         
 //        let mainStoryboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         
         
         if eventType == "KYC_SUCCEEDED" {
-            
-            print("KYC succeeded")
-            
+                        
             UserDefaults.standard.set(false, forKey: "KYCWasRefused")
             UserDefaults.standard.set(false, forKey: "KYCPending")
             UserDefaults.standard.set(true, forKey: "KYCVerified")

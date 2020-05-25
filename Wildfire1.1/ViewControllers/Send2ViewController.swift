@@ -85,55 +85,7 @@ class Send2ViewController: UIViewController, MFMessageComposeViewControllerDeleg
     }
     
     @IBAction func amountChanged(_ sender: Any) {
-        guard let amountString = amountTextField.text else { return }
         
-        var workString: String = amountString
-        
-        // 1: ensure amount is between 0.50 and 50
-        
-        guard let amountFloat = Float(workString) else { return }
-        
-        var x = amountFloat
-        
-        if x > 40.00 {
-            x = 40.00
-            self.universalShowAlert(title: "Max amount £40", message: "At this time, Wildfire can only transact amounts up to £40. This limit will be raised soon.", segue: nil, cancel: false)
-        }
-        
-        if x < 0.5 {
-            x = 0.5
-            self.universalShowAlert(title: "Min amount £0.50", message: "At this time, Wildfire can only transact amounts above £0.50", segue: nil, cancel: false)
-        }
-        
-        // 2: round to nearest 0.50
-        
-        let y = (Float(Int((2*x) + 0.5)))/2
-        
-        if x != y {
-            self.universalShowAlert(title: "Apologies", message: "Only amounts in 50p increments can be transacted e.g. £3, £3.50, £4 etc", segue: nil, cancel: false)
-        }
-        
-        // 3: round to 2 decimal places
-        
-        let z = String(y)
-        
-        let numberOfDecimalDigits: Int
-         
-        if let dotIndex = z.firstIndex(of: ".") {
-             // prevent more than 2 digits after the decimal
-             numberOfDecimalDigits = z.distance(from: dotIndex, to: z.endIndex) - 1
-             
-             if numberOfDecimalDigits == 1 {
-                 let replacementString = z + "0"
-                 workString = replacementString
-                 
-             } else if numberOfDecimalDigits == 0 {
-                 let replacementString = String(z.dropLast())
-                 workString = replacementString
-             }
-        }
-        
-        amountTextField.text = workString
     }
 
     func isRegistered(phoneNumber: String, name: String) {
@@ -186,6 +138,7 @@ class Send2ViewController: UIViewController, MFMessageComposeViewControllerDeleg
     
     @IBAction func sendTapped(_ sender: Any) {
         self.view.endEditing(true)
+        
         let success = validateAmount()
         if success == true {
             errorLabel.isHidden = true
@@ -200,24 +153,80 @@ class Send2ViewController: UIViewController, MFMessageComposeViewControllerDeleg
         
     }
     
+    // this func is a rushed combination of two older funcs - does the job but is messy
     func validateAmount() -> Bool {
-        if let text = amountTextField.text {
-            if text == "" {
-                errorLabel.text = "Please enter an amount to send \(String(describing: contact?.givenName))"
-                errorLabel.isHidden = false
-                return false
-            } else {
-                if let m = Float(text) {
-                    self.sendAmount = m
-                    return true
-                } else {
-                    errorLabel.text = "Please enter a valid number"
+        
+        guard let amountString = amountTextField.text else { return false }
+        
+        var workString: String = amountString
+        
+        // 1: ensure amount is between 0.50 and 50
+        
+        guard let amountFloat = Float(workString) else { return false }
+        
+        var x = amountFloat
+        
+        if x > 40.00 {
+            x = 40.00
+            self.universalShowAlert(title: "Max amount £40", message: "At this time, Wildfire can only transact amounts up to £40. This limit will be raised soon.", segue: nil, cancel: false)
+        }
+        
+        if x < 0.5 {
+            x = 0.5
+            self.universalShowAlert(title: "Min amount £0.50", message: "At this time, Wildfire can only transact amounts above £0.50", segue: nil, cancel: false)
+        }
+        
+        // 2: round to nearest 0.50
+        
+        let y = (Float(Int((2*x) + 0.5)))/2
+        
+        if x != y {
+            self.universalShowAlert(title: "Apologies", message: "Only amounts in 50p increments can be transacted e.g. £3, £3.50, £4 etc", segue: nil, cancel: false)
+        }
+        
+        // 3: round to 2 decimal places
+        
+        let z = String(y)
+        
+        let numberOfDecimalDigits: Int
+         
+        if let dotIndex = z.firstIndex(of: ".") {
+             // prevent more than 2 digits after the decimal
+             numberOfDecimalDigits = z.distance(from: dotIndex, to: z.endIndex) - 1
+             
+             if numberOfDecimalDigits == 1 {
+                 let replacementString = z + "0"
+                 workString = replacementString
+                 
+             } else if numberOfDecimalDigits == 0 {
+                 let replacementString = String(z.dropLast())
+                 workString = replacementString
+             }
+        }
+        
+        if amountString != workString {
+            amountTextField.text = workString
+            // the string required changing to fit the amount requirements, so don't return true. If user presses the button again, this func will then return true
+            return false
+        } else {
+            if let text = amountTextField.text {
+                if text == "" {
+                    errorLabel.text = "Please enter an amount to send \(String(describing: contact?.givenName))"
                     errorLabel.isHidden = false
                     return false
+                } else {
+                    if let m = Float(text) {
+                        self.sendAmount = m
+                        return true
+                    } else {
+                        errorLabel.text = "Please enter a valid number"
+                        errorLabel.isHidden = false
+                        return false
+                    }
                 }
+            } else {
+                return false
             }
-        } else {
-            return false
         }
     }
     
