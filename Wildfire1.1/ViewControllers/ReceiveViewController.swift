@@ -201,7 +201,7 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
             self.linkPressed = false
             self.linkShouldWork = true
             
-            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(5000)) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(29000)) {
                 // if after 30 secs, the link button wasn't tapped, delete the QR image and disable the button
                 if !self.linkPressed {
                     
