@@ -115,7 +115,7 @@ class TopUpViewController: UIViewController, UITextFieldDelegate {
     
     @IBAction func addCreditTapped(_ sender: Any) {
         
-        self.view.endEditing(true)
+        self.DismissKeyboard()
         
         let cardsAdded = UserDefaults.standard.integer(forKey: "numberOfCards")
         

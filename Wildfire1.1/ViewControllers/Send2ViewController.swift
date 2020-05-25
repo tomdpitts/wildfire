@@ -158,6 +158,12 @@ class Send2ViewController: UIViewController, MFMessageComposeViewControllerDeleg
         
         guard let amountString = amountTextField.text else { return false }
         
+        if amountString == "" {
+            errorLabel.text = "Please enter an amount to send \(String(describing: contact?.givenName))"
+            errorLabel.isHidden = false
+            return false
+        }
+        
         var workString: String = amountString
         
         // 1: ensure amount is between 0.50 and 50
@@ -168,21 +174,13 @@ class Send2ViewController: UIViewController, MFMessageComposeViewControllerDeleg
         
         if x > 40.00 {
             x = 40.00
-            self.universalShowAlert(title: "Max amount £40", message: "At this time, Wildfire can only transact amounts up to £40. This limit will be raised soon.", segue: nil, cancel: false)
-        }
-        
-        if x < 0.5 {
+        } else if x < 0.5 {
             x = 0.5
-            self.universalShowAlert(title: "Min amount £0.50", message: "At this time, Wildfire can only transact amounts above £0.50", segue: nil, cancel: false)
         }
         
         // 2: round to nearest 0.50
         
         let y = (Float(Int((2*x) + 0.5)))/2
-        
-        if x != y {
-            self.universalShowAlert(title: "Apologies", message: "Only amounts in 50p increments can be transacted e.g. £3, £3.50, £4 etc", segue: nil, cancel: false)
-        }
         
         // 3: round to 2 decimal places
         
@@ -204,29 +202,38 @@ class Send2ViewController: UIViewController, MFMessageComposeViewControllerDeleg
              }
         }
         
-        if amountString != workString {
-            amountTextField.text = workString
-            // the string required changing to fit the amount requirements, so don't return true. If user presses the button again, this func will then return true
+        // update the amount field
+        amountTextField.text = workString
+        
+        // now the amount has been updated, respond with any errors to explain what just happened to the user
+        
+        // catch amounts outside the max or min
+        if amountFloat > 40.00 {
+            
+            self.universalShowAlert(title: "Max amount £40", message: "At this time, Wildfire can only transact amounts up to £40. This limit will be raised soon.", segue: nil, cancel: false)
             return false
+        } else if amountFloat < 0.5 {
+            
+            self.universalShowAlert(title: "Min amount £0.50", message: "At this time, Wildfire can only transact amounts above £0.50", segue: nil, cancel: false)
+            return false
+        }
+        
+        // catch situation where amount was not a multiple of 0.50
+        if amountFloat != y {
+            self.universalShowAlert(title: "Apologies", message: "Only amounts in 50p increments can be transacted e.g. £3, £3.50, £4 etc", segue: nil, cancel: false)
+            
+            return false
+        }
+        
+        // passed all the checks, return true
+        if let m = Float(workString) {
+            self.sendAmount = m
+            return true
         } else {
-            if let text = amountTextField.text {
-                if text == "" {
-                    errorLabel.text = "Please enter an amount to send \(String(describing: contact?.givenName))"
-                    errorLabel.isHidden = false
-                    return false
-                } else {
-                    if let m = Float(text) {
-                        self.sendAmount = m
-                        return true
-                    } else {
-                        errorLabel.text = "Please enter a valid number"
-                        errorLabel.isHidden = false
-                        return false
-                    }
-                }
-            } else {
-                return false
-            }
+            // (unless it can't be converted to Float, in which case, something's up)
+            errorLabel.text = "Please enter a valid number"
+            errorLabel.isHidden = false
+            return false
         }
     }
     

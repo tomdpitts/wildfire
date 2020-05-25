@@ -254,10 +254,6 @@ class ConfirmViewController: UIViewController {
                     // this should theoretically never be triggered as rules are in place on the receive screen. If it does, it would be better to disrupt users temporarily than let the transactions go through.
                     let check = (diff + 25)/50 * 50
                     
-                    print("some numbers")
-                    print(diff)
-                    print(check)
-                    
                     if check != diff || diff < 50 || diff > 4000 {
                         
                         Analytics.logEvent("topUpBroken", parameters: nil)
