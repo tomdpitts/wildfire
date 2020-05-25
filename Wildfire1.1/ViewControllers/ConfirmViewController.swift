@@ -251,7 +251,7 @@ class ConfirmViewController: UIViewController {
                     // safeguard topup amount - must be a multiple of 50cents, and >= 50
                     // this should never be triggered as rules are in place on the receive screen. If it does, it would be better to disrupt users temporarily than let the transactions go through.
                     let check = (Float(Int((Float(difference)*2) + 0.5)))/2
-                    if check != Float(difference) || difference < 50 {
+                    if check != Float(difference) || difference*(-1) < 50 {
                         
                         Analytics.logEvent("topUpBroken", parameters: nil)
                         
@@ -333,7 +333,7 @@ class ConfirmViewController: UIViewController {
                         if let type = self.transactionType, let currency = self.transactionCurrency {
                             
                             let topupAmount = 0
-                            
+                      
                             // amount should be human readable i.e. in natual currency amount
                             let realSendAmount = Float(self.sendAmount)/100
                             

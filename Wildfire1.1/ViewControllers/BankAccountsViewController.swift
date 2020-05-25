@@ -42,7 +42,7 @@ class BankAccountsViewController: UITableViewController {
 //        self.extendedLayoutIncludesOpaqueBars = true
 
         
-//        self.refreshControl?.addTarget(self, action: #selector(refresh), for: UIControl.Event.valueChanged)
+        self.refreshControl?.addTarget(self, action: #selector(refresh), for: UIControl.Event.valueChanged)
                         
 //        fetchBankAccounts() { () in
 //
@@ -75,26 +75,26 @@ class BankAccountsViewController: UITableViewController {
 ////        navigationController?.interactivePopGestureRecognizer?.isEnabled = true
 //    }
     
-    @IBAction func tableRefreshed(_ sender: Any) {
-        print("refreshing")
-        
-        let appDelegate = AppDelegate()
-        appDelegate.fetchBankAccountsListFromMangopay() { () in
-            self.fetchBankAccounts {
-                
-                if self.bankAccountsList.count > 0 {
-                    self.addDetailsButton.isEnabled = false
-                    self.addDetailsButton.tintColor = UIColor.clear
-
-                }
-                self.tableView.reloadData()
-                self.refreshControl?.endRefreshing()
-            }
-        }
-    }
+//    @IBAction func tableRefreshed(_ sender: Any) {
+//        print("refreshing")
+//        
+//        let appDelegate = AppDelegate()
+//        appDelegate.fetchBankAccountsListFromMangopay() { () in
+//            self.fetchBankAccounts {
+//                
+//                if self.bankAccountsList.count > 0 {
+//                    self.addDetailsButton.isEnabled = false
+//                    self.addDetailsButton.tintColor = UIColor.clear
+//
+//                }
+//                self.tableView.reloadData()
+//                self.refreshControl?.endRefreshing()
+//            }
+//        }
+//    }
     
     
-    func refresh() {
+    @objc func refresh() {
         
         let appDelegate = AppDelegate()
         appDelegate.fetchBankAccountsListFromMangopay() { () in

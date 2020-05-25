@@ -30,8 +30,6 @@ class HomeViewController: UIViewController {
         } else {
             self.loggedInUser = false
         }
-        
-        // the logic here is that we only need to have TouchID/FaceID if the user is logged in - otherwise we let the user go ahead
     }
     
     override func viewDidAppear(_ animated: Bool) {

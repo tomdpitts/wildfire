@@ -82,9 +82,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         fetchBankAccountsListFromMangopay() {}
         listCardsFromMangopay() {}
         
-        print("Date: ")
-        print(Date())
-        
         let date = Date()
         let formatter = DateFormatter()
         formatter.dateFormat = "dd.MM.yyyy"
@@ -122,10 +119,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
     
     
-    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        Messaging.messaging().apnsToken = deviceToken
-    }
-
+//    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+//        Messaging.messaging().apnsToken = deviceToken
+//        print("Device Token: ")
+//        print(deviceToken)
+//        
+//    }
+//
+//    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+//
+//            print(error.localizedDescription)
+//            print("Not registered notification")
+//    }
+    
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
@@ -262,6 +268,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                     }
                     
                     if currentController == HomeViewController() {
+                        print("current VC == HomeViewController")
                         // TODO this needs testing
                         // the idea is that if a user taps on a link when Wildfire wasn't open recently, redirect() will kick in and authenticate user. So far so good, but if auth is successful and the confirmVC is dismissed, the user is dumped on the blank homescreen. Adding this stack of VCs in the case where redirect() has been triggered should mean dismissing ConfirmVC reveals the Pay VC as usual.
                         
@@ -290,6 +297,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                         
                     } else {
                                             
+                        print("current VC != HomeViewController")
                         if let confirmViewController = storyboard.instantiateViewController(withIdentifier: "confirmVC") as? ConfirmViewController {
                         
                             confirmViewController.recipientUID = recipientID
