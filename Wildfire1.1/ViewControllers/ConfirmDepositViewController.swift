@@ -42,7 +42,7 @@ class ConfirmDepositViewController: UIViewController {
         displayBankInfo()
         
         if let amount = depositAmount {
-            let actualAmount = 0.98*amount + 0.45
+            let actualAmount = 0.98*amount - 0.45
             amountLabel.text = String(format: "%.2f", actualAmount)
         } else {
             amountLabel.text = "not found"

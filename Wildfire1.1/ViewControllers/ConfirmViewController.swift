@@ -242,20 +242,27 @@ class ConfirmViewController: UIViewController {
                 
                 
                 if difference < 0 {
-                    // we'll need this amount available for transact function to access if user wants to top up
-                    self.topupAmount = difference*(-1)
+                    let diff = difference*(-1)
                     
-                    let differenceString = String(format: "%.2f", Float(difference*(-1))/100)
-                    let totalCharge = String(format: "%.2f", Float(difference*(-1) + 20)/100)
+                    // we'll need this amount available for transact function to access if user wants to top up
+                    self.topupAmount = diff
+                    
+                    let differenceString = String(format: "%.2f", Float(diff)/100)
+                    let totalCharge = String(format: "%.2f", Float(diff + 20)/100)
                     
                     // safeguard topup amount - must be a multiple of 50cents, and >= 50
-                    // this should never be triggered as rules are in place on the receive screen. If it does, it would be better to disrupt users temporarily than let the transactions go through.
-                    let check = (Float(Int((Float(difference)*2) + 0.5)))/2
-                    if check != Float(difference) || difference < 50 {
+                    // this should theoretically never be triggered as rules are in place on the receive screen. If it does, it would be better to disrupt users temporarily than let the transactions go through.
+                    let check = (diff + 25)/50 * 50
+                    
+                    print("some numbers")
+                    print(diff)
+                    print(check)
+                    
+                    if check != diff || diff < 50 || diff > 4000 {
                         
                         Analytics.logEvent("topUpBroken", parameters: nil)
                         
-                        completion(false, "The transaction system isn't working, and the tech team has been alerted. We're very sorry but this could take a few days to rectify. For help, please contact support@wildfirewallet.com")
+                        completion(false, "This topup amount can't be handled at this time. Please try topping up your account manually.")
                         
                         return
                     }
@@ -333,7 +340,7 @@ class ConfirmViewController: UIViewController {
                         if let type = self.transactionType, let currency = self.transactionCurrency {
                             
                             let topupAmount = 0
-                            
+                      
                             // amount should be human readable i.e. in natual currency amount
                             let realSendAmount = Float(self.sendAmount)/100
                             
