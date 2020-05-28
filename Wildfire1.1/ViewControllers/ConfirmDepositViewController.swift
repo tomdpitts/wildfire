@@ -17,7 +17,7 @@ class ConfirmDepositViewController: UIViewController {
     var depositAmount: Float?
     
     // TODO define currency according to user settings
-    var currency: String? = "EUR"
+    var currency: String? = "GBP"
     
     @IBOutlet weak var accountOwnerLabel: UILabel!
     @IBOutlet weak var IBANLabel: UILabel!
@@ -130,5 +130,10 @@ class ConfirmDepositViewController: UIViewController {
                 countryStack.isHidden = true
             }
         }
+    }
+    
+    @IBAction func unwindToPrevious(_ unwindSegue: UIStoryboardSegue) {
+        //        let sourceViewController = unwindSegue.source
+        // Use data from the view controller which initiated the unwind segue
     }
 }

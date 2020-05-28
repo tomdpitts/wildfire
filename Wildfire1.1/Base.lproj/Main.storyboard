@@ -2365,7 +2365,7 @@
                                         <rect key="frame" x="0.0" y="495" width="320" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="4yj-I1-lH0" id="OzT-eh-736">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Delete Account" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="kTK-NB-VKb">
@@ -4601,10 +4601,8 @@ http://www.apache.org/licenses/
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icons8-bank-building-100" translatesAutoresizingMaskIntoConstraints="NO" id="ysF-Eh-Akn">
                                         <rect key="frame" x="100" y="0.0" width="50" height="50"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="50" id="EhJ-mf-7X5"/>
+                                            <constraint firstAttribute="width" secondItem="ysF-Eh-Akn" secondAttribute="height" multiplier="1:1" id="SdL-wa-p9V"/>
                                             <constraint firstAttribute="width" constant="50" id="TfS-dC-fmp"/>
-                                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="50" id="Zns-pv-ubi"/>
-                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="50" id="jSi-bD-b1U"/>
                                         </constraints>
                                     </imageView>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="63g-6K-ETs" userLabel="Amount Stack">
@@ -4697,17 +4695,17 @@ http://www.apache.org/licenses/
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="BZm-E6-nf7">
-                                <rect key="frame" x="8.5" y="10" width="303" height="358.5"/>
+                                <rect key="frame" x="8.5" y="10" width="303" height="333.5"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icons8-bank-building-100" translatesAutoresizingMaskIntoConstraints="NO" id="NfF-Ny-ZU4">
-                                        <rect key="frame" x="114" y="0.0" width="75" height="75"/>
+                                        <rect key="frame" x="126.5" y="0.0" width="50" height="50"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="75" id="A1P-hs-c1J"/>
+                                            <constraint firstAttribute="width" constant="50" id="A1P-hs-c1J"/>
                                             <constraint firstAttribute="width" secondItem="NfF-Ny-ZU4" secondAttribute="height" multiplier="1:1" id="AVL-u2-BVb"/>
                                         </constraints>
                                     </imageView>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="R8q-ci-ODC" userLabel="Amount Stack">
-                                        <rect key="frame" x="50.5" y="85" width="202" height="60"/>
+                                        <rect key="frame" x="50.5" y="60" width="202" height="60"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="€" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LOX-9L-PVo">
                                                 <rect key="frame" x="0.0" y="0.0" width="36.5" height="60"/>
@@ -4724,13 +4722,13 @@ http://www.apache.org/licenses/
                                         </subviews>
                                     </stackView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="to be deposited to" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="N8V-re-OWn">
-                                        <rect key="frame" x="81.5" y="155" width="140" height="20.5"/>
+                                        <rect key="frame" x="81.5" y="130" width="140" height="20.5"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="rBh-Bm-phs" userLabel="Bank Info Stack">
-                                        <rect key="frame" x="10" y="185.5" width="283" height="138"/>
+                                        <rect key="frame" x="10" y="160.5" width="283" height="138"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="EOw-0i-nzv" userLabel="Account Owner Stack">
                                                 <rect key="frame" x="8.5" y="0.0" width="266" height="20.5"/>
@@ -4837,7 +4835,7 @@ http://www.apache.org/licenses/
                                         </subviews>
                                     </stackView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mb8-7M-HKk">
-                                        <rect key="frame" x="25" y="333.5" width="253" height="25"/>
+                                        <rect key="frame" x="25" y="308.5" width="253" height="25"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="25" id="M59-Ju-f1W"/>
                                         </constraints>
@@ -5410,13 +5408,13 @@ http://www.apache.org/licenses/
                                         </constraints>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Moving money" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LFq-Rt-3s6">
-                                        <rect key="frame" x="76" y="95" width="128" height="24"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                        <rect key="frame" x="54.5" y="95" width="171" height="32.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="27"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" scrollEnabled="NO" editable="NO" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IcX-Ar-CeX">
-                                        <rect key="frame" x="0.0" y="139" width="280" height="187"/>
+                                        <rect key="frame" x="0.0" y="147.5" width="280" height="178.5"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                         <string key="text">First of all, apologies for having to apply a small charge. The reality is that whenever you use your credit or debit card, both digitally or instore, a number of institutions take a cut of the transaction value.    At Wildfire, we believe you shouldn't have to pay to use your money. That's why paying other Wildfire users is always free!   Costs are as follows: When you add credit to your balance, the charge is 20p. When you deposit to your bank account, the total charge is 2% + 45p. The only charge we take in that whole process is 0.1% of deposits, and we're working hard to get that down to 0%. The rest is to purely to cover the costs of card networks, payment gateways, and banks.</string>
                                         <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -5477,13 +5475,13 @@ http://www.apache.org/licenses/
                                         </constraints>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You've made your account!" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1sk-95-6PY">
-                                        <rect key="frame" x="33" y="170" width="234" height="20"/>
+                                        <rect key="frame" x="33" y="170" width="234" height="19"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Now you just need to add your card details to make a secure payment" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mgd-BO-U60">
-                                        <rect key="frame" x="12.5" y="210" width="275.5" height="46"/>
+                                        <rect key="frame" x="12.5" y="209" width="275.5" height="47"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
@@ -5612,7 +5610,7 @@ http://www.apache.org/licenses/
     <inferredMetricsTieBreakers>
         <segue reference="Plu-rG-Syc"/>
         <segue reference="Huo-pa-P2i"/>
-        <segue reference="FIA-qD-1nb"/>
+        <segue reference="XkC-zp-HKA"/>
         <segue reference="ydr-lM-sQk"/>
         <segue reference="JGW-hE-gdx"/>
         <segue reference="6CO-tz-ak8"/>

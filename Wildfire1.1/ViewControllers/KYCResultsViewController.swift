@@ -10,6 +10,7 @@ import UIKit
 
 class KYCVerifiedViewController: UIViewController {
 
+//    weak var notificationDelegate: DismissNotificationDelegate?
     var refusedMessage: String?
     
     @IBOutlet weak var okButton: UIButton!
@@ -27,6 +28,12 @@ class KYCVerifiedViewController: UIViewController {
     
     @IBAction func okTapped(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)
+//        if notificationDelegate != nil {
+//            print("notification delegate is here")
+//        } else {
+//            print("no notification delegate here")
+//        }
+//        notificationDelegate?.notificationDismissed()
     }
 }
 
