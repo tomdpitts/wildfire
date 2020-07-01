@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 //import LBTAComponents
 
+// this is Mangopay's list of countries they can't accept Users with Residency in
 let blockedCountriesList = ["Afghanistan", "Bahamas", "Bosnia & Herzegovina", "Botswana", "Cambodia", "North Korea", "Ethiopia", "Ghana", "Guyana", "Iran", "Iraq", "Laos", "Uganda", "Pakistan", "Serbia", "Sri Lanka", "Syria", "Trinidad & Tobago", "Tunisia", "Vanuatu", "Yemen"]
 
 struct Style {
@@ -54,6 +55,109 @@ struct Constants {
         static let homeViewController = "HomeVC"
     }
 }
+
+enum Event: String {
+    
+    // Event Titles
+    case QRGenerated = "QRGenerated"
+    case QRScanned = "QRScanned"
+    case paymentSuccess = "paymentSuccess"
+    case receivedSuccess = "receivedSuccess"
+    case accountAdded = "accountAdded"
+    case paymentMethodAdded = "paymentMethodAdded"
+    case paymentMethodDeleted = "paymentMethodDeleted"
+    case bankAccountAdded = "bankAccountAdded"
+    case bankAccountDeleted = "bankAccountDeleted"
+    case KYCUploaded = "KYCUploaded"
+    case KYCAccepted = "KYCAccepted"
+    case KYCRejected = "KYCRejected"
+    case creditAdded = "creditAdded"
+    case profilePicChanged = "profilePicChanged"
+    case linkButtonTapped = "linkButtonTapped"
+    case QRImageSaved = "QRImageSaved"
+}
+
+enum EventVar {
+    
+    enum QRGenerated: String {
+        
+        case generatedAmount = "generatedAmount"
+        case generatedCurrency = "generatedCurrency"
+    }
+    
+    enum QRScanned: String {
+        
+        case scannedAmount = "scannedAmount"
+        case scannedCurrency = "scannedCurrency"
+        case scannedRecipient = "scannedRecipient"
+    }
+    
+    enum paymentSuccess: String {
+        
+        case paidAmount = "paidAmount"
+        case currency = "currency"
+        case recipient = "recipient"
+        case transactionType = "transactionType"
+        case topup = "topup"
+        
+        enum transactionTypeOptions: String {
+            
+            case scan = "scan"
+            case send = "send"
+            case dynamicLink = "dynamicLink"
+        }
+    }
+    
+    enum receivedSuccess: String {
+        
+        case receivedAmount = "receivedAmount"
+        case currency = "currency"
+        
+    }
+    
+    enum paymentMethodAdded: String {
+        
+        case paymentMethodType = "paymentMethodType"
+        
+        enum paymentMethodTypeOptions: String {
+            case card = "card"
+            case paypal = "paypal"
+            case other = "other"
+        }
+    }
+    
+    enum paymentMethodDeleted: String {
+        
+        case paymentMethodType = "paymentMethodType"
+        
+        enum paymentMethodTypeOptions: String {
+           case card = "card"
+           case paypal = "paypal"
+           case other = "other"
+            
+        }
+    }
+   
+    
+    enum KYCUploaded: String {
+        
+        case kycType = "KYCType"
+        
+        enum kycTypeOptions: String {
+            
+            case passport = "passport"
+            case driverLicence = "driverLicence"
+            case IDCard = "IDCard"
+            case other = "other"
+        }
+    }
+    
+    enum creditAdded: String {
+        // Event: creditAdded
+        case creditAmount = "creditAmount"
+    }
+}
+
 
 struct Contact {
     var givenName: String
@@ -101,6 +205,7 @@ struct PaymentCard: Codable {
     }
 }
 
+// current fetchBankAccounts func in AppDelegate fills fields with empty strings if they're empty - these don't technically need to be optional but it feels like better practice
 struct BankAccount: Codable {
     let accountID: String
     let accountHolderName: String
@@ -108,9 +213,10 @@ struct BankAccount: Codable {
     let IBAN: String?
     let SWIFTBIC: String?
     let accountNumber: String?
+    let sortCode: String?
     let country: String?
     
-    // this simply translates MangoPay's naming system to our (clearer) system
+    // this simply translates MangoPay's naming system to our (better) system
     enum CodingKeys: String, CodingKey {
         case accountID = "Id"
         case accountHolderName = "OwnerName"
@@ -118,6 +224,7 @@ struct BankAccount: Codable {
         case IBAN
         case SWIFTBIC = "BIC"
         case accountNumber = "AccountNumber"
+        case sortCode = "SortCode"
         case country = "Country"
     }
 }

@@ -9,6 +9,7 @@
 import UIKit
 import FirebaseAuth
 import FirebaseStorage
+import FirebaseAnalytics
 import Kingfisher
 import AlamofireImage
 
@@ -48,7 +49,7 @@ class ProfilePicViewController: UIViewController, UINavigationControllerDelegate
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.destination is Account2ViewController {
             let vc = segue.destination as! Account2ViewController
-            vc.imageWasChanged = true
+            vc.imageShouldBeginReloading = true
         }
     }
     
@@ -103,15 +104,18 @@ class ProfilePicViewController: UIViewController, UINavigationControllerDelegate
             if let err = err {
                 print(err)
                 return
-            }
-            
-            storageRef.downloadURL { url, error in
-                if error != nil {
-                // Handle any errors
-                } else {
-                    guard let URL = url else { return }
-                    UserDefaults.standard.set(URL, forKey: "profilePicURL")
-                    NotificationCenter.default.post(name: Notification.Name("newProfilePicUploaded"), object: nil)
+            } else {
+                
+                Analytics.logEvent(Event.profilePicChanged.rawValue, parameters: nil)
+                
+                storageRef.downloadURL { url, error in
+                    if error != nil {
+                    // Handle any errors
+                    } else {
+                        guard let URL = url else { return }
+                        UserDefaults.standard.set(URL, forKey: "profilePicURL")
+                        NotificationCenter.default.post(name: Notification.Name("newProfilePicUploaded"), object: nil)
+                    }
                 }
             }
         }

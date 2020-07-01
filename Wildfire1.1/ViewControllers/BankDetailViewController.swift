@@ -8,6 +8,7 @@
 
 import UIKit
 import FirebaseFunctions
+import FirebaseAnalytics
 
 class BankDetailViewController: UIViewController {
     
@@ -27,11 +28,13 @@ class BankDetailViewController: UIViewController {
     @IBOutlet weak var IBANLabel: UILabel!
     @IBOutlet weak var swiftLabel: UILabel!
     @IBOutlet weak var accountNumberLabel: UILabel!
+    @IBOutlet weak var sortCodeLabel: UILabel!
     @IBOutlet weak var countryLabel: UILabel!
     
     @IBOutlet weak var IBANStack: UIStackView!
     @IBOutlet weak var swiftStack: UIStackView!
     @IBOutlet weak var accountNumberStack: UIStackView!
+    @IBOutlet weak var sortCodeStack: UIStackView!
     @IBOutlet weak var countryStack: UIStackView!
     
     @IBOutlet weak var makeDepositButton: UIButton!
@@ -43,19 +46,13 @@ class BankDetailViewController: UIViewController {
         displayBankInfo()
         
         KYCPendingView.clipsToBounds = true
-        KYCPendingView.layer.borderWidth = 2 //Or some other value
+        KYCPendingView.layer.borderWidth = 3 //Or some other value
         KYCPendingView.layer.borderColor = UIColor(hexString: "#39C3C6").cgColor
 
         Utilities.styleHollowButton(makeDepositButton)
         Utilities.styleHollowButtonRED(deleteButton)
         
         KYCPendingView.isHidden = true
-        
-        // TODO - TAKE THIS OUT! FOR TESTING ONLY
-
-//        UserDefaults.standard.set(false, forKey: "KYCPending")
-//        UserDefaults.standard.set(false, forKey: "KYCVerified")
-//        UserDefaults.standard.set(true, forKey: "KYCRefused")
         
         if KYCPending == true {
             KYCPendingView.isHidden = false
@@ -65,6 +62,48 @@ class BankDetailViewController: UIViewController {
             KYCPendingView.isHidden = false
         }
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+    }
+    
+    func displayBankInfo() {
+        if let bnk = bankAccount {
+            
+            accountOwnerLabel.text = bnk.accountHolderName
+            
+            if let iban = bnk.IBAN {
+                IBANLabel.text = iban
+            } else {
+                IBANStack.isHidden = true
+            }
+            
+            if let swift = bnk.SWIFTBIC {
+                swiftLabel.text = swift
+            } else {
+                swiftStack.isHidden = true
+            }
+            
+            if let number = bnk.accountNumber {
+                accountNumberLabel.text = number
+            } else {
+                accountNumberStack.isHidden = true
+            }
+            
+            if let sort = bnk.sortCode {
+                sortCodeLabel.text = sort
+            } else {
+                sortCodeStack.isHidden = true
+            }
+            
+            if let country = bnk.country {
+                countryLabel.text = country
+            } else {
+                countryStack.isHidden = true
+            }
+        }
+    }
+    
     @IBAction func KYCPendingButtonTapped(_ sender: Any) {
         
         if KYCPending == true {
@@ -98,7 +137,6 @@ class BankDetailViewController: UIViewController {
         showAlert(title: title, message: message, segueIdentifier: segueID)
     }
     
-    
     func showAlert(title: String, message: String?, segueIdentifier: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         
@@ -115,41 +153,36 @@ class BankDetailViewController: UIViewController {
         self.present(alert, animated: true)
     }
     
-    
-    func deleteBankAccountInfo(completion: @escaping ()->()) {
+    func deleteBankAccountInfo(completion: @escaping () -> ()) {
+        
+        showSpinner(titleText: nil, messageText: "Deleting bank details")
         
         self.functions.httpsCallable("deleteBankAccount").call() { (result, error) in
-            // update credit cards list
-            let appDelegate = AppDelegate()
-            appDelegate.fetchBankAccountsListFromMangopay() {
-                completion()
-            }
-        }
-        
-        if let id = self.bankAccount?.accountID {
-            UserDefaults.standard.removeObject(forKey: "bankAccount\(id)")
-            let count = UserDefaults.standard.integer(forKey: "numberOfBankAccounts")
-            if count > 0 {
-                let newCount = count - 1
-                UserDefaults.standard.set(newCount, forKey: "numberOfBankAccounts")
-            }
-        }
-    }
-    
-    func displayBankInfo() {
-        if let bnk = bankAccount {
-            accountOwnerLabel.text = bnk.accountHolderName
-            IBANLabel.text = bnk.IBAN
-            swiftLabel.text = bnk.SWIFTBIC
-            accountNumberLabel.text = bnk.accountNumber
-            countryLabel.text = bnk.country
             
-            if bnk.type == "IBAN" {
-                swiftStack.isHidden = true
-                accountNumberStack.isHidden = true
-                countryStack.isHidden = true
-            } else if bnk.type == "OTHER" {
-                IBANStack.isHidden = true
+            if error != nil {
+                
+                self.universalShowAlert(title: "Something went wrong", message: "Sorry about this. It's not clear what happened exactly but it might be your internet connection? Please try deleting again. (If this problem persists, please contact support@wildfirewallet.com)", segue: nil, cancel: false)
+                
+            } else {
+                
+                Analytics.logEvent(Event.bankAccountDeleted.rawValue, parameters: nil)
+                
+                let count = UserDefaults.standard.integer(forKey: "numberOfBankAccounts")
+                // this only works for 1 bank account - will need to be changed to support multiple
+                UserDefaults.standard.removeObject(forKey: "bankAccount\(count)")
+                
+                if count > 0 {
+                    let newCount = count - 1
+                    UserDefaults.standard.set(newCount, forKey: "numberOfBankAccounts")
+                }
+                
+                // update bank accounts list
+                let appDelegate = AppDelegate()
+                appDelegate.fetchBankAccountsListFromMangopay() {
+                    self.removeSpinnerWithCompletion {
+                        completion()
+                    }
+                }
             }
         }
     }

@@ -31,21 +31,85 @@ class BankAccountsViewController: UITableViewController {
             
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+                
         tableView.tableFooterView = UIView()
         tableView.backgroundColor = .groupTableViewBackground
         
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellID)
+                
+        // this doesn't work. Trying to get refresh working with opaque navigation bar but just can't make it work.
+//        self.edgesForExtendedLayout = []
+//        self.extendedLayoutIncludesOpaqueBars = true
+
         
+        self.refreshControl?.addTarget(self, action: #selector(refresh), for: UIControl.Event.valueChanged)
+                        
+//        fetchBankAccounts() { () in
+//
+//            if self.bankAccountsList.count > 0 {
+//                self.addDetailsButton.isEnabled = false
+//                self.addDetailsButton.tintColor = UIColor.clear
+//
+//            }
+//            self.tableView.reloadData()
+//        }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
         fetchBankAccounts() { () in
 
-            if self.bankAccountsList.count > 0 {
-                self.addDetailsButton.isEnabled = false
-                self.addDetailsButton.tintColor = UIColor.clear
-
-            }
             self.tableView.reloadData()
+            
+            if self.bankAccountsList.count == 0 {
+                self.refresh()
+            }
         }
+    }
+    
+//    override func viewDidAppear(_ animated: Bool) {
+//        fetchBankAccounts() { () in
+//
+//            self.tableView.reloadData()
+//        }
+//
+////        navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+//    }
+    
+//    @IBAction func tableRefreshed(_ sender: Any) {
+//        print("refreshing")
+//        
+//        let appDelegate = AppDelegate()
+//        appDelegate.fetchBankAccountsListFromMangopay() { () in
+//            self.fetchBankAccounts {
+//                
+//                if self.bankAccountsList.count > 0 {
+//                    self.addDetailsButton.isEnabled = false
+//                    self.addDetailsButton.tintColor = UIColor.clear
+//
+//                }
+//                self.tableView.reloadData()
+//                self.refreshControl?.endRefreshing()
+//            }
+//        }
+//    }
+    
+    
+    @objc func refresh() {
+        
+        let appDelegate = AppDelegate()
+        appDelegate.fetchBankAccountsListFromMangopay() { () in
+            self.fetchBankAccounts {
+                
+                if self.bankAccountsList.count > 0 {
+                    self.addDetailsButton.isEnabled = false
+                    self.addDetailsButton.tintColor = UIColor.clear
+
+                }
+                self.tableView.reloadData()
+                self.refreshControl?.endRefreshing()
+            }
+        }
+        
     }
     
 //        override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -77,13 +141,13 @@ class BankAccountsViewController: UITableViewController {
         cell = UITableViewCell(style: .subtitle, reuseIdentifier: self.cellID)
         
         if bankAccountsList.count == 0 {
-            cell.textLabel?.text = "Account details not yet added"
+            cell.textLabel?.text = "You haven't added any account details"
             cell.imageView?.image = UIImage(named: "icons8-bank-building-50")
         } else {
             let found = bankAccountsList[indexPath.row]
-            if found.accountNumber != "" {
+            if found.accountNumber != nil {
                 cell.textLabel?.text = found.accountNumber
-            } else if found.IBAN != "" {
+            } else if found.IBAN != nil {
                 cell.textLabel?.text = found.IBAN
             } else {
                 cell.textLabel?.text = "Registered Account \(indexPath.row)"
@@ -109,16 +173,17 @@ class BankAccountsViewController: UITableViewController {
         // TODO add mangopay call to fetch list of cards
         // OR store them locally?
         // UPDATE: decided to store in UserDefaults and have an API call in AppDelegate on AppDidEnterForeground to check the list is up to date in the background
-        
-//        let storedCards = UserDefaults.standard.object(forKey: "storedCards") as? [PaymentCard] ?? [PaymentCard]()
-//
+
 //        self.paymentMethodsList = storedCards
         
         let defaults = UserDefaults.standard
         
         let count = defaults.integer(forKey: "numberOfBankAccounts")
         
+        var list = [BankAccount]()
+        
         if count > 0 {
+
             for i in 1...count {
                 
                 guard let savedCardData = defaults.object(forKey: "bankAccount\(i)") as? Data else {
@@ -129,9 +194,19 @@ class BankAccountsViewController: UITableViewController {
                 guard let card = try? PropertyListDecoder().decode(BankAccount.self, from: savedCardData) else {
                     return
                 }
-                
-                bankAccountsList.append(card)
+                list.append(card)
             }
+        }
+        
+        bankAccountsList = list
+        
+        if self.bankAccountsList.count > 0 {
+            self.addDetailsButton.isEnabled = false
+            self.addDetailsButton.tintColor = UIColor.clear
+
+        } else {
+            self.addDetailsButton.isEnabled = true
+            self.addDetailsButton.tintColor = UIColor.white
         }
         
         completion()
@@ -158,6 +233,11 @@ class BankAccountsViewController: UITableViewController {
         }))
         
         self.present(alert, animated: true)
+    }
+    
+    @IBAction func unwindToPrevious(_ unwindSegue: UIStoryboardSegue) {
+//        let sourceViewController = unwindSegue.source
+        // Use data from the view controller which initiated the unwind segue
     }
 }
 

@@ -10,6 +10,7 @@ import UIKit
 import FirebaseAuth
 import FirebaseDynamicLinks
 import FirebaseStorage
+import FirebaseAnalytics
 import CryptoSwift
 
 
@@ -20,6 +21,10 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
     let currency = "GBP"
     
     var shareLink: URL?
+    var QRDownloadRef: StorageReference?
+    
+    var linkPressed = false
+    var linkShouldWork = true
     
     let arrowUp = UIImage(named: "icons8-send-letter-50")
     
@@ -53,7 +58,7 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
 
         Utilities.styleHollowButton(saveToCameraRoll)
         Utilities.styleHollowButton(shareLinkButton)
-        
+                
         saveToCameraRoll.isHidden = true
 //        scanToPayLabel.isHidden = true
         shareLinkButton.isHidden = true
@@ -70,9 +75,6 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(DismissKeyboard))
         view.addGestureRecognizer(tap)
         
-        
-//        gradientBackground()
-        
     }
     
     @IBAction func amountChanged(_ sender: Any) {
@@ -87,6 +89,9 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
         shareLinkButton.isEnabled = false
         shareLinkButton.setImage(arrowUp?.changeAlpha(alpha: 0.0), for: .normal)
         loadingSpinner.isHidden = true
+        
+        self.linkPressed = false
+        self.linkShouldWork = true
         
         // reset Save to Camera Roll Button
         saveToCameraRoll.setTitle("Save", for: .normal)
@@ -163,14 +168,12 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
             self.universalShowAlert(title: "Please set up your account", message: "Just a few quick details are needed to receive payments", segue: "showAccountSetup", cancel: true)
             
             return
-        }
-        
-        if qrcodeImage == nil {
+        } else {
             
             if amountTextField.text == "" {
                 return
             }
-            
+                        
             guard let qrString = generateQRString() else { return }
             
             let qrData = qrString.data(using: String.Encoding.isoLatin1, allowLossyConversion: false)
@@ -194,27 +197,46 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
             // show the buttons but don't enable shareLinkButton yet
             shareLinkButton.isEnabled = false
             
+            // variables to control the auto-delete of the QR after 30 secs if link isn't shared (defined as: the link button being tapped)
+            self.linkPressed = false
+            self.linkShouldWork = true
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(29000)) {
+                // if after 30 secs, the link button wasn't tapped, delete the QR image and disable the button
+                if !self.linkPressed {
+                    
+                    self.linkShouldWork = false
+                    self.shareLinkButton.setImage(self.arrowUp?.changeAlpha(alpha: 0.5), for: .normal)
+
+                    if let QR = self.QRDownloadRef {
+                        // Delete the file
+                        QR.delete { _ in
+                            // an error means the file wasn't deleted. This is a blunt tool anyway, not the end of the world to leave it undeleted
+                        }
+                    }
+                }
+            }
         }
             
         // old code, redundant now that the 'go' button disappears upon submission, and retries are handled by text field changed function
-        else {
-            // revert to empty state
-            QRCodeImageView.image = UIImage(named: "QR Border3 TEAL")
-            qrcodeImage = nil
-//            btnAction.setTitle("Show code",for: .normal)
-            btnAction.isHidden = false
-            saveToCameraRoll.isHidden = true
-//            scanToPayLabel.isHidden = true
-            shareLinkButton.isHidden = true
-            shareLinkButton.setImage(arrowUp?.changeAlpha(alpha: 0.0), for: .normal)
-            loadingSpinner.isHidden = true
-            
-            // reset Save to Camera Roll Button (currently hidden)
-            saveToCameraRoll.setTitle("Save", for: .normal)
-            Utilities.styleHollowButton(saveToCameraRoll)
-            saveToCameraRoll.setImage(UIImage(named: "icons8-picture-50"), for: .normal)
-            saveToCameraRoll.isEnabled = true
-        }
+//        else {
+//            // revert to empty state
+//            QRCodeImageView.image = UIImage(named: "QR Border3 TEAL")
+//            qrcodeImage = nil
+////            btnAction.setTitle("Show code",for: .normal)
+//            btnAction.isHidden = false
+//            saveToCameraRoll.isHidden = true
+////            scanToPayLabel.isHidden = true
+//            shareLinkButton.isHidden = true
+//            shareLinkButton.setImage(arrowUp?.changeAlpha(alpha: 0.0), for: .normal)
+//            loadingSpinner.isHidden = true
+//
+//            // reset Save to Camera Roll Button (currently hidden)
+//            saveToCameraRoll.setTitle("Save", for: .normal)
+//            Utilities.styleHollowButton(saveToCameraRoll)
+//            saveToCameraRoll.setImage(UIImage(named: "icons8-picture-50"), for: .normal)
+//            saveToCameraRoll.isEnabled = true
+//        }
     }
     
     func generateQRString() -> String? {
@@ -235,16 +257,22 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
                 
                 // update class variable with amount in cents, so it can be included in dynamic link
                 // first trim off the ".0" at the end
-                let centsInt = Int(receiveAmountCents)
+                let centsInt = Int(float)
                 
                 // required for dynamic link
                 self.receiveAmount = String(centsInt)
                 
                 let receiveAmount7 = Int(receiveAmountCents*7)
                 receiveAmountString = String(receiveAmount7)
+                
+                Analytics.logEvent(Event.QRGenerated.rawValue, parameters: [
+                    EventVar.QRGenerated.generatedAmount.rawValue: float,
+                    EventVar.QRGenerated.generatedCurrency.rawValue: currency
+                ])
             }
         } else {
-            receiveAmountString = ""
+            self.universalShowAlert(title: "Something went wrong", message: "Please ensure you've entered a valid amount", segue: nil, cancel: false)
+            return nil
         }
         
         
@@ -332,6 +360,8 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
         
         saveToCameraRoll.isEnabled = false
         
+        Analytics.logEvent(Event.QRImageSaved.rawValue, parameters: nil)
+        
         // change the look to show it has been selected and is now disabled as a button
         Utilities.styleHollowButtonSELECTED(saveToCameraRoll)
         
@@ -346,12 +376,13 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
         loadingSpinner.isHidden = false
         loadingSpinner.startAnimating()
         
-        let storage = Storage.storage()
         let nowString = "\(Date().timeIntervalSince1970)"
         
         // QR codes will be stored in user's folder under "QRCodes", with the current datetime as a filename (to more or less guarantee uniqueness)
-        let storageRef = storage.reference().child("QRCodes/\(uid)/\(nowString).jpg")
+        let storageRef = Storage.storage().reference().child("QRCodes/\(uid)/\(nowString).jpg")
         
+        // save the storage ref so that it can be deleted if the link expires
+        self.QRDownloadRef = storageRef
         
         guard let uploadData = QR.jpegData(compressionQuality: 0.9) else { return }
 
@@ -367,6 +398,7 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
             
             storageRef.downloadURL { (url, error) in
                 if let downloadURL = url {
+                    
                     self.generateLink(imageURL: downloadURL)
                 }
             }
@@ -374,7 +406,7 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
     }
     
     func generateLink(imageURL: URL) {
-        
+                
         guard let uid = self.uid else { return }
         guard let amount = self.receiveAmount else { return }
         
@@ -399,18 +431,30 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
             return
         }
         
+        // bundleID found programmatically
         if let bundleID = Bundle.main.bundleIdentifier {
             shareLink.iOSParameters = DynamicLinkIOSParameters(bundleID: bundleID)
         }
         
         shareLink.iOSParameters?.appStoreID = "962194608"
         
-        if let homepage = URL(string: "https://www.theverge.com") {
-            shareLink.otherPlatformParameters?.fallbackUrl = homepage
-        }
+//        shareLink.link = imageURL
         
-        // for future Android version!
-//        linkBuilder.androidParameters = DynamicLinkAndroidParameters(packageName: "com.example.android")
+        shareLink.androidParameters = DynamicLinkAndroidParameters()
+        shareLink.androidParameters?.fallbackURL = URL(string: "https://www.wildfirewallet.com/android")
+        
+        shareLink.otherPlatformParameters = DynamicLinkOtherPlatformParameters()
+        shareLink.otherPlatformParameters?.fallbackUrl = imageURL
+        
+//        if let homepage = URL(string: "https://www.wildfirewallet.com/signpost") {
+//            shareLink.otherPlatformParameters?.fallbackUrl = homepage
+////            shareLink.link = homepage
+//        }
+        
+        
+        
+//        // for future Android version!
+//        shareLink.androidParameters = DynamicLinkAndroidParameters(packageName: "com.example.android")
         
         shareLink.socialMetaTagParameters = DynamicLinkSocialMetaTagParameters()
         
@@ -446,9 +490,16 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
     
     @IBAction func shareLinkButtonTapped(_ sender: Any) {
         
-        guard let shareURL = shareLink else { return }
-        
-        showShareMenu(url: shareURL)
+        if linkShouldWork == true {
+            guard let shareURL = shareLink else { return }
+            
+            showShareMenu(url: shareURL)
+            
+            self.linkPressed = true
+        } else {
+            
+            self.universalShowAlert(title: "Please refresh QR", message: "The link has expired. Simply generate the code again and you'll be able to share the link (once you share, it doesn't expire)", segue: nil, cancel: false)
+        }
     }
     
     
@@ -457,6 +508,8 @@ class ReceiveViewController: UIViewController, UITextFieldDelegate {
         let text = "Here's a link to send me £\(amountTextField.text!) with Wildfire"
         let activityVC = UIActivityViewController(activityItems: [text, url], applicationActivities: nil)
         present(activityVC, animated: true)
+        
+        Analytics.logEvent(Event.linkButtonTapped.rawValue, parameters: nil)
     }
     
     @objc func DismissKeyboard(){

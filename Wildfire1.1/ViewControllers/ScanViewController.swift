@@ -12,20 +12,23 @@ import UIKit
 import AVFoundation
 import CryptoSwift
 import FirebaseFunctions
+import FirebaseAnalytics
+import FirebaseAuth
 //import FirebaseDatabase
 
 class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
     
     //setup topbar element
-    @IBOutlet var topbar: UIView!
+//    @IBOutlet var topbar: UIView!
     
     //setup label element for testing
 //    @IBOutlet weak var scannedNumber: UILabel!
     
     
-    var captureSession:AVCaptureSession?
-    var videoPreviewLayer:AVCaptureVideoPreviewLayer?
-    var qrCodeFrameView:UIView?
+    var captureSession: AVCaptureSession?
+    var videoPreviewLayer: AVCaptureVideoPreviewLayer?
+    var QRCodeFrameView: UIView?
+    var redQRCodeFrameView: UIView?
     
     @IBOutlet weak var cancelButton: UIButton!
     //    var ref:DatabaseReference?
@@ -73,16 +76,16 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
         
         Utilities.styleHollowButton(cancelButton)
         
-        if #available(iOS 13.0, *) {
-            let appearance = UINavigationBarAppearance()
-            
-            appearance.configureWithDefaultBackground()
-            
-            UINavigationBar.appearance().scrollEdgeAppearance = appearance
-        } else {
-            self.navigationController?.navigationBar.tintColor = .white
-            self.navigationController?.navigationBar.isTranslucent = true
-        }
+//        if #available(iOS 13.0, *) {
+//            let appearance = UINavigationBarAppearance()
+//
+//            appearance.configureWithDefaultBackground()
+//
+//            UINavigationBar.appearance().scrollEdgeAppearance = appearance
+//        } else {
+//            self.navigationController?.navigationBar.tintColor = .white
+//            self.navigationController?.navigationBar.isTranslucent = true
+//        }
         
 //        self.navigationController!.navigationBar.setBackgroundImage(UIImage(), for: .default)
 //        self.navigationController!.navigationBar.shadowImage = UIImage()
@@ -92,13 +95,7 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
         
         
         // this func triggers Firestore balance to update from MangoPay - useful for the next screen when balance will be fetched
-        self.functions.httpsCallable("getCurrentBalance").call(["foo": "bar"]) { (result, error) in
-            if error != nil {
-                // TODO error handling?
-            } else {
-                // nothing - happy days
-            }
-        }
+        self.functions.httpsCallable("getCurrentBalance").call(["foo": "bar"]) { (result, error) in }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -133,6 +130,7 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
             videoPreviewLayer?.videoGravity = AVLayerVideoGravity.resizeAspectFill
             videoPreviewLayer?.frame = view.layer.bounds
             videoPreviewLayer?.zPosition = -1
+            
             view.layer.addSublayer(videoPreviewLayer!)
             
             
@@ -140,17 +138,26 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
             captureSession!.startRunning()
             
             // Move the message label and top bar to the front
-            view.bringSubviewToFront(topbar)
+//            view.bringSubviewToFront(topbar)
             
             // Initialize QR Code Frame to highlight the QR code
-            qrCodeFrameView = UIView()
+            QRCodeFrameView = UIView()
             
-            if let qrCodeFrameView = qrCodeFrameView {
-                qrCodeFrameView.layer.borderColor = UIColor.blue.cgColor
+            if let qrCodeFrameView = QRCodeFrameView {
+                qrCodeFrameView.layer.borderColor = UIColor(named: "tealPrimary")?.cgColor
                 qrCodeFrameView.layer.borderWidth = 2
                 view.addSubview(qrCodeFrameView)
                 view.bringSubviewToFront(qrCodeFrameView)
-//                print("green box is live")
+            }
+            
+            // Initialize QR Code Frame to highlight a non-Wildfire QR code with a red border
+            redQRCodeFrameView = UIView()
+            
+            if let qrCodeFrameView = redQRCodeFrameView {
+                qrCodeFrameView.layer.borderColor = UIColor(named: "redPrimary")?.cgColor
+                qrCodeFrameView.layer.borderWidth = 2
+                view.addSubview(qrCodeFrameView)
+                view.bringSubviewToFront(qrCodeFrameView)
             }
             
             
@@ -167,45 +174,61 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
         
         if runScan {
             
-        if metadataObjects.count == 0 {
-            qrCodeFrameView?.frame = CGRect.zero
+            if metadataObjects.count == 0 {
+                QRCodeFrameView?.frame = CGRect.zero
+                redQRCodeFrameView?.frame = CGRect.zero
 
-            return
-        }
-        
-        // Get the metadata object.
-        let metadataObj = metadataObjects[0] as! AVMetadataMachineReadableCodeObject
-        
-        
-        if metadataObj.type == AVMetadataObject.ObjectType.qr {
-            // If the found metadata is equal to the QR code metadata then set the coloured square - we haven't yet established it's a Wildfire code but we know it's a QR code
-            let barCodeObject = videoPreviewLayer?.transformedMetadataObject(for: metadataObj)
-            qrCodeFrameView?.frame = barCodeObject!.bounds
+                return
+            }
             
-            // check there's something in the QR code
-            if metadataObj.stringValue != nil {
-
-                // decrypt the QR data - this will either return valid data or "decryption failed" if it's not a Wildfire code
-                let QRRead = decryptQRString(QRstring: metadataObj.stringValue!)
+            // Get the metadata object.
+            let metadataObj = metadataObjects[0] as! AVMetadataMachineReadableCodeObject
+            
+            if metadataObj.type == AVMetadataObject.ObjectType.qr {
+                // If the found metadata is equal to the QR code metadata then set the coloured square - we haven't yet established it's a Wildfire code but we know it's a QR code
+                let barCodeObject = videoPreviewLayer?.transformedMetadataObject(for: metadataObj)
                 
-                // now we know what the situation is, we can respond accordingly. If it's valid, segue to ConfirmViewController (check the prepareForSegue method in this VC for more context), otherwise do nothing and let the user continue scanning
-                if QRRead == false {
-                    return
-                } else {
+                QRCodeFrameView?.frame = barCodeObject!.bounds
+                
+                // check there's something in the QR code
+                if metadataObj.stringValue != nil {
+
+                    // decrypt the QR data - this will either return valid data or "decryption failed" if it's not a Wildfire code
+                    let QRRead = decryptQRString(QRstring: metadataObj.stringValue!)
                     
-                    let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .heavy)
-                    impactFeedbackgenerator.prepare()
-                    impactFeedbackgenerator.impactOccurred()
-                    
-//                    self.finalString = validatedString
-//                    self.runScan == false
-                    performSegue(withIdentifier: "showConfirmScreen", sender: self)
-                    self.captureSession!.stopRunning()
+                    // now we know what the situation is, we can respond accordingly. If it's valid, segue to ConfirmViewController (check the prepareForSegue method in this VC for more context), otherwise do nothing and let the user continue scanning
+                    if QRRead == false {
+                        QRCodeFrameView?.frame = CGRect.zero
+                        redQRCodeFrameView?.frame = barCodeObject!.bounds
+//                        return
+                    } else {
+                        
+                        let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .heavy)
+                        impactFeedbackgenerator.prepare()
+                        impactFeedbackgenerator.impactOccurred()
+                        
+                        if let amount = self.sendAmount, let currency = self.currency {
+                            // amount should be human readable i.e. in natual currency amount
+                            let realAmount = Float(amount)/100
+                            
+                            Analytics.logEvent(Event.QRScanned.rawValue, parameters: [
+                                EventVar.QRScanned.scannedAmount.rawValue: realAmount,
+                                EventVar.QRScanned.scannedCurrency.rawValue: currency,
+                                EventVar.QRScanned.scannedRecipient.rawValue: self.recipientUID
+                            ])
+                        }
+                        
+    //                    self.finalString = validatedString
+    //                    self.runScan == false
+                        performSegue(withIdentifier: "showConfirmScreen", sender: self)
+//                        QRCodeFrameView?.frame = CGRect.zero
+//                        redQRCodeFrameView?.frame = CGRect.zero
+                        
+                        self.captureSession!.stopRunning()
+                        QRCodeFrameView?.frame = CGRect.zero
+                    }
                 }
             }
-        }
-        
-            
         }
     }
     
@@ -252,6 +275,13 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
         
         let uid = String(QRString.suffix(UIDLength))
         
+        
+        // Guard: check the QR code isn't to pay the same user! This will fail on Mangopay's end, so better to handle it here
+        if uid == Auth.auth().currentUser?.uid {
+            
+            return false
+        }
+
         // extract the UID (at time of writing, last 28 characters
         self.recipientUID = uid
         let remaining = QRString.dropLast(UIDLength)
@@ -273,6 +303,7 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
         }
     }
     @IBAction func cancelButtonTapped(_ sender: Any) {
+//        self.performSegue(withIdentifier: "unwindToPrevious", sender: self)
         self.dismiss(animated: true, completion: nil)
     }
     

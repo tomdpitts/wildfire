@@ -9,6 +9,8 @@
 import UIKit
 import Contacts
 import FirebaseCrashlytics
+import FirebaseAnalytics
+import Firebase
 
 class PayViewController: UIViewController {
     
@@ -20,18 +22,18 @@ class PayViewController: UIViewController {
         super.viewDidLoad()
         
         setUpElements()
-//        let button = UIButton(type: .roundedRect)
-//        button.frame = CGRect(x: 20, y: 250, width: 100, height: 30)
-//        button.setTitle("Crash", for: [])
-//        button.addTarget(self, action: #selector(self.crashButtonTapped(_:)), for: .touchUpInside)
-//        view.addSubview(button)
+
+    }
+
+    
+    override func viewWillAppear(_ animated: Bool) {
+        navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+        navigationItem.setHidesBackButton(false, animated: false)
     }
     
-//    @IBAction func crashButtonTapped(_ sender: AnyObject) {
-//        fatalError()
-//    }
-    
     @IBAction func sendButtonTapped(_ sender: Any) {
+        
+        Analytics.logEvent("test3_sendTapped", parameters: [EventVar.creditAdded.creditAmount.rawValue: EventVar.KYCUploaded.kycTypeOptions.IDCard.rawValue])
         
         CNContactStore().requestAccess(for: .contacts) { (granted, error) in
             if let error = error {
@@ -49,9 +51,11 @@ class PayViewController: UIViewController {
                     
         
     }
-    //    override func viewWillAppear(_ animated: Bool) {
+    
+//    override func viewWillAppear(_ animated: Bool) {
 //        super.viewWillAppear(animated)
-//        navigationController?.setNavigationBarHidden(true, animated: animated)
+////        addRectAndWhiteOpenSans(title: " PAY ")
+////        navigationController?.setNavigationBarHidden(true, animated: animated)
 //    }
     
 //    override func viewWillDisappear(_ animated: Bool) {

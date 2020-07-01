@@ -10,6 +10,7 @@ import UIKit
 import FirebaseFunctions
 import FirebaseFirestore
 import FirebaseAuth
+import FirebaseAnalytics
 import SwiftyJSON
 
 class AddCard2TableViewController: UITableViewController, UITextFieldDelegate {
@@ -67,6 +68,7 @@ class AddCard2TableViewController: UITableViewController, UITextFieldDelegate {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         line1TextField.becomeFirstResponder()
+        navigationController?.interactivePopGestureRecognizer?.isEnabled = true
     }
     
 
@@ -83,12 +85,14 @@ class AddCard2TableViewController: UITableViewController, UITextFieldDelegate {
             
             // This means there's something wrong with the fields, so show error message
             showError(error!)
+            return
+            
         } else {
             
             self.showSpinner(titleText: "Adding card", messageText: "Please allow up to 30 seconds")
             
             // kill the button to prevent retries
-            submitButton.isEnabled = false
+//            submitButton.isEnabled = false
             
             var accessKey = ""
             var preregistrationData = ""
@@ -98,13 +102,12 @@ class AddCard2TableViewController: UITableViewController, UITextFieldDelegate {
             
             
             // Semaphore is used to ensure async API calls aren't triggered before all the relevant data is ready - they have to be sequential
-            let semaphore = DispatchSemaphore(value: 1)
+//            let semaphore = DispatchSemaphore(value: 1)
             
             var mangopayID = ""
             
             if let mpID = UserDefaults.standard.string(forKey: "mangopayID") {
                 mangopayID = mpID
-                print(mpID)
             }
             
             // fields have passed validation - so continue
@@ -117,11 +120,13 @@ class AddCard2TableViewController: UITableViewController, UITextFieldDelegate {
 //                    }
 //                    // ...
 //                }
-                semaphore.wait()
+//                semaphore.wait()
                 
                 if let error = error {
-                    self.universalShowAlert(title: "Oops", message: "Something went wrong: \(error.localizedDescription)", segue: nil, cancel: false)
-                    self.removeSpinner()
+                    self.removeSpinnerWithCompletion {
+                        self.universalShowAlert(title: "Oops", message: "Something went wrong: \(error.localizedDescription)", segue: nil, cancel: false)
+                    }
+                    return
                 }
                 
                 if let returnedArray = result?.data as? [[String: Any]] {
@@ -153,9 +158,7 @@ class AddCard2TableViewController: UITableViewController, UITextFieldDelegate {
                     let walletIdData = JSON(returnedArray[1])
                     
                     if let walletID = walletIdData["walletID"].string {
-                    
-                        semaphore.signal()
-                    
+                                        
                         let body = [
                             "accessKeyRef": accessKey,
                             "data": preregistrationData,
@@ -167,24 +170,15 @@ class AddCard2TableViewController: UITableViewController, UITextFieldDelegate {
                         // send card details to Mangopay's tokenization server, and get a RegistrationData object back as response
                         self.networkingClient.postCardInfo(url: cardRegURL, parameters: body) { (response, error) in
                             
-                            
-                            
-                            if let err = error {
+                            if error != nil {
                                 
-                                // TODO error handling
-                                print(err)
-                                self.removeSpinner()
+                                self.removeSpinnerWithCompletion {
+                                    self.universalShowAlert(title: "Something went wrong", message: "Nothing to worry about, the connection seems to have dropped. Please check your internet and try again. (If the problem persists, please contact support@wildfirewallet.com)", segue: nil, cancel: false)
+                                }
+                                return
                             }
-                            print(response)
-                            
-                            
-                            semaphore.wait()
                             
                             regData = String(response)
-                            
-                            semaphore.signal()
-                            
-                            
 
                             // now pass the RegistrationData object to callable Cloud Function which will complete the Card Registration and store the CardId in Firestore (this whole process is a secure way to store the user's card without having their sensitive info ever touch our server)
                             // N.B. we send the wallet ID received earlier so that the Cloud Function can store the final CardID under the user's Firestore wallet entry (the correct wallet - they could have multiple)
@@ -192,12 +186,18 @@ class AddCard2TableViewController: UITableViewController, UITextFieldDelegate {
 
                                 if let error = error {
                                     
-                                    self.universalShowAlert(title: "Oops", message: "Something went wrong: \(error.localizedDescription)", segue: nil, cancel: false)
-                                    // revive the button to prevent retries
-                                    self.submitButton.isEnabled = true
-                                    self.removeSpinner()
+                                    self.removeSpinnerWithCompletion {
+                                        
+                                        self.universalShowAlert(title: "Oops", message: "Something went wrong: \(error.localizedDescription)", segue: nil, cancel: false)
+                                        // revive the button to prevent retries
+                                        self.submitButton.isEnabled = true
+                                    }
                                 } else {
                                     
+                                    Analytics.logEvent(Event.paymentMethodAdded.rawValue, parameters: [
+                                        EventVar.paymentMethodAdded.paymentMethodType.rawValue: EventVar.paymentMethodAdded.paymentMethodTypeOptions.card.rawValue
+                                    ])
+
 //                                    self.submitButton.isEnabled = true
                                     
                                     let cardID = result?.data as! String
@@ -207,10 +207,9 @@ class AddCard2TableViewController: UITableViewController, UITextFieldDelegate {
                                     let appDelegate = AppDelegate()
                                     appDelegate.listCardsFromMangopay() { () in
                                         
-                                        self.removeSpinner()
-                                        
-                                        self.performSegue(withIdentifier: "showSuccessScreen", sender: self)
-                                        
+                                        self.removeSpinnerWithCompletion {
+                                            self.performSegue(withIdentifier: "showSuccessScreen", sender: self)
+                                        }
                                     }
 
                                     // leaving makeDefault as true by default for now
@@ -219,24 +218,40 @@ class AddCard2TableViewController: UITableViewController, UITextFieldDelegate {
                             }
                         }
                     }
+                } else {
+                    self.removeSpinnerWithCompletion {
+                        // unlikely to be the connection in this case, instead
+                        self.universalShowAlert(title: "Something went wrong", message: "This is an unusual one - sorry about this. All your details are secure and the tech team has been notified to look into the issue. Please allow 48 hours for this to be resolved. You can also contact us on support@wildfirewallet.com", segue: nil, cancel: false)
+                        
+                        Analytics.logEvent("improperCardInfoReturnedFromMangopay", parameters: nil)
+                    }
                 }
             }
         }
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        return !autoCompleteText(in: textField, using: string, suggestions: self.countries)
+        
+        if textField == countryTextField {
+            return !autoCompleteText(in: textField, using: string, suggestions: self.countries)
+        } else {
+            return true
+        }
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        // Try to find next responder
-        if let nextField = textField.superview?.superview?.superview?.viewWithTag(textField.tag + 1) as? UITextField {
-            nextField.becomeFirstResponder()
-        } else {
-            // Not found, so remove keyboard.
-            textField.resignFirstResponder()
+        
+        switch textField {
+            case line1TextField: line2TextField.becomeFirstResponder()
+            case line2TextField: cityTextField.becomeFirstResponder()
+            case cityTextField: regionTextField.becomeFirstResponder()
+            case regionTextField: postcodeTextField.becomeFirstResponder()
+            case postcodeTextField: countryTextField.becomeFirstResponder()
+            case countryTextField: countryTextField.resignFirstResponder()
+            default: textField.resignFirstResponder()
         }
-        return true
+        
+        return false
     }
     
     func autoCompleteText(in textField: UITextField, using string: String, suggestions: [String]) -> Bool {
@@ -258,7 +273,7 @@ class AddCard2TableViewController: UITableViewController, UITextFieldDelegate {
             
             var fixedCountries: [String] = []
             for country in matches  {
-                let reverted = country.firstUppercased
+                let reverted = country.localizedCapitalized
                 fixedCountries.append(reverted)
             }
             
@@ -314,7 +329,7 @@ class AddCard2TableViewController: UITableViewController, UITextFieldDelegate {
                 "defaultBillingAddress": ["line1": line1, "line2": line2,"city": cityName, "region": region,"postcode": postcode,"country": countryCode!], "defaultCardID": cardID
             ]
             
-            // adding cardID to database here because async functions aren't working as expected and this is easier 
+            // adding cardID to database here because cloud functions aren't working as expected and this is easier
             
         Firestore.firestore().collection("users").document(uid).collection("wallets").document(walletID).collection("cards").document(cardID).setData(addressData
             // merge: true is IMPORTANT - prevents complete overwriting of a document if a user logs in for a second time, for example, which could wipe important data (including the balance..)
@@ -330,7 +345,7 @@ class AddCard2TableViewController: UITableViewController, UITextFieldDelegate {
                        // print(result!.user.uid)
                        if error != nil {
                            // Show error message
-                        print("address adding failed2")
+                    
                        } else {
                            print("address should have been added")
                        }
@@ -360,7 +375,7 @@ class AddCard2TableViewController: UITableViewController, UITextFieldDelegate {
             {
             return "Please fill in all fields."
         } else if localeFinder(for: country) == nil {
-            return "Country was not recognised - please re-enter country until autocorrect completes it"
+            return "Please re-enter country until autocorrect completes it"
         } else {
             return nil
 //                if cardNumber.count != 16 {

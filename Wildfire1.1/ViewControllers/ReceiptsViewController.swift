@@ -67,7 +67,10 @@ class ReceiptsViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let label = UILabel()
-        label.backgroundColor = UIColor(red: 218/255.0, green: 218/255.0, blue: 218/255.0, alpha: 1)
+        label.backgroundColor = .black
+        label.textColor = .white
+        label.font = UIFont(name: "OpenSans-Bold", size: 17)
+        
         label.text = " " + transactionDates[section]
         return label
     }
@@ -107,7 +110,7 @@ class ReceiptsViewController: UITableViewController {
     func fetchTransactions(completion: @escaping ()->()) {
         
         let formatter = DateFormatter()
-        formatter.dateFormat = "E, d MMM yyyy"
+        formatter.dateFormat = "d MMM yyyy"
         
         
         if let uid = uid {

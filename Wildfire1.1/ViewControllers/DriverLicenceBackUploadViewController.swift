@@ -8,6 +8,7 @@
 
 import UIKit
 import FirebaseFunctions
+import FirebaseAnalytics
 import AlamofireImage
 
 class DriverLicenceBackUploadViewController: UIViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
@@ -35,6 +36,10 @@ class DriverLicenceBackUploadViewController: UIViewController, UINavigationContr
         pictureView.layer.borderColor = UIColor(hexString: "#39C3C6").cgColor
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+    }
+    
     @IBAction func confirmButtonTapped(_ sender: Any) {
         guard let frontImage = self.frontImage else { return }
         guard let backImage = self.pictureView.image else { return }
@@ -47,7 +52,7 @@ class DriverLicenceBackUploadViewController: UIViewController, UINavigationContr
             
             // and scale a version to display (possibly not strictly necessary)
             let size = CGSize(width: self.pictureView.frame.width, height: self.pictureView.frame.height)
-            let aspectScaleImage = image.af.imageAspectScaled(toFill: size)
+            let aspectScaleImage = image.af.imageAspectScaled(toFit: size)
             
             self.pictureView.image = aspectScaleImage
             // contentMode needs to be updated from "center" (which ensures the icons8 'rescan'icon doesn't look stretched or blurry) to scaleAspectFill to best render the image
@@ -80,14 +85,20 @@ class DriverLicenceBackUploadViewController: UIViewController, UINavigationContr
         
         functions.httpsCallable("addKYCDocument").call(["mangopayID": mangopayID, "pages": pages, "firstBase64Image": frontImageToUpload, "secondBase64Image": backImageToUpload]) { (result, error) in
 
-            self.removeSpinner()
-            if error != nil {
-                self.showAlert(title: "That didn't work for some reason", message: "Sorry about that. This just means we couldn't complete the upload. Please ensure you have an internet connection and try again.")
-                self.editImageButton.isEnabled = true
-                self.confirmButton.isEnabled = true
-            } else {
-                UserDefaults.standard.set(true, forKey: "KYCPending")
-                self.performSegue(withIdentifier: "showKYCSuccessScreen", sender: self)
+            self.removeSpinnerWithCompletion {
+                if error != nil {
+                    self.showAlert(title: "That didn't work for some reason", message: "Sorry about that. This just means we couldn't complete the upload. Please ensure you have an internet connection and try again.")
+                    self.editImageButton.isEnabled = true
+                    self.confirmButton.isEnabled = true
+                } else {
+                    
+                    Analytics.logEvent(Event.KYCUploaded.rawValue, parameters: [
+                        EventVar.KYCUploaded.kycType.rawValue: EventVar.KYCUploaded.kycTypeOptions.driverLicence.rawValue
+                    ])
+                    
+                    UserDefaults.standard.set(true, forKey: "KYCPending")
+                    self.performSegue(withIdentifier: "showKYCSuccessScreen", sender: self)
+                }
             }
         }
         return

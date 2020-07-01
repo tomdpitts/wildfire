@@ -9,9 +9,8 @@
 import UIKit
 import Contacts
 
-class ContactsViewController: UITableViewController, UISearchResultsUpdating {
+class ContactsViewController: UITableViewController, UISearchResultsUpdating, UISearchBarDelegate {
     
-
     let cellID = "cell123123"
     
     var names = [String]()
@@ -33,7 +32,6 @@ class ContactsViewController: UITableViewController, UISearchResultsUpdating {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // can't remember what this does - try google
         navigationController?.interactivePopGestureRecognizer?.delegate = nil
     
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellID)
@@ -45,6 +43,8 @@ class ContactsViewController: UITableViewController, UISearchResultsUpdating {
             controller.searchResultsUpdater = self
             controller.obscuresBackgroundDuringPresentation = false
             controller.searchBar.sizeToFit()
+            controller.searchBar.barTintColor = .white
+//            controller.searchBar.delegate = self
 
             tableView.tableHeaderView = controller.searchBar
             
@@ -71,15 +71,34 @@ class ContactsViewController: UITableViewController, UISearchResultsUpdating {
         self.tableView.reloadData()
     }
     
+
+//    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+//        // do your thing
+//    }
+//
+//    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+//        resultSearchController.searchBar.resignFirstResponder()
+//    }
+//
+//    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+//        resultSearchController.searchBar.resignFirstResponder()
+//    }
+
+//    func updateSearchResultsForSearchController(searchController: UISearchController) {
+//
+//    }
+    
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let label = UILabel()
-        label.backgroundColor = UIColor.lightGray
+        label.backgroundColor = .black
+        label.textColor = .white
+        label.font = UIFont(name: "OpenSans-Bold", size: 17)
         
         if (resultSearchController.isActive) {
-            label.text = " Results"
+            label.text = "  Results"
         } else {
             if let startsWith = contactsGrouped[section].first?.givenName.prefix(1) {
-                label.text = String(" " + startsWith)
+                label.text = String("  " + startsWith)
             }
         }
         
@@ -154,7 +173,6 @@ class ContactsViewController: UITableViewController, UISearchResultsUpdating {
                             if mobile.prefix(1) == "+" {
                                 let person = Contact(givenName: contact.givenName, familyName: contact.familyName, fullName: name, phoneNumber: mobile, uid: nil)
                                 
-                                print("mobile number is: \(mobile)")
                                 self.contactsList.append(person)
                             }
                         }
@@ -266,11 +284,16 @@ class ContactsViewController: UITableViewController, UISearchResultsUpdating {
         
         if (resultSearchController.isActive) {
             self.selectedContact = self.filteredTableData[indexPath.row]
+            self.resultSearchController.dismiss(animated: false) {
+                self.performSegue(withIdentifier: "goToSend2", sender: self)
+            }
+            
         } else {
             self.selectedContact = self.contactsGrouped[indexPath.section][indexPath.row]
+            self.performSegue(withIdentifier: "goToSend2", sender: self)
         }
 
-        performSegue(withIdentifier: "goToSend2", sender: self)
+        
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

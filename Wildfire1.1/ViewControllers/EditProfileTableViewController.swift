@@ -24,6 +24,21 @@ class EditProfileTableViewController: UITableViewController {
         
     @IBOutlet weak var saveButton: UIBarButtonItem!
     
+    override func viewDidLoad() {
+        
+        super.viewDidLoad()
+        
+        setUpTextFields()
+
+        tableView.tableFooterView = UIView()
+        tableView.backgroundColor = .groupTableViewBackground
+        
+        saveButton.isEnabled = false
+        saveButton.title = ""
+        showProfilePic()
+        
+    }
+    
     @IBAction func nameEdited(_ sender: Any) {
         saveButton.isEnabled = true
         saveButton.title = "Save"
@@ -52,19 +67,8 @@ class EditProfileTableViewController: UITableViewController {
         }
     }
     
-    override func viewDidLoad() {
-        
-        super.viewDidLoad()
-        
-        setUpTextFields()
-
-        tableView.tableFooterView = UIView()
-        tableView.backgroundColor = .groupTableViewBackground
-        
-        saveButton.isEnabled = false
-        saveButton.title = ""
-        showProfilePic()
-        
+    override func viewDidAppear(_ animated: Bool) {
+        navigationController?.interactivePopGestureRecognizer?.isEnabled = true
     }
 
     override func numberOfSections(in tableView: UITableView) -> Int {

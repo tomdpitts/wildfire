@@ -9,6 +9,7 @@
 import UIKit
 import Alamofire
 import FirebaseFunctions
+import FirebaseAnalytics
 
 class CardDetailsViewController: UIViewController {
     
@@ -40,6 +41,10 @@ class CardDetailsViewController: UIViewController {
 //        let red = UIColor(hexString: "#C63C39")
 //        deleteButton.setTitleColor(red, for: UIControl.State.normal)
         
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        navigationController?.interactivePopGestureRecognizer?.isEnabled = true
     }
     
     @IBAction func deleteCardButtonTapped(_ sender: Any) {
@@ -82,10 +87,16 @@ class CardDetailsViewController: UIViewController {
                 self.universalShowAlert(title: "Oops", message: "Something went wrong. Please try to delete the card again.", segue: nil, cancel: false)
             }
             
+            Analytics.logEvent(Event.paymentMethodDeleted.rawValue, parameters: [
+                EventVar.paymentMethodDeleted.paymentMethodType.rawValue: EventVar.paymentMethodDeleted.paymentMethodTypeOptions.card.rawValue
+            ])
+
+            
             let appDelegate = AppDelegate()
             appDelegate.listCardsFromMangopay() { () in
-                self.removeSpinner()
-                completion()
+                self.removeSpinnerWithCompletion {
+                    completion()
+                }
             }
         }
         

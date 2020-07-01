@@ -27,15 +27,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
     var window: UIWindow?
     var timestamp: Int64?
+    var currentDate: String?
 
-    
     lazy var functions = Functions.functions(region:"europe-west1")
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
+        // this is deprecated but can't find a clean solution
+        UIApplication.shared.isStatusBarHidden = false
+        
         FirebaseApp.configure()
+        Analytics.setAnalyticsCollectionEnabled(true)
+        
+        application.registerForRemoteNotifications()
+        Messaging.messaging().delegate = self
         
         if let currentUserID = Auth.auth().currentUser?.uid {
             Crashlytics.crashlytics().setUserID(currentUserID)
@@ -54,16 +61,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
             application.registerUserNotificationSettings(settings)
         }
-        application.registerForRemoteNotifications()
-        Messaging.messaging().delegate = self
-        
-        
-//        ApplicationDelegate.sharedInstance()?.application(application, didFinishLaunchingWithOptions: launchOptions)
-        
-//        // used to store profile pic cache key across sessions, to save from having to download it again from Storage
-//        let defaults = UserDefaults.standard
-//        let defaultValue = ["profilePicCacheKey": ""]
-//        defaults.register(defaults: defaultValue)
         
         // check whether the user has completed signup flow 
         if UserDefaults.standard.bool(forKey: "userAccountExists") != true {
@@ -82,28 +79,69 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         redirect()
 //        setupNavigationBarAppearance()
         
+        fetchBankAccountsListFromMangopay() {}
+        listCardsFromMangopay() {}
         
+        let date = Date()
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd.MM.yyyy"
+        let today = formatter.string(from: date)
+
+        if self.currentDate != today {
+             DispatchQueue.main.asyncAfter(deadline: .now() + 10) { [unowned self] in
+                 // delay allows notification handler to deal with KYC updates
+                 // the potential danger to avoid is having two Indentical views presented one after the other - this func is only supposed to be a fallback
+                 if UserDefaults.standard.bool(forKey: "KYCPending") {
+                     self.checkForKYCCompletion()
+                 } else {
+                     // do nothing - KYC is not pending, no need to check for an update
+                 }
+             }
+         } else {
+             // do nothing - KYC is still pending but the function was last run on the same day, no need to do it again
+         }
+         
+
+
+        // this checks for KYC status one time upon the app's first launch. This means users who are reinstalling don't have to repeat KYC checks if they're already done
+        if !UserDefaults.standard.bool(forKey: "KYCVerified") && !UserDefaults.standard.bool(forKey: "appHasPreviouslyBeenOpened") {
+
+            DispatchQueue.main.asyncAfter(deadline: .now() + 10) { [unowned self] in
+                // delay allows notification handler to deal with KYC updates - this will also set "KYCPending" setting in UserDefaults to false, so this func won't trigger anything
+                // the potential danger to avoid is having two Indentical views presented one after the other - this func is only supposed to be a fallback
+                self.checkForKYCCompletion()
+
+                UserDefaults.standard.set(true, forKey: "appHasPreviouslyBeenOpened")
+            }
+        }
         
         return true
     }
-    // Update: no longer using Facebook integration for time being so parking this
-//    // this is a facebook-specific function required for compatibility with older iOS versions (<9.0 afaik)
-//    func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
+    
+    
+//    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+//        Messaging.messaging().apnsToken = deviceToken
+//        print("Device Token: ")
+//        print(deviceToken)
 //
-//        return ApplicationDelegate.sharedInstance().application(application, open: url, sourceApplication: sourceApplication, annotation: annotation)
 //    }
-
+//
+//    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+//
+//            print(error.localizedDescription)
+//            print("Not registered notification")
+//    }
+    
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
-        Account2ViewController.listener?.remove()
+
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-        
-        Account2ViewController.listener?.remove()
+
         
         self.timestamp = Date().toSeconds()
         
@@ -116,6 +154,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
 //        listCardsFromMangopay()
 //        redirect()
+//        Analytics.logEvent("app_opened", parameters: nil)
         
     }
 
@@ -229,6 +268,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                     }
                     
                     if currentController == HomeViewController() {
+                        print("current VC == HomeViewController")
                         // TODO this needs testing
                         // the idea is that if a user taps on a link when Wildfire wasn't open recently, redirect() will kick in and authenticate user. So far so good, but if auth is successful and the confirmVC is dismissed, the user is dumped on the blank homescreen. Adding this stack of VCs in the case where redirect() has been triggered should mean dismissing ConfirmVC reveals the Pay VC as usual.
                         
@@ -257,6 +297,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                         
                     } else {
                                             
+                        print("current VC != HomeViewController")
                         if let confirmViewController = storyboard.instantiateViewController(withIdentifier: "confirmVC") as? ConfirmViewController {
                         
                             confirmViewController.recipientUID = recipientID
@@ -274,13 +315,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
     
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String) {
-
-        let dataDict:[String: String] = ["token": fcmToken]
-        NotificationCenter.default.post(name: Notification.Name("FCMToken"), object: nil, userInfo: dataDict)
-
         // Note: This callback is fired at each app startup and whenever a new token is generated.
         
+        print("fcmToken is: " + fcmToken)
+
+        // register the delegate and add the proper delegate method
+        // (https://firebase.google.com/docs/cloud-messaging/ios/client)
+        let dataDict:[String: String] = ["token": fcmToken]
+        NotificationCenter.default.post(name: Notification.Name("FCMToken"), object: nil, userInfo: dataDict)
+        
+        // save the token
+        // this is so that it can be saved to Firestore in the event that user creates an account (formStep3ViewController)
         UserDefaults.standard.set(fcmToken, forKey: "fcmToken")
+        
+        // this updates Firebase if a new token is received
+        // N.B. it's important not to add the value to firestore if the user hasn't created an account yet, otherwise other parts of the app won't work, particularly the Account View. Check a user account exists first, and if so, update the token.
+        if UserDefaults.standard.bool(forKey: "userAccountExists") {
+            guard let uid = Auth.auth().currentUser?.uid else { return }
+            Firestore.firestore().collection("users").document(uid).updateData(["fcmToken": fcmToken])
+        }
     }
     
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any],
@@ -290,19 +343,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
         // With swizzling disabled you must let Messaging know about the message, for Analytics
         // Messaging.messaging().appDidReceiveMessage(userInfo)
-        
+                
         guard let eventType = userInfo["eventType"] as? String else { return }
         
 //        let mainStoryboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         
+        
         if eventType == "KYC_SUCCEEDED" {
-            
+                        
             UserDefaults.standard.set(false, forKey: "KYCWasRefused")
             UserDefaults.standard.set(false, forKey: "KYCPending")
             UserDefaults.standard.set(true, forKey: "KYCVerified")
             
+            Analytics.logEvent(Event.KYCAccepted.rawValue, parameters: nil)
             
-            if let controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "IDVerified") as? OutcomeIDVerifiedViewController {
+            if let controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "IDVerified") as? KYCVerifiedViewController {
                 if let window = self.window, let rootViewController = window.rootViewController {
                     if #available(iOS 13.0, *) {
                         window.overrideUserInterfaceStyle = .light
@@ -311,6 +366,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                     while let presentedController = currentController.presentedViewController {
                         currentController = presentedController
                     }
+                    
                     currentController.present(controller, animated: true, completion: nil)
                 }
             }
@@ -321,30 +377,45 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             UserDefaults.standard.set(false, forKey: "KYCPending")
             UserDefaults.standard.set(false, forKey: "KYCVerified")
             
-            guard let refusedMessage = userInfo["refusedMessage"] as? String else {
-                return
+            Analytics.logEvent(Event.KYCRejected.rawValue, parameters: nil)
+            
+            var refusedMessage = userInfo["refusedMessage"]
+            var refusedType = userInfo["refusedType"]
+            
+            if refusedMessage == nil {
+                refusedMessage = ""
             }
-            guard let refusedType = userInfo["refusedType"] as? String else {
-                return
+            
+            if refusedType == nil {
+                refusedType = ""
             }
             
             UserDefaults.standard.set(refusedMessage, forKey: "refusedMessage")
             UserDefaults.standard.set(refusedType, forKey: "refusedType")
             
             
-            if let controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "IDRefused") as? OutcomeIDRefusedViewController {
+            if let controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "IDRefused") as? KYCRefusedViewController {
                 if let window = self.window, let rootViewController = window.rootViewController {
                     if #available(iOS 13.0, *) {
                         window.overrideUserInterfaceStyle = .light
                     }
+                    
+                    // this gets the currently presented VC
                     var currentController = rootViewController
                     while let presentedController = currentController.presentedViewController {
                         currentController = presentedController
                     }
-                    currentController.present(controller, animated: true, completion: nil)
+                    
+                    // programmatically embed the destination VC (in this case, KYCRefusedViewController) in a nav controller
+                    let navigationController = UINavigationController(rootViewController: controller)
+
+                    currentController.present(navigationController, animated: true, completion: nil)
+                    
                 }
             }
+            
         } else if eventType == "TRANSFER_NORMAL_SUCCEEDED" {
+            
             guard let authorName = userInfo["authorName"] as? String else {
                 return
             }
@@ -354,6 +425,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             guard let amount = userInfo["amount"] as? String else {
                 return
             }
+            
+            Analytics.logEvent(Event.receivedSuccess.rawValue, parameters: [
+                // amount should already be correctly formatted? 
+                EventVar.receivedSuccess.receivedAmount.rawValue: amount,
+                EventVar.receivedSuccess.currency.rawValue: currency
+            ])
             
             if let controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "NotificationPaymentReceived") as? NotificationPaymentReceivedViewController {
                 
@@ -380,8 +457,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
     
     func redirect() {
-        
-        // TODO if no connectivity, prevent user from progressing
         
         // check if they are logged in already
         let uid = Auth.auth().currentUser?.uid
@@ -420,9 +495,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             }
             
         } else {
-            
-            print ("uid was nil")
-            
+                        
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let homeVC = storyboard.instantiateViewController(withIdentifier: "HomeVC") as! HomeViewController
             let phoneVC = storyboard.instantiateViewController(withIdentifier: "verifyMobile") as! PhoneViewController
@@ -432,19 +505,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             navController.pushViewController(homeVC, animated: false)
             navController.pushViewController(phoneVC, animated: true)
             
-//            self.window = UIWindow(frame: UIScreen.main.bounds)
-//            if #available(iOS 13.0, *) {
-//                window?.overrideUserInterfaceStyle = .light
-//            }
-            
-            // untested change - "homeVC" on this line used to be "navController"
             self.window?.rootViewController = navController
             self.window?.tintColor = UIColor(named: "tealPrimary")
             self.window?.makeKeyAndVisible()
         }
     }
     
-    func listCardsFromMangopay(completion: @escaping ()->()) {
+    func listCardsFromMangopay(completion: @escaping () -> Void) {
         
         let mpID: String? = UserDefaults.standard.string(forKey: "mangopayID")
         
@@ -486,13 +553,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }
     }
     
-    func fetchBankAccountsListFromMangopay(completion: @escaping ()->()) {
+    func fetchBankAccountsListFromMangopay(completion: @escaping () -> Void) {
         
         let mpID: String? = UserDefaults.standard.string(forKey: "mangopayID")
         
         functions.httpsCallable("listBankAccounts").call(["mpID": mpID]) { (result, error) in
 
             if let bankAccountList = result?.data as? [[String: Any]] {
+                
                 let defaults = UserDefaults.standard
 
                 defaults.set(bankAccountList.count, forKey: "numberOfBankAccounts")
@@ -505,10 +573,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                         var accountID = ""
                         var accountHolderName = ""
                         var type = ""
-                        var IBAN = ""
-                        var SWIFTBIC = ""
-                        var accountNumber = ""
-                        var country = ""
+                        var IBAN: String?
+                        var SWIFTBIC: String?
+                        var accountNumber: String?
+                        var sortCode: String?
+                        var country: String?
 
                         let blob1 = bankAccountList[i-1]
                         
@@ -534,12 +603,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                         if let an = blob1["AccountNumber"] as? String {
                             accountNumber = an
                         }
+                        
+                        if let sc = blob1["SortCode"] as? String {
+                            sortCode = sc
+                        }
 
                         if let cn = blob1["Country"] as? String {
                             country = cn
                         }
                         
-                        let bankAccount = BankAccount(accountID: accountID, accountHolderName: accountHolderName, type: type, IBAN: IBAN, SWIFTBIC: SWIFTBIC, accountNumber: accountNumber, country: country)
+                        let bankAccount = BankAccount(accountID: accountID, accountHolderName: accountHolderName, type: type, IBAN: IBAN, SWIFTBIC: SWIFTBIC, accountNumber: accountNumber, sortCode: sortCode, country: country)
 
                         // save BankAccount object to User Defaults
                         defaults.set(try? PropertyListEncoder().encode(bankAccount), forKey: "bankAccount\(i)")
@@ -551,6 +624,103 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
             } else {
                 completion()
+            }
+        }
+    }
+    
+    // this func is only triggered when user has uploaded KYC and is awaiting verification, or is opening app for the first time
+    func checkForKYCCompletion() {
+        
+        self.functions.httpsCallable("checkForKYCUpdate").call(["foo": "bar"]) { (result, error) in
+            
+            if error != nil {
+                
+            } else {
+                
+                if let result = result?.data as? [String: String] {
+                    
+                    if let status = result["status"] {
+                        
+                        let date = Date()
+                        let formatter = DateFormatter()
+                        formatter.dateFormat = "dd.MM.yyyy"
+                        let today = formatter.string(from: date)
+                        
+                        // reset the clock so this func doesn't run again until tomorrow at the earliest
+                        self.currentDate = today
+                        
+                        if status == "VALIDATED" {
+                            
+                            UserDefaults.standard.set(false, forKey: "KYCPending")
+                            UserDefaults.standard.set(false, forKey: "KYCWasRefused")
+                            UserDefaults.standard.set(true, forKey: "KYCVerified")
+                            
+                            Analytics.logEvent(Event.KYCAccepted.rawValue, parameters: nil)
+                            
+                            if let controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "IDVerified") as? KYCVerifiedViewController {
+                                if let window = self.window, let rootViewController = window.rootViewController {
+                                    if #available(iOS 13.0, *) {
+                                        window.overrideUserInterfaceStyle = .light
+                                    }
+                                    
+                                    var currentController = rootViewController
+                                    while let presentedController = currentController.presentedViewController {
+                                        currentController = presentedController
+                                    }
+                                    
+                                    currentController.present(controller, animated: true, completion: nil)
+                                }
+                            }
+                            
+                        } else if status == "REFUSED" {
+                            
+                            UserDefaults.standard.set(false, forKey: "KYCPending")
+                            UserDefaults.standard.set(true, forKey: "KYCWasRefused")
+                            UserDefaults.standard.set(false, forKey: "KYCVerified")
+                            
+                            Analytics.logEvent(Event.KYCRejected.rawValue, parameters: nil)
+                            
+                            var refusedMessage = result["refusedMessage"]
+                            var refusedType = result["refusedType"]
+                            
+                            if refusedMessage == nil {
+                                refusedMessage = ""
+                            }
+                            
+                            if refusedType == nil {
+                                refusedType = ""
+                            }
+                            
+                            UserDefaults.standard.set(refusedMessage, forKey: "refusedMessage")
+                            UserDefaults.standard.set(refusedType, forKey: "refusedType")
+                            
+                            if let controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "IDRefused") as? KYCRefusedViewController {
+                                if let window = self.window, let rootViewController = window.rootViewController {
+                                    if #available(iOS 13.0, *) {
+                                        window.overrideUserInterfaceStyle = .light
+                                    }
+                                    
+                                    // this gets the currently presented VC
+                                    var currentController = rootViewController
+                                    while let presentedController = currentController.presentedViewController {
+                                        currentController = presentedController
+                                    }
+                                    
+                                    // programmatically embed the destination VC (in this case, KYCRefusedViewController) in a nav controller
+                                    let navigationController = UINavigationController(rootViewController: controller)
+
+                                    currentController.present(navigationController, animated: true, completion: nil)
+                                }
+                            }
+                            
+                        } else {
+                            // either mangopayID or the KYCDocID couldn't be found in Firestore
+                            // TODO handle this case, leaving for now
+                        }
+                    }
+                } else {
+                    print("result didn't come back in the format expected")
+                }
             }
         }
     }
@@ -569,7 +739,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 //    }
     
 
-    func setupNavigationBarAppesds12331233457865arance() {
+//    func setupNavigationBarAppesds12331233457865arance() {
 ////        UINavigationBar.appearance().barTintColor = .blue
 ////        UINavigationBar.appearance().tintColor = .white
 ////        UINavigationBar.appearance().isTranslucent = false
@@ -599,7 +769,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 //
 //
 //        }
-    }
+//    }
 }
 
 extension Date {

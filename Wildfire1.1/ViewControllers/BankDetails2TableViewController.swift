@@ -10,11 +10,12 @@ import UIKit
 import FirebaseAuth
 import FirebaseFirestore
 import FirebaseFunctions
+import FirebaseAnalytics
 
 class BankDetails2TableViewController: UITableViewController, UITextFieldDelegate {
     
     var name = ""
-    var swiftCode = ""
+    var sortCode = ""
     var accountNumber = ""
     
     var line1 = ""
@@ -47,6 +48,12 @@ class BankDetails2TableViewController: UITableViewController, UITextFieldDelegat
         tableView.backgroundColor = .groupTableViewBackground
         
         errorLabel.isHidden = true
+        Utilities.styleTextField(line1TextField)
+        Utilities.styleTextField(line2TextField)
+        Utilities.styleTextField(cityTextField)
+        Utilities.styleTextField(regionTextField)
+        Utilities.styleTextField(postcodeTextField)
+        Utilities.styleTextField(countryTextField)
         Utilities.styleFilledButton(submitButton)
         
         // prefill text fields
@@ -58,12 +65,18 @@ class BankDetails2TableViewController: UITableViewController, UITextFieldDelegat
         // prefill country name (it arrives from the db as a country code, so needs to be converted)
         countryTextField.text = Utilities.countryName(from: self.country)
         
+        line1TextField.delegate = self
+        line2TextField.delegate = self
+        cityTextField.delegate = self
+        regionTextField.delegate = self
+        postcodeTextField.delegate = self
+        countryTextField.delegate = self
+        
         for code in NSLocale.isoCountryCodes  {
             let id = NSLocale.localeIdentifier(fromComponents: [NSLocale.Key.countryCode.rawValue: code])
             let name = NSLocale(localeIdentifier: "en_UK").displayName(forKey: NSLocale.Key.identifier, value: id) ?? "Country not found for code: \(code)"
             self.countries.append(name)
         }
-        countryTextField.delegate = self
         
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(DismissKeyboard))
         view.addGestureRecognizer(tap)
@@ -72,6 +85,7 @@ class BankDetails2TableViewController: UITableViewController, UITextFieldDelegat
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         line1TextField.becomeFirstResponder()
+        navigationController?.interactivePopGestureRecognizer?.isEnabled = true
     }
     
 
@@ -82,16 +96,15 @@ class BankDetails2TableViewController: UITableViewController, UITextFieldDelegat
         // Validate the fields
         let error = validateFields()
         
-        if error != nil {
+        if let error = error {
             
             // This means there's something wrong with the fields, so show error message
-            showError(error!)
+            showError(error)
+            return 
         } else {
             
-            self.showSpinner(titleText: "Securely adding details", messageText: nil)
+            self.showSpinner(titleText: "Adding Account", messageText: nil)
             
-            // kill the button to prevent retries
-            submitButton.isEnabled = false
             
             guard let line1 = self.line1TextField.text,
                 let line2 = self.line2TextField.text,
@@ -100,14 +113,18 @@ class BankDetails2TableViewController: UITableViewController, UITextFieldDelegat
                 let postcode = self.postcodeTextField.text,
                 let country = self.countryTextField.text else {
                     
-                self.universalShowAlert(title: "Oops", message: "Please ensure all fields are filled in", segue: nil, cancel: false)
+                self.removeSpinnerWithCompletion() {
+                    self.universalShowAlert(title: "Oops", message: "Please ensure all fields are filled in", segue: nil, cancel: false)
+                }
                     
                 return
             }
             
             // translate country back to code
             guard let countryCode = Utilities.localeFinder(for: country) else {
-                print("countryCode couldn't be generated")
+                self.removeSpinnerWithCompletion() {
+                    self.universalShowAlert(title: "Oops", message: "Please re-enter the country in your address until autocorrect finishes it for you.", segue: nil, cancel: false)
+                }
                 return
             }
             
@@ -120,7 +137,7 @@ class BankDetails2TableViewController: UITableViewController, UITextFieldDelegat
             let bankAccountData: [String: String] = [
                 "name": self.name,
                 "country": countryCode,
-                "swiftCode": self.swiftCode,
+                "sortCode": self.sortCode,
                 "accountNumber": self.accountNumber,
                 
                 "line1": line1,
@@ -137,13 +154,25 @@ class BankDetails2TableViewController: UITableViewController, UITextFieldDelegat
             functions.httpsCallable("addBankAccount").call(bankAccountData) { (result, error) in
                 
                 if let error = error {
+                    
                     self.removeSpinnerWithCompletion() {
-                        self.universalShowAlert(title: "Oops", message: "Something went wrong: \(error.localizedDescription)", segue: nil, cancel: false)
+                        
+                        if error.localizedDescription != "" {
+                            self.universalShowAlert(title: "Oops", message: error.localizedDescription, segue: nil, cancel: false)
+                        } else {
+                            self.universalShowAlert(title: "Oops", message: "Something went wrong. This is usually because the bank details are mistyped. Please check them and try again.", segue: nil, cancel: false)
+                        }
                     }
                     
                 } else {
-                    self.removeSpinnerWithCompletion() {
-                        self.performSegue(withIdentifier: "showSuccessScreen", sender: self)
+                    
+                    Analytics.logEvent(Event.bankAccountAdded.rawValue, parameters: nil)
+                    
+                    // takes a little longer but ensures the account shows up immediately
+                    AppDelegate().fetchBankAccountsListFromMangopay() {
+                        self.removeSpinnerWithCompletion() {
+                            self.performSegue(withIdentifier: "showSuccessScreen", sender: self)
+                        }
                     }
                 }
             }
@@ -151,18 +180,27 @@ class BankDetails2TableViewController: UITableViewController, UITextFieldDelegat
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        return !autoCompleteText(in: textField, using: string, suggestions: self.countries)
+        
+        if textField == countryTextField {
+            return !autoCompleteText(in: textField, using: string, suggestions: self.countries)
+        } else {
+            return true
+        }
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        // Try to find next responder
-        if let nextField = textField.superview?.superview?.viewWithTag(textField.tag + 1) as? UITextField {
-            nextField.becomeFirstResponder()
-        } else {
-            // Not found, so remove keyboard.
-            textField.resignFirstResponder()
+        
+        switch textField {
+            case line1TextField: line2TextField.becomeFirstResponder()
+            case line2TextField: cityTextField.becomeFirstResponder()
+            case cityTextField: regionTextField.becomeFirstResponder()
+            case regionTextField: postcodeTextField.becomeFirstResponder()
+            case postcodeTextField: countryTextField.becomeFirstResponder()
+            case countryTextField: countryTextField.resignFirstResponder()
+            default: textField.resignFirstResponder()
         }
-        return true
+        
+        return false
     }
     
     func autoCompleteText(in textField: UITextField, using string: String, suggestions: [String]) -> Bool {
@@ -184,7 +222,7 @@ class BankDetails2TableViewController: UITableViewController, UITextFieldDelegat
             
             var fixedCountries: [String] = []
             for country in matches  {
-                let reverted = country.firstUppercased
+                let reverted = country.localizedCapitalized
                 fixedCountries.append(reverted)
             }
             
@@ -260,6 +298,7 @@ class BankDetails2TableViewController: UITableViewController, UITextFieldDelegat
         let cityName = cityTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
         let region = regionTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
         let postcode = postcodeTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
+        
         let country = Utilities.localeFinder(for: countryTextField.text!)
 //        let country = countryTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
         
@@ -275,9 +314,9 @@ class BankDetails2TableViewController: UITableViewController, UITextFieldDelegat
         }
         
         if country == nil {
-            showError("Please enter a valid Nationality")
+            return "Please enter a valid Nationality"
         }
-            
+        
         return nil
     }
     

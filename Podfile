@@ -7,7 +7,7 @@ target 'Wildfire' do
 
   
   # Pods for Wildfire
-  pod 'Firebase/Analytics'
+  pod 'Firebase/Analytics' 
   pod 'Firebase/Core'
   # pod 'FirebaseUI'
   pod 'Firebase/Auth'

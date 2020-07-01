@@ -45,15 +45,19 @@ class AddCardViewController: UIViewController, UITextFieldDelegate {
         
         errorLabel.isHidden = true
         
-    }
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(DismissKeyboard))
+        view.addGestureRecognizer(tap)
         
-    // Not sure what this comment was about but I think it's no longer relevant. I think the Wallet creation used to happen prior to the card creation - that might have been it. Leaving as it might solve a mystery down the road:
-    
-    // watch out: theoretically the user can submit card details before this async function returns its values, which are required for the submitPressed func below. Leaving for time being as testing suggests it's practically impossible for user to fill in their card info that fast, but good to be aware
+    }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         cardNumberField.becomeFirstResponder()
+    }
+    
+    @IBAction func swipedDown(_ sender: UISwipeGestureRecognizer) {
+        // swipe down (and only down) hides keyboard
+        self.view.endEditing(true)
     }
     
     @IBAction func submitPressed(_ sender: Any) {
@@ -137,7 +141,7 @@ class AddCardViewController: UIViewController, UITextFieldDelegate {
             
             // remove the slash from the MM/YY string to get MMYY (how Mangopay expects to receive it)
             let expiryFormatted = expiry.replacingOccurrences(of: "/", with: "")
-            print(expiryFormatted)
+            
             
             vc.cardNumberField = cardNumber
             vc.expiryDateField = expiryFormatted
@@ -148,7 +152,7 @@ class AddCardViewController: UIViewController, UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
         if textField == cardNumberField {
-            let allowedCharacters = CharacterSet(charactersIn:"0123456789")
+            let allowedCharacters = CharacterSet(charactersIn:"0123456789 ")
             let characterSet = CharacterSet(charactersIn: string)
             return allowedCharacters.isSuperset(of: characterSet)
         }
@@ -161,9 +165,8 @@ class AddCardViewController: UIViewController, UITextFieldDelegate {
             }
             
             if let expiryMonth = expiryDateField.text {
-                if expiryMonth.count == 1 {
-                    var replacement = expiryMonth + string
-                    replacement.append("/")
+                if expiryMonth.count == 2 {
+                    let replacement = expiryMonth + "/" + string
                     expiryDateField.text = replacement
                     return false
                 }
@@ -182,6 +185,11 @@ class AddCardViewController: UIViewController, UITextFieldDelegate {
             textField.resignFirstResponder()
         }
         return true
+    }
+    
+    @objc func DismissKeyboard(){
+        //Causes the view to resign from the status of first responder.
+        view.endEditing(true)
     }
 }
     

@@ -35,13 +35,14 @@
   function DetectAndServe(){
       let os = getMobileOperatingSystem();
       if (os == "iOS") {
-          window.location.href = "http://www.cnn.com"; 
+          // currently links to Beta, should be updated when full version becomes available
+          window.location.href = "https://testflight.apple.com/join/QDMpaK4W"; 
       } else if (os == "Android") {
-          window.location.href = "http://www.bbc.com";
+          window.location.href = "http://www.wildfirewallet.com/android";
       // } else if (os == "Windows Phone") {
       //     window.location.href = "http://www.WindowsPhoneexample.com";
       } else {
-          window.location.href = "http://www.bbc.com";
+          window.location.href = "http://www.wildfirewallet.com/signpost";
       }
   }
   </script>

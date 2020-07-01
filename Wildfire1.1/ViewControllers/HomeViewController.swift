@@ -14,29 +14,35 @@ import FirebaseAuth
 
 class HomeViewController: UIViewController {
     
-    var loggedInUser = false
-    
+//    var loggedInUser = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Set up video in the background
-//        setUpVideo()
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         
-        if Auth.auth().currentUser?.uid != nil {
-            self.loggedInUser = true
-        } else {
-            self.loggedInUser = false
-        }
         
-        // the logic here is that we only need to have TouchID/FaceID if the user is logged in - otherwise we let the user go ahead
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        if loggedInUser == true {
+        // check that the view is currently on top of stack, otherwise it's behind a popup notification
+        if self.view.window != nil {
+            if Auth.auth().currentUser?.uid != nil {
+                authenticateUser()
+            } else {
+                self.performSegue(withIdentifier: "goToPhoneVerification", sender: self)
+            }
+        }
+    }
+    
+    // Work in Progress
+    // this is called when a notification
+    func notificationDismissed() {
+        print("notificationDismissed() was called")
+        if Auth.auth().currentUser?.uid != nil {
             authenticateUser()
         } else {
             self.performSegue(withIdentifier: "goToPhoneVerification", sender: self)
@@ -61,6 +67,7 @@ class HomeViewController: UIViewController {
                     if success {
                         
                         self.performSegue(withIdentifier: "goToPay", sender: self)
+                        
                     } else {
                         // just try again. Previously auth failure triggered signOut which is just a terrible UX and it happens more often than you might think
                         self.authenticateUser()
@@ -85,3 +92,7 @@ class HomeViewController: UIViewController {
     }
 
 }
+
+//protocol DismissNotificationDelegate: class {
+//    func notificationDismissed()
+//}
